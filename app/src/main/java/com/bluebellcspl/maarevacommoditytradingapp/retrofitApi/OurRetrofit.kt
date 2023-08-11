@@ -33,4 +33,8 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/CommodityMasterGet")
     suspend fun getCommodityMaster(@Body body: JsonObject): Response<CommodityMasterModel>
+
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/LoginOTPInsert")
+    suspend fun getOTPForLogin(@Body body: JsonObject): Response<JsonObject>
 }

@@ -11,6 +11,16 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="please_wait">Please Wait</string>
+    <string name="please_select_role_alert_msg">Please Select Role!</string>
+    <string name="please_select_apmc_alert_msg">Please Select APMC!</string>
+    <string name="please_select_commodity_alert_msg">Please Select Commodity!</string>
+    <string name="sorry_something_went_wrong_alert_msg">Sorry Something Went Wrong!</string>
+    <string name="please_enter_phone_no">Please Enter Phone No.!</string>
+    <string name="please_enter_username_alert_msg">Please Enter Username!</string>
+    <string name="please_enter_password_alert_msg">Please Enter Password!</string>
+    <string name="error_sending_otp">Error Sending OTP</string>
+    <string name="invalid_data_of_user_alert_msg">Invalid Data of User!</string>
+    <string name="otp_sent_successfully_alert_msg">OTP Sent Successfully!</string>
 
     <string-array name="language">
         <item>English</item>

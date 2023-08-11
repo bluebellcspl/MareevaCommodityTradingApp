@@ -69,6 +69,8 @@ class FetchAPMCMasterAPI(var context: Context, var activity: Activity) {
                         list.put("WeightbridgeFacility",model.WeightbridgeFacility)
                         list.put("StateId",model.StateId)
                         list.put("StateName",model.StateName)
+                        list.put("DistrictId",model.DistrictId)
+                        list.put("DistrictName",model.DistrictName)
                         list.put("CompanyCode",model.CompanyCode)
                         list.put("IsActive",model.IsActive)
                         list.put("CreateUser",model.CreateUser)

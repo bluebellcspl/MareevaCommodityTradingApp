@@ -20,9 +20,42 @@ class Query {
             Log.d(TAG, "getAPMCName: $qry")
             return qry
         }
-        fun getCommodityName():String{
-            qry = "SELECT CommodityName FROM CommodityMaster"
-            Log.d(TAG, "getCommodityName: $qry")
+
+        fun getAPMCIdByAPMCName(apmcName:String):String{
+            qry = "SELECT APMCId FROM APMCMaster WHERE APMCName='$apmcName'"
+            Log.d(TAG, "getAPMCIdByAPMCName: $qry")
+            return qry
+        }
+        fun getCommodityNameByAPMCId(apmcId:String):String{
+            qry = "SELECT CommodityName FROM CommodityMaster WHERE APMCId='$apmcId'"
+            Log.d(TAG, "getCommodityNameByAPMCId: $qry")
+            return qry
+        }
+
+        fun getCommodityIdByCommodityNameANDAPMCId(commodityName:String,apmcId: String):String{
+            qry = "SELECT CommodityId FROM CommodityMaster WHERE CommodityName='$commodityName' AND APMCId='$apmcId'"
+            Log.d(TAG, "getCommodityIdByCommodityNameANDAPMCId: $qry")
+            return qry
+        }
+
+        fun getStateIdByCommodityId(commodityId:String):String{
+            qry = "SELECT StateId FROM CommodityMaster WHERE CommodityId='$commodityId'"
+            Log.d(TAG, "getStateIdByCommodityId: $qry")
+            return qry
+        }
+        fun getStateNameByCommodityId(commodityId:String):String{
+            qry = "SELECT StateName FROM CommodityMaster WHERE CommodityId='$commodityId'"
+            Log.d(TAG, "getStateNameByCommodityId: $qry")
+            return qry
+        }
+        fun getDistrictIdByCommodityId(commodityId:String):String{
+            qry = "SELECT DistrictId FROM CommodityMaster WHERE CommodityId='$commodityId'"
+            Log.d(TAG, "getDistrictIdByCommodityId: $qry")
+            return qry
+        }
+        fun getDistrictNameByCommodityId(commodityId:String):String{
+            qry = "SELECT DistrictName FROM CommodityMaster WHERE CommodityId='$commodityId'"
+            Log.d(TAG, "getDistrictNameByCommodityId: $qry")
             return qry
         }
 

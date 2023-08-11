@@ -1,12 +1,20 @@
 package com.bluebellcspl.maarevacommoditytradingapp
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCMasterAPI
@@ -14,39 +22,218 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAP
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchDistrictMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchRoleMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchStateMasterAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.LoginForAdminAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.LoginWithOTPAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.LoginForAdminModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.LoginWithOTPModel
 import com.example.maarevacommoditytradingapp.R
 import com.example.maarevacommoditytradingapp.databinding.ActivityLoginBinding
+import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var binding:ActivityLoginBinding
+    lateinit var binding: ActivityLoginBinding
     private val commonUIUtility by lazy { CommonUIUtility(this) }
+    var isInitial = true
     val TAG = "LoginActivity"
-    lateinit var commodityList :ArrayList<String>
-    lateinit var apmcList :ArrayList<String>
+    lateinit var commodityList: ArrayList<String>
+    lateinit var apmcList: ArrayList<String>
+    lateinit var APMCId: String
     override fun onCreate(savedInstanceState: Bundle?) {
+        PrefUtil.getInstance(this)
+        val languageCode = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "en")
+        val activityConf = Configuration()
+        val newLocale = Locale(languageCode)
+        activityConf.setLocale(newLocale)
+        baseContext.resources.updateConfiguration(
+            activityConf,
+            baseContext.resources.displayMetrics
+        )
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this@LoginActivity,R.layout.activity_login)
+        binding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
         DatabaseManager.initializeInstance(this)
-        FetchRoleMasterAPI(this,this@LoginActivity)
-        FetchStateMasterAPI(this,this@LoginActivity)
-        FetchDistrictMasterAPI(this,this@LoginActivity)
-        FetchCommodityMasterAPI(this,this@LoginActivity)
-        FetchAPMCMasterAPI(this,this@LoginActivity)
+        setLanguage()
+        FetchRoleMasterAPI(this, this@LoginActivity)
+        FetchStateMasterAPI(this, this@LoginActivity)
+        FetchDistrictMasterAPI(this, this@LoginActivity)
+        FetchCommodityMasterAPI(this, this@LoginActivity)
+        FetchAPMCMasterAPI(this, this@LoginActivity)
 
         apmcList = bindAPMCDropDown()
-        commodityList = bindCommodityDropDown()
+
+
+        //TextWatchers
+        val roleTextWatcher: TextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0.toString().isNotEmpty()) {
+                    showLoginComponentRoleWise(p0.toString())
+                }
+            }
+        }
+        val apmcTextWatcher: TextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0.toString().isNotEmpty()) {
+                    APMCId = ""
+                    val apmcId = DatabaseManager.ExecuteScalar(
+                        Query.getAPMCIdByAPMCName(
+                            p0.toString().trim()
+                        )
+                    )!!
+                    APMCId = apmcId
+                    commodityList = bindCommodityDropDown(apmcId)
+                    binding.actCommodityLogin.setText("")
+                    binding.actStateLogin.setText("")
+                    binding.actDistrictLogin.setText("")
+                } else {
+                    APMCId = ""
+                    binding.actStateLogin.setText("")
+                    binding.actDistrictLogin.setText("")
+                }
+            }
+        }
+        val commodityTextWatcher: TextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0.toString().isNotEmpty()) {
+                    val commodityId = DatabaseManager.ExecuteScalar(
+                        Query.getCommodityIdByCommodityNameANDAPMCId(
+                            binding.actCommodityLogin.text.toString().trim(),
+                            APMCId
+                        )
+                    )!!
+
+                    val stateName = DatabaseManager.ExecuteScalar(Query.getStateNameByCommodityId(commodityId))!!
+                    val districtName = DatabaseManager.ExecuteScalar(Query.getDistrictNameByCommodityId(commodityId))!!
+
+                    binding.actStateLogin.setText(stateName)
+                    binding.actDistrictLogin.setText(districtName)
+                }else
+                {
+                    binding.actStateLogin.setText("")
+                    binding.actDistrictLogin.setText("")
+                }
+            }
+        }
+
+        binding.actRoleLogin.addTextChangedListener(roleTextWatcher)
+        binding.actAPMCLogin.addTextChangedListener(apmcTextWatcher)
+        binding.actCommodityLogin.addTextChangedListener(commodityTextWatcher)
+        setOnClickListeners()
 
     }
 
-     fun bindRoleDropDown():ArrayList<String> {
-         val dataList = ArrayList<String>()
+    private fun setOnClickListeners() {
+        try {
+            binding.btnGetOTPLogin.setOnClickListener {
+                if (binding.actRoleLogin.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_select_role_alert_msg))
+                } else if (binding.actAPMCLogin.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_select_apmc_alert_msg))
+                } else if (binding.actCommodityLogin.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_select_commodity_alert_msg))
+                } else if (binding.edtPhoneNoLogin.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
+                } else {
+                    val commodityId = DatabaseManager.ExecuteScalar(
+                        Query.getCommodityIdByCommodityNameANDAPMCId(
+                            binding.actCommodityLogin.text.toString().trim(),
+                            APMCId
+                        )
+                    )!!
+                    val stateId =
+                        DatabaseManager.ExecuteScalar(Query.getStateIdByCommodityId(commodityId))!!
+                    val districtId =
+                        DatabaseManager.ExecuteScalar(Query.getDistrictIdByCommodityId(commodityId))!!
+
+                    var userType = ""
+                    if (binding.actRoleLogin.text.toString().equals("Buyer", true)) {
+                        userType = "2"
+                    } else if (binding.actRoleLogin.text.toString().equals("PCA", true)) {
+                        userType = "3"
+                    }
+                    else if (binding.actRoleLogin.text.toString().equals("Admin", true)) {
+                        userType = "1"
+                    }
+
+                    val model = LoginWithOTPModel(
+                        APMCId,
+                        commodityId,
+                        districtId,
+                        binding.edtPhoneNoLogin.text.toString().trim(),
+                        stateId,
+                        userType
+                    )
+
+                    LoginWithOTPAPI(this, this@LoginActivity, model)
+
+                }
+            }
+
+            binding.btnVerifyOTPLogin.setOnClickListener {
+                if (binding.llAdmin.isVisible) {
+                    if (binding.edtUsernameLogin.text.toString().isEmpty()) {
+                        commonUIUtility.showToast(getString(R.string.please_enter_username_alert_msg))
+                    } else if (binding.edtPasswordLogin.text.toString().isEmpty()) {
+                        commonUIUtility.showToast(getString(R.string.please_enter_password_alert_msg))
+                    } else {
+                        val model = LoginForAdminModel(
+                            "",
+                            "Admin",
+                            "",
+                            "MAT189",
+                            "",
+                            "",
+                            "",
+                            "Admin",
+                            "",
+                            "1",
+                            binding.edtUsernameLogin.text.toString().trim(),
+                            binding.edtPasswordLogin.text.toString().trim()
+                        )
+
+                        LoginForAdminAPI(this, this@LoginActivity, model)
+
+                    }
+                } else {
+
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "setOnClickListeners: ${e.message}")
+        }
+    }
+
+    fun bindRoleDropDown(): ArrayList<String> {
+        val dataList = ArrayList<String>()
         try {
 
             val cursor = DatabaseManager.ExecuteRawSql(Query.getRoleName())
-            if (cursor!=null && cursor.count>0){
+            if (cursor != null && cursor.count > 0) {
                 dataList.clear()
-                while (cursor.moveToNext())
-                {
+                while (cursor.moveToNext()) {
                     dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("RoleName")))
                 }
 
@@ -55,24 +242,22 @@ class LoginActivity : AppCompatActivity() {
                 cursor.close()
             }
 
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             dataList.clear()
             e.printStackTrace()
             Log.e(TAG, "bindRoleDropDown: ${e.message}")
         }
 
-         return dataList
+        return dataList
     }
 
-     fun bindAPMCDropDown():ArrayList<String> {
-         val dataList = ArrayList<String>()
-         try {
+    fun bindAPMCDropDown(): ArrayList<String> {
+        val dataList = ArrayList<String>()
+        try {
             val cursor = DatabaseManager.ExecuteRawSql(Query.getAPMCName())
-            if (cursor!=null && cursor.count>0){
+            if (cursor != null && cursor.count > 0) {
                 dataList.clear()
-                while (cursor.moveToNext())
-                {
+                while (cursor.moveToNext()) {
                     dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("APMCName")))
                 }
 
@@ -81,37 +266,98 @@ class LoginActivity : AppCompatActivity() {
                 cursor.close()
             }
 
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             dataList.clear()
             e.printStackTrace()
             Log.e(TAG, "bindAPMCDropDown: ${e.message}")
         }
-         return dataList
+        return dataList
     }
 
-    fun bindCommodityDropDown():ArrayList<String> {
+    fun bindCommodityDropDown(apmdId: String): ArrayList<String> {
         val dataList = ArrayList<String>()
         try {
-            val cursor = DatabaseManager.ExecuteRawSql(Query.getCommodityName())
-            if (cursor!=null && cursor.count>0){
+            val cursor = DatabaseManager.ExecuteRawSql(Query.getCommodityNameByAPMCId(apmdId))
+            if (cursor != null && cursor.count > 0) {
                 dataList.clear()
-                while (cursor.moveToNext())
-                {
+                while (cursor.moveToNext()) {
                     dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("CommodityName")))
                 }
 
                 val commodityAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
                 binding.actCommodityLogin.setAdapter(commodityAdapter)
                 cursor.close()
+            } else {
+                dataList.clear()
+                val commodityAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
+                binding.actCommodityLogin.setAdapter(commodityAdapter)
             }
 
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             dataList.clear()
             e.printStackTrace()
             Log.e(TAG, "bindCommodityDropDown: ${e.message}")
         }
         return dataList
+    }
+
+    private fun setLanguage() {
+        var language: String = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").toString()
+//    var language:String = prefUtil.getString(prefUtil.Key, "en")
+        val users = arrayOf("ENGLISH", "ગુજરાતી")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, users)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spnLanguage.setAdapter(adapter)
+        binding.spnLanguage.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                l: Long
+            ) {
+                if (users[position].equals("ENGLISH", ignoreCase = true)) {
+                    language = "en"
+                } else if (users[position].equals("ગુજરાતી", ignoreCase = true)) {
+                    language = "gu"
+                }
+                setLocale(language)
+                PrefUtil.setString(PrefUtil.KEY_LANGUAGE, language)
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        })
+        when (language) {
+            "en" -> binding.spnLanguage.setSelection(0)
+            "gu" -> binding.spnLanguage.setSelection(1)
+        }
+    }
+
+    fun setLocale(languageCode: String?) {
+        val activityConf = Configuration()
+        val newLocale = Locale(languageCode)
+        activityConf.setLocale(newLocale)
+        getBaseContext().getResources()
+            .updateConfiguration(activityConf, getBaseContext().getResources().getDisplayMetrics())
+        if (isInitial) {
+            isInitial = false
+        } else {
+            finish()
+            startActivity(getIntent())
+        }
+    }
+
+    fun showLoginComponentRoleWise(roleName: String) {
+        try {
+            if (roleName.equals("Buyer", true) || roleName.equals("PCA", true)) {
+                binding.llBuyerOrPCA.visibility = View.VISIBLE
+                binding.llAdmin.visibility = View.GONE
+            } else {
+                binding.llBuyerOrPCA.visibility = View.GONE
+                binding.llAdmin.visibility = View.VISIBLE
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "showLoginComponent: ${e.message}")
+        }
     }
 }
