@@ -21,6 +21,8 @@
     <string name="error_sending_otp">Error Sending OTP</string>
     <string name="invalid_data_of_user_alert_msg">Invalid Data of User!</string>
     <string name="otp_sent_successfully_alert_msg">OTP Sent Successfully!</string>
+    <string name="register">Register</string>
+    <string name="buyer_registration">Buyer Registration</string>
 
     <string-array name="language">
         <item>English</item>

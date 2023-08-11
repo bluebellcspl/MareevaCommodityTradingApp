@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -167,15 +168,7 @@ class LoginActivity : AppCompatActivity() {
                     val districtId =
                         DatabaseManager.ExecuteScalar(Query.getDistrictIdByCommodityId(commodityId))!!
 
-                    var userType = ""
-                    if (binding.actRoleLogin.text.toString().equals("Buyer", true)) {
-                        userType = "2"
-                    } else if (binding.actRoleLogin.text.toString().equals("PCA", true)) {
-                        userType = "3"
-                    }
-                    else if (binding.actRoleLogin.text.toString().equals("Admin", true)) {
-                        userType = "1"
-                    }
+
 
                     val model = LoginWithOTPModel(
                         APMCId,
@@ -183,7 +176,7 @@ class LoginActivity : AppCompatActivity() {
                         districtId,
                         binding.edtPhoneNoLogin.text.toString().trim(),
                         stateId,
-                        userType
+                        getUserType()
                     )
 
                     LoginWithOTPAPI(this, this@LoginActivity, model)
@@ -217,8 +210,46 @@ class LoginActivity : AppCompatActivity() {
 
                     }
                 } else {
+                    if(binding.edtOTPLogin.text.toString().isEmpty())
+                    {
+                        commonUIUtility.showToast("Please Enter OTP!")
+                    }else
+                    {
+                        val commodityId = DatabaseManager.ExecuteScalar(
+                            Query.getCommodityIdByCommodityNameANDAPMCId(
+                                binding.actCommodityLogin.text.toString().trim(),
+                                APMCId
+                            )
+                        )!!
+                        val stateId =
+                            DatabaseManager.ExecuteScalar(Query.getStateIdByCommodityId(commodityId))!!
+                        val districtId =
+                            DatabaseManager.ExecuteScalar(Query.getDistrictIdByCommodityId(commodityId))!!
 
+
+                        val model = LoginForAdminModel(
+                            APMCId,
+                            binding.actRoleLogin.text.toString().trim(),
+                            commodityId,
+                            "MAT189",
+                            districtId,
+                            binding.edtPhoneNoLogin.text.toString().trim(),
+                            binding.edtOTPLogin.text.toString().trim(),
+                            "",
+                            stateId,
+                            getUserType(),
+                            "",
+                            ""
+                        )
+
+                        LoginForAdminAPI(this, this@LoginActivity, model)
+                    }
                 }
+            }
+
+            binding.btnRegisterLogin.setOnClickListener {
+                startActivity(Intent(this@LoginActivity,RegisterActivity::class.java))
+                finish()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -359,5 +390,18 @@ class LoginActivity : AppCompatActivity() {
             e.printStackTrace()
             Log.e(TAG, "showLoginComponent: ${e.message}")
         }
+    }
+
+    fun getUserType():String{
+        var userType = ""
+        if (binding.actRoleLogin.text.toString().equals("Buyer", true)) {
+            userType = "2"
+        } else if (binding.actRoleLogin.text.toString().equals("PCA", true)) {
+            userType = "3"
+        }
+        else if (binding.actRoleLogin.text.toString().equals("Admin", true)) {
+            userType = "1"
+        }
+        return userType
     }
 }

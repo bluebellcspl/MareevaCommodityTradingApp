@@ -10,11 +10,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.bluebellcspl.maarevacommoditytradingapp.LoginActivity"
+        tools:context="com.bluebellcspl.maarevacommoditytradingapp.RegisterActivity"
         android:padding="@dimen/_10sdp">
 
         <ScrollView
-            android:id="@+id/ScrollView_Login"
+            android:id="@+id/ScrollView_Register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -41,9 +41,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_medium"
-                        android:text="@string/login"
+                        android:text="@string/buyer_registration"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_25ssp"
+                        android:textSize="@dimen/_22ssp"
                         android:textAllCaps="true"
                         android:padding="@dimen/_5sdp" />
 
@@ -64,32 +64,33 @@
                             android:padding="@dimen/_10sdp" />
                     </com.google.android.material.card.MaterialCardView>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_8sdp"
-                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                        android:hint="@string/select_role"
-                        app:endIconTint="@color/colorPrimaryDark">
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="@dimen/_8sdp"-->
+<!--                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+<!--                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+<!--                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+<!--                        app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+<!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+<!--                        android:hint="@string/select_role"-->
+<!--                        app:endIconTint="@color/colorPrimaryDark">-->
 
-                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textColor="@color/black"
-                            android:id="@+id/act_Role_Login"
-                            android:textSize="@dimen/_14ssp"
-                            android:inputType="none" />
-                    </com.google.android.material.textfield.TextInputLayout>
+<!--                        <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:id="@+id/act_Role_Register"-->
+<!--                            android:textSize="@dimen/_14ssp"-->
+<!--                            android:inputType="none" />-->
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:id="@+id/ll_BuyerOrPCA">
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -108,7 +109,7 @@
                                 android:layout_height="match_parent"
                                 android:enabled="false"
                                 android:textColor="@color/black"
-                                android:id="@+id/act_State_Login"
+                                android:id="@+id/act_State_Register"
                                 android:textSize="@dimen/_14ssp"
                                 android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -130,7 +131,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:textColor="@color/black"
-                                android:id="@+id/act_District_Login"
+                                android:id="@+id/act_District_Register"
                                 android:textSize="@dimen/_14ssp"
                                 android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -151,7 +152,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:textColor="@color/black"
-                                android:id="@+id/act_APMC_Login"
+                                android:id="@+id/act_APMC_Register"
                                 android:textSize="@dimen/_14ssp"
                                 android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -172,7 +173,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:textColor="@color/black"
-                                android:id="@+id/act_Commodity_Login"
+                                android:id="@+id/act_Commodity_Register"
                                 android:textSize="@dimen/_14ssp"
                                 android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -194,12 +195,88 @@
                             app:endIconTint="@color/colorPrimaryDark">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_PhoneNo_Login"
+                                android:id="@+id/edt_PhoneNo_Register"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:inputType="phone"
-                                android:imeOptions="actionDone"
+                                android:imeOptions="actionNext"
                                 android:maxLength="10"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:hint="Full Name"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                            app:endIconMode="clear_text"
+                            app:counterTextColor="@color/colorPrimaryDark"
+                            app:endIconTint="@color/colorPrimaryDark">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_FullName_Register"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:inputType="textPersonName"
+                                android:imeOptions="actionNext"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:hint="Email"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                            app:endIconMode="clear_text"
+                            app:counterTextColor="@color/colorPrimaryDark"
+                            app:endIconTint="@color/colorPrimaryDark">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_Email_Register"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:inputType="textEmailAddress"
+                                android:imeOptions="actionNext"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_100sdp"
+                            android:layout_margin="8dp"
+                            android:hint="Address"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                            app:endIconMode="clear_text"
+                            app:counterTextColor="@color/colorPrimaryDark"
+                            app:endIconTint="@color/colorPrimaryDark">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_Address_Register"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:inputType="text"
+                                android:imeOptions="actionNext"
+                                android:gravity="start"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_14ssp" />
 
@@ -209,7 +286,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/_10sdp"
-                            android:id="@+id/btn_GetOTP_Login"
+                            android:id="@+id/btn_GetOTP_Register"
                             android:text="@string/get_otp"
                             android:textSize="@dimen/_14ssp"
                             app:cornerRadius="@dimen/_8sdp" />
@@ -231,7 +308,7 @@
                             app:endIconTint="@color/colorPrimaryDark">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_OTP_Login"
+                                android:id="@+id/edt_OTP_Register"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:inputType="number"
@@ -265,7 +342,7 @@
                             app:endIconTint="@color/colorPrimaryDark">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_Username_Login"
+                                android:id="@+id/edt_Username_Register"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:inputType="text"
@@ -290,7 +367,7 @@
                             app:endIconTint="@color/colorPrimaryDark">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_Password_Login"
+                                android:id="@+id/edt_Password_Register"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:inputType="textPassword"
@@ -305,18 +382,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_10sdp"
-                        android:id="@+id/btn_VerifyOTP_Login"
-                        android:text="@string/login"
-                        android:textSize="@dimen/_14ssp"
-                        app:cornerRadius="@dimen/_8sdp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_10sdp"
-                        android:id="@+id/btn_Register_Login"
-                        android:text="@string/buyer_registration"
+                        android:id="@+id/btn_Register_Register"
+                        android:text="@string/register"
                         android:textSize="@dimen/_14ssp"
                         app:cornerRadius="@dimen/_8sdp" />
                 </LinearLayout>
