@@ -24,8 +24,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.RegisterBuyerAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.RegisterBuyerModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
-import com.example.maarevacommoditytradingapp.R
-import com.example.maarevacommoditytradingapp.databinding.ActivityRegisterBinding
+import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityRegisterBinding
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

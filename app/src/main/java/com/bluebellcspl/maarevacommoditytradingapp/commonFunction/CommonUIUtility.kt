@@ -10,7 +10,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.example.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.R
 
 
 class CommonUIUtility(var context: Context) {

@@ -9,7 +9,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
-import com.example.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.R
 
 class MainActivity : AppCompatActivity() {
     val TAG = "MainActivity"

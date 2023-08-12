@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.bluebellcspl.maarevacommoditytradingapp.HomeActivity">
-    <TextView
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="HOME"
-        android:layout_centerInParent="true"
-        android:textSize="@dimen/_18ssp"
-        android:textColor="@color/black"
-        android:textAlignment="center"/>
-</RelativeLayout>
+        android:layout_height="match_parent"
+        tools:context="com.bluebellcspl.maarevacommoditytradingapp.HomeActivity">
+
+        <include
+            layout="@layout/toolbar"
+            android:id="@+id/toolbar_home" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:layout_below="@id/toolbar_home"
+            android:id="@+id/fragmentContainerView"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/my_nav" />
+    </RelativeLayout>
+</layout>

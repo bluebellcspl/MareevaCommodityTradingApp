@@ -28,8 +28,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.LoginCheckAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.LoginWithOTPAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.LoginForAdminModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LoginWithOTPModel
-import com.example.maarevacommoditytradingapp.R
-import com.example.maarevacommoditytradingapp.databinding.ActivityLoginBinding
+import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityLoginBinding
 import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {

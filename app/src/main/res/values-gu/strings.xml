@@ -33,4 +33,5 @@
     <string name="please_enter_otp_alert_msg">Please Enter OTP!</string>
     <string name="this_mobile_is_already_registered_alert_msg">This Mobile is Already Registered!</string>
     <string name="buyer_registered_successfully_alert_msg">Buyer Registered Successfully!</string>
+    <string name="dashboard">Dashboard</string>
 </resources>

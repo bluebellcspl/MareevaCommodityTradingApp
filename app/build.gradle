@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.maarevacommoditytradingapp'
+    namespace 'com.bluebellcspl.maarevacommoditytradingapp'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.maarevacommoditytradingapp"
+        applicationId "com.bluebellcspl.maarevacommoditytradingapp"
         minSdk 26
         targetSdk 33
         versionCode 1
