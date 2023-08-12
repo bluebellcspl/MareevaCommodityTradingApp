@@ -301,6 +301,16 @@
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/mchb_remember_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:buttonTint="@color/colorPrimaryDark"
+                        android:fontFamily="@font/poppins"
+                        android:text="@string/remember_me"
+                        android:textSize="@dimen/_12ssp" />
+
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

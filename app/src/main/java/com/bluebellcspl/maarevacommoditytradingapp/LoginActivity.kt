@@ -1,10 +1,9 @@
 package com.bluebellcspl.maarevacommoditytradingapp
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -23,7 +22,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAP
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchDistrictMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchRoleMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchStateMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.LoginForAdminAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.LoginCheckAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.LoginWithOTPAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.LoginForAdminModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LoginWithOTPModel
@@ -74,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun afterTextChanged(p0: Editable?) {
                 if (p0.toString().isNotEmpty()) {
+                    clearAllData()
                     showLoginComponentRoleWise(p0.toString())
                 }
             }
@@ -206,7 +206,7 @@ class LoginActivity : AppCompatActivity() {
                             binding.edtPasswordLogin.text.toString().trim()
                         )
 
-                        LoginForAdminAPI(this, this@LoginActivity, model)
+                        LoginCheckAPI(this, this@LoginActivity, model)
 
                     }
                 } else {
@@ -242,7 +242,7 @@ class LoginActivity : AppCompatActivity() {
                             ""
                         )
 
-                        LoginForAdminAPI(this, this@LoginActivity, model)
+                        LoginCheckAPI(this, this@LoginActivity, model)
                     }
                 }
             }
@@ -403,5 +403,26 @@ class LoginActivity : AppCompatActivity() {
             userType = "1"
         }
         return userType
+    }
+
+    fun redirectToHome(){
+        startActivity(
+            Intent(this@LoginActivity,HomeActivity::class.java),
+            ActivityOptions.makeSceneTransitionAnimation(this@LoginActivity)
+                .toBundle()
+        )
+        finish()
+    }
+
+    fun clearAllData(){
+        binding.actStateLogin.setText("")
+        binding.actDistrictLogin.setText("")
+        binding.actCommodityLogin.setText("")
+        binding.actAPMCLogin.setText("")
+        binding.edtOTPLogin.setText("")
+        binding.edtPhoneNoLogin.setText("")
+        binding.edtPasswordLogin.setText("")
+        binding.edtUsernameLogin.setText("")
+        binding.mchbRememberLogin.isChecked = false
     }
 }

@@ -24,4 +24,7 @@
     <string name="otp_sent_successfully_alert_msg">OTP Sent Successfully!</string>
     <string name="register">Register</string>
     <string name="buyer_registration">Buyer Registration</string>
+    <string name="please_try_again_later_alert_msg">Please Try Again Later!</string>
+    <string name="invalid_credentials_or_otp_alert_msg">Invalid Credentials or OTP!</string>
+    <string name="remember_me">Remember Me</string>
 </resources>
