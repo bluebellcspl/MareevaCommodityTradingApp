@@ -41,4 +41,12 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/LoginCheck")
     suspend fun getLoginCheck(@Body body: JsonObject): Response<JsonObject>
+
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/RegisterOTPInsert")
+    suspend fun getOTPForRegister(@Body body: JsonObject): Response<JsonObject>
+
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/Register")
+    suspend fun registerBuyer(@Body body: JsonObject): Response<String>
 }

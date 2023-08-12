@@ -1,26 +1,35 @@
 package com.bluebellcspl.maarevacommoditytradingapp
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.transition.Explode
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
-import com.bluebellcspl.maarevacommoditytradingapp.master.LoginForAdminAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.LoginWithOTPAPI
-import com.bluebellcspl.maarevacommoditytradingapp.model.LoginForAdminModel
-import com.bluebellcspl.maarevacommoditytradingapp.model.LoginWithOTPModel
+import com.bluebellcspl.maarevacommoditytradingapp.master.RegisterBuyerAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.RegisterBuyerModel
+import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
+import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.example.maarevacommoditytradingapp.R
 import com.example.maarevacommoditytradingapp.databinding.ActivityRegisterBinding
+import com.google.gson.JsonObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 class RegisterActivity : AppCompatActivity() {
@@ -41,7 +50,14 @@ class RegisterActivity : AppCompatActivity() {
             baseContext.resources.displayMetrics
         )
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this@RegisterActivity,R.layout.activity_register)
+        with(window) {
+            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+            enterTransition = Explode()
+            exitTransition = Explode()
+            enterTransition.duration = 1000
+            exitTransition.duration = 1000
+        }
+        binding = DataBindingUtil.setContentView(this@RegisterActivity, R.layout.activity_register)
         DatabaseManager.initializeInstance(this)
         setLanguage()
 
@@ -96,13 +112,14 @@ class RegisterActivity : AppCompatActivity() {
                         )
                     )!!
 
-                    val stateName = DatabaseManager.ExecuteScalar(Query.getStateNameByCommodityId(commodityId))!!
-                    val districtName = DatabaseManager.ExecuteScalar(Query.getDistrictNameByCommodityId(commodityId))!!
+                    val stateName =
+                        DatabaseManager.ExecuteScalar(Query.getStateNameByCommodityId(commodityId))!!
+                    val districtName =
+                        DatabaseManager.ExecuteScalar(Query.getDistrictNameByCommodityId(commodityId))!!
 
                     binding.actStateRegister.setText(stateName)
                     binding.actDistrictRegister.setText(districtName)
-                }else
-                {
+                } else {
                     binding.actStateRegister.setText("")
                     binding.actDistrictRegister.setText("")
                 }
@@ -111,6 +128,111 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.actAPMCRegister.addTextChangedListener(apmcTextWatcher)
         binding.actCommodityRegister.addTextChangedListener(commodityTextWatcher)
+        setOnClickListeners()
+    }
+
+    private fun setOnClickListeners() {
+        try {
+
+            binding.btnGetOTPRegister.setOnClickListener {
+                if (binding.edtPhoneNoRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
+                } else {
+                    requestForOTP()
+                }
+            }
+
+            binding.btnRegisterRegister.setOnClickListener {
+                if (binding.actAPMCRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_select_apmc_alert_msg))
+                } else if (binding.actCommodityRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_select_commodity_alert_msg))
+                } else if (binding.edtPhoneNoRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
+                } else if (binding.edtFullNameRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_full_name))
+                } else if (binding.edtEmailRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_email_alert_msg))
+                } else if (binding.edtAddressRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_address_alert_msg))
+                } else if (binding.edtOTPRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_otp_alert_msg))
+                } else {
+                    val commodityId = DatabaseManager.ExecuteScalar(
+                        Query.getCommodityIdByCommodityNameANDAPMCId(
+                            binding.actCommodityRegister.text.toString().trim(),
+                            APMCId
+                        )
+                    )!!
+                    val stateId =
+                        DatabaseManager.ExecuteScalar(Query.getStateIdByCommodityId(commodityId))!!
+                    val districtId =
+                        DatabaseManager.ExecuteScalar(Query.getDistrictIdByCommodityId(commodityId))!!
+                    val model = RegisterBuyerModel(
+                        APMCId,
+                        binding.edtAddressRegister.text.toString().trim(),
+                        commodityId,
+                        DateUtility().getyyyyMMdd(),
+                        "",
+                        districtId,
+                        binding.edtEmailRegister.text.toString().trim(),
+                        binding.edtPhoneNoRegister.text.toString().trim(),
+                        binding.edtFullNameRegister.text.toString().trim(),
+                        binding.edtOTPRegister.text.toString().trim(),
+                        "",
+                        stateId,
+                        "",
+                        "",
+                        "",
+                        ""
+                    )
+
+                    RegisterBuyerAPI(this,this@RegisterActivity,model)
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "setOnClickListeners: ${e.message}")
+        }
+    }
+
+    private fun requestForOTP() {
+        try {
+            commonUIUtility.showProgress()
+            val JO = JsonObject()
+            JO.addProperty("MobileNo", binding.edtPhoneNoRegister.text.toString().trim())
+            JO.addProperty("UserType", "2")
+
+            Log.d(TAG, "requestForOTP: JSON : ${JO.toString()}")
+            val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val result = APICall.getOTPForRegister(JO)
+                if (result.isSuccessful) {
+                    if (result.body()!!.get("Success").asString.equals("true")) {
+                        withContext(Dispatchers.Main) {
+                            commonUIUtility.dismissProgress()
+                            commonUIUtility.showToast(getString(R.string.otp_sent_successfully_alert_msg))
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            commonUIUtility.dismissProgress()
+                            commonUIUtility.showToast(getString(R.string.invalid_data_of_user_alert_msg))
+                        }
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        commonUIUtility.dismissProgress()
+                        commonUIUtility.showToast(getString(R.string.error_sending_otp))
+                    }
+                    Log.e(TAG, "requestForOTP: ${result.errorBody().toString()}")
+                }
+            }
+        } catch (e: Exception) {
+            commonUIUtility.dismissProgress()
+            commonUIUtility.showToast(getString(R.string.please_try_again_later_alert_msg))
+            e.printStackTrace()
+            Log.e(TAG, "requestForOTP: ${e.message}")
+        }
     }
 
     fun bindAPMCDropDown(): ArrayList<String> {
@@ -206,6 +328,15 @@ class RegisterActivity : AppCompatActivity() {
             finish()
             startActivity(getIntent())
         }
+    }
+
+    fun redirectToLogin(){
+        startActivity(
+            Intent(this@RegisterActivity,LoginActivity::class.java),
+            ActivityOptions.makeSceneTransitionAnimation(this@RegisterActivity)
+                .toBundle()
+        )
+        finish()
     }
 
 }

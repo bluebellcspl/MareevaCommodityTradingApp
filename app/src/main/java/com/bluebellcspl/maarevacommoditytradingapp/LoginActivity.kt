@@ -6,8 +6,10 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.transition.Explode
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +51,13 @@ class LoginActivity : AppCompatActivity() {
             baseContext.resources.displayMetrics
         )
         super.onCreate(savedInstanceState)
+        with(window) {
+            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+            enterTransition = Explode()
+            exitTransition = Explode()
+            enterTransition.duration = 1000
+            exitTransition.duration = 1000
+        }
         binding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
         DatabaseManager.initializeInstance(this)
         setLanguage()
