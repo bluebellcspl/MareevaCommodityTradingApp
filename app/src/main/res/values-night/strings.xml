@@ -41,4 +41,6 @@
     <string name="commodity">Commodity</string>
     <string name="auction">Auction</string>
     <string name="pca_auction">PCA Auction</string>
+    <string name="date">Date</string>
+    <string name="requirement">Requirement</string>
 </resources>
