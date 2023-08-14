@@ -1,53 +1,23 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="@dimen/_25ssp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:text="Dashboard" />
+        android:layout_height="match_parent"
+        tools:context="com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ScrollView_DashboardFragment">
-        <LinearLayout
-            android:id="@+id/ll_Main_DashboardFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/_10sdp">
-            <LinearLayout
-                android:id="@+id/ll_Admin_DashboardFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        <include
+            android:id="@+id/buyerDashboard"
+            layout="@layout/buyer_dashboard_layout"
+            android:visibility="gone"/>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_Buyer_DashboardFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_PCA_DashboardFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-</RelativeLayout>
+        <include android:id="@+id/pcaDashboard"
+            layout="@layout/pca_dashboard_layout"
+            android:visibility="gone"/>
+    </RelativeLayout>
+</layout>

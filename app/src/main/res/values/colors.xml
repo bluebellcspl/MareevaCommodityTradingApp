@@ -9,5 +9,10 @@
     <color name="colorSecondary">#F3F0EC</color>
     <color name="colorSecondaryDark">#AAA8A5</color>
     <color name="colorSecondaryLight">#F5F3EF</color>
+    
+    <color name="commodityCardColor">#452b90</color>
+    <color name="newCommodityCardColor">#DCA8AB</color>
+    <color name="pCACardColor">#f8b940</color>
+    <color name="newPCACardColor">#797CA4</color>
 
 </resources>

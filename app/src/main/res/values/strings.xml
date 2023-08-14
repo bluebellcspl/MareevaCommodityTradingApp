@@ -40,4 +40,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dashboard">Dashboard</string>
+    <string name="commodity_name_lbl">Commodity Name</string>
+    <string name="total_pcas_lbl">Total PCAs</string>
+    <string name="notifications">Notifications</string>
+    <string name="add_pca">Add PCA</string>
+    <string name="pca_list">PCA List</string>
+    <string name="commodity">Commodity</string>
+    <string name="auction">Auction</string>
+    <string name="pca_auction">PCA Auction</string>
 </resources>
