@@ -59,6 +59,23 @@ class Query {
             return qry
         }
 
+        fun getShopNameAndShopNo():String{
+            qry = "SELECT ShopName,ShopNo FROM ShopMaster"
+            Log.d(TAG, "getShopNameAndShopNo: $qry")
+            return qry
+        }
+        fun getShopIdByShopName(shopName:String):String{
+            qry = "SELECT ShopId FROM ShopMaster WHERE ShopName='$shopName'"
+            Log.d(TAG, "getShopIdByShopName: $qry")
+            return qry
+        }
+
+        fun getShopNoByShopName(shopName:String):String{
+            qry = "SELECT ShopNo FROM ShopMaster WHERE ShopName='$shopName'"
+            Log.d(TAG, "getShopNoByShopName: $qry")
+            return qry
+        }
+
 
     }
 

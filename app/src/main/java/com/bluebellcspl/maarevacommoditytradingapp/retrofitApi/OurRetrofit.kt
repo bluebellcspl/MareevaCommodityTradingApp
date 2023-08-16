@@ -4,6 +4,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.APMCMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.RoleMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.StateMasterModel
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -49,4 +50,7 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/Register")
     suspend fun registerBuyer(@Body body: JsonObject): Response<String>
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/ShopMasterGet")
+    suspend fun getShopMaster(@Body body: JsonObject): Response<ShopMasterModel>
 }

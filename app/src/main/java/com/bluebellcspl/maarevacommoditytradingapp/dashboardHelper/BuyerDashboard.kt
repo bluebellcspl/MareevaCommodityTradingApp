@@ -8,8 +8,9 @@ import android.util.Log
 import android.view.View
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentDashboardBinding
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
 
-class BuyerDashboard(var context: Context,var activity: Activity,var binding:FragmentDashboardBinding) {
+class BuyerDashboard(var context: Context,var activity: Activity,var fragment: DashboardFragment) {
     private val commonUIUtility = CommonUIUtility(context)
     private val TAG = "BuyerDashboard"
     init {
@@ -18,7 +19,7 @@ class BuyerDashboard(var context: Context,var activity: Activity,var binding:Fra
 
     private fun bindBuyerDashboardComponent() {
         try {
-            binding.buyerDashboard.cvNotificationBuyer.visibility = View.VISIBLE
+            fragment.binding.buyerDashboard.cvNotificationBuyer.visibility = View.VISIBLE
             commonUIUtility.showProgress()
         }catch (e:Exception)
         {

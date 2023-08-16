@@ -9,5 +9,18 @@
         android:id="@+id/dashboardFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_PCAAuctionFragment"
+            app:destination="@id/PCAAuctionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PCAAuctionFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionFragment"
+        android:label="@string/pca_auction"
+        tools:layout="@layout/fragment_p_c_a_auction" >
+        <argument
+            android:name="userType"
+            app:argType="string" />
+    </fragment>
 </navigation>

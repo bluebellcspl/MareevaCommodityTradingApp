@@ -9,6 +9,7 @@ class DateUtility {
     private val compDateFormat = "dd-MM-yyyy"
     private val newDateFormat = "yyyy-MM-dd"
     private val compTimeFormat = "HH:mm:ss"
+    private val timeFormat12Hr = "hh:mm a"
 
     fun getDate() : String{
         val cal = Calendar.getInstance()
@@ -73,4 +74,13 @@ class DateUtility {
         val date : String = "ANIMAL"+current.toString()
         return date
     }
+
+    fun get12HourTime() : String{
+        val cal = Calendar.getInstance()
+        val sdf = SimpleDateFormat(timeFormat12Hr, Locale.US)
+        val current = sdf.format(cal.time)
+        val date : String = current.toString()
+        return date
+    }
+
 }

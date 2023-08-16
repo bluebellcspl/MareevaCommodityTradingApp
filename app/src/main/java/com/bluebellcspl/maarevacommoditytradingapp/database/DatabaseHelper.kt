@@ -13,6 +13,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "MAAREVA.db",
         db?.execSQL("CREATE table APMCMaster (APMCId TEXT  primary key,APMCName TEXT,SrNo TEXT,Location TEXT,EDate TEXT,EstablishmentDate TEXT,EstabishmentDetails TEXT,InfrastructureFacility TEXT,NoOfShop TEXT,NoOfTraders TEXT,NoOfBoardMember TEXT,ChairmanName TEXT,WiseChairman TEXT,SecretaryName TEXT,NoOfEmployee TEXT,LaboratoryFacility TEXT,BankFacility TEXT,WarehouseFacility TEXT,WeightbridgeFacility TEXT,StateId TEXT,StateName TEXT,DistrictId TEXT,DistrictName TEXT,IsActive TEXT,CompanyCode TEXT,CreateUser TEXT,CreateDate TEXT,UpdateUser TEXT,UpdateDate TEXT)")
         db?.execSQL("CREATE table CommodityMaster (CommodityId TEXT primary key,CommodityName TEXT,StateId TEXT,StateName TEXT,DistrictId TEXT,DistrictName TEXT,APMCId TEXT,APMCName TEXT,CompanyCode TEXT,IsActive TEXT,CreateUser TEXT,CreateDate TEXT,UpdateUser TEXT,UpdateDate TEXT)")
 
+        db?.execSQL("CREATE table ShopMaster (APMCId TEXT,APMCName TEXT,StateId TEXT,StateName TEXT,DistrictId TEXT,DistrictName TEXT,ShopId TEXT primary key ,ShopNo TEXT,ShopName TEXT,ShopAddress TEXT,CompanyCode TEXT,IsActive TEXT,CreateUser TEXT,CreateDate TEXT,UpdateUser TEXT,UpdateDate TEXT)")
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

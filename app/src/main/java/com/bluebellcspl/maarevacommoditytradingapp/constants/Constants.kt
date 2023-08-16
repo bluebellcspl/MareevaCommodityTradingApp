@@ -13,5 +13,6 @@ class Constants {
         val TBL_DistrictMaster = "DistrictMaster"
         val TBL_APMCMaster = "APMCMaster"
         val TBL_CommodityMaster = "CommodityMaster"
+        val TBL_ShopMaster = "ShopMaster"
     }
 }

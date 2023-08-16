@@ -50,4 +50,19 @@
     <string name="pca_auction">PCA Auction</string>
     <string name="date">Date</string>
     <string name="requirement">Requirement</string>
+    <string name="remaining_bags">Remaining Bags</string>
+    <string name="total_purchased_bags">Total Purchased Bags</string>
+    <string name="average_price">Average Price</string>
+    <string name="per_20_kgs">Per 20 Kgs</string>
+    <string name="buyer_s_lower_limit">Buyer\'s Lower Limit</string>
+    <string name="buyer_s_upper_limit">Buyer\'s Upper Limit</string>
+    <string name="bori">Bori</string>
+    <string name="auction_item_list">Auction Item List</string>
+    <string name="select_shop">Select Shop</string>
+    <string name="shop_no">Shop No.</string>
+    <string name="current_time">Current Time</string>
+    <string name="current_price">Current Price</string>
+    <string name="upper_limit">Upper Limit</string>
+    <string name="lower_limit">Lower Limit</string>
+    <string name="save">Save</string>
 </resources>
