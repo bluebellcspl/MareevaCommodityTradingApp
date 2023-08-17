@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -15,6 +14,7 @@ import android.view.ViewGroup
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -25,7 +25,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.dashboardHelper.BuyerDashboard
 import com.bluebellcspl.maarevacommoditytradingapp.dashboardHelper.PCADashboard
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentDashboardBinding
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchShopMasterAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 
 class DashboardFragment : Fragment() {
     lateinit var binding:FragmentDashboardBinding
@@ -43,6 +44,7 @@ class DashboardFragment : Fragment() {
         Log.d(TAG, "onCreateView: CURRENT_USER_ROLE : ${PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"")}")
         CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString()
         navController = findNavController()
+        FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
         if (CURRENT_USER.equals("Buyer",true))
         {
             binding.buyerDashboard.root.visibility = View.VISIBLE
@@ -98,6 +100,16 @@ class DashboardFragment : Fragment() {
             }
         })
         alertDialog.show()
+    }
+
+    fun bindingApprovedPCACount(dataList:ArrayList<PCAListModelItem>){
+        try {
+                binding.buyerDashboard.tvPCACountBuyer.setText(dataList.size.toString())
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "bindingApprovedPCACount: ${e.message}", )
+        }
     }
 
 }

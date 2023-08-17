@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.retrofitApi
 import com.bluebellcspl.maarevacommoditytradingapp.model.APMCMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.RoleMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.StateMasterModel
@@ -57,4 +58,11 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/PCAMasterInsert")
     suspend fun postPCAInsertData(@Body body: JsonObject): Response<JsonObject>
+
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/PCAMasterApproveGet")
+    suspend fun getApprovedPCAList(@Body body: JsonObject): Response<PCAListModel>
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/PCAMasterNonApproveGet")
+    suspend fun getUnapprovedPCAList(@Body body: JsonObject): Response<PCAListModel>
 }

@@ -80,4 +80,6 @@
     <string name="pca_created_successfully_alert_msg">PCA Created Successfully!</string>
     <string name="phone_no_already_exist">Phone No. Already Exist</string>
     <string name="phone_no_already_exist_alert_msg">Phone No. Already Exist</string>
+    <string name="status">Status</string>
+    <string name="approved_pca_list">Approved PCA List</string>
 </resources>

@@ -1,46 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.buyer.PCAListFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.core.widget.NestedScrollView
+    <data>
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ScrollView_PCAListFragment">
-        <RelativeLayout
+        android:layout_height="match_parent"
+        tools:context=".fragment.buyer.PCAListFragment">
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/main_rl_PCAListFragment"
-            android:padding="@dimen/_6sdp">
-            <TextView
+            android:id="@+id/ScrollView_PCAListFragment">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Approved PCA List"
-                android:textSize="@dimen/_16ssp"
-                android:padding="@dimen/_3sdp"
-                android:id="@+id/tv_ApprovedPCAListLbl_PCAListFragment"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@id/tv_ApprovedPCAListLbl_PCAListFragment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_300sdp"
-                android:id="@+id/rc_View_Approved_PCAListFragment"/>
+                android:id="@+id/main_rl_PCAListFragment"
+                android:padding="@dimen/_6sdp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Unappproved PCA List"
-                android:textSize="@dimen/_16ssp"
-                android:padding="@dimen/_3sdp"
-                android:id="@+id/tv_UnapprovedPCAListLbl_PCAListFragment"
-                android:layout_below="@id/rc_View_Approved_PCAListFragment"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@id/tv_UnapprovedPCAListLbl_PCAListFragment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_300sdp"
-                android:id="@+id/rc_View_Unapproved_PCAListFragment"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_ApprovedPCAListLbl_PCAListFragment"
+                    android:padding="@dimen/_3sdp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/approved_pca_list"
+                        android:layout_alignParentStart="true"
+                        android:textSize="@dimen/_16ssp"
+                        android:textColor="@color/black"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/tvApprovedPCACount_PCAListFragment"
+                        android:layout_alignParentEnd="true"
+                        android:textSize="@dimen/_16ssp"
+                        android:textColor="@color/black"/>
+                </RelativeLayout>
 
-        </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
-</RelativeLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_below="@id/tv_ApprovedPCAListLbl_PCAListFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_300sdp"
+                    android:id="@+id/rc_View_Approved_PCAListFragment"
+                    tools:listitem="@layout/pca_list_item_adapter"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_UnapprovedPCAListLbl_PCAListFragment"
+                    android:layout_below="@id/rc_View_Approved_PCAListFragment"
+                    android:padding="@dimen/_3sdp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/unappproved_pca_list"
+                        android:textSize="@dimen/_16ssp"
+                        android:padding="@dimen/_3sdp"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:id="@+id/tvUnapprovedPCACount_PCAListFragment"
+                        android:layout_alignParentEnd="true"
+                        android:textSize="@dimen/_16ssp"/>
+
+                </RelativeLayout>
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_below="@id/tv_UnapprovedPCAListLbl_PCAListFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_300sdp"
+                    android:id="@+id/rc_View_Unapproved_PCAListFragment"
+                    tools:listitem="@layout/pca_list_item_adapter"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</layout>
