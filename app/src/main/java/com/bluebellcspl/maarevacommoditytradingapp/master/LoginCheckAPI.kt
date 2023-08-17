@@ -83,6 +83,7 @@ class LoginCheckAPI(
                         PrefUtil.setString(PrefUtil.KEY_COMPANY_CODE,resultJO.get("CompanyCode").asString)
                         PrefUtil.setString(PrefUtil.KEY_REGISTER_ID,resultJO.get("RegisterId").asString)
                         PrefUtil.setString(PrefUtil.KEY_CREATE_USER,resultJO.get("CreateUser").asString)
+                        PrefUtil.setString(PrefUtil.KEY_BUYER_ID,resultJO.get("BuyerId").asString)
 
                         if (activity is LoginActivity)
                         {

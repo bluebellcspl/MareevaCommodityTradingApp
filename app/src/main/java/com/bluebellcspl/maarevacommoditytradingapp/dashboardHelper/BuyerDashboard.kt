@@ -9,6 +9,7 @@ import android.view.View
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentDashboardBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragmentDirections
 
 class BuyerDashboard(var context: Context,var activity: Activity,var fragment: DashboardFragment) {
     private val commonUIUtility = CommonUIUtility(context)
@@ -20,7 +21,9 @@ class BuyerDashboard(var context: Context,var activity: Activity,var fragment: D
     private fun bindBuyerDashboardComponent() {
         try {
             fragment.binding.buyerDashboard.cvNotificationBuyer.visibility = View.VISIBLE
-            commonUIUtility.showProgress()
+            fragment.binding.buyerDashboard.cvAddPCABuyer.setOnClickListener {
+                fragment.navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToAddPCAFragment())
+            }
         }catch (e:Exception)
         {
             e.printStackTrace()

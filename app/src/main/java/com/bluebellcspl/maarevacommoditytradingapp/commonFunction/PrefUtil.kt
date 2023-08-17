@@ -32,6 +32,7 @@ class PrefUtil {
         public val KEY_COMPANY_CODE = "CompanyCode"
         public val KEY_EMP_NAME = "Name"
         public val KEY_CREATE_USER = "CreateUser"
+        public val KEY_BUYER_ID = "BuyerId"
 
 
 

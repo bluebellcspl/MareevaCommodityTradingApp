@@ -105,6 +105,7 @@ class LoginActivity : AppCompatActivity() {
                         )
                     )!!
                     APMCId = apmcId
+                    Log.d(TAG, "afterTextChanged: APMC_ID : $apmcId")
                     commodityList = bindCommodityDropDown(apmcId)
                     binding.actCommodityLogin.setText("")
                     binding.actStateLogin.setText("")
@@ -165,6 +166,8 @@ class LoginActivity : AppCompatActivity() {
                     commonUIUtility.showToast(getString(R.string.please_select_commodity_alert_msg))
                 } else if (binding.edtPhoneNoLogin.text.toString().isEmpty()) {
                     commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
+                } else if (!apmcList.contains(binding.actAPMCLogin.text.toString().trim())) {
+                    commonUIUtility.showToast(getString(R.string.please_select_valid_apmc_alert_msg))
                 } else {
                     val commodityId = DatabaseManager.ExecuteScalar(
                         Query.getCommodityIdByCommodityNameANDAPMCId(

@@ -120,7 +120,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cv_LeaveReq"
+                        android:id="@+id/cv_PCAList_Buyer"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_120sdp"
                         android:layout_weight="0.4"
@@ -165,7 +165,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cv_LeaveStatus"
+                        android:id="@+id/cv_AddPCA_Buyer"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_120sdp"
                         android:layout_weight="0.6"

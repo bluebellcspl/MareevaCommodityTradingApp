@@ -16,7 +16,7 @@ class Query {
         }
 
         fun getAPMCName():String{
-            qry = "SELECT APMCName FROM APMCMaster"
+            qry = "SELECT APMCName FROM APMCMaster WHERE IsActive='true'"
             Log.d(TAG, "getAPMCName: $qry")
             return qry
         }
@@ -27,7 +27,7 @@ class Query {
             return qry
         }
         fun getCommodityNameByAPMCId(apmcId:String):String{
-            qry = "SELECT CommodityName FROM CommodityMaster WHERE APMCId='$apmcId'"
+            qry = "SELECT CommodityName FROM CommodityMaster WHERE APMCId='$apmcId' AND IsActive='1'"
             Log.d(TAG, "getCommodityNameByAPMCId: $qry")
             return qry
         }

@@ -65,4 +65,26 @@
     <string name="upper_limit">Upper Limit</string>
     <string name="lower_limit">Lower Limit</string>
     <string name="save">Save</string>
+    <string name="apmc">APMC</string>
+    <string name="state">State</string>
+    <string name="district">District</string>
+    <string name="pca_name">PCA Name</string>
+    <string name="phone_no">Phone No.</string>
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+    <string name="gca_commission">GCA Commission (%)</string>
+    <string name="pca_commission">PCA Commission (%)</string>
+    <string name="market_cess">Market Cess (%)</string>
+    <string name="logout">Logout</string>
+    <string name="please_select_valid_apmc_alert_msg">Please Select Valid APMC!</string>
+    <string name="please_enter_pca_name_alert_msg">Please Enter PCA Name!</string>
+    <string name="please_enter_gca_commission_alert_msg">Please Enter GCA Commission!</string>
+    <string name="please_enter_pca_commission_alert_msg">Please Enter PCA Commission!</string>
+    <string name="please_enter_market_cess_alert_msg">Please Enter Market Cess!</string>
+    <string name="please_enter_valid_phone_no_alert_msg">Please Enter Valid Phone No.!</string>
+    <string name="please_enter_email_id_alert_msg">Please Enter Email Id!</string>
+    <string name="please_enter_valid_email_id_alert_msg">Please Enter Valid Email Id!</string>
+    <string name="pca_created_successfully_alert_msg">PCA Created Successfully!</string>
+    <string name="phone_no_already_exist">Phone No. Already Exist</string>
+    <string name="phone_no_already_exist_alert_msg">Phone No. Already Exist</string>
 </resources>

@@ -107,4 +107,17 @@ class CommonUIUtility(var context: Context) {
         )
         return adapter
     }
+
+    fun getUserType():String{
+        var userType = ""
+        if (PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").equals("Buyer", true)) {
+            userType = "2"
+        } else if (PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").equals("PCA", true)) {
+            userType = "3"
+        }
+        else if (PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").equals("Admin", true)) {
+            userType = "1"
+        }
+        return userType
+    }
 }
