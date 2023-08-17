@@ -23,7 +23,6 @@ class PCADashboard(var context: Context, var activity: Activity,var fragment:Das
         try {
             FetchShopMasterAPI(activity,activity)
             binding = fragment.binding.pcaDashboard
-            binding.cvNotificationPCA.visibility = View.VISIBLE
             binding.cvAuctionPCA.setOnClickListener {
                 fragment.navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToPCAAuctionFragment("Hello"))
             }

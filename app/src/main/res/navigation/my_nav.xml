@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_addPCAFragment"
             app:destination="@id/addPCAFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_PCAListFragment"
+            app:destination="@id/PCAListFragment" />
     </fragment>
     <fragment
         android:id="@+id/PCAAuctionFragment"
@@ -31,4 +34,9 @@
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.AddPCAFragment"
         android:label="@string/add_pca"
         tools:layout="@layout/fragment_add_p_c_a" />
+    <fragment
+        android:id="@+id/PCAListFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.PCAListFragment"
+        android:label="@string/pca_list"
+        tools:layout="@layout/fragment_p_c_a_list" />
 </navigation>
