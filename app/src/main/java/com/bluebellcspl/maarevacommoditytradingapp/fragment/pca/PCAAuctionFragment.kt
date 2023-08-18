@@ -19,6 +19,7 @@ import androidx.navigation.fragment.navArgs
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAAuctionBinding
@@ -63,20 +64,9 @@ class PCAAuctionFragment : Fragment() {
 
             var shopNameList:ArrayList<String> = ArrayList()
             shopNameList.clear()
-            val shopDataList = getShopNameAndShopNoFROMDB()
-            shopDataList.forEach {
-                shopNameList.add(it.ShopName)
-            }
+            shopNameList = getShopName()
             val shopAdapter = commonUIUtility.getCustomArrayAdapter(shopNameList)
             dialogBinding.actShopNamePCAAuctionDialog.setAdapter(shopAdapter)
-            dialogBinding.actShopNamePCAAuctionDialog.setOnItemClickListener { parent, view, position, id ->
-                val selectedItemIndex = position
-                Log.d(TAG, "showPCAAddAuctionDialog: INDEX : $selectedItemIndex")
-                val shopNo = shopDataList.get(selectedItemIndex).ShopNo
-                Log.d(TAG, "showPCAAddAuctionDialog: SELECTED_SHOP_NO : $shopNo")
-                dialogBinding.edtShopNoPCAAuctionDialog.setText("")
-                dialogBinding.edtShopNoPCAAuctionDialog.setText(shopNo)
-            }
             val shopTextWatcher:TextWatcher = object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -89,15 +79,13 @@ class PCAAuctionFragment : Fragment() {
                 override fun afterTextChanged(p0: Editable?) {
                     if (p0.toString().isNotEmpty())
                     {
-                        val shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(p0.toString().trim()))!!
+                        val shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(p0.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
                         dialogBinding.edtShopNoPCAAuctionDialog.setText("")
                         dialogBinding.edtShopNoPCAAuctionDialog.setText(shopNo)
-                        val index = shopAdapter.getPosition(p0.toString().trim())
-                        Log.d(TAG, "afterTextChanged: INDEX : $index")
                     }
                 }
             }
-//            dialogBinding.actShopNamePCAAuctionDialog.addTextChangedListener(shopTextWatcher)
+            dialogBinding.actShopNamePCAAuctionDialog.addTextChangedListener(shopTextWatcher)
             dialogBinding.tvCurrentTimePCAAuctionDialog.setText(DateUtility().get12HourTime())
             dialogBinding.cvCurrentTimePCAAuctionDialog.setOnClickListener {
                 showTimePickerDialog(dialogBinding.tvCurrentTimePCAAuctionDialog)
@@ -139,20 +127,16 @@ class PCAAuctionFragment : Fragment() {
             timePicker.show(childFragmentManager, "timePicker")
         }
     }
-
-    data class ShopData(var ShopName:String,var ShopNo:String)
-    private fun getShopNameAndShopNoFROMDB():ArrayList<ShopData>{
-        var dataList:ArrayList<ShopData> = ArrayList()
+    private fun getShopName():ArrayList<String>{
+        var dataList:ArrayList<String> = ArrayList()
         try {
-            val cursor = DatabaseManager.ExecuteRawSql(Query.getShopNameAndShopNo())
+            val cursor = DatabaseManager.ExecuteRawSql(Query.getShopName(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))
             if (cursor!=null && cursor.count>0)
             {
                 dataList.clear()
                 while (cursor.moveToNext())
                 {
-
-                    val model = ShopData(cursor.getString(cursor.getColumnIndexOrThrow("ShopName")),cursor.getString(cursor.getColumnIndexOrThrow("ShopNo")))
-                    dataList.add(model)
+                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShopName")))
                 }
             }
             cursor?.close()

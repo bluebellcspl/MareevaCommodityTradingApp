@@ -33,7 +33,7 @@ class UnapprovePCAListAdapter(var context: Context, var dataList:ArrayList<PCALi
         holder.binding.tvMarketCessPCAAuctionFragment.setText(model.MarketCess)
         holder.binding.tvApprovedStatusPCAAuctionFragment.setTextAppearance(R.style.pendingVisitStatusText)
         holder.binding.tvApprovedStatusPCAAuctionFragment.gravity = Gravity.CENTER
-        holder.binding.tvApprovedStatusPCAAuctionFragment.setText("Unapproved")
+        holder.binding.tvApprovedStatusPCAAuctionFragment.setText(context.getString(R.string.unapproved))
         holder.binding.tvApprovedStatusPCAAuctionFragment.setBackgroundResource(R.drawable.unapproved_pca_tile_bg)
     }
 }

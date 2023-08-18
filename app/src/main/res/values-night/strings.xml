@@ -82,4 +82,6 @@
     <string name="phone_no_already_exist_alert_msg">Phone No. Already Exist</string>
     <string name="status">Status</string>
     <string name="approved_pca_list">Approved PCA List</string>
+    <string name="approved">Approved</string>
+    <string name="unapproved">Unapproved</string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.PCAListFragment
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
@@ -33,7 +34,7 @@ class FetchUnapprovedPCAListAPI(var context: Context, var activity: Activity, va
             val JO = JsonObject()
             JO.addProperty("CompanyCode", "MAT189")
             JO.addProperty("Action", "All")
-            JO.addProperty("BuyerId", "2")
+            JO.addProperty("BuyerId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
             Log.d(TAG, "getUnapprovedPCAList: JSON : ${JO.toString()}")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)

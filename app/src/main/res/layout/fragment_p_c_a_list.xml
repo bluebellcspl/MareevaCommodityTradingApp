@@ -51,7 +51,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_below="@id/tv_ApprovedPCAListLbl_PCAListFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_300sdp"
+                    android:layout_height="wrap_content"
                     android:id="@+id/rc_View_Approved_PCAListFragment"
                     tools:listitem="@layout/pca_list_item_adapter"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
@@ -85,7 +85,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_below="@id/tv_UnapprovedPCAListLbl_PCAListFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_300sdp"
+                    android:layout_height="wrap_content"
                     android:id="@+id/rc_View_Unapproved_PCAListFragment"
                     tools:listitem="@layout/pca_list_item_adapter"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>

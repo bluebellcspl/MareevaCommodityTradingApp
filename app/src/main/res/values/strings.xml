@@ -90,4 +90,6 @@
     <string name="status">Status</string>
     <string name="approved_pca_list">Approved PCA List</string>
     <string name="unappproved_pca_list">Unappproved PCA List</string>
+    <string name="approved">Approved</string>
+    <string name="unapproved">Unapproved</string>
 </resources>

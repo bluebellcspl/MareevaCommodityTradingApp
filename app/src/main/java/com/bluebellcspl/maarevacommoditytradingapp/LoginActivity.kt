@@ -167,6 +167,7 @@ class LoginActivity : AppCompatActivity() {
                 } else if (binding.edtPhoneNoLogin.text.toString().isEmpty()) {
                     commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
                 } else if (!apmcList.contains(binding.actAPMCLogin.text.toString().trim())) {
+                    Log.d(TAG, "setOnClickListeners: APMC_NAME : $binding.actAPMCLogin.text.toString().trim()")
                     commonUIUtility.showToast(getString(R.string.please_select_valid_apmc_alert_msg))
                 } else {
                     val commodityId = DatabaseManager.ExecuteScalar(

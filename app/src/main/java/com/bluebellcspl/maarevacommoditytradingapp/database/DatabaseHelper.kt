@@ -14,6 +14,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "MAAREVA.db",
         db?.execSQL("CREATE table CommodityMaster (CommodityId TEXT primary key,CommodityName TEXT,StateId TEXT,StateName TEXT,DistrictId TEXT,DistrictName TEXT,APMCId TEXT,APMCName TEXT,CompanyCode TEXT,IsActive TEXT,CreateUser TEXT,CreateDate TEXT,UpdateUser TEXT,UpdateDate TEXT)")
 
         db?.execSQL("CREATE table ShopMaster (APMCId TEXT,APMCName TEXT,StateId TEXT,StateName TEXT,DistrictId TEXT,DistrictName TEXT,ShopId TEXT primary key ,ShopNo TEXT,ShopName TEXT,ShopAddress TEXT,CompanyCode TEXT,IsActive TEXT,CreateUser TEXT,CreateDate TEXT,UpdateUser TEXT,UpdateDate TEXT)")
+        db?.execSQL("CREATE table ApprovedPCAMaster (PCAId TEXT,PCAName TEXT,PCAPhoneNumber TEXT, Address TEXT,EmailId TEXT,BuyerId TEXT,RoleId TEXT,RoleName TEXT,ApprStatus TEXT,GCACommission TEXT,PCACommission TEXT,MarketCess TEXT,CommodityId TEXT, CommodityName TEXT, APMCId TEXT,APMCName TEXT,StateId TEXT,StateName TEXT,DistrictId TEXT,DistrictName TEXT,CompanyCode TEXT,IsActive TEXT,CreateUser TEXT,CreateDate TEXT,UpdateUser TEXT,UpdateDate TEXT)")
 
     }
 

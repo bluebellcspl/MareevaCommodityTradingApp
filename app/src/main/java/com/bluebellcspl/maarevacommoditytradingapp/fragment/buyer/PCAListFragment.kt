@@ -42,6 +42,7 @@ class PCAListFragment : Fragment() {
             if (approvedList.isEmpty()) {
                 commonUIUtility.dismissProgress()
                 commonUIUtility.showToast("No Data Found Approved PCA")
+                binding.rcViewApprovedPCAListFragment.visibility = View.GONE
             } else {
                 approvedListAdapter = ApprovedPCAListAdapter(requireContext(), approvedList)
                 binding.rcViewApprovedPCAListFragment.adapter = approvedListAdapter
@@ -66,6 +67,7 @@ class PCAListFragment : Fragment() {
             if (approvedList.isEmpty()) {
                 commonUIUtility.dismissProgress()
                 commonUIUtility.showToast("No Data Found Unapproved PCA")
+                binding.rcViewUnapprovedPCAListFragment.visibility = View.GONE
             } else {
                 unapprovedListAdapter = UnapprovePCAListAdapter(requireContext(), approvedList)
                 binding.rcViewUnapprovedPCAListFragment.adapter = unapprovedListAdapter

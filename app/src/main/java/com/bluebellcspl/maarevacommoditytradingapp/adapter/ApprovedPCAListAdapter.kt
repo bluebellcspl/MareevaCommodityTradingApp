@@ -31,7 +31,7 @@ class ApprovedPCAListAdapter(var context: Context,var dataList:ArrayList<PCAList
         holder.binding.tvMarketCessPCAAuctionFragment.setText(model.MarketCess)
         holder.binding.tvApprovedStatusPCAAuctionFragment.setTextAppearance(R.style.confirmVisitStatusText)
         holder.binding.tvApprovedStatusPCAAuctionFragment.gravity = Gravity.CENTER
-        holder.binding.tvApprovedStatusPCAAuctionFragment.setText("Approved")
+        holder.binding.tvApprovedStatusPCAAuctionFragment.setText(context.getString(R.string.approved))
         holder.binding.tvApprovedStatusPCAAuctionFragment.setBackgroundResource(R.drawable.approved_pca_tile_bg)
     }
 }
