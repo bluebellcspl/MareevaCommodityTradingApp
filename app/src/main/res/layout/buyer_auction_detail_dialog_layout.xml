@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -16,17 +16,17 @@
             app:cardCornerRadius="@dimen/_8sdp"
             app:cardUseCompatPadding="true"
             app:cardElevation="@dimen/_5sdp"
-            android:id="@+id/cv_PCAAuctionDialog">
+            android:id="@+id/cv_BuyerAuctionDialog">
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/ScrollView_PCAAuctionDialog">
+                android:id="@+id/ScrollView_BuyerAuctionDialog">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/main_ll_PCAAuctionDialog"
+                    android:id="@+id/main_ll_BuyerAuctionDialog"
                     android:orientation="vertical"
                     android:padding="@dimen/_10sdp">
 
@@ -39,48 +39,27 @@
                         app:boxCornerRadiusTopEnd="@dimen/_10sdp"
                         app:boxCornerRadiusTopStart="@dimen/_10sdp"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                        android:hint="@string/select_shop"
+                        android:hint="@string/select_pca"
                         app:endIconTint="@color/colorPrimaryDark">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textColor="@color/black"
-                            android:id="@+id/act_ShopName_PCAAuctionDialog"
+                            android:id="@+id/act_PCA_BuyerAuctionDialog"
                             android:textSize="@dimen/_14ssp"
-                            android:inputType="text"
+                            android:inputType="none"
                             android:completionThreshold="1"
-                            android:imeOptions="actionDone"/>
+                            android:imeOptions="actionDone" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_8sdp"
-                        android:enabled="false"
-                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:hint="@string/shop_no"
-                        app:endIconTint="@color/colorPrimaryDark">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textColor="@color/black"
-                            android:id="@+id/edt_ShopNo_PCAAuctionDialog"
-                            android:textSize="@dimen/_14ssp"
-                            android:inputType="none" />
-                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:hint="@string/bori"
+                        android:hint="@string/bags"
                         app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_10sdp"
                         app:boxCornerRadiusTopEnd="@dimen/_10sdp"
@@ -89,7 +68,7 @@
                         app:endIconTint="@color/colorPrimaryDark">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_Bori_PCAAuctionDialog"
+                            android:id="@+id/edt_Bags_BuyerAuctionDialog"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:inputType="number"
@@ -105,7 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:hint="@string/current_price"
+                        android:hint="@string/lower_limit_rupee"
                         app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_10sdp"
                         app:boxCornerRadiusTopEnd="@dimen/_10sdp"
@@ -114,72 +93,12 @@
                         app:endIconTint="@color/colorPrimaryDark">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_CurrentPrice_PCAAuctionDialog"
+                            android:id="@+id/edt_LowerLimit_BuyerAuctionDialog"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:inputType="number"
                             android:imeOptions="actionNext"
-                            android:maxLength="10"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cv_CurrentTime_PCAAuctionDialog"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:elevation="@dimen/_5sdp"
-                        app:cardCornerRadius="@dimen/_5sdp"
-                        app:cardElevation="@dimen/_5sdp"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="@dimen/_8sdp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="@string/current_time"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp"
-                                android:layout_weight="1" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp"
-                                android:textStyle="bold"
-                                android:id="@+id/tv_CurrentTime_PCAAuctionDialog"
-                                android:layout_weight="1" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:hint="@string/upper_limit"
-                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                        app:endIconMode="clear_text"
-                        app:endIconTint="@color/colorPrimaryDark">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_UpperLimit_PCAAuctionDialog"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:inputType="number"
-                            android:imeOptions="actionNext"
-                            android:maxLength="10"
+                            android:maxLength="8"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp" />
 
@@ -190,7 +109,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:hint="@string/lower_limit"
+                        android:hint="@string/upper_limit_rupee"
                         app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_10sdp"
                         app:boxCornerRadiusTopEnd="@dimen/_10sdp"
@@ -199,25 +118,76 @@
                         app:endIconTint="@color/colorPrimaryDark">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_LowerLimit_PCAAuctionDialog"
+                            android:id="@+id/edt_UpperLimit_BuyerAuctionDialog"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:inputType="number"
-                            android:imeOptions="actionDone"
-                            android:maxLength="10"
+                            android:imeOptions="actionNext"
+                            android:maxLength="8"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:hint="@string/last_day_price_rupee"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                        app:endIconMode="clear_text"
+                        app:endIconTint="@color/colorPrimaryDark">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_LastDayPrice_BuyerAuctionDialog"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="number"
+                            android:imeOptions="actionNext"
+                            android:maxLength="8"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:hint="@string/amount_rupee"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                        app:endIconMode="clear_text"
+                        app:endIconTint="@color/colorPrimaryDark">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_Amount_BuyerAuctionDialog"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="number"
+                            android:imeOptions="actionNext"
+                            android:maxLength="8"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_Save_PCAAuctionDialog"
+                        android:id="@+id/btn_Save_BuyerAuctionDialog"
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/_5sdp"
                         android:text="@string/save"
-                        android:textSize="@dimen/_16ssp"/>
+                        android:textSize="@dimen/_16ssp" />
                 </LinearLayout>
             </ScrollView>
         </com.google.android.material.card.MaterialCardView>

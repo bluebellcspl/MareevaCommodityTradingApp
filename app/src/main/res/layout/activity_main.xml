@@ -14,12 +14,4 @@
         android:scaleType="fitCenter"
         android:id="@+id/ImgLogo"/>
 
-    <ImageView
-        android:src="@drawable/banas_logo"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:scaleType="center"
-        android:layout_height="@dimen/_80sdp"
-        android:id="@+id/ImgFooter"/>
-
 </RelativeLayout>

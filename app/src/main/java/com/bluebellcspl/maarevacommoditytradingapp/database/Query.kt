@@ -76,6 +76,12 @@ class Query {
             return qry
         }
 
+        fun getApprovedPCAName():String{
+            qry = "SELECT PCAName FROM ApprovedPCAMaster WHERE IsActive='true'"
+            Log.d(TAG, "getApprovedPCAName: $qry")
+            return qry
+        }
+
 
     }
 
