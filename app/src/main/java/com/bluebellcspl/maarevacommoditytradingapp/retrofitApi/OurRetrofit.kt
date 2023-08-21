@@ -65,4 +65,8 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/PCAMasterNonApproveGet")
     suspend fun getUnapprovedPCAList(@Body body: JsonObject): Response<PCAListModel>
+
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/PCAMasterUpdate")
+    suspend fun postPCAUpdateData(@Body body: JsonObject): Response<String>
 }

@@ -415,6 +415,7 @@ class LoginActivity : AppCompatActivity() {
         else if (binding.actRoleLogin.text.toString().equals("Admin", true)) {
             userType = "1"
         }
+        PrefUtil.setString(PrefUtil.KEY_TYPE_OF_USER,userType)
         return userType
     }
 

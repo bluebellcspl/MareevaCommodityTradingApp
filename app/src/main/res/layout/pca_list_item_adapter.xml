@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_AuctionDetails_PCAAuctionFragment"
+            android:id="@+id/cv_AuctionDetails_PCAListItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_4sdp"
@@ -42,7 +42,7 @@
                         android:textSize="@dimen/_14ssp" />
 
                     <TextView
-                        android:id="@+id/tv_PCAName_PCAAuctionFragment"
+                        android:id="@+id/tv_PCAName_PCAListItem"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -70,7 +70,7 @@
                         android:textSize="@dimen/_14ssp" />
 
                     <TextView
-                        android:id="@+id/tv_PCACommission_PCAAuctionFragment"
+                        android:id="@+id/tv_PCACommission_PCAListItem"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -98,7 +98,7 @@
                         android:textSize="@dimen/_14ssp" />
 
                     <TextView
-                        android:id="@+id/tv_GCACommission_PCAAuctionFragment"
+                        android:id="@+id/tv_GCACommission_PCAListItem"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -126,7 +126,7 @@
                         android:textSize="@dimen/_14ssp" />
 
                     <TextView
-                        android:id="@+id/tv_MarketCess_PCAAuctionFragment"
+                        android:id="@+id/tv_MarketCess_PCAListItem"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -154,7 +154,7 @@
                         android:textSize="@dimen/_14ssp" />
 
                     <TextView
-                        android:id="@+id/tv_ApprovedStatus_PCAAuctionFragment"
+                        android:id="@+id/tv_ApprovedStatus_PCAListItem"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -164,7 +164,6 @@
                         android:textSize="@dimen/_16ssp"
                         android:textStyle="bold" />
                 </LinearLayout>
-
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </RelativeLayout>

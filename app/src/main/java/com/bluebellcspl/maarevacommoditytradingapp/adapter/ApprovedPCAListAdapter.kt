@@ -8,9 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaListItemAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
+import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
-class ApprovedPCAListAdapter(var context: Context,var dataList:ArrayList<PCAListModelItem>):RecyclerView.Adapter<ApprovedPCAListAdapter.MyViewHolder>() {
-    inner class MyViewHolder(var binding:PcaListItemAdapterBinding):RecyclerView.ViewHolder(binding.root)
+class ApprovedPCAListAdapter(var context: Context,var dataList:ArrayList<PCAListModelItem>,var recyclerViewHelper: RecyclerViewHelper):RecyclerView.Adapter<ApprovedPCAListAdapter.MyViewHolder>() {
+    inner class MyViewHolder(var binding:PcaListItemAdapterBinding):RecyclerView.ViewHolder(binding.root){
+        init {
+            binding.cvAuctionDetailsPCAListItem.setOnClickListener {
+                recyclerViewHelper.onItemClick(adapterPosition,"ApprovedList")
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(PcaListItemAdapterBinding.inflate(
@@ -25,13 +32,13 @@ class ApprovedPCAListAdapter(var context: Context,var dataList:ArrayList<PCAList
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
-        holder.binding.tvPCANamePCAAuctionFragment.setText(model.PCAName)
-        holder.binding.tvPCACommissionPCAAuctionFragment.setText(model.PCACommission)
-        holder.binding.tvGCACommissionPCAAuctionFragment.setText(model.GCACommission)
-        holder.binding.tvMarketCessPCAAuctionFragment.setText(model.MarketCess)
-        holder.binding.tvApprovedStatusPCAAuctionFragment.setTextAppearance(R.style.confirmVisitStatusText)
-        holder.binding.tvApprovedStatusPCAAuctionFragment.gravity = Gravity.CENTER
-        holder.binding.tvApprovedStatusPCAAuctionFragment.setText(context.getString(R.string.approved))
-        holder.binding.tvApprovedStatusPCAAuctionFragment.setBackgroundResource(R.drawable.approved_pca_tile_bg)
+        holder.binding.tvPCANamePCAListItem.setText(model.PCAName)
+        holder.binding.tvPCACommissionPCAListItem.setText(model.PCACommission)
+        holder.binding.tvGCACommissionPCAListItem.setText(model.GCACommission)
+        holder.binding.tvMarketCessPCAListItem.setText(model.MarketCess)
+        holder.binding.tvApprovedStatusPCAListItem.setTextAppearance(R.style.confirmVisitStatusText)
+        holder.binding.tvApprovedStatusPCAListItem.gravity = Gravity.CENTER
+        holder.binding.tvApprovedStatusPCAListItem.setText(context.getString(R.string.approved))
+        holder.binding.tvApprovedStatusPCAListItem.setBackgroundResource(R.drawable.approved_pca_tile_bg)
     }
 }

@@ -12,19 +12,23 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.ApprovedPCAListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.UnapprovePCAListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAListBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchUnapprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
+import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
 
-class PCAListFragment : Fragment() {
+class PCAListFragment : Fragment(),RecyclerViewHelper {
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "PCAListFragment"
     private val navController by lazy { findNavController() }
     lateinit var binding: FragmentPCAListBinding
     lateinit var approvedListAdapter : ApprovedPCAListAdapter
     lateinit var unapprovedListAdapter : UnapprovePCAListAdapter
+    lateinit var approvedPCAList : ArrayList<PCAListModelItem>
+    lateinit var unapprovedPCAList : ArrayList<PCAListModelItem>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,7 +48,7 @@ class PCAListFragment : Fragment() {
                 commonUIUtility.showToast("No Data Found Approved PCA")
                 binding.rcViewApprovedPCAListFragment.visibility = View.GONE
             } else {
-                approvedListAdapter = ApprovedPCAListAdapter(requireContext(), approvedList)
+                approvedListAdapter = ApprovedPCAListAdapter(requireContext(), approvedList,this)
                 binding.rcViewApprovedPCAListFragment.adapter = approvedListAdapter
 //                val layoutAnimationController =
 //                    AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_fall_down)
@@ -54,6 +58,7 @@ class PCAListFragment : Fragment() {
                 binding.rcViewApprovedPCAListFragment.invalidate()
             }
             binding.tvApprovedPCACountPCAListFragment.setText(approvedList.size.toString())
+            approvedPCAList = approvedList
         } catch (e: Exception) {
             binding.tvApprovedPCACountPCAListFragment.visibility = View.GONE
             commonUIUtility.dismissProgress()
@@ -69,7 +74,7 @@ class PCAListFragment : Fragment() {
                 commonUIUtility.showToast("No Data Found Unapproved PCA")
                 binding.rcViewUnapprovedPCAListFragment.visibility = View.GONE
             } else {
-                unapprovedListAdapter = UnapprovePCAListAdapter(requireContext(), approvedList)
+                unapprovedListAdapter = UnapprovePCAListAdapter(requireContext(), approvedList,this)
                 binding.rcViewUnapprovedPCAListFragment.adapter = unapprovedListAdapter
                 commonUIUtility.dismissProgress()
 //                val layoutAnimationController =
@@ -80,11 +85,34 @@ class PCAListFragment : Fragment() {
                 binding.rcViewUnapprovedPCAListFragment.invalidate()
             }
             binding.tvUnapprovedPCACountPCAListFragment.setText(approvedList.size.toString())
+            unapprovedPCAList = unapprovedPCAList
         } catch (e: Exception) {
             binding.tvUnapprovedPCACountPCAListFragment.visibility = View.GONE
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "bindUnapprovedPCAListRecyclerView: ${e.message}")
+        }
+    }
+
+    override fun onItemClick(postion: Int, onclickType: String) {
+        try {
+            if (onclickType.equals("ApprovedList"))
+            {
+                var model = approvedPCAList[postion]
+                model.RegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
+                model.Typeofuser =PrefUtil.getString(PrefUtil.KEY_TYPE_OF_USER,"").toString()
+             navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
+            }else
+            {
+                var model = unapprovedPCAList[postion]
+                model.RegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
+                model.Typeofuser =PrefUtil.getString(PrefUtil.KEY_TYPE_OF_USER,"").toString()
+                navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
+            }
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "onItemClick: ${e.message}")
         }
     }
 }

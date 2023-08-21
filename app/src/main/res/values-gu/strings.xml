@@ -101,4 +101,7 @@
     <string name="upper_limit_rupee">Upper Limit (₹)</string>
     <string name="last_day_price_rupee">Last Day Price (₹)</string>
     <string name="amount_rupee">Amount (₹)</string>
+    <string name="update">Update</string>
+    <string name="is_active">Is Active</string>
+    <string name="edit_pca">Edit PCA</string>
 </resources>

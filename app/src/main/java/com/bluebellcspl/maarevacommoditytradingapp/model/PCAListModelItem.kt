@@ -1,5 +1,9 @@
 package com.bluebellcspl.maarevacommoditytradingapp.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class PCAListModelItem(
     var APMCId: String,
     var APMCName: String,
@@ -26,5 +30,7 @@ data class PCAListModelItem(
     var StateId: String,
     var StateName: String,
     var UpdateDate: String,
-    var UpdateUser: String
-)
+    var UpdateUser: String,
+    var RegId: String,
+    var Typeofuser: String
+):Parcelable
