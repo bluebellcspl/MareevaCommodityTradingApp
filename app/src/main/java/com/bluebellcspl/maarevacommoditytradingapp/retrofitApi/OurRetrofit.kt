@@ -3,10 +3,12 @@ package com.bluebellcspl.maarevacommoditytradingapp.retrofitApi
 import com.bluebellcspl.maarevacommoditytradingapp.model.APMCMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.FetchBuyerAuctionDetail
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.RoleMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.StateMasterModel
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.http.Body
@@ -69,4 +71,8 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/PCAMasterUpdate")
     suspend fun postPCAUpdateData(@Body body: JsonObject): Response<String>
+
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/BuyersAuctionDetailsGet")
+    suspend fun getBuyerAuctionDetail(@Body body: JsonObject): Response<FetchBuyerAuctionDetail>
 }

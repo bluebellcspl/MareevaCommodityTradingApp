@@ -148,6 +148,7 @@
                             android:layout_height="match_parent"
                             android:inputType="number"
                             android:imeOptions="actionNext"
+                            android:digits="0123456789-"
                             android:maxLength="8"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp" />
@@ -160,6 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:hint="@string/amount_rupee"
+                        android:enabled="false"
                         app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_10sdp"
                         app:boxCornerRadiusTopEnd="@dimen/_10sdp"

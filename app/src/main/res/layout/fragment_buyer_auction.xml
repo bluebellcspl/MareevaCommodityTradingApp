@@ -125,7 +125,7 @@
                         app:endIconTint="@color/colorPrimaryDark">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_GCACommission_BuyerAuctionFragment"
+                            android:id="@+id/edt_OtherCommission_BuyerAuctionFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:imeOptions="actionNext"
@@ -319,7 +319,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/rc_View_BuyerAuctionFragment"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_below="@id/ll_Detail_BuyerAuctionFragment" />
+                    android:layout_below="@id/ll_Detail_BuyerAuctionFragment"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
 

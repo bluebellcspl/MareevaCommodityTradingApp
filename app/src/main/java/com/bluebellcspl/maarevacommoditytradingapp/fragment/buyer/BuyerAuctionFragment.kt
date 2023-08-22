@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerAuctionListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
@@ -22,10 +23,14 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionDetailDialogLayoutBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentBuyerAuctionBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaAuctionDetailDailogLayoutBinding
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetailAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.Detail
+import com.bluebellcspl.maarevacommoditytradingapp.model.FetchBuyerAuctionDetail
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CalendarConstraints.DateValidator
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.gson.JsonObject
 import java.util.Locale
 
 
@@ -36,6 +41,8 @@ class BuyerAuctionFragment : Fragment() {
     private val navController by lazy { findNavController() }
     lateinit var datePicker: MaterialDatePicker<Long>
     lateinit var alertDialog: AlertDialog
+    lateinit var adapter: BuyerAuctionListAdapter
+    lateinit var auctionDetailList: ArrayList<Detail>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,6 +50,7 @@ class BuyerAuctionFragment : Fragment() {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_buyer_auction, container, false)
+        FetchBuyerAuctionDetailAPI(requireContext(), requireActivity(), this)
         val today = MaterialDatePicker.todayInUtcMilliseconds()
         val calendarConstraints =
             CalendarConstraints.Builder().setValidator(DateValidatorPointForward.now())
@@ -85,32 +93,137 @@ class BuyerAuctionFragment : Fragment() {
             val pcaAdapter = commonUIUtility.getCustomArrayAdapter(approvedPCAList)
             dialogBinding.actPCABuyerAuctionDialog.setAdapter(pcaAdapter)
 
+
+            val calculationTextWatcher: TextWatcher = object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    val upperLimit = p0.toString().trim()
+                    val lowerLimit =
+                        dialogBinding.edtLowerLimitBuyerAuctionDialog.text.toString().trim()
+                    val bags = dialogBinding.edtBagsBuyerAuctionDialog.text.toString().trim()
+                        .trim()
+                    if (upperLimit.isNotEmpty() && lowerLimit.isNotEmpty() && bags.isNotEmpty()) {
+                        val amount = bags.toInt() * ((upperLimit.toInt() + lowerLimit.toInt()) / 2)
+                        Log.d(TAG, "afterTextChanged: BAGS_AMOUNT : $amount")
+                        dialogBinding.edtAmountBuyerAuctionDialog.setText(amount.toString())
+                    } else {
+                        dialogBinding.edtAmountBuyerAuctionDialog.setText("")
+                    }
+                }
+            }
+
+            dialogBinding.edtUpperLimitBuyerAuctionDialog.addTextChangedListener(
+                calculationTextWatcher
+            )
+            dialogBinding.edtBagsBuyerAuctionDialog.addTextChangedListener(calculationTextWatcher)
+            dialogBinding.edtLowerLimitBuyerAuctionDialog.addTextChangedListener(
+                calculationTextWatcher
+            )
+
+            dialogBinding.btnSaveBuyerAuctionDialog.setOnClickListener {
+                if (dialogBinding.actPCABuyerAuctionDialog.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(resources.getString(R.string.please_enter_pca_name_alert_msg))
+                } else if (dialogBinding.edtBagsBuyerAuctionDialog.text.toString().isEmpty()) {
+                    commonUIUtility.showToast("Please Add Bags!")
+                } else if (dialogBinding.edtLowerLimitBuyerAuctionDialog.text.toString()
+                        .isEmpty()
+                ) {
+                    commonUIUtility.showToast("Please Enter Lower Limit!")
+                } else if (dialogBinding.edtUpperLimitBuyerAuctionDialog.text.toString()
+                        .isEmpty()
+                ) {
+                    commonUIUtility.showToast("Please Enter Upper Limit!")
+                } else if (dialogBinding.edtLastDayPriceBuyerAuctionDialog.text.toString()
+                        .isEmpty()
+                ) {
+                    commonUIUtility.showToast("Please Enter Last Day Price!")
+                } else {
+                    val model = Detail(
+                        dialogBinding.edtAmountBuyerAuctionDialog.text.toString().trim(),
+                        dialogBinding.edtBagsBuyerAuctionDialog.text.toString().trim(),
+                        "",
+                        "",
+                        "",
+                        dialogBinding.edtLastDayPriceBuyerAuctionDialog.text.toString().trim(),
+                        dialogBinding.edtLowerLimitBuyerAuctionDialog.text.toString().trim(),
+                        "",
+                        "",
+                        "",
+                        dialogBinding.actPCABuyerAuctionDialog.text.toString().trim(),
+                        "",
+                        dialogBinding.edtUpperLimitBuyerAuctionDialog.text.toString().trim()
+                    )
+
+                    auctionDetailList.add(model)
+                    alertDialog.dismiss()
+                    bindRecyclerView(auctionDetailList)
+                }
+
+            }
         } catch (e: Exception) {
             Log.e(TAG, "showTaskAllocationDialog: ${e.message}")
             e.printStackTrace()
         }
     }
 
-    private fun getPCAName():ArrayList<String>{
-        var dataList:ArrayList<String> = ArrayList()
+    private fun getPCAName(): ArrayList<String> {
+        var dataList: ArrayList<String> = ArrayList()
         try {
             val cursor = DatabaseManager.ExecuteRawSql(Query.getApprovedPCAName())
-            if (cursor!=null && cursor.count>0)
-            {
+            if (cursor != null && cursor.count > 0) {
                 dataList.clear()
-                while (cursor.moveToNext())
-                {
+                while (cursor.moveToNext()) {
                     dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("PCAName")))
                 }
             }
             cursor?.close()
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             dataList.clear()
             e.printStackTrace()
             Log.e(TAG, "getPCAName: ${e.message}")
         }
         Log.d(TAG, "getPCAName: APPROVED_PCA_LIST : $dataList")
         return dataList
+    }
+
+    fun updateUIFromAPIData(dataFromAPI: FetchBuyerAuctionDetail) {
+        try {
+            binding.edtTotalBagsAddPCAFragment.setText(dataFromAPI.Header.TotalBags)
+            binding.edtBudgetAmountAddPCAFragment.setText(dataFromAPI.Header.BudgetAmount)
+            binding.edtOtherCommissionBuyerAuctionFragment.setText(dataFromAPI.Header.OtherCommission)
+            binding.tvBasicAmountBuyerAuctionFragment.setText(dataFromAPI.Header.Basic)
+            binding.tvLeftBagsBuyerAuctionFragment.setText(dataFromAPI.Header.LeftBags)
+            binding.tvGCACommissionBuyerAuctionFragment.setText(dataFromAPI.Header.GCACommission)
+            binding.tvPCACommissionBuyerAuctionFragment.setText(dataFromAPI.Header.PCACommission)
+            binding.tvMCCommissionBuyerAuctionFragment.setText(dataFromAPI.Header.MCCommission)
+            binding.tvTotalAvgRateBuyerAuctionFragment.setText(dataFromAPI.Header.TotalAvgRate)
+            auctionDetailList = dataFromAPI.Details
+            bindRecyclerView(auctionDetailList)
+        } catch (e: Exception) {
+            Log.e(TAG, "updateUIFromAPIData: ${e.message}")
+            e.printStackTrace()
+        }
+    }
+
+    fun bindRecyclerView(dataList: ArrayList<Detail>) {
+        try {
+            if (dataList.isNotEmpty()) {
+                adapter = BuyerAuctionListAdapter(requireContext(), dataList)
+                binding.rcViewBuyerAuctionFragment.adapter = adapter
+                binding.rcViewBuyerAuctionFragment.invalidate()
+            } else {
+                commonUIUtility.showToast("No Details Found!")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "bindRecyclerView: ${e.message}")
+            e.printStackTrace()
+        }
     }
 }
