@@ -59,7 +59,7 @@ interface OurRetrofit {
 
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAMasterInsert")
-    suspend fun postPCAInsertData(@Body body: JsonObject): Response<JsonObject>
+    suspend fun postPCAInsertData(@Body body: JsonObject): Response<String>
 
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAMasterApproveGet")

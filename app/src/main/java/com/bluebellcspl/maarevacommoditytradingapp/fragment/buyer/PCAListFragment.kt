@@ -84,7 +84,7 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
                 binding.rcViewUnapprovedPCAListFragment.invalidate()
             }
             binding.tvUnapprovedPCACountPCAListFragment.setText(approvedList.size.toString())
-            unapprovedPCAList = unapprovedPCAList
+            unapprovedPCAList = approvedList
         } catch (e: Exception) {
             binding.tvUnapprovedPCACountPCAListFragment.visibility = View.GONE
             commonUIUtility.dismissProgress()

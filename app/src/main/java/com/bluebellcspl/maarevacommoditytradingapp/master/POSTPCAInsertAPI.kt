@@ -36,7 +36,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
             commonUIUtility.showProgress()
             val JO = JsonObject()
             JO.addProperty("PCAId",model.PCAId)
-            JO.addProperty("RegId",model.RegId)
+            JO.addProperty("RegId",model.BuyerId)
             JO.addProperty("CommodityId",model.CommodityId)
             JO.addProperty("PCAName",model.PCAName)
             JO.addProperty("PCAPhoneNumber",model.PCAPhoneNumber)
@@ -48,7 +48,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
             JO.addProperty("ApprStatus",model.ApprStatus)
             JO.addProperty("GCACommission",model.GCACommission)
             JO.addProperty("PCACommission",model.PCACommission)
-            JO.addProperty("MarketCess",model.MarketCess)
+//            JO.addProperty("MarketCess",model.MarketCess)
             JO.addProperty("IsActive",model.IsActive)
             JO.addProperty("CompanyCode",model.CompanyCode)
             JO.addProperty("CreateUser",model.CreateUser)
@@ -74,7 +74,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
                 if (result.isSuccessful)
                 {
                     val resultJO = result.body()!!
-                    if (resultJO.get("Result").asString.contains("PCA Created successfully")){
+                    if (resultJO.contains("PCA Created successfully")){
                         if (fragment is AddPCAFragment)
                         {
                             withContext(Main){
@@ -83,7 +83,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
                                 (fragment as AddPCAFragment).clearData()
                             }
                         }
-                    }else if (resultJO.get("Result").asString.contains("PCA Mobile No Already Exist")){
+                    }else if (resultJO.contains("Already Exist")){
                         if (fragment is AddPCAFragment)
                         {
                             withContext(Main){
@@ -101,7 +101,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
                     Log.e(TAG, "postPCAData: ${result.errorBody()}", )
                 }
             }
-
+            9887654321
         }catch (e:Exception)
         {
             e.printStackTrace()

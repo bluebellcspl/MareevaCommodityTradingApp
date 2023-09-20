@@ -162,7 +162,7 @@ class AddPCAFragment : Fragment() {
             val model = POSTPCAInsertModel(
                 PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString(),
                 PrefUtil.getString(PrefUtil.KEY_APMC_NAME, "").toString(),
-                "",
+                "insert",
                 binding.edtAddressAddPCAFragment.text.toString().trim(),
                 "0",
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
@@ -202,6 +202,7 @@ class AddPCAFragment : Fragment() {
         binding.edtPhoneNoAddPCAFragment.setText("")
         binding.edtAddressAddPCAFragment.setText("")
         binding.edtEmailAddPCAFragment.setText("")
+        binding.actAPMCAddPCAFragment.setText("")
         binding.edtGCACommissionAddPCAFragment.setText("")
         binding.edtPCACommissionAddPCAFragment.setText("")
         binding.edtMarketCessAddPCAFragment.setText("")
