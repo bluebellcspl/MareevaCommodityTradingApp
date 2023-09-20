@@ -3,21 +3,29 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentEditPCABinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTPCAEditAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class EditPCAFragment : Fragment() {
@@ -26,6 +34,8 @@ class EditPCAFragment : Fragment() {
     private val navController by lazy { findNavController() }
     lateinit var binding: FragmentEditPCABinding
     private val args by navArgs<EditPCAFragmentArgs>()
+    lateinit var apmcList: ArrayList<String>
+    var apmcId = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +43,7 @@ class EditPCAFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_p_c_a, container, false)
         val model = args.pcaListModel
-        binding.edtAPMCEditPCAFragment.setText(model.APMCName)
+        binding.actAPMCEditPCAFragment.setText(model.APMCName)
         binding.edtStateEditPCAFragment.setText(model.StateName)
         binding.edtDistrictEditPCAFragment.setText(model.DistrictName)
         binding.edtCommodityEditPCAFragment.setText(model.CommodityName)
@@ -44,6 +54,34 @@ class EditPCAFragment : Fragment() {
         binding.edtGCACommissionEditPCAFragment.setText(model.GCACommission)
         binding.edtMarketCessEditPCAFragment.setText(model.MarketCess)
 
+        apmcList = bindAPMCDropDown()
+        binding.actAPMCEditPCAFragment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0!!.isNotEmpty()) {
+                    apmcId = DatabaseManager.ExecuteScalar(
+                        Query.getAPMCIdByAPMCName(
+                            p0.toString().trim()
+                        )
+                    ).toString()
+
+                    val marketCess = DatabaseManager.ExecuteScalar(Query.getMarketCessByAPMCId(apmcId))!!
+                    binding.edtMarketCessEditPCAFragment.setText(marketCess)
+
+                    Log.d(TAG, "afterTextChanged: APMC_ID_EDIT : $apmcId")
+                    Log.d(TAG, "afterTextChanged: MARKET_CESS_EDIT : $marketCess")
+                    model.APMCId = apmcId
+                    model.MarketCess = marketCess
+                }
+            }
+        })
         if (model.IsActive.equals("true")) {
             binding.actIsActiveEditPCAFragment.setText("Enable")
         } else {
@@ -144,6 +182,33 @@ class EditPCAFragment : Fragment() {
 
     fun successRedirect(){
         navController.navigate(EditPCAFragmentDirections.actionEditPCAFragmentToPCAListFragment())
+    }
+
+    fun bindAPMCDropDown(): ArrayList<String> {
+        val dataList = ArrayList<String>()
+        try {
+            lifecycleScope.launch(Dispatchers.IO)
+            {
+                val cursor = DatabaseManager.ExecuteRawSql(Query.getAPMCName())
+                if (cursor != null && cursor.count > 0) {
+                    dataList.clear()
+                    while (cursor.moveToNext()) {
+                        dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("APMCName")))
+                    }
+                    dataList.sort()
+                    withContext(Dispatchers.Main){
+                        val apmcAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
+                        binding.actAPMCEditPCAFragment.setAdapter(apmcAdapter)
+                    }
+                    cursor.close()
+                }
+            }
+        } catch (e: Exception) {
+            dataList.clear()
+            e.printStackTrace()
+            Log.e(TAG, "bindAPMCDropDown: ${e.message}")
+        }
+        return dataList
     }
 
 }

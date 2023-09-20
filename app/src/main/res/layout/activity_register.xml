@@ -91,92 +91,92 @@
                         android:orientation="vertical"
                         android:id="@+id/ll_BuyerOrPCA">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_8sdp"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            android:enabled="false"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                            android:hint="@string/select_state"
-                            app:endIconTint="@color/colorPrimaryDark">
+<!--                        <com.google.android.material.textfield.TextInputLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="@dimen/_8sdp"-->
+<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+<!--                            android:enabled="false"-->
+<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+<!--                            android:hint="@string/select_state"-->
+<!--                            app:endIconTint="@color/colorPrimaryDark">-->
 
-                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:enabled="false"
-                                android:textColor="@color/black"
-                                android:id="@+id/act_State_Register"
-                                android:textSize="@dimen/_14ssp"
-                                android:inputType="none" />
-                        </com.google.android.material.textfield.TextInputLayout>
+<!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:enabled="false"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:id="@+id/act_State_Register"-->
+<!--                                android:textSize="@dimen/_14ssp"-->
+<!--                                android:inputType="none" />-->
+<!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_8sdp"
-                            android:enabled="false"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                            android:hint="@string/select_district"
-                            app:endIconTint="@color/colorPrimaryDark">
+<!--                        <com.google.android.material.textfield.TextInputLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="@dimen/_8sdp"-->
+<!--                            android:enabled="false"-->
+<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+<!--                            android:hint="@string/select_district"-->
+<!--                            app:endIconTint="@color/colorPrimaryDark">-->
 
-                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:textColor="@color/black"
-                                android:id="@+id/act_District_Register"
-                                android:textSize="@dimen/_14ssp"
-                                android:inputType="none" />
-                        </com.google.android.material.textfield.TextInputLayout>
+<!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:id="@+id/act_District_Register"-->
+<!--                                android:textSize="@dimen/_14ssp"-->
+<!--                                android:inputType="none" />-->
+<!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_8sdp"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                            android:hint="@string/select_apmc"
-                            app:endIconTint="@color/colorPrimaryDark">
+<!--                        <com.google.android.material.textfield.TextInputLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="@dimen/_8sdp"-->
+<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+<!--                            android:hint="@string/select_apmc"-->
+<!--                            app:endIconTint="@color/colorPrimaryDark">-->
 
-                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:textColor="@color/black"
-                                android:id="@+id/act_APMC_Register"
-                                android:textSize="@dimen/_14ssp"
-                                android:inputType="none" />
-                        </com.google.android.material.textfield.TextInputLayout>
+<!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:id="@+id/act_APMC_Register"-->
+<!--                                android:textSize="@dimen/_14ssp"-->
+<!--                                android:inputType="none" />-->
+<!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_8sdp"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                            android:hint="@string/select_commodity"
-                            app:endIconTint="@color/colorPrimaryDark">
+<!--                        <com.google.android.material.textfield.TextInputLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="@dimen/_8sdp"-->
+<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+<!--                            android:hint="@string/select_commodity"-->
+<!--                            app:endIconTint="@color/colorPrimaryDark">-->
 
-                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:textColor="@color/black"
-                                android:id="@+id/act_Commodity_Register"
-                                android:textSize="@dimen/_14ssp"
-                                android:inputType="none" />
-                        </com.google.android.material.textfield.TextInputLayout>
+<!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:id="@+id/act_Commodity_Register"-->
+<!--                                android:textSize="@dimen/_14ssp"-->
+<!--                                android:inputType="none" />-->
+<!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -199,6 +199,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:inputType="phone"
+                                android:digits="1234567890"
                                 android:imeOptions="actionNext"
                                 android:maxLength="10"
                                 android:textColor="@color/black"
@@ -231,12 +232,37 @@
 
                         </com.google.android.material.textfield.TextInputLayout>
 
+<!--                        <com.google.android.material.textfield.TextInputLayout-->
+<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="8dp"-->
+<!--                            android:hint="Email"-->
+<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+<!--                            app:endIconMode="clear_text"-->
+<!--                            app:counterTextColor="@color/colorPrimaryDark"-->
+<!--                            app:endIconTint="@color/colorPrimaryDark">-->
+
+<!--                            <com.google.android.material.textfield.TextInputEditText-->
+<!--                                android:id="@+id/edt_Email_Register"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:inputType="textEmailAddress"-->
+<!--                                android:imeOptions="actionNext"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/_14ssp" />-->
+
+<!--                        </com.google.android.material.textfield.TextInputLayout>-->
+
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:hint="Email"
+                            android:hint="@string/location"
                             app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
                             app:boxCornerRadiusBottomStart="@dimen/_10sdp"
                             app:boxCornerRadiusTopEnd="@dimen/_10sdp"
@@ -246,32 +272,7 @@
                             app:endIconTint="@color/colorPrimaryDark">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_Email_Register"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="textEmailAddress"
-                                android:imeOptions="actionNext"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_100sdp"
-                            android:layout_margin="8dp"
-                            android:hint="Address"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            app:endIconMode="clear_text"
-                            app:counterTextColor="@color/colorPrimaryDark"
-                            app:endIconTint="@color/colorPrimaryDark">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_Address_Register"
+                                android:id="@+id/edt_Location_Register"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:inputType="text"
@@ -282,102 +283,7 @@
 
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_10sdp"
-                            android:id="@+id/btn_GetOTP_Register"
-                            android:text="@string/get_otp"
-                            android:textSize="@dimen/_14ssp"
-                            app:cornerRadius="@dimen/_8sdp" />
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:hint="OTP"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            app:endIconMode="clear_text"
-                            app:counterMaxLength="6"
-                            app:counterEnabled="true"
-                            app:counterTextColor="@color/colorPrimaryDark"
-                            app:endIconTint="@color/colorPrimaryDark">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_OTP_Register"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="number"
-                                android:imeOptions="actionDone"
-                                android:maxLength="6"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/ll_Admin"
-                        android:visibility="gone">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:hint="@string/username"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            app:endIconMode="clear_text"
-                            app:counterTextColor="@color/colorPrimaryDark"
-                            app:endIconTint="@color/colorPrimaryDark">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_Username_Register"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="text"
-                                android:imeOptions="actionNext"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:hint="@string/password"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            app:endIconMode="password_toggle"
-                            app:counterTextColor="@color/colorPrimaryDark"
-                            app:endIconTint="@color/colorPrimaryDark">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_Password_Register"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="textPassword"
-                                android:imeOptions="actionDone"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

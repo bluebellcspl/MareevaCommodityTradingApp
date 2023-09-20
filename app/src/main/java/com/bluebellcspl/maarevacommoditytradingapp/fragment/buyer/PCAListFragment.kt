@@ -36,7 +36,6 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_list, container, false)
         FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
-        FetchUnapprovedPCAListAPI(requireContext(),requireActivity(),this)
         return binding.root
     }
 
@@ -101,12 +100,14 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
                 var model = approvedPCAList[postion]
                 model.RegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
                 model.Typeofuser =PrefUtil.getString(PrefUtil.KEY_TYPE_OF_USER,"").toString()
+                model.MarketCess = ""
              navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
             }else
             {
                 var model = unapprovedPCAList[postion]
                 model.RegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
                 model.Typeofuser =PrefUtil.getString(PrefUtil.KEY_TYPE_OF_USER,"").toString()
+                model.MarketCess = ""
                 navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
             }
         }catch (e:Exception)

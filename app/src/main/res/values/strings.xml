@@ -111,6 +111,10 @@
     <string name="update">Update</string>
     <string name="is_active">Is Active</string>
     <string name="edit_pca">Edit PCA</string>
+    <string name="admin_login">Admin Login</string>
+    <string name="location">Location</string>
+    <string name="please_enter_location_alert_msg">Please Enter Location!</string>
+    <string name="user_approval_is_pending_alert_msg">User Approval is Pending!</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

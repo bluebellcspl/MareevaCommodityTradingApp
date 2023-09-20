@@ -17,7 +17,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LoginWithOTPAPI(var context: Context, var activity: Activity,var model:LoginWithOTPModel) {
+class LoginWithOTPAPI(var context: Context, var activity: Activity,var phoneNo:String) {
     val job = Job()
     val scope = CoroutineScope(job)
     val commonUIUtility = CommonUIUtility(context)
@@ -32,12 +32,7 @@ class LoginWithOTPAPI(var context: Context, var activity: Activity,var model:Log
         try {
             commonUIUtility.showProgress()
             val JO = JsonObject()
-            JO.addProperty("MobileNo", model.MobileNo)
-            JO.addProperty("UserType", model.UserType)
-            JO.addProperty("StateId", model.StateId)
-            JO.addProperty("DistrictId", model.DistrictId)
-            JO.addProperty("APMCId", model.APMCId)
-            JO.addProperty("CommodityId", model.CommodityId)
+            JO.addProperty("MobileNo", phoneNo)
 
             Log.d(TAG, "getLoginOTP: JSON : ${JO.toString()}")
 
@@ -56,7 +51,7 @@ class LoginWithOTPAPI(var context: Context, var activity: Activity,var model:Log
                     {
                         withContext(Main){
                             commonUIUtility.dismissProgress()
-                            commonUIUtility.showToast(context.getString(R.string.invalid_data_of_user_alert_msg))
+                            commonUIUtility.showToast(context.getString(R.string.user_approval_is_pending_alert_msg))
                         }    
                     }
                 }else

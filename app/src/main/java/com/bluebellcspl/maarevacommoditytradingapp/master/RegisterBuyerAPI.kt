@@ -33,22 +33,11 @@ class RegisterBuyerAPI(var context: Context, var activity: Activity, var model: 
         try {
             commonUIUtility.showProgress()
             val JO =JsonObject()
-            JO.addProperty("RegisterId",model.RegisterId)
             JO.addProperty("Name",model.Name)
-            JO.addProperty("Email",model.Email)
-            JO.addProperty("Address",model.Address)
+            JO.addProperty("Location",model.Location)
             JO.addProperty("MobileNo",model.MobileNo)
-            JO.addProperty("StateId",model.StateId)
-            JO.addProperty("DistrictId",model.DistrictId)
-            JO.addProperty("APMCId",model.APMCId)
-            JO.addProperty("CommodityId",model.CommodityId)
-            JO.addProperty("UserName",model.UserName)
-            JO.addProperty("UserPassword",model.UserPassword)
-            JO.addProperty("OTP",model.OTP)
             JO.addProperty("CreateDate",model.CreateDate)
             JO.addProperty("CreateUser",model.CreateUser)
-            JO.addProperty("UpdateDate",model.UpdateDate)
-            JO.addProperty("UpdateUser",model.UpdateUser)
 
             Log.d(TAG, "registerBuyer: JSON : ${JO.toString()}")
 
@@ -59,7 +48,7 @@ class RegisterBuyerAPI(var context: Context, var activity: Activity, var model: 
                 {
                     val resultStr = result.body()!!
 
-                    if (resultStr.contains("Account Create Successfully"))
+                    if (resultStr.contains("Register Successfully"))
                     {
                         withContext(Main){
                             commonUIUtility.dismissProgress()

@@ -12,6 +12,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerDashboardLay
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentDashboardBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragmentDirections
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCMasterAPI
 
 class BuyerDashboard(var context: Context,var activity: Activity,var fragment: DashboardFragment) {
     private val commonUIUtility = CommonUIUtility(context)
@@ -24,6 +25,7 @@ class BuyerDashboard(var context: Context,var activity: Activity,var fragment: D
     private fun bindBuyerDashboardComponent() {
         try {
             binding = fragment.binding.buyerDashboard
+            FetchAPMCMasterAPI(context,activity)
             binding.tvCommodityBuyer.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,"").toString())
             binding.cvAddPCABuyer.setOnClickListener {
                 fragment.navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToAddPCAFragment())

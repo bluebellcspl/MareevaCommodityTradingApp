@@ -11,6 +11,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.PCAListFragment
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.JsonObject
@@ -38,20 +40,22 @@ class FetchApprovedPCAListAPI(var context: Context, var activity: Activity,var f
             val JO = JsonObject()
             JO.addProperty("CompanyCode", "MAT189")
             JO.addProperty("Action", "All")
-            JO.addProperty("BuyerId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
-            Log.d(TAG, "getApprovedPCAList: JSON : ${JO.toString()}")
+            JO.addProperty("BuyerId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
+            Log.d(TAG, "getPCAList: JSON : ${JO.toString()}")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
             scope.launch(Dispatchers.IO){
 
-                val result = APICall.getApprovedPCAList(JO)
+                val result = APICall.getPCAMaster(JO)
 
                 if (result.isSuccessful)
                 {
-                    val approvedPCAList = result.body()!!
+                    val pcaList = result.body()!!
+                    val approvedPCAList = ArrayList<PCAListModelItem>()
+                    val unapprovedPCAList = ArrayList<PCAListModelItem>()
                     val list = ContentValues()
-                    DatabaseManager.deleteData(Constants.TBL_ApprovedPCAMaster)
-                    for(model in approvedPCAList)
+                    DatabaseManager.deleteData(Constants.TBL_PCAMaster)
+                    for(model in pcaList)
                     {
                         list.put("PCAId",model.PCAId)
                         list.put("StateId",model.StateId)
@@ -80,13 +84,23 @@ class FetchApprovedPCAListAPI(var context: Context, var activity: Activity,var f
                         list.put("UpdateUser",model.UpdateUser)
                         list.put("UpdateDate",model.UpdateDate)
 
-                        DatabaseManager.commonInsert(list,Constants.TBL_ApprovedPCAMaster)
+                        if (model.ApprStatus.equals("true")){
+                            approvedPCAList.add(model)
+                        }else if(model.ApprStatus.equals("false"))
+                        {
+                            unapprovedPCAList.add(model)
+                        }
+
+                        DatabaseManager.commonInsert(list,Constants.TBL_PCAMaster)
                     }
+                    Log.d(TAG, "getApprovedPCAList: APPROVED_PCA_LIST : $approvedPCAList")
+                    Log.d(TAG, "getApprovedPCAList: UNAPPROVED_PCA_LIST : $unapprovedPCAList")
                     if (fragment is PCAListFragment)
                     {
                         withContext(Main){
                             commonUIUtility.dismissProgress()
                             (fragment as PCAListFragment).bindApprovedPCAListRecyclerView(approvedPCAList)
+                            (fragment as PCAListFragment).bindUnapprovedPCAListRecyclerView(unapprovedPCAList)
                         }
                     }else if (fragment is DashboardFragment)
                     {

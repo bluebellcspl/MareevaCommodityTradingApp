@@ -24,22 +24,22 @@
                 android:padding="@dimen/_10sdp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_8sdp"
-                    android:enabled="false"
-                    android:hint="@string/apmc"
+                    android:hint="@string/select_apmc"
                     app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
                     app:boxCornerRadiusBottomStart="@dimen/_10sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_10sdp"
                     app:boxCornerRadiusTopStart="@dimen/_10sdp"
                     app:endIconTint="@color/colorPrimaryDark">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_APMC_AddPCAFragment"
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/act_APMC_AddPCAFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:inputType="text"
+                        android:singleLine="false"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14ssp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -241,7 +241,7 @@
                         android:id="@+id/edt_PCACommission_AddPCAFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14ssp" />
@@ -257,6 +257,7 @@
                     app:boxCornerRadiusBottomStart="@dimen/_10sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_10sdp"
                     app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                    android:enabled="false"
                     app:endIconMode="clear_text"
                     app:endIconTint="@color/colorPrimaryDark">
 
@@ -271,11 +272,11 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_Save_AddPCAFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/save"
-                    android:id="@+id/btn_Save_AddPCAFragment"
                     android:layout_margin="@dimen/_10sdp"
+                    android:text="@string/save"
                     android:textSize="@dimen/_15ssp"
                     app:cornerRadius="@dimen/_8sdp" />
 

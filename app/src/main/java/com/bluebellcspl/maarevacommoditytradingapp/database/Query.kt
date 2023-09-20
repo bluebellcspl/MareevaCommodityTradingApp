@@ -22,13 +22,40 @@ class Query {
         }
 
         fun getAPMCIdByAPMCName(apmcName:String):String{
-            qry = "SELECT APMCId FROM APMCMaster WHERE APMCName='$apmcName'"
+            qry = "SELECT APMCId FROM APMCMaster WHERE APMCName='$apmcName' AND IsActive='true'"
             Log.d(TAG, "getAPMCIdByAPMCName: $qry")
             return qry
         }
         fun getCommodityNameByAPMCId(apmcId:String):String{
             qry = "SELECT CommodityName FROM CommodityMaster WHERE APMCId='$apmcId' AND IsActive='1'"
             Log.d(TAG, "getCommodityNameByAPMCId: $qry")
+            return qry
+        }
+        fun getStateIdByAPMCId(apmcId:String):String{
+            qry = "SELECT StateId FROM APMCMaster WHERE APMCId='$apmcId' AND IsActive='true'"
+            Log.d(TAG, "getStateIdByAPMCId: $qry")
+            return qry
+        }
+        fun getDistrictIdByAPMCId(apmcId:String):String{
+            qry = "SELECT DistrictId FROM APMCMaster WHERE APMCId='$apmcId' AND IsActive='true'"
+            Log.d(TAG, "getDistrictIdByAPMCId: $qry")
+            return qry
+        }
+        fun getDistrictNameByAPMCId(apmcId:String):String{
+            qry = "SELECT DistrictName FROM APMCMaster WHERE APMCId='$apmcId' AND IsActive='true'"
+            Log.d(TAG, "getDistrictNameByAPMCId: $qry")
+            return qry
+        }
+
+        fun getMarketCessByAPMCId(apmcId:String):String{
+            qry = "SELECT MarketCess FROM APMCMaster WHERE APMCId='$apmcId' AND IsActive='true'"
+            Log.d(TAG, "getMarketCessByAPMCId: $qry")
+            return qry
+        }
+
+        fun getStateNameByAPMCId(apmcId:String):String{
+            qry = "SELECT StateName FROM APMCMaster WHERE APMCId='$apmcId' AND IsActive='true'"
+            Log.d(TAG, "getStateNameByAPMCId: $qry")
             return qry
         }
 

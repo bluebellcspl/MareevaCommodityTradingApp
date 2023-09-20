@@ -24,22 +24,22 @@
                 android:padding="@dimen/_10sdp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_8sdp"
-                    android:enabled="false"
-                    android:hint="@string/apmc"
+                    android:hint="@string/select_apmc"
                     app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
                     app:boxCornerRadiusBottomStart="@dimen/_10sdp"
                     app:boxCornerRadiusTopEnd="@dimen/_10sdp"
                     app:boxCornerRadiusTopStart="@dimen/_10sdp"
                     app:endIconTint="@color/colorPrimaryDark">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_APMC_EditPCAFragment"
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/act_APMC_EditPCAFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:inputType="none"
+                        android:singleLine="false"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14ssp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -259,6 +259,7 @@
                     app:boxCornerRadiusTopEnd="@dimen/_10sdp"
                     app:boxCornerRadiusTopStart="@dimen/_10sdp"
                     app:endIconMode="clear_text"
+                    android:enabled="false"
                     app:endIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText

@@ -37,9 +37,6 @@ class RegisterActivity : AppCompatActivity() {
     private val commonUIUtility by lazy { CommonUIUtility(this) }
     var isInitial = true
     val TAG = "RegisterActivity"
-    lateinit var commodityList: ArrayList<String>
-    lateinit var apmcList: ArrayList<String>
-    lateinit var APMCId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         val languageCode = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "en")
         val activityConf = Configuration()
@@ -61,126 +58,88 @@ class RegisterActivity : AppCompatActivity() {
         DatabaseManager.initializeInstance(this)
         setLanguage()
 
-        apmcList = bindAPMCDropDown()
-
 
         //TextWatchers
-        val apmcTextWatcher: TextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                if (p0.toString().isNotEmpty()) {
-                    APMCId = ""
-                    val apmcId = DatabaseManager.ExecuteScalar(
-                        Query.getAPMCIdByAPMCName(
-                            p0.toString().trim()
-                        )
-                    )!!
-                    APMCId = apmcId
-                    commodityList = bindCommodityDropDown(apmcId)
-                    binding.actCommodityRegister.setText("")
-                    binding.actStateRegister.setText("")
-                    binding.actDistrictRegister.setText("")
-                } else {
-                    APMCId = ""
-                    binding.actStateRegister.setText("")
-                    binding.actDistrictRegister.setText("")
-                }
-            }
-        }
-        val commodityTextWatcher: TextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                if (p0.toString().isNotEmpty()) {
-                    val commodityId = DatabaseManager.ExecuteScalar(
-                        Query.getCommodityIdByCommodityNameANDAPMCId(
-                            binding.actCommodityRegister.text.toString().trim(),
-                            APMCId
-                        )
-                    )!!
-
-                    val stateName =
-                        DatabaseManager.ExecuteScalar(Query.getStateNameByCommodityId(commodityId))!!
-                    val districtName =
-                        DatabaseManager.ExecuteScalar(Query.getDistrictNameByCommodityId(commodityId))!!
-
-                    binding.actStateRegister.setText(stateName)
-                    binding.actDistrictRegister.setText(districtName)
-                } else {
-                    binding.actStateRegister.setText("")
-                    binding.actDistrictRegister.setText("")
-                }
-            }
-        }
-
-        binding.actAPMCRegister.addTextChangedListener(apmcTextWatcher)
-        binding.actCommodityRegister.addTextChangedListener(commodityTextWatcher)
+//        val commodityTextWatcher: TextWatcher = object : TextWatcher {
+//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//            }
+//
+//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//            }
+//
+//            override fun afterTextChanged(p0: Editable?) {
+//                if (p0.toString().isNotEmpty()) {
+//                    val commodityId = DatabaseManager.ExecuteScalar(
+//                        Query.getCommodityIdByCommodityNameANDAPMCId(
+//                            binding.actCommodityRegister.text.toString().trim(),
+//                            APMCId
+//                        )
+//                    )!!
+//
+//                    val stateName =
+//                        DatabaseManager.ExecuteScalar(Query.getStateNameByCommodityId(commodityId))!!
+//                    val districtName =
+//                        DatabaseManager.ExecuteScalar(Query.getDistrictNameByCommodityId(commodityId))!!
+//
+//                    binding.actStateRegister.setText(stateName)
+//                    binding.actDistrictRegister.setText(districtName)
+//                } else {
+//                    binding.actStateRegister.setText("")
+//                    binding.actDistrictRegister.setText("")
+//                }
+//            }
+//        }
+//
+//        binding.actAPMCRegister.addTextChangedListener(apmcTextWatcher)
+//        binding.actCommodityRegister.addTextChangedListener(commodityTextWatcher)
         setOnClickListeners()
     }
 
     private fun setOnClickListeners() {
         try {
 
-            binding.btnGetOTPRegister.setOnClickListener {
-                if (binding.edtPhoneNoRegister.text.toString().isEmpty()) {
-                    commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
-                } else {
-                    requestForOTP()
-                }
-            }
+//            binding.btnGetOTPRegister.setOnClickListener {
+//                if (binding.edtPhoneNoRegister.text.toString().isEmpty()) {
+//                    commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
+//                } else {
+//                    requestForOTP()
+//                }
+//            }
 
             binding.btnRegisterRegister.setOnClickListener {
-                if (binding.actAPMCRegister.text.toString().isEmpty()) {
-                    commonUIUtility.showToast(getString(R.string.please_select_apmc_alert_msg))
-                } else if (binding.actCommodityRegister.text.toString().isEmpty()) {
-                    commonUIUtility.showToast(getString(R.string.please_select_commodity_alert_msg))
-                } else if (binding.edtPhoneNoRegister.text.toString().isEmpty()) {
+                if (binding.edtPhoneNoRegister.text.toString().isEmpty()) {
                     commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
                 } else if (binding.edtFullNameRegister.text.toString().isEmpty()) {
                     commonUIUtility.showToast(getString(R.string.please_enter_full_name))
-                } else if (binding.edtEmailRegister.text.toString().isEmpty()) {
-                    commonUIUtility.showToast(getString(R.string.please_enter_email_alert_msg))
-                } else if (binding.edtAddressRegister.text.toString().isEmpty()) {
-                    commonUIUtility.showToast(getString(R.string.please_enter_address_alert_msg))
-                } else if (binding.edtOTPRegister.text.toString().isEmpty()) {
-                    commonUIUtility.showToast(getString(R.string.please_enter_otp_alert_msg))
+                } else if (binding.edtLocationRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_location_alert_msg))
                 } else {
-                    val commodityId = DatabaseManager.ExecuteScalar(
-                        Query.getCommodityIdByCommodityNameANDAPMCId(
-                            binding.actCommodityRegister.text.toString().trim(),
-                            APMCId
-                        )
-                    )!!
-                    val stateId =
-                        DatabaseManager.ExecuteScalar(Query.getStateIdByCommodityId(commodityId))!!
-                    val districtId =
-                        DatabaseManager.ExecuteScalar(Query.getDistrictIdByCommodityId(commodityId))!!
+//                    val commodityId = DatabaseManager.ExecuteScalar(
+//                        Query.getCommodityIdByCommodityNameANDAPMCId(
+//                            binding.actCommodityRegister.text.toString().trim(),
+//                            APMCId
+//                        )
+//                    )!!
+//                    val stateId =
+//                        DatabaseManager.ExecuteScalar(Query.getStateIdByCommodityId(commodityId))!!
+//                    val districtId =
+//                        DatabaseManager.ExecuteScalar(Query.getDistrictIdByCommodityId(commodityId))!!
                     val model = RegisterBuyerModel(
-                        APMCId,
-                        binding.edtAddressRegister.text.toString().trim(),
-                        commodityId,
-                        DateUtility().getyyyyMMdd(),
                         "",
-                        districtId,
-                        binding.edtEmailRegister.text.toString().trim(),
+                        "",
+                        "",
+                        DateUtility().getyyyyMMdd(),
+                        binding.edtPhoneNoRegister.text.toString().trim(),
+                        "",
+                        "",
+                        binding.edtLocationRegister.text.toString().trim(),
                         binding.edtPhoneNoRegister.text.toString().trim(),
                         binding.edtFullNameRegister.text.toString().trim(),
-                        binding.edtOTPRegister.text.toString().trim(),
                         "",
-                        stateId,
+                        "",
+                        "",
                         "",
                         "",
                         "",
@@ -235,55 +194,55 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    fun bindAPMCDropDown(): ArrayList<String> {
-        val dataList = ArrayList<String>()
-        try {
-            val cursor = DatabaseManager.ExecuteRawSql(Query.getAPMCName())
-            if (cursor != null && cursor.count > 0) {
-                dataList.clear()
-                while (cursor.moveToNext()) {
-                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("APMCName")))
-                }
+//    fun bindAPMCDropDown(): ArrayList<String> {
+//        val dataList = ArrayList<String>()
+//        try {
+//            val cursor = DatabaseManager.ExecuteRawSql(Query.getAPMCName())
+//            if (cursor != null && cursor.count > 0) {
+//                dataList.clear()
+//                while (cursor.moveToNext()) {
+//                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("APMCName")))
+//                }
+//
+//                val apmcAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
+//                binding.actAPMCRegister.setAdapter(apmcAdapter)
+//                cursor.close()
+//            }
+//
+//        } catch (e: Exception) {
+//            dataList.clear()
+//            e.printStackTrace()
+//            Log.e(TAG, "bindAPMCDropDown: ${e.message}")
+//        }
+//        return dataList
+//    }
 
-                val apmcAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
-                binding.actAPMCRegister.setAdapter(apmcAdapter)
-                cursor.close()
-            }
-
-        } catch (e: Exception) {
-            dataList.clear()
-            e.printStackTrace()
-            Log.e(TAG, "bindAPMCDropDown: ${e.message}")
-        }
-        return dataList
-    }
-
-    fun bindCommodityDropDown(apmdId: String): ArrayList<String> {
-        val dataList = ArrayList<String>()
-        try {
-            val cursor = DatabaseManager.ExecuteRawSql(Query.getCommodityNameByAPMCId(apmdId))
-            if (cursor != null && cursor.count > 0) {
-                dataList.clear()
-                while (cursor.moveToNext()) {
-                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("CommodityName")))
-                }
-
-                val commodityAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
-                binding.actCommodityRegister.setAdapter(commodityAdapter)
-                cursor.close()
-            } else {
-                dataList.clear()
-                val commodityAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
-                binding.actCommodityRegister.setAdapter(commodityAdapter)
-            }
-
-        } catch (e: Exception) {
-            dataList.clear()
-            e.printStackTrace()
-            Log.e(TAG, "bindCommodityDropDown: ${e.message}")
-        }
-        return dataList
-    }
+//    fun bindCommodityDropDown(apmdId: String): ArrayList<String> {
+//        val dataList = ArrayList<String>()
+//        try {
+//            val cursor = DatabaseManager.ExecuteRawSql(Query.getCommodityNameByAPMCId(apmdId))
+//            if (cursor != null && cursor.count > 0) {
+//                dataList.clear()
+//                while (cursor.moveToNext()) {
+//                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("CommodityName")))
+//                }
+//
+//                val commodityAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
+//                binding.actCommodityRegister.setAdapter(commodityAdapter)
+//                cursor.close()
+//            } else {
+//                dataList.clear()
+//                val commodityAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
+//                binding.actCommodityRegister.setAdapter(commodityAdapter)
+//            }
+//
+//        } catch (e: Exception) {
+//            dataList.clear()
+//            e.printStackTrace()
+//            Log.e(TAG, "bindCommodityDropDown: ${e.message}")
+//        }
+//        return dataList
+//    }
 
     private fun setLanguage() {
         var language: String = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").toString()

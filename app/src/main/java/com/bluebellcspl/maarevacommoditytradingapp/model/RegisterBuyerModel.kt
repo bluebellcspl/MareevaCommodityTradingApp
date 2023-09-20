@@ -8,6 +8,7 @@ data class RegisterBuyerModel(
     var CreateUser: String,
     var DistrictId: String,
     var Email: String,
+    var Location: String,
     var MobileNo: String,
     var Name: String,
     var OTP: String,

@@ -63,7 +63,7 @@ class FetchRoleMasterAPI(var context:Context, var activity: Activity) {
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
                         if (activity is LoginActivity){
-                            (activity as LoginActivity).bindRoleDropDown()
+//                            (activity as LoginActivity).bindRoleDropDown()
                         }
                     }
                 }else

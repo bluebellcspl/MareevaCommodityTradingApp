@@ -40,17 +40,10 @@ class LoginCheckAPI(
             commonUIUtility.showProgress()
             val JO = JsonObject()
             JO.addProperty("MobileNo", model.MobileNo)
-            JO.addProperty("Typeofuser", model.Typeofuser)
-            JO.addProperty("StateId", model.StateId)
-            JO.addProperty("DistrictId", model.DistrictId)
-            JO.addProperty("APMCId", model.APMCId)
-            JO.addProperty("CommodityId", model.CommodityId)
             JO.addProperty("UserName", model.UserName)
             JO.addProperty("UserPassword", model.UserPassword)
             JO.addProperty("OTP", model.OTP)
-            JO.addProperty("RoleName", model.RoleName)
             JO.addProperty("CompanyCode", model.CompanyCode)
-            JO.addProperty("Action", model.Action)
 
             Log.d(TAG, "getLoginForAdmin: JSON : ${JO.toString()}")
 
@@ -61,29 +54,29 @@ class LoginCheckAPI(
                 if (result.isSuccessful)
                 {
                     val resultJO = result.body()!!
-                    if (resultJO.has("Succcess"))
+                    if (resultJO.has("Success"))
                     {
                         withContext(Main){
                             commonUIUtility.dismissProgress()
                             commonUIUtility.showToast(context.getString(R.string.invalid_credentials_or_otp_alert_msg))
                         }
                     }else{
-                        PrefUtil.setString(PrefUtil.KEY_EMP_NAME,resultJO.get("Name").asString)
+                        PrefUtil.setString(PrefUtil.KEY_REGISTER_ID,resultJO.get("RegisterId").asString)
+                        PrefUtil.setString(PrefUtil.KEY_NAME,resultJO.get("Name").asString)
+                        PrefUtil.setString(PrefUtil.KEY_LOCATION,resultJO.get("Location").asString)
                         PrefUtil.setString(PrefUtil.KEY_MOBILE_NO,resultJO.get("MobileNo").asString)
+                        PrefUtil.setString(PrefUtil.KEY_BUYER_ID,resultJO.get("BuyerId").asString)
                         PrefUtil.setString(PrefUtil.KEY_ROLE_ID,resultJO.get("RoleId").asString)
                         PrefUtil.setString(PrefUtil.KEY_ROLE_NAME,resultJO.get("RoleName").asString)
-                        PrefUtil.setString(PrefUtil.KEY_STATE_ID,resultJO.get("StateId").asString)
-                        PrefUtil.setString(PrefUtil.KEY_STATE_NAME,resultJO.get("StateName").asString)
-                        PrefUtil.setString(PrefUtil.KEY_DISTRICT_ID,resultJO.get("DistrictId").asString)
-                        PrefUtil.setString(PrefUtil.KEY_DISTRICT_NAME,resultJO.get("DistrictName").asString)
                         PrefUtil.setString(PrefUtil.KEY_APMC_ID,resultJO.get("APMCId").asString)
                         PrefUtil.setString(PrefUtil.KEY_APMC_NAME,resultJO.get("APMCName").asString)
-                        PrefUtil.setString(PrefUtil.KEY_COMMODITY_ID,resultJO.get("CommodityId").asString)
+                        PrefUtil.setString(PrefUtil.KEY_COMMODITY_Id,resultJO.get("CommodityId").asString)
                         PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,resultJO.get("CommodityName").asString)
+                        PrefUtil.setString(PrefUtil.KEY_USER_NAME,resultJO.get("UserName").asString)
+                        PrefUtil.setString(PrefUtil.KEY_USER_PASSWORD,resultJO.get("UserPassword").asString)
+                        PrefUtil.setString(PrefUtil.KEY_IsActive,resultJO.get("IsActive").asString)
                         PrefUtil.setString(PrefUtil.KEY_COMPANY_CODE,resultJO.get("CompanyCode").asString)
-                        PrefUtil.setString(PrefUtil.KEY_REGISTER_ID,resultJO.get("RegisterId").asString)
-                        PrefUtil.setString(PrefUtil.KEY_CREATE_USER,resultJO.get("CreateUser").asString)
-                        PrefUtil.setString(PrefUtil.KEY_BUYER_ID,resultJO.get("BuyerId").asString)
+                        PrefUtil.setString(PrefUtil.KEY_IsUser,resultJO.get("IsUser").asString)
 
                         if (activity is LoginActivity)
                         {

@@ -51,6 +51,8 @@ class FetchAPMCMasterAPI(var context: Context, var activity: Activity) {
                         list.put("APMCId",model.APMCId)
                         list.put("APMCName",model.APMCName)
                         list.put("SrNo",model.SrNo)
+                        list.put("MarketCess",model.MarketCess)
+                        list.put("OtherCharges",model.OtherCharges)
                         list.put("Location",model.Location)
                         list.put("EDate",model.EDate)
                         list.put("EstablishmentDate",model.EstablishmentDate)
@@ -82,9 +84,6 @@ class FetchAPMCMasterAPI(var context: Context, var activity: Activity) {
                     }
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
-                        if (activity is LoginActivity){
-                            (activity as LoginActivity).bindAPMCDropDown()
-                        }
                     }
                 }else
                 {

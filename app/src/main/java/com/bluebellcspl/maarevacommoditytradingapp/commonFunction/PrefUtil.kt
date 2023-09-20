@@ -35,6 +35,15 @@ class PrefUtil {
         public val KEY_BUYER_ID = "BuyerId"
         public val KEY_TYPE_OF_USER = "Typeofuser"
 
+        public val KEY_NAME = "Name"
+        public val KEY_LOCATION = "Location"
+        public val KEY_COMMODITY_Id = "CommodityId"
+        public val KEY_USER_NAME = "UserName"
+        public val KEY_USER_PASSWORD = "UserPassword"
+        public val KEY_IsActive = "IsActive"
+        public val KEY_IsUser = "IsUser"
+        public val KEY_CREATE_DATE = "CreateDate"
+
 
 
         lateinit var editor: SharedPreferences.Editor
