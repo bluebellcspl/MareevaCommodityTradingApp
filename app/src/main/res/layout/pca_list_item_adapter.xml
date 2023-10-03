@@ -26,6 +26,7 @@
                 android:padding="@dimen/_5sdp">
 
                 <LinearLayout
+                    android:id="@+id/ll_PCAName_PCAListItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -54,6 +55,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_PCACommision_PCAListItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -82,6 +84,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_GCACommision_PCAListItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -110,6 +113,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_MarketCess_PCAListItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -138,6 +142,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_PCAStatus_PCAListItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"

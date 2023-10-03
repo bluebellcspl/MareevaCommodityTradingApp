@@ -66,6 +66,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:visibility="gone"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -79,7 +80,7 @@
                         app:endIconTint="@color/colorPrimaryDark">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_BudgetAmount_AddPCAFragment"
+                            android:id="@+id/edt_BudgetAmount_BuyerAuctionFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:imeOptions="actionNext"
@@ -102,16 +103,26 @@
                         app:endIconTint="@color/colorPrimaryDark">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_TotalBags_AddPCAFragment"
+                            android:id="@+id/edt_TotalBags_BuyerAuctionFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:inputType="number"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSubmit_BuyerAuctionFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:text="submit"
+                        app:cornerRadius="@dimen/_8sdp"
+                        android:textSize="@dimen/_16ssp"/>
+
                     <com.google.android.material.textfield.TextInputLayout
+                        android:visibility="gone"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -325,6 +336,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:visibility="gone"
             android:id="@+id/fab_AddAuction_BuyerAuctionFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

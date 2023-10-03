@@ -1,6 +1,7 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 
 import android.app.AlertDialog
+import android.icu.text.DecimalFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.text.Editable
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -26,15 +28,17 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaAuctionDetailD
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.Detail
 import com.bluebellcspl.maarevacommoditytradingapp.model.FetchBuyerAuctionDetail
+import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CalendarConstraints.DateValidator
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.gson.JsonObject
+import java.math.RoundingMode
 import java.util.Locale
 
 
-class BuyerAuctionFragment : Fragment() {
+class BuyerAuctionFragment : Fragment(),RecyclerViewHelper {
     lateinit var binding: FragmentBuyerAuctionBinding
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "BuyerAuctionFragment"
@@ -43,6 +47,7 @@ class BuyerAuctionFragment : Fragment() {
     lateinit var alertDialog: AlertDialog
     lateinit var adapter: BuyerAuctionListAdapter
     lateinit var auctionDetailList: ArrayList<Detail>
+    lateinit var pcaList : ArrayList<String>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,12 +63,7 @@ class BuyerAuctionFragment : Fragment() {
         datePicker = MaterialDatePicker.Builder.datePicker().setSelection(today)
             .setCalendarConstraints(calendarConstraints)
             .setTitleText("Select Date").build()
-        binding.tvDateBuyerAuctionFragment.text = DateUtility().getyyyyMMdd()
-        binding.cvDateBuyerAuctionFragment.setOnClickListener {
-            if (!datePicker.isAdded) {
-                datePicker.show(childFragmentManager, "Date_Picker")
-            }
-        }
+        binding.tvDateBuyerAuctionFragment.text = DateUtility().getCompletionDate()
         datePicker.addOnPositiveButtonClickListener {
             val selectedDate = datePicker.selection
             val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
@@ -71,13 +71,24 @@ class BuyerAuctionFragment : Fragment() {
             binding.tvDateBuyerAuctionFragment.text = date.toString()
         }
 
-        binding.fabAddAuctionBuyerAuctionFragment.setOnClickListener {
-            showPCAAddAuctionDialog()
+//        binding.fabAddAuctionBuyerAuctionFragment.setOnClickListener {
+//            showPCAAddAuctionDialog()
+//        }
+
+        binding.fabAddAuctionBuyerAuctionFragment.visibility=View.GONE
+
+        //new design changes
+         pcaList = getPCAName()
+        binding.btnSubmitBuyerAuctionFragment.setOnClickListener {
+            if (binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim().isNotEmpty())
+            {
+                allocateBagsAutomatically()
+            }
         }
         return binding.root
     }
 
-    fun showPCAAddAuctionDialog() {
+    fun showPCAAddAuctionDialog(model:Detail,postion: Int) {
         try {
             val alertDailogBuilder = AlertDialog.Builder(requireContext())
             val dialogBinding = BuyerAuctionDetailDialogLayoutBinding.inflate(layoutInflater)
@@ -89,9 +100,15 @@ class BuyerAuctionFragment : Fragment() {
             alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
             alertDialog.show()
 
-            val approvedPCAList = getPCAName()
-            val pcaAdapter = commonUIUtility.getCustomArrayAdapter(approvedPCAList)
-            dialogBinding.actPCABuyerAuctionDialog.setAdapter(pcaAdapter)
+
+//            val pcaAdapter = commonUIUtility.getCustomArrayAdapter(pcaList)
+//            dialogBinding.actPCABuyerAuctionDialog.setAdapter(pcaAdapter)
+//            dialogBinding.actPCABuyerAuctionDialog.isEnabled = false
+            dialogBinding.actPCABuyerAuctionDialog.setText(model.PCAName)
+            dialogBinding.edtBagsBuyerAuctionDialog.setText(model.Bag)
+            dialogBinding.edtUpperLimitBuyerAuctionDialog.setText(model.UpperLimit)
+            dialogBinding.edtLowerLimitBuyerAuctionDialog.setText(model.LowerLimit)
+            dialogBinding.edtAmountBuyerAuctionDialog.setText(model.Amount)
 
 
             val calculationTextWatcher: TextWatcher = object : TextWatcher {
@@ -110,7 +127,7 @@ class BuyerAuctionFragment : Fragment() {
                     val bags = dialogBinding.edtBagsBuyerAuctionDialog.text.toString().trim()
                         .trim()
                     if (upperLimit.isNotEmpty() && lowerLimit.isNotEmpty() && bags.isNotEmpty()) {
-                        val amount = bags.toInt() * ((upperLimit.toInt() + lowerLimit.toInt()) / 2)
+                        val amount = ((bags.toFloat() * 75) / 20 ) * ((upperLimit.toInt() + lowerLimit.toInt()) / 2)
                         Log.d(TAG, "afterTextChanged: BAGS_AMOUNT : $amount")
                         dialogBinding.edtAmountBuyerAuctionDialog.setText(amount.toString())
                     } else {
@@ -140,28 +157,30 @@ class BuyerAuctionFragment : Fragment() {
                         .isEmpty()
                 ) {
                     commonUIUtility.showToast("Please Enter Upper Limit!")
-                } else if (dialogBinding.edtLastDayPriceBuyerAuctionDialog.text.toString()
-                        .isEmpty()
-                ) {
-                    commonUIUtility.showToast("Please Enter Last Day Price!")
-                } else {
+                }
+//                else if (dialogBinding.edtLastDayPriceBuyerAuctionDialog.text.toString()
+//                        .isEmpty()
+//                ) {
+//                    commonUIUtility.showToast("Please Enter Last Day Price!")
+//                }
+                else {
                     val model = Detail(
                         dialogBinding.edtAmountBuyerAuctionDialog.text.toString().trim(),
                         dialogBinding.edtBagsBuyerAuctionDialog.text.toString().trim(),
-                        "",
-                        "",
-                        "",
-                        dialogBinding.edtLastDayPriceBuyerAuctionDialog.text.toString().trim(),
+                        model.CreateUser,
+                        model.DetailsId,
+                        model.GCACommission,
+                        model.LastDayPrice,
                         dialogBinding.edtLowerLimitBuyerAuctionDialog.text.toString().trim(),
-                        "",
-                        "",
-                        "",
+                        model.MarketCess,
+                        model.PCACommission,
+                        model.PCAId,
                         dialogBinding.actPCABuyerAuctionDialog.text.toString().trim(),
-                        "",
+                        model.PCARegId,
                         dialogBinding.edtUpperLimitBuyerAuctionDialog.text.toString().trim()
                     )
 
-                    auctionDetailList.add(model)
+                    auctionDetailList[postion] = model
                     alertDialog.dismiss()
                     bindRecyclerView(auctionDetailList)
                 }
@@ -195,8 +214,8 @@ class BuyerAuctionFragment : Fragment() {
 
     fun updateUIFromAPIData(dataFromAPI: FetchBuyerAuctionDetail) {
         try {
-            binding.edtTotalBagsAddPCAFragment.setText(dataFromAPI.Header.TotalBags)
-            binding.edtBudgetAmountAddPCAFragment.setText(dataFromAPI.Header.BudgetAmount)
+            binding.edtTotalBagsBuyerAuctionFragment.setText(dataFromAPI.Header.TotalBags)
+            binding.edtBudgetAmountBuyerAuctionFragment.setText(dataFromAPI.Header.BudgetAmount)
             binding.edtOtherCommissionBuyerAuctionFragment.setText(dataFromAPI.Header.OtherCommission)
             binding.tvBasicAmountBuyerAuctionFragment.setText(dataFromAPI.Header.Basic)
             binding.tvLeftBagsBuyerAuctionFragment.setText(dataFromAPI.Header.LeftBags)
@@ -215,7 +234,7 @@ class BuyerAuctionFragment : Fragment() {
     fun bindRecyclerView(dataList: ArrayList<Detail>) {
         try {
             if (dataList.isNotEmpty()) {
-                adapter = BuyerAuctionListAdapter(requireContext(), dataList)
+                adapter = BuyerAuctionListAdapter(requireContext(), dataList,this)
                 binding.rcViewBuyerAuctionFragment.adapter = adapter
                 binding.rcViewBuyerAuctionFragment.invalidate()
             } else {
@@ -225,5 +244,51 @@ class BuyerAuctionFragment : Fragment() {
             Log.e(TAG, "bindRecyclerView: ${e.message}")
             e.printStackTrace()
         }
+    }
+
+    fun allocateBagsAutomatically(){
+        try {
+            auctionDetailList= ArrayList()
+            val pcaCount = pcaList.size
+            val bagPerPCA = binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim().toFloat()/pcaCount
+            val remainingBags = binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim().toFloat() % pcaCount
+            val newbags = Math.floor(bagPerPCA.toDouble())
+            val roundoff = String.format("%.2f0", newbags)
+            val bagsPerPerson = distributeSchoolBags(binding.edtTotalBagsBuyerAuctionFragment.text.toString().toDouble(),pcaCount)
+            for (i in 0 until pcaCount)
+            {
+                val detailModel = Detail("",bagsPerPerson[i].toString(),"","","","","","","","",pcaList[i],"","")
+                auctionDetailList.add(detailModel)
+            }
+            bindRecyclerView(auctionDetailList)
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "allocateBagsAutomatically: ${e.message}")
+        }
+    }
+
+    fun distributeSchoolBags(totalBags: Double, numberOfSellers: Int): List<Int> {
+        val totalBagsInt = totalBags.toInt()
+        val bagsPerSeller = totalBagsInt / numberOfSellers
+        val remainingBags = totalBagsInt % numberOfSellers
+
+        val distributedBags = MutableList(numberOfSellers) { bagsPerSeller }
+
+        // Distribute remaining bags evenly among sellers
+        for (i in 0 until remainingBags) {
+            distributedBags[i]++
+        }
+
+        return distributedBags
+    }
+
+
+    override fun onItemClick(postion: Int, onclickType: String) {
+
+    }
+
+    override fun onBuyerAuctionPCAItemClick(postion: Int, model: Detail) {
+        showPCAAddAuctionDialog(model,postion)
     }
 }

@@ -69,10 +69,12 @@ class LoginActivity : AppCompatActivity() {
             {
                 binding.llAdmin.visibility = View.VISIBLE
                 binding.llBuyerOrPCA.visibility = View.GONE
+                binding.btnRegisterLogin.visibility = View.GONE
             }else
             {
                 binding.llAdmin.visibility = View.GONE
                 binding.llBuyerOrPCA.visibility = View.VISIBLE
+                binding.btnRegisterLogin.visibility = View.VISIBLE
             }
         }
 //        FetchRoleMasterAPI(this, this@LoginActivity)

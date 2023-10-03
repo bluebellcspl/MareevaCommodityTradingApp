@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionItemAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.Detail
+import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
-class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Detail>):RecyclerView.Adapter<BuyerAuctionListAdapter.MyViewHolder>() {
+class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Detail>, var recyclerViewHelper: RecyclerViewHelper):RecyclerView.Adapter<BuyerAuctionListAdapter.MyViewHolder>() {
     inner class MyViewHolder(var binding:BuyerAuctionItemAdapterBinding):
         RecyclerView.ViewHolder(binding.root)
 
@@ -36,6 +37,10 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Detai
         if (model.Bag.isEmpty() || model.Bag.equals(""))
         {
             holder.binding.cvAuctionDetailsBuyerAuctionItemAdapter.visibility = View.GONE
+        }
+
+        holder.binding.cvAuctionDetailsBuyerAuctionItemAdapter.setOnClickListener {
+             recyclerViewHelper.onBuyerAuctionPCAItemClick(holder.adapterPosition,model)
         }
     }
 }

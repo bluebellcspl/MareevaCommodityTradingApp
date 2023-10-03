@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaListItemAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
@@ -35,7 +37,8 @@ class ApprovedPCAListAdapter(var context: Context,var dataList:ArrayList<PCAList
         holder.binding.tvPCANamePCAListItem.setText(model.PCAName)
         holder.binding.tvPCACommissionPCAListItem.setText(model.PCACommission)
         holder.binding.tvGCACommissionPCAListItem.setText(model.GCACommission)
-        holder.binding.tvMarketCessPCAListItem.setText(model.MarketCess)
+        val marketCess = DatabaseManager.ExecuteScalar(Query.getMarketCessByAPMCId(model.APMCId))!!
+        holder.binding.tvMarketCessPCAListItem.setText(marketCess)
         holder.binding.tvApprovedStatusPCAListItem.setTextAppearance(R.style.confirmVisitStatusText)
         holder.binding.tvApprovedStatusPCAListItem.gravity = Gravity.CENTER
         holder.binding.tvApprovedStatusPCAListItem.setText(context.getString(R.string.approved))

@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.adapter
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.R
@@ -34,10 +35,10 @@ class UnapprovePCAListAdapter(var context: Context, var dataList:ArrayList<PCALi
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
+        holder.binding.llPCACommisionPCAListItem.visibility =View.GONE
+        holder.binding.llGCACommisionPCAListItem.visibility =View.GONE
+        holder.binding.llMarketCessPCAListItem.visibility =View.GONE
         holder.binding.tvPCANamePCAListItem.setText(model.PCAName)
-        holder.binding.tvPCACommissionPCAListItem.setText(model.PCACommission)
-        holder.binding.tvGCACommissionPCAListItem.setText(model.GCACommission)
-        holder.binding.tvMarketCessPCAListItem.setText(model.MarketCess)
         holder.binding.tvApprovedStatusPCAListItem.setTextAppearance(R.style.pendingVisitStatusText)
         holder.binding.tvApprovedStatusPCAListItem.gravity = Gravity.CENTER
         holder.binding.tvApprovedStatusPCAListItem.setText(context.getString(R.string.unapproved))

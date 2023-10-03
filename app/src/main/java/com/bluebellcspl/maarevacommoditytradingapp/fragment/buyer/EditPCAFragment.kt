@@ -35,7 +35,12 @@ class EditPCAFragment : Fragment() {
     lateinit var binding: FragmentEditPCABinding
     private val args by navArgs<EditPCAFragmentArgs>()
     lateinit var apmcList: ArrayList<String>
+    var marketCess = ""
     var apmcId = ""
+    var stateId = ""
+    var districtId = ""
+    var stateName = ""
+    var districtName = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,9 +57,70 @@ class EditPCAFragment : Fragment() {
         binding.edtAddressEditPCAFragment.setText(model.Address)
         binding.edtPCACommissionEditPCAFragment.setText(model.PCACommission)
         binding.edtGCACommissionEditPCAFragment.setText(model.GCACommission)
-        binding.edtMarketCessEditPCAFragment.setText(model.MarketCess)
+        marketCess = DatabaseManager.ExecuteScalar(Query.getMarketCessByAPMCId(model.APMCId))!!
+        binding.edtMarketCessEditPCAFragment.setText(marketCess)
 
         apmcList = bindAPMCDropDown()
+        val apmcTextWatch: TextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                apmcId = ""
+                stateId = ""
+                districtId = ""
+                stateName = ""
+                districtName = ""
+                binding.edtStateEditPCAFragment.setText("")
+                binding.edtDistrictEditPCAFragment.setText("")
+
+                if (p0!!.isNotEmpty()) {
+                    apmcId = DatabaseManager.ExecuteScalar(
+                        Query.getAPMCIdByAPMCName(
+                            p0.toString().trim()
+                        )
+                    ).toString()
+                    stateId =
+                        DatabaseManager.ExecuteScalar(Query.getStateIdByAPMCId(apmcId)).toString()
+                    districtId = DatabaseManager.ExecuteScalar(Query.getDistrictIdByAPMCId(apmcId))
+                        .toString()
+
+                    stateName =
+                        DatabaseManager.ExecuteScalar(Query.getStateNameByAPMCId(apmcId))!!
+                    districtName =
+                        DatabaseManager.ExecuteScalar(Query.getDistrictNameByAPMCId(apmcId))!!
+
+                     marketCess = DatabaseManager.ExecuteScalar(Query.getMarketCessByAPMCId(apmcId))!!
+
+                    if (stateName.isEmpty() || stateName.equals("invalid") || districtName.isEmpty() || districtName.equals("invalid")) {
+                        binding.edtStateEditPCAFragment.setText("")
+                        binding.edtDistrictEditPCAFragment.setText("")
+                        binding.edtMarketCessEditPCAFragment.setText("")
+                    } else {
+                        binding.edtStateEditPCAFragment.setText("")
+                        binding.edtDistrictEditPCAFragment.setText("")
+                        binding.edtMarketCessEditPCAFragment.setText("")
+                        binding.edtStateEditPCAFragment.setText(stateName)
+                        binding.edtDistrictEditPCAFragment.setText(districtName)
+                        binding.edtMarketCessEditPCAFragment.setText(marketCess)
+
+                        model.APMCId = apmcId
+//                        model.MarketCess = marketCess
+                        model.StateId = stateId
+                        model.StateName = binding.edtStateEditPCAFragment.text.toString().trim()
+                        model.DistrictId = districtId
+                        model.DistrictName = binding.edtDistrictEditPCAFragment.text.toString().trim()
+                    }
+                }
+            }
+        }
+
+        binding.actAPMCEditPCAFragment.addTextChangedListener(apmcTextWatch)
         binding.actAPMCEditPCAFragment.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -72,13 +138,12 @@ class EditPCAFragment : Fragment() {
                         )
                     ).toString()
 
-                    val marketCess = DatabaseManager.ExecuteScalar(Query.getMarketCessByAPMCId(apmcId))!!
+                    marketCess = DatabaseManager.ExecuteScalar(Query.getMarketCessByAPMCId(apmcId))!!
                     binding.edtMarketCessEditPCAFragment.setText(marketCess)
 
                     Log.d(TAG, "afterTextChanged: APMC_ID_EDIT : $apmcId")
                     Log.d(TAG, "afterTextChanged: MARKET_CESS_EDIT : $marketCess")
                     model.APMCId = apmcId
-                    model.MarketCess = marketCess
                 }
             }
         })
@@ -94,15 +159,26 @@ class EditPCAFragment : Fragment() {
         binding.btnUpdateEditPCAFragment.setOnClickListener {
             if (binding.edtPCANameEditPCAFragment.text.toString().isEmpty()) {
                 commonUIUtility.showToast(resources.getString(R.string.please_enter_pca_name_alert_msg))
-            } else if (binding.edtAddressEditPCAFragment.text.toString().isEmpty()) {
-                commonUIUtility.showToast(resources.getString(R.string.please_enter_address_alert_msg))
-            } else if (binding.edtGCACommissionEditPCAFragment.text.toString().isEmpty()) {
-                commonUIUtility.showToast(resources.getString(R.string.please_enter_gca_commission_alert_msg))
-            }else if (binding.edtPCACommissionEditPCAFragment.text.toString().isEmpty()){
-                commonUIUtility.showToast(resources.getString(R.string.please_enter_pca_commission_alert_msg))
-            }else if (binding.edtMarketCessEditPCAFragment.text.toString().isEmpty()){
-                commonUIUtility.showToast(resources.getString(R.string.please_enter_market_cess_alert_msg))
-            }else
+            }else if (binding.actAPMCEditPCAFragment.text.toString().isEmpty())
+            {
+                commonUIUtility.showToast(getString(R.string.please_select_apmc_alert_msg))
+            }else if (binding.edtStateEditPCAFragment.text.toString().isEmpty())
+            {
+                commonUIUtility.showToast(getString(R.string.please_select_valid_apmc_alert_msg))
+            }
+//            else if (binding.edtAddressEditPCAFragment.text.toString().isEmpty()) {
+//                commonUIUtility.showToast(resources.getString(R.string.please_enter_address_alert_msg))
+//            }
+//            else if (binding.edtGCACommissionEditPCAFragment.text.toString().isEmpty()) {
+//                commonUIUtility.showToast(resources.getString(R.string.please_enter_gca_commission_alert_msg))
+//            }
+//            else if (binding.edtPCACommissionEditPCAFragment.text.toString().isEmpty()){
+//                commonUIUtility.showToast(resources.getString(R.string.please_enter_pca_commission_alert_msg))
+//            }
+//            else if (binding.edtMarketCessEditPCAFragment.text.toString().isEmpty()){
+//                commonUIUtility.showToast(resources.getString(R.string.please_enter_market_cess_alert_msg))
+//            }
+            else
             {
                 displayAlertDialogForPCA()
             }
@@ -132,9 +208,11 @@ class EditPCAFragment : Fragment() {
     private fun updatePCAData() {
         try {
             val model = PCAListModelItem(
-                args.pcaListModel.APMCId,
-                args.pcaListModel.APMCName,
+                apmcId,
+                binding.actAPMCEditPCAFragment.text.toString().trim(),
                 binding.edtAddressEditPCAFragment.text.toString().trim(),
+                args.pcaListModel.AdharNo,
+                args.pcaListModel.AdharPhoto,
                 args.pcaListModel.ApprStatus,
                 args.pcaListModel.BuyerId,
                 args.pcaListModel.CommodityId,
@@ -145,24 +223,28 @@ class EditPCAFragment : Fragment() {
                 args.pcaListModel.DistrictId,
                 args.pcaListModel.DistrictName,
                 binding.edtEmailEditPCAFragment.text.toString().trim(),
-                binding.edtGCACommissionEditPCAFragment.text.toString().trim(),
+                args.pcaListModel.GCACommission,
+                args.pcaListModel.GSTCertiPhoto,
+                args.pcaListModel.GSTNo,
                 getIsActiveStatus(),
-                binding.edtMarketCessEditPCAFragment.text.toString().trim(),
-                binding.edtPCACommissionEditPCAFragment.text.toString().trim(),
+                args.pcaListModel.LicenseCopyPhoto,
+                args.pcaListModel.Mobile2,
+                args.pcaListModel.PCACommission,
                 args.pcaListModel.PCAId,
                 binding.edtPCANameEditPCAFragment.text.toString().trim(),
-                args.pcaListModel.PCAPhoneNumber,
+                binding.edtPhoneNoEditPCAFragment.text.toString().trim(),
+                args.pcaListModel.PanCardNo,
+                args.pcaListModel.PanCardPhoto,
+                args.pcaListModel.ProfilePic,
                 args.pcaListModel.RoleId,
                 args.pcaListModel.RoleName,
                 args.pcaListModel.StateId,
                 args.pcaListModel.StateName,
                 DateUtility().getyyyyMMdd(),
-                "",
-                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
-                PrefUtil.getString(PrefUtil.KEY_TYPE_OF_USER,"").toString()
+                PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,"").toString()
             )
 
-            POSTPCAEditAPI(requireContext(),requireActivity(),this,model)
+            POSTPCAEditAPI(requireContext(),requireActivity(),this,model,marketCess)
         }catch (e:Exception)
         {
             Log.e(TAG, "updatePCAData: ${e.message}")

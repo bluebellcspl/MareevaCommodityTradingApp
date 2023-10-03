@@ -91,6 +91,7 @@ class AddPCAFragment : Fragment() {
                     if (stateName.isEmpty() || stateName.equals("invalid") || districtName.isEmpty() || districtName.equals("invalid")) {
                         binding.edtStateAddPCAFragment.setText("")
                         binding.edtDistrictAddPCAFragment.setText("")
+                        binding.edtMarketCessAddPCAFragment.setText("")
                     } else {
                         binding.edtStateAddPCAFragment.setText("")
                         binding.edtDistrictAddPCAFragment.setText("")
@@ -116,21 +117,32 @@ class AddPCAFragment : Fragment() {
                 commonUIUtility.showToast(getString(R.string.please_enter_pca_name_alert_msg))
             } else if (binding.edtPhoneNoAddPCAFragment.text.toString().isEmpty()) {
                 commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
-            } else if (binding.edtAddressAddPCAFragment.text.toString().isEmpty()) {
-                commonUIUtility.showToast(getString(R.string.please_enter_address_alert_msg))
-            } else if (binding.edtEmailAddPCAFragment.text.toString().isEmpty()) {
-                commonUIUtility.showToast(getString(R.string.please_enter_email_id_alert_msg))
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.edtEmailAddPCAFragment.text.toString().trim()).matches()) {
-                commonUIUtility.showToast(getString(R.string.please_enter_valid_email_id_alert_msg))
-            } else if (binding.edtStateAddPCAFragment.text.toString().isEmpty()) {
-                commonUIUtility.showToast(getString(R.string.please_select_valid_apmc_alert_msg))
-            } else if (binding.edtGCACommissionAddPCAFragment.text.toString().isEmpty()) {
-                commonUIUtility.showToast(getString(R.string.please_enter_gca_commission_alert_msg))
-            } else if (binding.edtPCACommissionAddPCAFragment.text.toString().isEmpty()) {
-                commonUIUtility.showToast(getString(R.string.please_enter_pca_commission_alert_msg))
-            } else if (binding.edtPhoneNoAddPCAFragment.text.toString().length < 10) {
+            }
+            else if (binding.edtPhoneNoAddPCAFragment.text.toString().length<10) {
                 commonUIUtility.showToast(getString(R.string.please_enter_valid_phone_no_alert_msg))
-            } else {
+            }
+            else if (binding.actAPMCAddPCAFragment.text.toString().isEmpty()) {
+                commonUIUtility.showToast(getString(R.string.please_select_apmc_alert_msg))
+            }else if (binding.edtStateAddPCAFragment.text.toString().isEmpty())
+            {
+                commonUIUtility.showToast(getString(R.string.please_select_valid_apmc_alert_msg))
+            }
+//            else if (binding.edtAddressAddPCAFragment.text.toString().isEmpty()) {
+//                commonUIUtility.showToast(getString(R.string.please_enter_address_alert_msg))
+//            } else if (binding.edtEmailAddPCAFragment.text.toString().isEmpty()) {
+//                commonUIUtility.showToast(getString(R.string.please_enter_email_id_alert_msg))
+//            } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.edtEmailAddPCAFragment.text.toString().trim()).matches()) {
+//                commonUIUtility.showToast(getString(R.string.please_enter_valid_email_id_alert_msg))
+//            }
+//            else if (binding.edtGCACommissionAddPCAFragment.text.toString().isEmpty())
+//            {
+//                commonUIUtility.showToast(getString(R.string.please_enter_gca_commission_alert_msg))
+//            } else if (binding.edtPCACommissionAddPCAFragment.text.toString().isEmpty()) {
+//                commonUIUtility.showToast(getString(R.string.please_enter_pca_commission_alert_msg))
+//            } else if (binding.edtPhoneNoAddPCAFragment.text.toString().length < 10) {
+//                commonUIUtility.showToast(getString(R.string.please_enter_valid_phone_no_alert_msg))
+//            }
+        else {
                 displayAlertDialogForPCA()
             }
         }
@@ -160,8 +172,8 @@ class AddPCAFragment : Fragment() {
     private fun sendPCAData() {
         try {
             val model = POSTPCAInsertModel(
-                PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString(),
-                PrefUtil.getString(PrefUtil.KEY_APMC_NAME, "").toString(),
+                apmcId,
+                binding.actAPMCAddPCAFragment.text.toString().trim(),
                 "insert",
                 binding.edtAddressAddPCAFragment.text.toString().trim(),
                 "0",
@@ -170,7 +182,7 @@ class AddPCAFragment : Fragment() {
                 PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME, "").toString(),
                 PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "").toString(),
                 DateUtility().getyyyyMMdd(),
-                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
+                PrefUtil.getString(PrefUtil.KEY_MOBILE_NO, "").toString(),
                 districtId,
                 districtName,
                 binding.edtEmailAddPCAFragment.text.toString().trim(),
@@ -189,7 +201,7 @@ class AddPCAFragment : Fragment() {
                 "",
                 ""
             )
-
+            Log.d(TAG, "sendPCAData: ADD_PCA_MODEL : $model")
             POSTPCAInsertAPI(requireContext(), requireActivity(), this, model)
         } catch (e: Exception) {
             e.printStackTrace()

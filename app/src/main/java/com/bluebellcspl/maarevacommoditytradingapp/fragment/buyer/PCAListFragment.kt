@@ -16,6 +16,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAListBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchUnapprovedPCAListAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.Detail
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
@@ -98,16 +99,11 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
             if (onclickType.equals("ApprovedList"))
             {
                 var model = approvedPCAList[postion]
-                model.RegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
-                model.Typeofuser =PrefUtil.getString(PrefUtil.KEY_TYPE_OF_USER,"").toString()
-                model.MarketCess = ""
+
              navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
             }else
             {
                 var model = unapprovedPCAList[postion]
-                model.RegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
-                model.Typeofuser =PrefUtil.getString(PrefUtil.KEY_TYPE_OF_USER,"").toString()
-                model.MarketCess = ""
                 navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
             }
         }catch (e:Exception)
@@ -115,5 +111,9 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
             e.printStackTrace()
             Log.e(TAG, "onItemClick: ${e.message}")
         }
+    }
+
+    override fun onBuyerAuctionPCAItemClick(postion: Int, model: Detail) {
+
     }
 }

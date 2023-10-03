@@ -22,7 +22,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment: Fragment, var model: PCAListModelItem) {
+class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment: Fragment, var model: PCAListModelItem,var marketCess:String) {
     val job = Job()
     val scope = CoroutineScope(job)
     val commonUIUtility = CommonUIUtility(context)
@@ -39,11 +39,13 @@ class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment:
             val JO = JsonObject()
 
             JO.addProperty(  "PCAId",model.PCAId)
-            JO.addProperty(  "RegId",model.RegId)
+//            JO.addProperty(  "RegId",model.RegId)
+            JO.addProperty(  "RegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
             JO.addProperty(  "CommodityId",model.CommodityId)
             JO.addProperty(  "PCAName",model.PCAName)
             JO.addProperty(  "PCAPhoneNumber",model.PCAPhoneNumber)
-            JO.addProperty(  "Typeofuser",model.Typeofuser)
+//            JO.addProperty(  "Typeofuser",model.Typeofuser)
+            JO.addProperty(  "Typeofuser",PrefUtil.getString(PrefUtil.KEY_TYPE_OF_USER,"").toString())
             JO.addProperty(  "Address",model.Address)
             JO.addProperty(  "EmailId",model.EmailId)
             JO.addProperty(  "BuyerId",model.BuyerId)
@@ -51,7 +53,8 @@ class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment:
             JO.addProperty(  "ApprStatus",model.ApprStatus)
             JO.addProperty(  "GCACommission",model.GCACommission)
             JO.addProperty(  "PCACommission",model.PCACommission)
-            JO.addProperty(  "MarketCess",model.MarketCess)
+//            JO.addProperty(  "MarketCess",model.MarketCess)
+            JO.addProperty(  "MarketCess",marketCess)
             JO.addProperty(  "IsActive",model.IsActive)
             JO.addProperty(  "CompanyCode",model.CompanyCode)
             JO.addProperty(  "CreateUser",model.CreateUser)

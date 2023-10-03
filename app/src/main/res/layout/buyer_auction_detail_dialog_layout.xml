@@ -40,6 +40,7 @@
                         app:boxCornerRadiusTopStart="@dimen/_10sdp"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                         android:hint="@string/select_pca"
+                        android:enabled="false"
                         app:endIconTint="@color/colorPrimaryDark">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -52,7 +53,6 @@
                             android:completionThreshold="1"
                             android:imeOptions="actionDone" />
                     </com.google.android.material.textfield.TextInputLayout>
-
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -130,6 +130,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:visibility="gone"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -180,7 +181,6 @@
                             android:textSize="@dimen/_14ssp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
-
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_Save_BuyerAuctionDialog"
