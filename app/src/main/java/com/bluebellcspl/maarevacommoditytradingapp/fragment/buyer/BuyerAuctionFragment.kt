@@ -1,44 +1,43 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 
 import android.app.AlertDialog
-import android.icu.text.DecimalFormat
+import android.content.DialogInterface
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavController
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerAuctionListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
-import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionDetailDialogLayoutBinding
+import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerExpenseDialogLayoutBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentBuyerAuctionBinding
-import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaAuctionDetailDailogLayoutBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetailAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.Detail
 import com.bluebellcspl.maarevacommoditytradingapp.model.FetchBuyerAuctionDetail
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.CalendarConstraints.DateValidator
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.gson.JsonObject
+import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.Locale
 
 
-class BuyerAuctionFragment : Fragment(),RecyclerViewHelper {
+class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     lateinit var binding: FragmentBuyerAuctionBinding
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "BuyerAuctionFragment"
@@ -46,8 +45,9 @@ class BuyerAuctionFragment : Fragment(),RecyclerViewHelper {
     lateinit var datePicker: MaterialDatePicker<Long>
     lateinit var alertDialog: AlertDialog
     lateinit var adapter: BuyerAuctionListAdapter
-    lateinit var auctionDetailList: ArrayList<Detail>
-    lateinit var pcaList : ArrayList<String>
+    var auctionDetailList: ArrayList<AuctionDetailsModel> = ArrayList()
+    var auctionDetailList2: ArrayList<AuctionDetailsModel> = ArrayList()
+    lateinit var pcaDetailList: ArrayList<newPCAModel>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,135 +71,64 @@ class BuyerAuctionFragment : Fragment(),RecyclerViewHelper {
             binding.tvDateBuyerAuctionFragment.text = date.toString()
         }
 
-//        binding.fabAddAuctionBuyerAuctionFragment.setOnClickListener {
-//            showPCAAddAuctionDialog()
-//        }
+        binding.fabAddAuctionBuyerAuctionFragment.visibility = View.GONE
 
-        binding.fabAddAuctionBuyerAuctionFragment.visibility=View.GONE
-
-        //new design changes
-         pcaList = getPCAName()
-        binding.btnSubmitBuyerAuctionFragment.setOnClickListener {
-            if (binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim().isNotEmpty())
-            {
-                allocateBagsAutomatically()
-            }
+        binding.cvTotalAmountBuyerAuctionFragment.setOnClickListener {
+            showExpenseAuctionDialog(auctionDetailList)
         }
+
+        binding.btnSubmitBuyerAuctionFragment.setOnClickListener {
+            showAlertDialog()
+        }
+        //new design changes
+        pcaDetailList = getPCADetails()
+        Log.d(TAG, "onCreateView: PCA_DETAIL_LIST : $pcaDetailList")
+
+        binding.edtTotalBagsBuyerAuctionFragment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0.toString().isNotEmpty()) {
+                    allocateBagsAutomatically(p0.toString().trim())
+                } else {
+//                    val detailModel = Detail("","","","","","","","","","","","","")
+//                    auctionDetailList.add(detailModel)
+                    bindRecyclerView(auctionDetailList)
+                    binding.rcViewBuyerAuctionFragment.invalidate()
+                    binding.rcViewBuyerAuctionFragment.adapter = null
+                    binding.tvTotalAmountBuyerAuctionFragment.setText("")
+                    binding.tvLeftBagsBuyerAuctionFragment.setText("")
+                }
+            }
+        })
         return binding.root
     }
 
-    fun showPCAAddAuctionDialog(model:Detail,postion: Int) {
+    private fun getPCADetails(): ArrayList<newPCAModel> {
+        var dataList: ArrayList<newPCAModel> = ArrayList()
         try {
-            val alertDailogBuilder = AlertDialog.Builder(requireContext())
-            val dialogBinding = BuyerAuctionDetailDialogLayoutBinding.inflate(layoutInflater)
-            val dialogView = dialogBinding.root
-            alertDailogBuilder.setView(dialogView)
-            alertDialog = alertDailogBuilder.create()
-            alertDialog.setCanceledOnTouchOutside(true)
-            alertDialog.setCancelable(true)
-            alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-            alertDialog.show()
-
-
-//            val pcaAdapter = commonUIUtility.getCustomArrayAdapter(pcaList)
-//            dialogBinding.actPCABuyerAuctionDialog.setAdapter(pcaAdapter)
-//            dialogBinding.actPCABuyerAuctionDialog.isEnabled = false
-            dialogBinding.actPCABuyerAuctionDialog.setText(model.PCAName)
-            dialogBinding.edtBagsBuyerAuctionDialog.setText(model.Bag)
-            dialogBinding.edtUpperLimitBuyerAuctionDialog.setText(model.UpperLimit)
-            dialogBinding.edtLowerLimitBuyerAuctionDialog.setText(model.LowerLimit)
-            dialogBinding.edtAmountBuyerAuctionDialog.setText(model.Amount)
-
-
-            val calculationTextWatcher: TextWatcher = object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    val upperLimit = p0.toString().trim()
-                    val lowerLimit =
-                        dialogBinding.edtLowerLimitBuyerAuctionDialog.text.toString().trim()
-                    val bags = dialogBinding.edtBagsBuyerAuctionDialog.text.toString().trim()
-                        .trim()
-                    if (upperLimit.isNotEmpty() && lowerLimit.isNotEmpty() && bags.isNotEmpty()) {
-                        val amount = ((bags.toFloat() * 75) / 20 ) * ((upperLimit.toInt() + lowerLimit.toInt()) / 2)
-                        Log.d(TAG, "afterTextChanged: BAGS_AMOUNT : $amount")
-                        dialogBinding.edtAmountBuyerAuctionDialog.setText(amount.toString())
-                    } else {
-                        dialogBinding.edtAmountBuyerAuctionDialog.setText("")
-                    }
-                }
-            }
-
-            dialogBinding.edtUpperLimitBuyerAuctionDialog.addTextChangedListener(
-                calculationTextWatcher
-            )
-            dialogBinding.edtBagsBuyerAuctionDialog.addTextChangedListener(calculationTextWatcher)
-            dialogBinding.edtLowerLimitBuyerAuctionDialog.addTextChangedListener(
-                calculationTextWatcher
-            )
-
-            dialogBinding.btnSaveBuyerAuctionDialog.setOnClickListener {
-                if (dialogBinding.actPCABuyerAuctionDialog.text.toString().isEmpty()) {
-                    commonUIUtility.showToast(resources.getString(R.string.please_enter_pca_name_alert_msg))
-                } else if (dialogBinding.edtBagsBuyerAuctionDialog.text.toString().isEmpty()) {
-                    commonUIUtility.showToast("Please Add Bags!")
-                } else if (dialogBinding.edtLowerLimitBuyerAuctionDialog.text.toString()
-                        .isEmpty()
-                ) {
-                    commonUIUtility.showToast("Please Enter Lower Limit!")
-                } else if (dialogBinding.edtUpperLimitBuyerAuctionDialog.text.toString()
-                        .isEmpty()
-                ) {
-                    commonUIUtility.showToast("Please Enter Upper Limit!")
-                }
-//                else if (dialogBinding.edtLastDayPriceBuyerAuctionDialog.text.toString()
-//                        .isEmpty()
-//                ) {
-//                    commonUIUtility.showToast("Please Enter Last Day Price!")
-//                }
-                else {
-                    val model = Detail(
-                        dialogBinding.edtAmountBuyerAuctionDialog.text.toString().trim(),
-                        dialogBinding.edtBagsBuyerAuctionDialog.text.toString().trim(),
-                        model.CreateUser,
-                        model.DetailsId,
-                        model.GCACommission,
-                        model.LastDayPrice,
-                        dialogBinding.edtLowerLimitBuyerAuctionDialog.text.toString().trim(),
-                        model.MarketCess,
-                        model.PCACommission,
-                        model.PCAId,
-                        dialogBinding.actPCABuyerAuctionDialog.text.toString().trim(),
-                        model.PCARegId,
-                        dialogBinding.edtUpperLimitBuyerAuctionDialog.text.toString().trim()
-                    )
-
-                    auctionDetailList[postion] = model
-                    alertDialog.dismiss()
-                    bindRecyclerView(auctionDetailList)
-                }
-
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "showTaskAllocationDialog: ${e.message}")
-            e.printStackTrace()
-        }
-    }
-
-    private fun getPCAName(): ArrayList<String> {
-        var dataList: ArrayList<String> = ArrayList()
-        try {
-            val cursor = DatabaseManager.ExecuteRawSql(Query.getApprovedPCAName())
+            val cursor = DatabaseManager.ExecuteRawSql(Query.getPCADetail())
             if (cursor != null && cursor.count > 0) {
                 dataList.clear()
                 while (cursor.moveToNext()) {
-                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("PCAName")))
+                    val model = newPCAModel(
+                        cursor.getString(cursor.getColumnIndexOrThrow("PCAId")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PCAName")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PCARegId")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("GCACommission")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("PCACommission")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("MarketCess")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("LabourCharges")),
+//                        cursor.getString(cursor.getColumnIndexOrThrow("TransportationCharges"))
+                        ""
+                    )
+                    dataList.add(model)
                 }
             }
             cursor?.close()
@@ -212,18 +141,19 @@ class BuyerAuctionFragment : Fragment(),RecyclerViewHelper {
         return dataList
     }
 
-    fun updateUIFromAPIData(dataFromAPI: FetchBuyerAuctionDetail) {
+    fun updateUIFromAPIData(dataFromAPI: BuyerAuctionMasterModel) {
+//        auctionDetailList = ArrayList()
         try {
-            binding.edtTotalBagsBuyerAuctionFragment.setText(dataFromAPI.Header.TotalBags)
-            binding.edtBudgetAmountBuyerAuctionFragment.setText(dataFromAPI.Header.BudgetAmount)
-            binding.edtOtherCommissionBuyerAuctionFragment.setText(dataFromAPI.Header.OtherCommission)
-            binding.tvBasicAmountBuyerAuctionFragment.setText(dataFromAPI.Header.Basic)
-            binding.tvLeftBagsBuyerAuctionFragment.setText(dataFromAPI.Header.LeftBags)
-            binding.tvGCACommissionBuyerAuctionFragment.setText(dataFromAPI.Header.GCACommission)
-            binding.tvPCACommissionBuyerAuctionFragment.setText(dataFromAPI.Header.PCACommission)
-            binding.tvMCCommissionBuyerAuctionFragment.setText(dataFromAPI.Header.MCCommission)
-            binding.tvTotalAvgRateBuyerAuctionFragment.setText(dataFromAPI.Header.TotalAvgRate)
-            auctionDetailList = dataFromAPI.Details
+            if (dataFromAPI.BudgetAmount.isEmpty())
+            {
+                dataFromAPI.BudgetAmount = "0.0"
+            }
+            binding.edtTotalBagsBuyerAuctionFragment.setText(dataFromAPI.TotalBags)
+            binding.tvTotalAmountBuyerAuctionFragment.setText(dataFromAPI.BudgetAmount)
+            binding.edtOtherCommissionBuyerAuctionFragment.setText(dataFromAPI.Expenses)
+            binding.tvBasicAmountBuyerAuctionFragment.setText(dataFromAPI.TotalBasic)
+            binding.tvLeftBagsBuyerAuctionFragment.setText(dataFromAPI.LeftBags)
+            auctionDetailList = dataFromAPI.AuctionDetailsModel
             bindRecyclerView(auctionDetailList)
         } catch (e: Exception) {
             Log.e(TAG, "updateUIFromAPIData: ${e.message}")
@@ -231,10 +161,10 @@ class BuyerAuctionFragment : Fragment(),RecyclerViewHelper {
         }
     }
 
-    fun bindRecyclerView(dataList: ArrayList<Detail>) {
+    fun bindRecyclerView(dataList: ArrayList<AuctionDetailsModel>) {
         try {
             if (dataList.isNotEmpty()) {
-                adapter = BuyerAuctionListAdapter(requireContext(), dataList,this)
+                adapter = BuyerAuctionListAdapter(requireContext(), dataList, this)
                 binding.rcViewBuyerAuctionFragment.adapter = adapter
                 binding.rcViewBuyerAuctionFragment.invalidate()
             } else {
@@ -246,29 +176,59 @@ class BuyerAuctionFragment : Fragment(),RecyclerViewHelper {
         }
     }
 
-    fun allocateBagsAutomatically(){
+    fun allocateBagsAutomatically(bags: String) {
         try {
-            auctionDetailList= ArrayList()
-            val pcaCount = pcaList.size
-            val bagPerPCA = binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim().toFloat()/pcaCount
-            val remainingBags = binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim().toFloat() % pcaCount
-            val newbags = Math.floor(bagPerPCA.toDouble())
-            val roundoff = String.format("%.2f0", newbags)
-            val bagsPerPerson = distributeSchoolBags(binding.edtTotalBagsBuyerAuctionFragment.text.toString().toDouble(),pcaCount)
-            for (i in 0 until pcaCount)
-            {
-                val detailModel = Detail("",bagsPerPerson[i].toString(),"","","","","","","","",pcaList[i],"","")
-                auctionDetailList.add(detailModel)
+            auctionDetailList2 = ArrayList()
+            val pcaCount = pcaDetailList.size
+            val bagsPerPerson = distributeBagsEvenly(bags.toDouble(), pcaCount)
+            for (i in 0 until pcaCount) {
+                val auctionDetailsModel = AuctionDetailsModel(
+                    auctionDetailList[i].APMCId,
+                    auctionDetailList[i].APMCName,
+                    auctionDetailList[i].Amount,
+                    auctionDetailList[i].AuctionMasterId,
+                    bagsPerPerson[i].toString(),
+                    auctionDetailList[i].BuyerCityId,
+                    auctionDetailList[i].CommodityId,
+                    auctionDetailList[i].DetailsId,
+                    auctionDetailList[i].DistrictId,
+                    auctionDetailList[i].GCACommCharge,
+                    auctionDetailList[i].GCACommRate,
+                    auctionDetailList[i].LowerLimit,
+                    auctionDetailList[i].MarketCessCharge,
+                    auctionDetailList[i].MarketCessRate,
+                    auctionDetailList[i].PCACityId,
+                    auctionDetailList[i].PCACommCharge,
+                    auctionDetailList[i].PCACommRate,
+                    auctionDetailList[i].PCAId,
+                    auctionDetailList[i].PCALowerLimit,
+                    auctionDetailList[i].PCAName,
+                    auctionDetailList[i].PCARegId,
+                    auctionDetailList[i].PCAUpperLimit,
+                    auctionDetailList[i].PerBoriRate,
+                    auctionDetailList[i].StateId,
+                    auctionDetailList[i].TransportId,
+                    auctionDetailList[i].TransportationCharge,
+                    auctionDetailList[i].UpdGCACommRate,
+                    auctionDetailList[i].UpdLabourCharge,
+                    auctionDetailList[i].UpdMarketCessRate,
+                    auctionDetailList[i].UpdPCACommRate,
+                    auctionDetailList[i].UpdPerBoriRate,
+                    auctionDetailList[i].UpdTransportId,
+                    auctionDetailList[i].UpperLimit,
+                    "0.0"
+                )
+                auctionDetailList2.add(auctionDetailsModel)
             }
-            bindRecyclerView(auctionDetailList)
-        }catch (e:Exception)
-        {
+            bindRecyclerView(auctionDetailList2)
+            calculateOtherExpenses(auctionDetailList2)
+        } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "allocateBagsAutomatically: ${e.message}")
         }
     }
 
-    fun distributeSchoolBags(totalBags: Double, numberOfSellers: Int): List<Int> {
+    fun distributeBagsEvenly(totalBags: Double, numberOfSellers: Int): List<Int> {
         val totalBagsInt = totalBags.toInt()
         val bagsPerSeller = totalBagsInt / numberOfSellers
         val remainingBags = totalBagsInt % numberOfSellers
@@ -283,12 +243,128 @@ class BuyerAuctionFragment : Fragment(),RecyclerViewHelper {
         return distributedBags
     }
 
-
     override fun onItemClick(postion: Int, onclickType: String) {
 
     }
 
-    override fun onBuyerAuctionPCAItemClick(postion: Int, model: Detail) {
-        showPCAAddAuctionDialog(model,postion)
+    override fun onBuyerAuctionPCAItemClick(postion: Int, model: AuctionDetailsModel) {
+//        showPCAAddAuctionDialog(model,postion)
     }
+
+    override fun getBuyerAuctionDataList(dataList: ArrayList<AuctionDetailsModel>) {
+//        dataList.forEach { model ->
+//            Log.d(TAG, "getBuyerAuctionDataList: ELEMENT : $model")
+//        }
+        auctionDetailList = dataList
+        calculateOtherExpenses(auctionDetailList)
+    }
+
+    fun calculateOtherExpenses(dataList: ArrayList<AuctionDetailsModel>) {
+        if (dataList.isEmpty()) {
+            commonUIUtility.showToast("No Bags are Allocated!")
+        } else {
+            var leftBags = ""
+            var ab: Int = 0
+            var basic: Double = 0.0
+            var total:Double = 0.0
+            for (model in dataList) {
+                ab += model.Bags.toInt()
+                basic += model.PCABasic.toDouble()
+                total += model.Amount.toDouble()
+                Log.d(TAG, "calculateOtherExpenses: ALLOCATED_BAGS : $ab")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_AMOUNT : $total")
+                leftBags = (binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim()
+                    .toInt() - ab).toString()
+            }
+            binding.tvLeftBagsBuyerAuctionFragment.setText(leftBags)
+            binding.tvBasicAmountBuyerAuctionFragment.setText("%.2f".format(basic))
+            binding.tvTotalAmountBuyerAuctionFragment.setText("%.2f".format(total))
+        }
+    }
+
+    fun showExpenseAuctionDialog(dataList: ArrayList<AuctionDetailsModel>) {
+        try {
+            val alertDailogBuilder = AlertDialog.Builder(requireContext())
+            val dialogBinding = BuyerExpenseDialogLayoutBinding.inflate(layoutInflater)
+            val dialogView = dialogBinding.root
+            alertDailogBuilder.setView(dialogView)
+            alertDialog = alertDailogBuilder.create()
+            alertDialog.setCanceledOnTouchOutside(true)
+            alertDialog.setCancelable(true)
+            alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+            alertDialog.show()
+
+            var basic: Double = 0.0
+            var total:Double = 0.0
+            var pcaCommission = 0.0
+            var gcaCommission = 0.0
+            var marketCess = 0.0
+            var transportCharge = 0.0
+            var labourCharge = 0.0
+            for (model in dataList) {
+                basic += model.PCABasic.toDouble()
+                total += model.Amount.toDouble()
+                pcaCommission += model.PCACommCharge.toDouble()
+                gcaCommission += model.GCACommCharge.toDouble()
+                marketCess += model.MarketCessCharge.toDouble()
+                transportCharge += model.TransportationCharge.toDouble()
+                Log.d(TAG, "showExpenseAuctionDialog: TC : ${model.TransportationCharge}")
+                labourCharge += model.UpdLabourCharge.toDouble()
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_AMOUNT : $total")
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_PCACOMMISSION : $pcaCommission")
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_GCACOMMISSION : $gcaCommission")
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_MARKETCESS : $marketCess")
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_TRANSPORTATION_CHARGE : $transportCharge")
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_LABOUR_CHARGE : $labourCharge")
+            }
+            if (binding.tvTotalAmountBuyerAuctionFragment.text.toString().equals("") || binding.tvTotalAmountBuyerAuctionFragment.text.toString().isEmpty())
+            {
+                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("0.0")
+            }else {
+                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
+                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("%.2f".format(pcaCommission))
+                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("%.2f".format(gcaCommission))
+                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
+                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("%.2f".format(transportCharge))
+                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "showExpenseAuctionDialog: ${e.message}")
+            e.printStackTrace()
+        }
+    }
+
+    fun showAlertDialog(){
+        val alertDialog = AlertDialog.Builder(requireContext())
+        alertDialog.setTitle("Alert")
+        alertDialog.setMessage("Do you want to submit Data?")
+        alertDialog.setPositiveButton("YES",object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                p0!!.dismiss()
+            }
+        })
+        alertDialog.setNegativeButton("NO",object : DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                p0!!.dismiss()
+            }
+        })
+        alertDialog.show()
+    }
+
+    data class newPCAModel(
+        var PCAId: String,
+        var PCAName: String,
+        var PCARegId: String,
+        var GCACommission: String,
+        var PCACommission: String,
+        var MarketCess: String,
+        var LabourCharges: String,
+        var TransportationCharges: String
+    )
 }

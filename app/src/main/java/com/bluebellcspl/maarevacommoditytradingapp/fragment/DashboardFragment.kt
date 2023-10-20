@@ -26,6 +26,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.dashboardHelper.BuyerDashboar
 import com.bluebellcspl.maarevacommoditytradingapp.dashboardHelper.PCADashboard
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentDashboardBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchTransportationMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 
 class DashboardFragment : Fragment() {
@@ -45,6 +47,8 @@ class DashboardFragment : Fragment() {
         CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString()
         navController = findNavController()
         FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
+        FetchCityMasterAPI(requireContext(),requireActivity())
+        FetchTransportationMasterAPI(requireContext(),requireActivity())
         if (CURRENT_USER.equals("Buyer",true))
         {
             binding.buyerDashboard.root.visibility = View.VISIBLE
@@ -56,13 +60,6 @@ class DashboardFragment : Fragment() {
             binding.buyerDashboard.root.visibility = View.GONE
             PCADashboard(requireContext(),requireActivity(),this)
         }
-        else if (CURRENT_USER.equals("Admin",true))
-        {
-            binding.buyerDashboard.root.visibility = View.GONE
-            binding.pcaDashboard.root.visibility = View.GONE
-            BuyerDashboard(requireContext(),requireActivity(),this)
-        }
-
         menuHost = requireActivity()
 
         menuHost.addMenuProvider(object : MenuProvider {

@@ -283,6 +283,14 @@
 
                         </com.google.android.material.textfield.TextInputLayout>
 
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/mchb_Terms_Conditions_Regisiter"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/accept_all_terms_and_conditions"
+                            android:buttonTint="@color/colorPrimaryDark"
+                            android:textSize="@dimen/_12ssp"/>
                     </LinearLayout>
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="match_parent"

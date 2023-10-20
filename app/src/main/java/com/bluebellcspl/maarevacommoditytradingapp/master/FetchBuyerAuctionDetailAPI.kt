@@ -36,16 +36,18 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
             commonUIUtility.showProgress()
             val JO = JsonObject()
             JO.addProperty("CommodityId",PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,""))
-            JO.addProperty("APMCId",PrefUtil.getString(PrefUtil.KEY_APMC_ID,""))
-            JO.addProperty("DistrictId",PrefUtil.getString(PrefUtil.KEY_DISTRICT_ID,""))
-            JO.addProperty("StateId",PrefUtil.getString(PrefUtil.KEY_STATE_ID,""))
-            JO.addProperty("BuyerId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
+//            JO.addProperty("APMCId",PrefUtil.getString(PrefUtil.KEY_APMC_ID,""))
+//            JO.addProperty("DistrictId",PrefUtil.getString(PrefUtil.KEY_DISTRICT_ID,""))
+//            JO.addProperty("StateId",PrefUtil.getString(PrefUtil.KEY_STATE_ID,""))
+            JO.addProperty("BuyerRegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
             JO.addProperty("CompanyCode",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
             JO.addProperty("Date",DateUtility().getyyyyMMdd())
-            JO.addProperty("AuctionMasterId","")
-            JO.addProperty("UserName","")
-            JO.addProperty("RegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
-            JO.addProperty("MobileNo",PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,""))
+//            JO.addProperty("Date","2023-10-20")
+            JO.addProperty("Action","All")
+//            JO.addProperty("AuctionMasterId","")
+//            JO.addProperty("UserName","")
+//            JO.addProperty("RegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
+//            JO.addProperty("MobileNo",PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,""))
 
             Log.d(TAG, "getFetchBuyerAuctionDetail: FETCH_BUYER_AUCTION_DETAIL_JSON : ${JO.toString()}")
 
@@ -55,7 +57,7 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
                 val result = APICall.getBuyerAuctionDetail(JO)
                 if (result.isSuccessful)
                 {
-
+                    Log.d(TAG, "getFetchBuyerAuctionDetail: RESPONSE : ${result.body()}")
                     if (result.body().toString().contains("No Data Found"))
                     {
                         withContext(Main){

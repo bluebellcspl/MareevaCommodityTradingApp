@@ -98,7 +98,7 @@ class Query {
         }
 
         fun getShopNoByShopName(shopName:String,apmcId: String):String{
-            qry = "SELECT ShopNo FROM ShopMaster WHERE ShopName='$shopName' AND APMCId='$apmcId'"
+            qry = "SELECT ShopNo FROM ShopMaster WHERE ShopName='$shopName' AND APMCId='$apmcId' AND IsActive='true'"
             Log.d(TAG, "getShopNoByShopName: $qry")
             return qry
         }
@@ -106,6 +106,12 @@ class Query {
         fun getApprovedPCAName():String{
             qry = "SELECT PCAName FROM PCAMaster WHERE IsActive='true'"
             Log.d(TAG, "getApprovedPCAName: $qry")
+            return qry
+        }
+
+        fun getPCADetail():String{
+            qry = "SELECT PCAId,PCAName,PCARegId,GCACommission,PCACommission,MarketCess,LabourCharges FROM PCAMaster WHERE IsActive='true' AND ApprStatus='true'"
+            Log.d(TAG, "getPCADetail: $qry")
             return qry
         }
 

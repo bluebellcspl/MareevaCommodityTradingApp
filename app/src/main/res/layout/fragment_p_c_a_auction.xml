@@ -289,6 +289,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/tv_AuctionItemCountBar_PCAAuctionFragment"
                     android:layout_below="@+id/cv_AuctionDetails_PCAAuctionFragment"
                     android:layout_width="match_parent"

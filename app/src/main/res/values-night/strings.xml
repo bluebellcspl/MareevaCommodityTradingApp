@@ -88,7 +88,7 @@
     <string name="total_bags">Total Bags</string>
     <string name="other_commission">Other Commission (₹)</string>
     <string name="left_bags">Left Bags</string>
-    <string name="basic_amount">Basic Amount (₹)</string>
+    <string name="basic_amount">Basic Amount</string>
     <string name="gca_commission_rupee">GCA Commission (₹)</string>
     <string name="pca_commission_rupee">PCA Commission (₹)</string>
     <string name="mc_commission_rupee">MC Commission (₹)</string>
@@ -107,4 +107,12 @@
     <string name="location">Location</string>
     <string name="please_enter_location_alert_msg">Please Enter Location!</string>
     <string name="user_approval_is_pending_alert_msg">User Approval is Pending!</string>
+    <string name="accept_all_terms_and_conditions">Accept All Terms and Conditions</string>
+    <string name="please_accept_terms_and_conditions">Please Accept Terms and Conditions!</string>
+    <string name="expense">Expense</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="market_cess_rupee">Market Cess (₹)</string>
+    <string name="transportation_charge_rupee">Transportation Charge (₹)</string>
+    <string name="labour_charge_rupee">Labour Charge (₹)</string>
+    <string name="submit">Submit</string>
 </resources>

@@ -16,6 +16,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAListBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchUnapprovedPCAListAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.Detail
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
@@ -113,7 +114,11 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
         }
     }
 
-    override fun onBuyerAuctionPCAItemClick(postion: Int, model: Detail) {
+    override fun onBuyerAuctionPCAItemClick(postion: Int, model: AuctionDetailsModel) {
+
+    }
+
+    override fun getBuyerAuctionDataList(dataList: ArrayList<AuctionDetailsModel>) {
 
     }
 }

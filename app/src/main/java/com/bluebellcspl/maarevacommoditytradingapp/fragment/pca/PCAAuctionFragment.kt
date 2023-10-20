@@ -79,9 +79,12 @@ class PCAAuctionFragment : Fragment() {
                 override fun afterTextChanged(p0: Editable?) {
                     if (p0.toString().isNotEmpty())
                     {
-                        val shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(p0.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+                        val shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(p0.toString(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
                         dialogBinding.edtShopNoPCAAuctionDialog.setText("")
-                        dialogBinding.edtShopNoPCAAuctionDialog.setText(shopNo)
+                        if (!shopNo.equals("invalid"))
+                        {
+                            dialogBinding.edtShopNoPCAAuctionDialog.setText(shopNo)
+                        }
                     }
                 }
             }

@@ -1,6 +1,8 @@
 package com.bluebellcspl.maarevacommoditytradingapp.retrofitApi
 
 import com.bluebellcspl.maarevacommoditytradingapp.model.APMCMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.CityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.FetchBuyerAuctionDetail
@@ -8,6 +10,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.RoleMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.StateMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.TransportationMasterModel
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -72,10 +75,17 @@ interface OurRetrofit {
     suspend fun getPCAMaster(@Body body: JsonObject): Response<PCAListModel>
 
     @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/CityMasterGet")
+    suspend fun getCityMaster(@Body body: JsonObject): Response<CityMasterModel>
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/TransportationMasterGet")
+    suspend fun getTransportationMaster(@Body body: JsonObject): Response<TransportationMasterModel>
+
+    @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAMasterUpdate")
     suspend fun postPCAUpdateData(@Body body: JsonObject): Response<String>
 
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/BuyersAuctionDetailsGet")
-    suspend fun getBuyerAuctionDetail(@Body body: JsonObject): Response<FetchBuyerAuctionDetail>
+    suspend fun getBuyerAuctionDetail(@Body body: JsonObject): Response<BuyerAuctionMasterModel>
 }

@@ -64,6 +64,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.checkbox.MaterialCheckBox
+                        android:visibility="gone"
                         android:id="@+id/mchb_AdminLogin_Login"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -221,7 +222,8 @@
                         <com.google.android.material.button.MaterialButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_10sdp"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
                             android:id="@+id/btn_GetOTP_Login"
                             android:text="@string/get_otp"
                             android:textSize="@dimen/_14ssp"
@@ -319,7 +321,7 @@
                         android:id="@+id/mchb_remember_login"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_8sdp"
+                        android:layout_margin="@dimen/_5sdp"
                         android:buttonTint="@color/colorPrimaryDark"
                         android:fontFamily="@font/poppins"
                         android:text="@string/remember_me"
@@ -328,7 +330,8 @@
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
                         android:id="@+id/btn_VerifyOTP_Login"
                         android:text="@string/login"
                         android:textSize="@dimen/_14ssp"

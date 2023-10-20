@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="@dimen/_5sdp"
+            android:id="@+id/cv_BuyerExpenseDialog">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/basic_amount"
+                        android:textSize="@dimen/_15ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_TotalBasicAmount_BuyerExpenseDialog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:gravity="center_vertical|end"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_15ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/gca_commission_rupee"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+
+                    <TextView
+                        android:id="@+id/tv_TotalGCACommission_BuyerExpenseDialog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:gravity="center_vertical|end"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_15ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/pca_commission_rupee"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+
+                    <TextView
+                        android:id="@+id/tv_TotalPCACommission_BuyerExpenseDialog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:gravity="center_vertical|end"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_15ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/market_cess_rupee"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+
+                    <TextView
+                        android:id="@+id/tv_TotalMarketCess_BuyerExpenseDialog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:gravity="center_vertical|end"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_15ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/transportation_charge_rupee"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+
+                    <TextView
+                        android:id="@+id/tv_TotalTransportCharge_BuyerExpenseDialog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:gravity="center_vertical|end"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_15ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/labour_charge_rupee"
+                        android:textSize="@dimen/_14ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+
+                    <TextView
+                        android:id="@+id/tv_TotalLabourCharge_BuyerExpenseDialog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:gravity="center_vertical|end"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_15ssp"
+                        android:textColor="@color/black"
+                        android:layout_weight="0.5" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
+</layout>

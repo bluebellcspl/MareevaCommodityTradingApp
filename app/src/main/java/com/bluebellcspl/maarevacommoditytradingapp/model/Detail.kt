@@ -13,5 +13,6 @@ data class Detail(
     var PCAId: String,
     var PCAName: String,
     var PCARegId: String,
-    var UpperLimit: String
+    var UpperLimit: String,
+    var Basic:String = ""
 )

@@ -218,6 +218,7 @@ class LoginActivity : AppCompatActivity() {
 
             binding.btnRegisterLogin.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+                finish()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -370,10 +371,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun clearAllData() {
-//        binding.actStateLogin.setText("")
-//        binding.actDistrictLogin.setText("")
-//        binding.actCommodityLogin.setText("")
-//        binding.actAPMCLogin.setText("")
         binding.edtOTPLogin.setText("")
         binding.edtPhoneNoLogin.setText("")
         binding.edtPasswordLogin.setText("")
