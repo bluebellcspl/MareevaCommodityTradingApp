@@ -34,5 +34,5 @@ data class AuctionDetailsModel(
     var UpdPerBoriRate: String,
     var UpdTransportId: String,
     var UpperLimit: String,
-    var PCABasic:String
+    var Basic:String
 )

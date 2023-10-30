@@ -7,301 +7,310 @@
 
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.bluebellcspl.maarevacommoditytradingapp.RegisterActivity"
-        android:padding="@dimen/_10sdp">
+        android:padding="@dimen/_8sdp">
 
-        <ScrollView
-            android:id="@+id/ScrollView_Register"
+<!--        <ScrollView-->
+<!--            android:id="@+id/ScrollView_Register"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorSecondary"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:cardElevation="@dimen/_5sdp"
-                app:cardBackgroundColor="@color/colorSecondary"
-                app:cardUseCompatPadding="true">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/_5sdp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_120sdp"
+                    android:src="@drawable/splash_logo" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_medium"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:text="@string/buyer_registration"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_20ssp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <Spinner
+                        android:id="@+id/spn_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/language"
+                        android:padding="@dimen/_10sdp" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_margin="@dimen/_8sdp"-->
+                <!--                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+                <!--                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+                <!--                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+                <!--                        app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+                <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+                <!--                        android:hint="@string/select_role"-->
+                <!--                        app:endIconTint="@color/colorPrimaryDark">-->
+
+                <!--                        <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="match_parent"-->
+                <!--                            android:textColor="@color/black"-->
+                <!--                            android:id="@+id/act_Role_Register"-->
+                <!--                            android:textSize="@dimen/_14ssp"-->
+                <!--                            android:inputType="none" />-->
+                <!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                 <LinearLayout
+                    android:id="@+id/ll_BuyerOrPCA"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_5sdp">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_200sdp"
-                        android:src="@drawable/splash_logo" />
+                    <!--                        <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_margin="@dimen/_8sdp"-->
+                    <!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+                    <!--                            android:enabled="false"-->
+                    <!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+                    <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+                    <!--                            android:hint="@string/select_state"-->
+                    <!--                            app:endIconTint="@color/colorPrimaryDark">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_medium"
-                        android:text="@string/buyer_registration"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_22ssp"
-                        android:textAllCaps="true"
-                        android:padding="@dimen/_5sdp" />
+                    <!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="match_parent"-->
+                    <!--                                android:enabled="false"-->
+                    <!--                                android:textColor="@color/black"-->
+                    <!--                                android:id="@+id/act_State_Register"-->
+                    <!--                                android:textSize="@dimen/_14ssp"-->
+                    <!--                                android:inputType="none" />-->
+                    <!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cv_Spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:elevation="@dimen/_5sdp"
-                        app:cardCornerRadius="@dimen/_5sdp"
-                        app:cardElevation="@dimen/_5sdp"
-                        app:cardUseCompatPadding="true">
+                    <!--                        <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_margin="@dimen/_8sdp"-->
+                    <!--                            android:enabled="false"-->
+                    <!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+                    <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+                    <!--                            android:hint="@string/select_district"-->
+                    <!--                            app:endIconTint="@color/colorPrimaryDark">-->
 
-                        <Spinner
-                            android:id="@+id/spn_language"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/language"
-                            android:padding="@dimen/_10sdp" />
-                    </com.google.android.material.card.MaterialCardView>
+                    <!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="match_parent"-->
+                    <!--                                android:textColor="@color/black"-->
+                    <!--                                android:id="@+id/act_District_Register"-->
+                    <!--                                android:textSize="@dimen/_14ssp"-->
+                    <!--                                android:inputType="none" />-->
+                    <!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
-<!--                    <com.google.android.material.textfield.TextInputLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_margin="@dimen/_8sdp"-->
-<!--                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
-<!--                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
-<!--                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
-<!--                        app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
-<!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
-<!--                        android:hint="@string/select_role"-->
-<!--                        app:endIconTint="@color/colorPrimaryDark">-->
+                    <!--                        <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_margin="@dimen/_8sdp"-->
+                    <!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+                    <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+                    <!--                            android:hint="@string/select_apmc"-->
+                    <!--                            app:endIconTint="@color/colorPrimaryDark">-->
 
-<!--                        <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:id="@+id/act_Role_Register"-->
-<!--                            android:textSize="@dimen/_14ssp"-->
-<!--                            android:inputType="none" />-->
-<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+                    <!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="match_parent"-->
+                    <!--                                android:textColor="@color/black"-->
+                    <!--                                android:id="@+id/act_APMC_Register"-->
+                    <!--                                android:textSize="@dimen/_14ssp"-->
+                    <!--                                android:inputType="none" />-->
+                    <!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/ll_BuyerOrPCA">
+                    <!--                        <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_margin="@dimen/_8sdp"-->
+                    <!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+                    <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+                    <!--                            android:hint="@string/select_commodity"-->
+                    <!--                            app:endIconTint="@color/colorPrimaryDark">-->
 
-<!--                        <com.google.android.material.textfield.TextInputLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_margin="@dimen/_8sdp"-->
-<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
-<!--                            android:enabled="false"-->
-<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
-<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
-<!--                            android:hint="@string/select_state"-->
-<!--                            app:endIconTint="@color/colorPrimaryDark">-->
+                    <!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="match_parent"-->
+                    <!--                                android:textColor="@color/black"-->
+                    <!--                                android:id="@+id/act_Commodity_Register"-->
+                    <!--                                android:textSize="@dimen/_14ssp"-->
+                    <!--                                android:inputType="none" />-->
+                    <!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
-<!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent"-->
-<!--                                android:enabled="false"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:id="@+id/act_State_Register"-->
-<!--                                android:textSize="@dimen/_14ssp"-->
-<!--                                android:inputType="none" />-->
-<!--                        </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--                        <com.google.android.material.textfield.TextInputLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_margin="@dimen/_8sdp"-->
-<!--                            android:enabled="false"-->
-<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
-<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
-<!--                            android:hint="@string/select_district"-->
-<!--                            app:endIconTint="@color/colorPrimaryDark">-->
-
-<!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:id="@+id/act_District_Register"-->
-<!--                                android:textSize="@dimen/_14ssp"-->
-<!--                                android:inputType="none" />-->
-<!--                        </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--                        <com.google.android.material.textfield.TextInputLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_margin="@dimen/_8sdp"-->
-<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
-<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
-<!--                            android:hint="@string/select_apmc"-->
-<!--                            app:endIconTint="@color/colorPrimaryDark">-->
-
-<!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:id="@+id/act_APMC_Register"-->
-<!--                                android:textSize="@dimen/_14ssp"-->
-<!--                                android:inputType="none" />-->
-<!--                        </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--                        <com.google.android.material.textfield.TextInputLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_margin="@dimen/_8sdp"-->
-<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
-<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
-<!--                            android:hint="@string/select_commodity"-->
-<!--                            app:endIconTint="@color/colorPrimaryDark">-->
-
-<!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:id="@+id/act_Commodity_Register"-->
-<!--                                android:textSize="@dimen/_14ssp"-->
-<!--                                android:inputType="none" />-->
-<!--                        </com.google.android.material.textfield.TextInputLayout>-->
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:hint="Phone No."
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            app:endIconMode="clear_text"
-                            app:counterMaxLength="10"
-                            app:counterEnabled="true"
-                            app:counterTextColor="@color/colorPrimaryDark"
-                            app:endIconTint="@color/colorPrimaryDark">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_PhoneNo_Register"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="phone"
-                                android:digits="1234567890"
-                                android:imeOptions="actionNext"
-                                android:maxLength="10"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:hint="Full Name"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            app:endIconMode="clear_text"
-                            app:counterTextColor="@color/colorPrimaryDark"
-                            app:endIconTint="@color/colorPrimaryDark">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_FullName_Register"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="textPersonName"
-                                android:imeOptions="actionNext"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-<!--                        <com.google.android.material.textfield.TextInputLayout-->
-<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_margin="8dp"-->
-<!--                            android:hint="Email"-->
-<!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
-<!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
-<!--                            app:endIconMode="clear_text"-->
-<!--                            app:counterTextColor="@color/colorPrimaryDark"-->
-<!--                            app:endIconTint="@color/colorPrimaryDark">-->
-
-<!--                            <com.google.android.material.textfield.TextInputEditText-->
-<!--                                android:id="@+id/edt_Email_Register"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent"-->
-<!--                                android:inputType="textEmailAddress"-->
-<!--                                android:imeOptions="actionNext"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:textSize="@dimen/_14ssp" />-->
-
-<!--                        </com.google.android.material.textfield.TextInputLayout>-->
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:hint="@string/location"
-                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
-                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
-                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
-                            app:endIconMode="clear_text"
-                            app:counterTextColor="@color/colorPrimaryDark"
-                            app:endIconTint="@color/colorPrimaryDark">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_Location_Register"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="text"
-                                android:imeOptions="actionNext"
-                                android:gravity="start"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.checkbox.MaterialCheckBox
-                            android:id="@+id/mchb_Terms_Conditions_Regisiter"
-                            android:layout_gravity="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/accept_all_terms_and_conditions"
-                            android:buttonTint="@color/colorPrimaryDark"
-                            android:textSize="@dimen/_12ssp"/>
-                    </LinearLayout>
-                    <com.google.android.material.button.MaterialButton
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_10sdp"
-                        android:id="@+id/btn_Register_Register"
-                        android:text="@string/register"
-                        android:textSize="@dimen/_14ssp"
-                        app:cornerRadius="@dimen/_8sdp" />
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:hint="Phone No."
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10"
+                        app:counterTextColor="@color/colorPrimaryDark"
+                        app:endIconMode="clear_text"
+                        app:endIconTint="@color/colorPrimaryDark">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_PhoneNo_Register"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:digits="1234567890"
+                            android:imeOptions="actionNext"
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="Full Name"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                        app:counterTextColor="@color/colorPrimaryDark"
+                        app:endIconMode="clear_text"
+                        app:endIconTint="@color/colorPrimaryDark">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_FullName_Register"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--                        <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_margin="8dp"-->
+                    <!--                            android:hint="Email"-->
+                    <!--                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"-->
+                    <!--                            app:boxCornerRadiusTopStart="@dimen/_10sdp"-->
+                    <!--                            app:endIconMode="clear_text"-->
+                    <!--                            app:counterTextColor="@color/colorPrimaryDark"-->
+                    <!--                            app:endIconTint="@color/colorPrimaryDark">-->
+
+                    <!--                            <com.google.android.material.textfield.TextInputEditText-->
+                    <!--                                android:id="@+id/edt_Email_Register"-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="match_parent"-->
+                    <!--                                android:inputType="textEmailAddress"-->
+                    <!--                                android:imeOptions="actionNext"-->
+                    <!--                                android:textColor="@color/black"-->
+                    <!--                                android:textSize="@dimen/_14ssp" />-->
+
+                    <!--                        </com.google.android.material.textfield.TextInputLayout>-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:hint="@string/location"
+                        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                        app:counterTextColor="@color/colorPrimaryDark"
+                        app:endIconMode="clear_text"
+                        app:endIconTint="@color/colorPrimaryDark">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_Location_Register"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="start"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14ssp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/mchb_Terms_Conditions_Regisiter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:buttonTint="@color/colorPrimaryDark"
+                        android:text="@string/accept_all_terms_and_conditions"
+                        android:textSize="@dimen/_12ssp" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </ScrollView>
-    </RelativeLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_Register_Register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:text="@string/register"
+                    android:textSize="@dimen/_14ssp"
+                    app:cornerRadius="@dimen/_8sdp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+<!--        </ScrollView>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

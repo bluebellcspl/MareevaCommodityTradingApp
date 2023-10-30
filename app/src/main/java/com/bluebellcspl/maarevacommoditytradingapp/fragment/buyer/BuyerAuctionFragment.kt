@@ -17,23 +17,20 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerAuctionListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
-import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionDetailDialogLayoutBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerExpenseDialogLayoutBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentBuyerAuctionBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetailAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.POSTBuyerAuctionDataAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
-import com.bluebellcspl.maarevacommoditytradingapp.model.Detail
-import com.bluebellcspl.maarevacommoditytradingapp.model.FetchBuyerAuctionDetail
+import com.bluebellcspl.maarevacommoditytradingapp.model.POSTBuyerAuctionData
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import java.math.BigDecimal
-import java.math.RoundingMode
-import java.text.DecimalFormat
 import java.util.Locale
 
 
@@ -48,6 +45,16 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     var auctionDetailList: ArrayList<AuctionDetailsModel> = ArrayList()
     var auctionDetailList2: ArrayList<AuctionDetailsModel> = ArrayList()
     lateinit var pcaDetailList: ArrayList<newPCAModel>
+    lateinit var ALLOCATED_BAGS: String
+    lateinit var TOTAL_AMOUNT: String
+    lateinit var TOTAL_PCA_BASIC: String
+    lateinit var TOTAL_PCA_COMMISSION: String
+    lateinit var TOTAL_GCA_COMMISSION: String
+    lateinit var TOTAL_MARKETCESS: String
+    lateinit var TOTAL_TRANSPORTATION_CHARGE: String
+    lateinit var TOTAL_LABOUR_CHARGE: String
+    lateinit var AUCTION_MASTER_ID: String
+    lateinit var postAuction: BuyerAuctionMasterModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -144,8 +151,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     fun updateUIFromAPIData(dataFromAPI: BuyerAuctionMasterModel) {
 //        auctionDetailList = ArrayList()
         try {
-            if (dataFromAPI.BudgetAmount.isEmpty())
-            {
+            if (dataFromAPI.BudgetAmount.isEmpty()) {
                 dataFromAPI.BudgetAmount = "0.0"
             }
             binding.edtTotalBagsBuyerAuctionFragment.setText(dataFromAPI.TotalBags)
@@ -154,6 +160,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             binding.tvBasicAmountBuyerAuctionFragment.setText(dataFromAPI.TotalBasic)
             binding.tvLeftBagsBuyerAuctionFragment.setText(dataFromAPI.LeftBags)
             auctionDetailList = dataFromAPI.AuctionDetailsModel
+            postAuction = dataFromAPI
             bindRecyclerView(auctionDetailList)
         } catch (e: Exception) {
             Log.e(TAG, "updateUIFromAPIData: ${e.message}")
@@ -266,19 +273,45 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             var leftBags = ""
             var ab: Int = 0
             var basic: Double = 0.0
-            var total:Double = 0.0
+            var total: Double = 0.0
+            var pcaCommission = 0.0
+            var gcaCommission = 0.0
+            var marketCess = 0.0
+            var transportCharge = 0.0
+            var labourCharge = 0.0
             for (model in dataList) {
                 ab += model.Bags.toInt()
-                basic += model.PCABasic.toDouble()
+                basic += model.Basic.toDouble()
                 total += model.Amount.toDouble()
-                Log.d(TAG, "calculateOtherExpenses: ALLOCATED_BAGS : $ab")
-                Log.d(TAG, "calculateOtherExpenses: TOTAL_AMOUNT : $total")
+                pcaCommission += model.PCACommCharge.toDouble()
+                gcaCommission += model.GCACommCharge.toDouble()
+                marketCess += model.MarketCessCharge.toDouble()
+                transportCharge += model.TransportationCharge.toDouble()
                 leftBags = (binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim()
                     .toInt() - ab).toString()
+                labourCharge += model.UpdLabourCharge.toDouble()
+
+                Log.d(TAG, "calculateOtherExpenses: ALLOCATED_BAGS : $ab")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_AMOUNT : $total")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_PCA_BASIC : $basic")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_PCACOMMISSION : $pcaCommission")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_GCACOMMISSION : $gcaCommission")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_MARKETCESS : $marketCess")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_TRANSPORTATION_CHARGE : $transportCharge")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_LABOUR_CHARGE : $labourCharge")
             }
             binding.tvLeftBagsBuyerAuctionFragment.setText(leftBags)
             binding.tvBasicAmountBuyerAuctionFragment.setText("%.2f".format(basic))
             binding.tvTotalAmountBuyerAuctionFragment.setText("%.2f".format(total))
+
+            ALLOCATED_BAGS = ab.toString()
+            TOTAL_PCA_BASIC = "%.2f".format(basic)
+            TOTAL_AMOUNT = "%.2f".format(total)
+            TOTAL_PCA_COMMISSION = "%.2f".format(pcaCommission)
+            TOTAL_GCA_COMMISSION = "%.2f".format(gcaCommission)
+            TOTAL_MARKETCESS = "%.2f".format(marketCess)
+            TOTAL_TRANSPORTATION_CHARGE = "%.2f".format(transportCharge)
+            TOTAL_LABOUR_CHARGE = "%.2f".format(labourCharge)
         }
     }
 
@@ -295,14 +328,14 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             alertDialog.show()
 
             var basic: Double = 0.0
-            var total:Double = 0.0
+            var total: Double = 0.0
             var pcaCommission = 0.0
             var gcaCommission = 0.0
             var marketCess = 0.0
             var transportCharge = 0.0
             var labourCharge = 0.0
             for (model in dataList) {
-                basic += model.PCABasic.toDouble()
+                basic += model.Basic.toDouble()
                 total += model.Amount.toDouble()
                 pcaCommission += model.PCACommCharge.toDouble()
                 gcaCommission += model.GCACommCharge.toDouble()
@@ -314,24 +347,45 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_PCACOMMISSION : $pcaCommission")
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_GCACOMMISSION : $gcaCommission")
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_MARKETCESS : $marketCess")
-                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_TRANSPORTATION_CHARGE : $transportCharge")
+                Log.d(
+                    TAG,
+                    "showExpenseAuctionDialog: TOTAL_TRANSPORTATION_CHARGE : $transportCharge"
+                )
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_LABOUR_CHARGE : $labourCharge")
             }
-            if (binding.tvTotalAmountBuyerAuctionFragment.text.toString().equals("") || binding.tvTotalAmountBuyerAuctionFragment.text.toString().isEmpty())
-            {
+            if (binding.tvTotalAmountBuyerAuctionFragment.text.toString()
+                    .equals("") || binding.tvTotalAmountBuyerAuctionFragment.text.toString()
+                    .isEmpty()
+            ) {
                 dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("0.0")
-            }else {
+            } else {
                 dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
-                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("%.2f".format(pcaCommission))
-                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("%.2f".format(gcaCommission))
+                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(
+                    "%.2f".format(
+                        pcaCommission
+                    )
+                )
+                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(
+                    "%.2f".format(
+                        gcaCommission
+                    )
+                )
                 dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
-                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("%.2f".format(transportCharge))
-                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
+                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(
+                    "%.2f".format(
+                        transportCharge
+                    )
+                )
+                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(
+                    "%.2f".format(
+                        labourCharge
+                    )
+                )
             }
 
         } catch (e: Exception) {
@@ -340,21 +394,60 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         }
     }
 
-    fun showAlertDialog(){
+    fun showAlertDialog() {
         val alertDialog = AlertDialog.Builder(requireContext())
         alertDialog.setTitle("Alert")
         alertDialog.setMessage("Do you want to submit Data?")
-        alertDialog.setPositiveButton("YES",object : DialogInterface.OnClickListener {
+        alertDialog.setPositiveButton("YES", object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
-                p0!!.dismiss()
+                postAuctionData()
             }
         })
-        alertDialog.setNegativeButton("NO",object : DialogInterface.OnClickListener {
+        alertDialog.setNegativeButton("NO", object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
             }
         })
         alertDialog.show()
+    }
+
+    private fun postAuctionData() {
+        try {
+            val postAuctionDataModel = POSTBuyerAuctionData(
+                "insert",
+                ALLOCATED_BAGS,
+                auctionDetailList,
+                postAuction.AuctionMasterId,
+                TOTAL_AMOUNT,
+                auctionDetailList[0].BuyerCityId,
+                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+                PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString(),
+                PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,"").toString(),
+                PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString(),
+                DateUtility().getyyyyMMdd(),
+                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+                DateUtility().getyyyyMMdd(),
+                binding.tvLeftBagsBuyerAuctionFragment.text.toString(),
+                postAuction.RoleId,
+                binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim(),
+                TOTAL_PCA_BASIC,
+                TOTAL_AMOUNT,
+                TOTAL_GCA_COMMISSION,
+                TOTAL_LABOUR_CHARGE,
+                TOTAL_MARKETCESS,
+                TOTAL_PCA_COMMISSION,
+                pcaDetailList.size,
+                TOTAL_TRANSPORTATION_CHARGE,
+                DateUtility().getyyyyMMdd(),
+                PrefUtil.getString(PrefUtil.KEY_BUYER_ID, "").toString()
+            )
+
+            POSTBuyerAuctionDataAPI(requireContext(),requireActivity(),this,postAuctionDataModel)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "postAuctionData: ${e.message}")
+        }
     }
 
     data class newPCAModel(
@@ -367,4 +460,9 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         var LabourCharges: String,
         var TransportationCharges: String
     )
+
+    public fun onAuctionInsertSuccessful()
+    {
+        FetchBuyerAuctionDetailAPI(requireContext(), requireActivity(), this)
+    }
 }

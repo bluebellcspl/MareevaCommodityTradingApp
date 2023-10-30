@@ -11,8 +11,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.RoleMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.StateMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.TransportationMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.UserMasterModel
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -88,4 +90,10 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/BuyersAuctionDetailsGet")
     suspend fun getBuyerAuctionDetail(@Body body: JsonObject): Response<BuyerAuctionMasterModel>
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/BuyersAuctionInsUpd")
+    suspend fun POSTBuyerAuctionDetail(@Body body: JsonObject): Response<String>
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/UserMasterGet")
+    suspend fun getUserMaster(@Body body: JsonObject): Response<UserMasterModel>
 }

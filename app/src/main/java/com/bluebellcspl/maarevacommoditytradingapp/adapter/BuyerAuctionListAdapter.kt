@@ -1,8 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.adapter
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -13,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionItemAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
 class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<AuctionDetailsModel>, var recyclerViewHelper: RecyclerViewHelper):RecyclerView.Adapter<BuyerAuctionListAdapter.MyViewHolder>() {
 
@@ -24,7 +20,7 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Aucti
         fun calcutateData(model: AuctionDetailsModel){
             try {
                 var upperLimit = binding.tvUpperLimitBuyerAuctionItemAdapter.text.toString().trim()
-                var lowerLimit =binding.tvLowerLimitBuyerAuctionItemAdapter.text.toString().trim()
+                var lowerLimit = binding.tvLowerLimitBuyerAuctionItemAdapter.text.toString().trim()
                 val bags = binding.tvBagsBuyerAuctionItemAdapter.text.toString().trim()
                 if (upperLimit.isNotEmpty() && lowerLimit.isNotEmpty() && bags.isNotEmpty()) {
 
@@ -32,40 +28,44 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Aucti
                     Log.d(TAG, "afterTextChanged: BAGS_AMOUNT : $BasicAmount")
                     var totalAmount = 0.0
 
-                    if (model.UpdGCACommRate.isEmpty())
-                    {
-                        model.UpdGCACommRate = "0.0"
-                    }
-                    if (model.UpdPCACommRate.isEmpty())
-                    {
-                        model.UpdPCACommRate = "0.0"
-                    }
-                    if (model.UpdMarketCessRate.isEmpty())
-                    {
-                        model.UpdMarketCessRate = "0.0"
-                    }
-                    if (model.UpdPerBoriRate.isEmpty())
-                    {
-                        model.UpdPerBoriRate = "0.0"
-                    }
+//                    if (model.UpdGCACommRate.isEmpty())
+//                    {
+//                        model.UpdGCACommRate = "0.0"
+//                    }
+//                    if (model.UpdPCACommRate.isEmpty())
+//                    {
+//                        model.UpdPCACommRate = "0.0"
+//                    }
+//                    if (model.UpdMarketCessRate.isEmpty())
+//                    {
+//                        model.UpdMarketCessRate = "0.0"
+//                    }
+//                    if (model.UpdPerBoriRate.isEmpty())
+//                    {
+//                        model.UpdPerBoriRate = "0.0"
+//                    }
+//                    if(model.TransportationCharge.isEmpty())
+//                    {
+//                        model.TransportationCharge
+//                    }
                     val gcaCommission = ((BasicAmount * model.UpdGCACommRate.toDouble())/100.0)
                     val pcaCommission = (BasicAmount * model.UpdPCACommRate.toDouble())/100.0
                     val marketCess = (BasicAmount * model.UpdMarketCessRate.toDouble())/100.0
-                    var transportCharge = 0.0
-                    if (model.TransportationCharge.toDouble()<1)
-                    {
-                        model.TransportationCharge = "0"
-                        transportCharge = 0.0
-                    }else
-                    {
-                     transportCharge = (model.Bags.toDouble() * model.UpdPerBoriRate.toDouble())
-                    }
+//                    if (model.TransportationCharge.toDouble()<1)
+//                    {
+//                        model.TransportationCharge = "0"
+//                        transportCharge = 0.0
+//                    }else
+//                    {
+//                     transportCharge = (model.Bags.toDouble() * model.UpdPerBoriRate.toDouble())
+//                    }
+                    var transportCharge = (bags.toDouble() * model.UpdPerBoriRate.toDouble())
                     var labourCharge = model.UpdLabourCharge.toDouble()
 
                     Log.d(TAG, "afterTextChanged: MARKETCESS : $marketCess")
                     Log.d(TAG, "afterTextChanged: PCACOMISSION : $pcaCommission")
                     Log.d(TAG, "afterTextChanged: GCACOMISSION : $gcaCommission")
-                    Log.d(TAG, "afterTextChanged: TRANSPORTATION_CHARGE : $transportCharge")
+                    Log.d(TAG, "afterTextChanged: TRANSPORTATION_CHARGE at $adapterPosition : $transportCharge")
                     Log.d(TAG, "afterTextChanged: LABOURCHARGES : $labourCharge")
                     totalAmount = BasicAmount + gcaCommission+pcaCommission + marketCess +transportCharge+ labourCharge
 
@@ -80,11 +80,11 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Aucti
                     binding.tvAmountBuyerAuctionItemAdapter.setText("%.2f".format(totalAmount))
 
                     model.Bags = bags
-                    model.Amount = totalAmount.toString()
+                    model.Amount = "%.2f".format(totalAmount)
                     model.LowerLimit = lowerLimit
                     model.UpperLimit = upperLimit
-                    model.PCABasic = BasicAmount.toString()
-                    model.TransportationCharge = transportCharge.toString()
+                    model.Basic = BasicAmount.toString()
+                    model.TransportationCharge = "%.2f".format(transportCharge)
                     model.PerBoriRate = model.UpdPerBoriRate
                     model.PCACommCharge =  pcaCommission.toString()
                     model.PCACommRate =  model.UpdPCACommRate
@@ -141,16 +141,16 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Aucti
         holder.binding.tvLowerLimitBuyerAuctionItemAdapter.setText(pcaLowerLimit)
         holder.binding.tvUpperLimitBuyerAuctionItemAdapter.setText(pcaUpperLimit)
 //        holder.binding.tvLastDayPriceBuyerAuctionItemAdapter.setText(model.LastDayPrice)
-        model.PCABasic = "0.0"
+        model.Basic = "0.0"
         if (model.Bags.isEmpty() || model.Bags.equals("") || model.Bags.toInt()<1)
         {
             holder.binding.cvAuctionDetailsBuyerAuctionItemAdapter.visibility = View.GONE
             holder.binding.cvBagCountBuyerAuctionItemAdapter.visibility = View.GONE
         }
-        if (model.Amount.isEmpty())
-        {
-            model.Amount = "0.0"
-        }
+//        if (model.Amount.isEmpty())
+//        {
+//            model.Amount = "0.0"
+//        }
         holder.calcutateData(model)
         //TextWatcher
         val calculationTextWatcher: TextWatcher = object : TextWatcher {

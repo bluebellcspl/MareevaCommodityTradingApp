@@ -115,4 +115,5 @@
     <string name="transportation_charge_rupee">Transportation Charge (₹)</string>
     <string name="labour_charge_rupee">Labour Charge (₹)</string>
     <string name="submit">Submit</string>
+    <string name="auction_inserted_successfully">Auction Inserted Successfully!</string>
 </resources>

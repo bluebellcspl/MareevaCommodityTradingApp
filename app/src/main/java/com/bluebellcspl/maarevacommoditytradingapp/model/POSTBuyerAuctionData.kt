@@ -1,0 +1,30 @@
+package com.bluebellcspl.maarevacommoditytradingapp.model
+
+data class POSTBuyerAuctionData(
+    var Action: String,
+    var AllocatedBags: String,
+    var AuctionDetailsModel: ArrayList<AuctionDetailsModel>,
+    var AuctionMasterId: String,
+    var BudgetAmount: String,
+    var BuyerCityId: String,
+    var BuyerRegId: String,
+    var CommodityId: String,
+    var CommodityName: String,
+    var CompanyCode: String,
+    var CreateDate: String,
+    var CreateUser: String,
+    var Date: String,
+    var LeftBags: String,
+    var RoleId: String,
+    var TotalBags: String,
+    var TotalBasic: String,
+    var TotalCost: String,
+    var TotalGCAComm: String,
+    var TotalLabourCharge: String,
+    var TotalMarketCess: String,
+    var TotalPCAComm: String,
+    var TotalPCAs: Int,
+    var TotalTransportationCharge: String,
+    var UpdateDate: String,
+    var UpdateUser: String
+)

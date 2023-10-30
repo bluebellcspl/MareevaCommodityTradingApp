@@ -42,7 +42,7 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
             JO.addProperty("BuyerRegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
             JO.addProperty("CompanyCode",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
             JO.addProperty("Date",DateUtility().getyyyyMMdd())
-//            JO.addProperty("Date","2023-10-20")
+//            JO.addProperty("Date","2023-10-27")
             JO.addProperty("Action","All")
 //            JO.addProperty("AuctionMasterId","")
 //            JO.addProperty("UserName","")
