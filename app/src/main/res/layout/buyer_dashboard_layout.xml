@@ -123,7 +123,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cv_PCAList_Buyer"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_120sdp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="0.4"
                         android:clickable="true"
                         android:focusable="true"
@@ -140,8 +140,8 @@
                             android:orientation="vertical">
 
                             <androidx.cardview.widget.CardView
-                                android:layout_width="@dimen/_60sdp"
-                                android:layout_height="@dimen/_60sdp"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="@dimen/_50sdp"
                                 app:cardCornerRadius="18dp"
                                 app:cardUseCompatPadding="true">
 
@@ -159,6 +159,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/pca_list"
+                                android:layout_marginBottom="@dimen/_3sdp"
                                 android:fontFamily="@font/inter_medium"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
@@ -217,7 +218,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cv_Auction_Buyer"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_120sdp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="0.6"
                         android:clickable="true"
                         android:focusable="true"
@@ -234,8 +235,8 @@
                             android:orientation="vertical">
 
                             <androidx.cardview.widget.CardView
-                                android:layout_width="@dimen/_70sdp"
-                                android:layout_height="@dimen/_70sdp"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="@dimen/_50sdp"
                                 app:cardCornerRadius="18dp"
                                 app:cardUseCompatPadding="true">
 
@@ -253,6 +254,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/auction"
+                                android:layout_marginBottom="@dimen/_3sdp"
                                 android:fontFamily="@font/inter_medium"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"

@@ -115,6 +115,12 @@ class Query {
             return qry
         }
 
+        fun getCommodityBhartiByCommodityId(commodityId: String):String{
+            qry = "SELECT Bharti FROM CommodityMaster WHERE CommodityId='$commodityId' AND IsActive='1'"
+            Log.d(TAG, "getCommodityBhartiByCommodityId: $qry")
+            return qry
+        }
+
 
     }
 

@@ -29,6 +29,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.LoginWithOTPAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.LoginForAdminModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LoginWithOTPModel
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityLoginBinding
 import java.util.Locale
 
@@ -61,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
         DatabaseManager.initializeInstance(this)
         setLanguage()
-
+        binding.tvVersionLogin.setText(Constants.version)
         binding.mchbAdminLoginLogin.isChecked = false
 
         binding.mchbAdminLoginLogin.addOnCheckedStateChangedListener { checkBox, state ->

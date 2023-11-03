@@ -42,11 +42,8 @@ class PCAAuctionFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_p_c_a_auction, container, false)
-        binding.tvAuctionItemCountPCAAuctionFragment.setText(args.userType)
+//        binding.tvAuctionItemCountPCAAuctionFragment.setText(args.userType)
 
-        binding.fabAddAuctionPCAAuctionFragment.setOnClickListener {
-            showPCAAddAuctionDialog()
-        }
         return binding.root
     }
 

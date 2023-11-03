@@ -38,7 +38,7 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_120sdp"
+                    android:layout_height="200dp"
                     android:src="@drawable/splash_logo" />
 
                 <TextView
@@ -49,7 +49,7 @@
                     android:text="@string/buyer_registration"
                     android:textAllCaps="true"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_20ssp" />
+                    android:textSize="@dimen/_15ssp" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cv_Spinner"
@@ -64,7 +64,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/language"
-                        android:padding="@dimen/_10sdp" />
+                        android:padding="@dimen/_5sdp" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!--                    <com.google.android.material.textfield.TextInputLayout-->
@@ -207,7 +207,7 @@
                             android:inputType="phone"
                             android:maxLength="10"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
+                            android:textSize="@dimen/_10ssp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -234,7 +234,7 @@
                             android:imeOptions="actionNext"
                             android:inputType="textPersonName"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
+                            android:textSize="@dimen/_10ssp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -287,7 +287,7 @@
                             android:imeOptions="actionNext"
                             android:inputType="text"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
+                            android:textSize="@dimen/_10ssp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -305,7 +305,7 @@
                     android:id="@+id/btn_Register_Register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
                     android:text="@string/register"
                     android:textSize="@dimen/_14ssp"
                     app:cornerRadius="@dimen/_8sdp" />

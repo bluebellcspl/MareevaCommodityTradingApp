@@ -55,6 +55,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     lateinit var TOTAL_LABOUR_CHARGE: String
     lateinit var AUCTION_MASTER_ID: String
     lateinit var postAuction: BuyerAuctionMasterModel
+    lateinit var commodityBharti:String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,6 +63,8 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_buyer_auction, container, false)
+        commodityBharti = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
+        Log.d(TAG, "onCreateView: COMMODITY_BHARTI : $commodityBharti")
         FetchBuyerAuctionDetailAPI(requireContext(), requireActivity(), this)
         val today = MaterialDatePicker.todayInUtcMilliseconds()
         val calendarConstraints =
@@ -85,7 +88,12 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         }
 
         binding.btnSubmitBuyerAuctionFragment.setOnClickListener {
-            showAlertDialog()
+            if (binding.edtTotalBagsBuyerAuctionFragment.text.toString().isEmpty())
+            {
+                commonUIUtility.showToast("Please Enter Number of Bags!")
+            }else {
+                showAlertDialog()
+            }
         }
         //new design changes
         pcaDetailList = getPCADetails()
@@ -154,9 +162,11 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             if (dataFromAPI.BudgetAmount.isEmpty()) {
                 dataFromAPI.BudgetAmount = "0.0"
             }
+            dataFromAPI.CommodityBhartiPrice = commodityBharti
             binding.edtTotalBagsBuyerAuctionFragment.setText(dataFromAPI.TotalBags)
             binding.tvTotalAmountBuyerAuctionFragment.setText(dataFromAPI.BudgetAmount)
-            binding.edtOtherCommissionBuyerAuctionFragment.setText(dataFromAPI.Expenses)
+//            val expense = dataFromAPI.TotalBasic.toDouble() + dataFromAPI.TotalGCAComm.toDouble()+dataFromAPI.TotalPCAComm.toDouble()+dataFromAPI.TotalMarketCess.toDouble()+dataFromAPI.TotalTransportationCharge.toDouble()+dataFromAPI.TotalLabourCharge.toDouble()
+//            binding.edtOtherCommissionBuyerAuctionFragment.setText("%.f".format(expense))
             binding.tvBasicAmountBuyerAuctionFragment.setText(dataFromAPI.TotalBasic)
             binding.tvLeftBagsBuyerAuctionFragment.setText(dataFromAPI.LeftBags)
             auctionDetailList = dataFromAPI.AuctionDetailsModel
@@ -171,7 +181,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     fun bindRecyclerView(dataList: ArrayList<AuctionDetailsModel>) {
         try {
             if (dataList.isNotEmpty()) {
-                adapter = BuyerAuctionListAdapter(requireContext(), dataList, this)
+                adapter = BuyerAuctionListAdapter(requireContext(), dataList, this,commodityBharti)
                 binding.rcViewBuyerAuctionFragment.adapter = adapter
                 binding.rcViewBuyerAuctionFragment.invalidate()
             } else {
@@ -302,6 +312,8 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             }
             binding.tvLeftBagsBuyerAuctionFragment.setText(leftBags)
             binding.tvBasicAmountBuyerAuctionFragment.setText("%.2f".format(basic))
+//            val nf = NumberFormat.getCurrencyInstance().format(total)
+//            binding.tvTotalAmountBuyerAuctionFragment.setText(nf.toString() )
             binding.tvTotalAmountBuyerAuctionFragment.setText("%.2f".format(total))
 
             ALLOCATED_BAGS = ab.toString()

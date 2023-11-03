@@ -12,7 +12,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionItemA
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
-class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<AuctionDetailsModel>, var recyclerViewHelper: RecyclerViewHelper):RecyclerView.Adapter<BuyerAuctionListAdapter.MyViewHolder>() {
+class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<AuctionDetailsModel>, var recyclerViewHelper: RecyclerViewHelper,var commodityBhartiPrice:String):RecyclerView.Adapter<BuyerAuctionListAdapter.MyViewHolder>() {
 
     private val TAG = "BuyerAuctionListAdapter"
     inner class MyViewHolder(var binding:BuyerAuctionItemAdapterBinding):
@@ -21,10 +21,9 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Aucti
             try {
                 var upperLimit = binding.tvUpperLimitBuyerAuctionItemAdapter.text.toString().trim()
                 var lowerLimit = binding.tvLowerLimitBuyerAuctionItemAdapter.text.toString().trim()
-                val bags = binding.tvBagsBuyerAuctionItemAdapter.text.toString().trim()
+                var bags = binding.tvBagsBuyerAuctionItemAdapter.text.toString().trim()
                 if (upperLimit.isNotEmpty() && lowerLimit.isNotEmpty() && bags.isNotEmpty()) {
-
-                    val BasicAmount = ((bags.toDouble() * 75) / 20 ) * ((upperLimit.toDouble() + lowerLimit.toDouble()) / 2)
+                    val BasicAmount = ((bags.toDouble() * commodityBhartiPrice.toDouble()) / 20 ) * ((upperLimit.toDouble() + lowerLimit.toDouble()) / 2)
                     Log.d(TAG, "afterTextChanged: BAGS_AMOUNT : $BasicAmount")
                     var totalAmount = 0.0
 
@@ -48,6 +47,10 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Aucti
 //                    {
 //                        model.TransportationCharge
 //                    }
+                    if(model.UpdLabourCharge.isEmpty())
+                    {
+                        model.UpdLabourCharge = "0"
+                    }
                     val gcaCommission = ((BasicAmount * model.UpdGCACommRate.toDouble())/100.0)
                     val pcaCommission = (BasicAmount * model.UpdPCACommRate.toDouble())/100.0
                     val marketCess = (BasicAmount * model.UpdMarketCessRate.toDouble())/100.0
@@ -95,6 +98,7 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Aucti
                     recyclerViewHelper.getBuyerAuctionDataList(dataList)
                 } else {
                     binding.tvAmountBuyerAuctionItemAdapter.setText("")
+                    binding.tvBagsBuyerAuctionItemAdapter.setText("0")
                 }
             }catch (e:Exception)
             {
@@ -147,10 +151,6 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Aucti
             holder.binding.cvAuctionDetailsBuyerAuctionItemAdapter.visibility = View.GONE
             holder.binding.cvBagCountBuyerAuctionItemAdapter.visibility = View.GONE
         }
-//        if (model.Amount.isEmpty())
-//        {
-//            model.Amount = "0.0"
-//        }
         holder.calcutateData(model)
         //TextWatcher
         val calculationTextWatcher: TextWatcher = object : TextWatcher {
@@ -159,7 +159,6 @@ class BuyerAuctionListAdapter(var context: Context, var dataList:ArrayList<Aucti
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun afterTextChanged(p0: Editable?) {

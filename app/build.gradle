@@ -12,10 +12,10 @@ android {
 
     defaultConfig {
         applicationId "com.bluebellcspl.maarevacommoditytradingapp"
-        minSdk 26
+        minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +36,7 @@ android {
 
     buildFeatures{
         dataBinding = true
+        buildConfig true
     }
 }
 
@@ -43,7 +44,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -65,8 +66,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
 
     //Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.4'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.4'
 
     //joda
     implementation 'net.danlew:android.joda:2.12.5'

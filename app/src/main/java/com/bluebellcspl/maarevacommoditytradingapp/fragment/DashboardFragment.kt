@@ -27,6 +27,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.dashboardHelper.PCADashboard
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentDashboardBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchTransportationMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 
@@ -49,6 +50,7 @@ class DashboardFragment : Fragment() {
         FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
         FetchCityMasterAPI(requireContext(),requireActivity())
         FetchTransportationMasterAPI(requireContext(),requireActivity())
+        FetchCommodityMasterAPI(requireContext(), requireActivity())
         if (CURRENT_USER.equals("Buyer",true))
         {
             binding.buyerDashboard.root.visibility = View.VISIBLE
