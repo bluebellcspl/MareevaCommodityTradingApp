@@ -340,6 +340,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
             alertDialog.show()
 
+            dialogBinding.llTotalBagsBuyerExpenseDialog.visibility = View.VISIBLE
             var basic: Double = 0.0
             var total: Double = 0.0
             var pcaCommission = 0.0
@@ -347,7 +348,12 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             var marketCess = 0.0
             var transportCharge = 0.0
             var labourCharge = 0.0
+            var allocatedBags=0
             for (model in dataList) {
+                if (model.LowerLimit.toDouble()>0 && model.UpperLimit.toDouble()>0)
+                {
+                    allocatedBags+=model.Bags.toInt()
+                }
                 basic += model.Basic.toDouble()
                 total += model.Amount.toDouble()
                 pcaCommission += model.PCACommCharge.toDouble()
@@ -376,6 +382,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalBagsBuyerExpenseDialog.setText("0.0")
             } else {
 
 //                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
@@ -396,6 +403,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(transportChargeNF.toString())
                 val labourChargeNF = NumberFormat.getCurrencyInstance().format(labourCharge)
                 dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(labourChargeNF.toString())
+                dialogBinding.tvTotalBagsBuyerExpenseDialog.setText(allocatedBags.toString())
             }
 
         } catch (e: Exception) {

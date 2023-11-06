@@ -1,6 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.constants
 
-import com.karumi.dexter.BuildConfig
+import com.bluebellcspl.maarevacommoditytradingapp.BuildConfig
 
 
 class Constants {

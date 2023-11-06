@@ -96,4 +96,7 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/UserMasterGet")
     suspend fun getUserMaster(@Body body: JsonObject): Response<UserMasterModel>
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionDetailsGet")
+    suspend fun getPCAAuctionDetail(@Body body: JsonObject): Response<String>
 }
