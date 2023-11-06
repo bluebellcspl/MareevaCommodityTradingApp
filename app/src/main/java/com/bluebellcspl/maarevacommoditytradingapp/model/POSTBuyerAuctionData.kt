@@ -9,6 +9,7 @@ data class POSTBuyerAuctionData(
     var BuyerCityId: String,
     var BuyerRegId: String,
     var CommodityId: String,
+    var CommodityBhartiPrice: String,
     var CommodityName: String,
     var CompanyCode: String,
     var CreateDate: String,

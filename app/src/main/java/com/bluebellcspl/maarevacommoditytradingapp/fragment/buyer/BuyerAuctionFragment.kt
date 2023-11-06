@@ -2,6 +2,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.text.Editable
@@ -261,7 +262,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     }
 
     override fun onItemClick(postion: Int, onclickType: String) {
-
+        showPCAExpenseDialog(auctionDetailList,postion)
     }
 
     override fun onBuyerAuctionPCAItemClick(postion: Int, model: AuctionDetailsModel) {
@@ -312,9 +313,9 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             }
             binding.tvLeftBagsBuyerAuctionFragment.setText(leftBags)
             binding.tvBasicAmountBuyerAuctionFragment.setText("%.2f".format(basic))
-//            val nf = NumberFormat.getCurrencyInstance().format(total)
-//            binding.tvTotalAmountBuyerAuctionFragment.setText(nf.toString() )
-            binding.tvTotalAmountBuyerAuctionFragment.setText("%.2f".format(total))
+            val nf = NumberFormat.getCurrencyInstance().format(total)
+            binding.tvTotalAmountBuyerAuctionFragment.setText(nf.toString() )
+//            binding.tvTotalAmountBuyerAuctionFragment.setText("%.2f".format(total))
 
             ALLOCATED_BAGS = ab.toString()
             TOTAL_PCA_BASIC = "%.2f".format(basic)
@@ -376,28 +377,104 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("0.0")
             } else {
-                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
-                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(
-                    "%.2f".format(
-                        pcaCommission
-                    )
+
+//                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
+//                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("%.2f".format(pcaCommission))
+//                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("%.2f".format(gcaCommission))
+//                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
+//                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("%.2f".format(transportCharge))
+//                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
+                val basicNF = NumberFormat.getCurrencyInstance().format(basic)
+                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(basicNF.toString())
+                val pcaCommNF = NumberFormat.getCurrencyInstance().format(basic)
+                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommNF.toString())
+                val gcaCommNF = NumberFormat.getCurrencyInstance().format(gcaCommission)
+                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(gcaCommNF.toString())
+                val marketCessNF = NumberFormat.getCurrencyInstance().format(marketCess)
+                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(marketCessNF.toString())
+                val transportChargeNF = NumberFormat.getCurrencyInstance().format(transportCharge)
+                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(transportChargeNF.toString())
+                val labourChargeNF = NumberFormat.getCurrencyInstance().format(labourCharge)
+                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(labourChargeNF.toString())
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "showExpenseAuctionDialog: ${e.message}")
+            e.printStackTrace()
+        }
+    }
+    fun showPCAExpenseDialog(dataList: ArrayList<AuctionDetailsModel>,postion: Int) {
+        try {
+            val alertDailogBuilder = AlertDialog.Builder(requireContext())
+            val dialogBinding = BuyerExpenseDialogLayoutBinding.inflate(layoutInflater)
+            val dialogView = dialogBinding.root
+            alertDailogBuilder.setView(dialogView)
+            alertDialog = alertDailogBuilder.create()
+            alertDialog.setCanceledOnTouchOutside(true)
+            alertDialog.setCancelable(true)
+            alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+            alertDialog.show()
+            var model = dataList[postion]
+            dialogBinding.llPCANameBuyerExpenseDialog.visibility = View.VISIBLE
+            dialogBinding.llBagsBuyerExpenseDialog.visibility = View.VISIBLE
+            var basic: Double = 0.0
+            var total: Double = 0.0
+            var pcaCommission = 0.0
+            var gcaCommission = 0.0
+            var marketCess = 0.0
+            var transportCharge = 0.0
+            var labourCharge = 0.0
+//            for (model in dataList) {
+                basic = model.Basic.toDouble()
+                total = model.Amount.toDouble()
+                pcaCommission = model.PCACommCharge.toDouble()
+                gcaCommission = model.GCACommCharge.toDouble()
+                marketCess = model.MarketCessCharge.toDouble()
+                transportCharge = model.TransportationCharge.toDouble()
+                Log.d(TAG, "showExpenseAuctionDialog: TC : ${model.TransportationCharge}")
+                labourCharge = model.UpdLabourCharge.toDouble()
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_AMOUNT : $total")
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_PCACOMMISSION : $pcaCommission")
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_GCACOMMISSION : $gcaCommission")
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_MARKETCESS : $marketCess")
+                Log.d(
+                    TAG,
+                    "showExpenseAuctionDialog: TOTAL_TRANSPORTATION_CHARGE : $transportCharge"
                 )
-                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(
-                    "%.2f".format(
-                        gcaCommission
-                    )
-                )
-                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
-                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(
-                    "%.2f".format(
-                        transportCharge
-                    )
-                )
-                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(
-                    "%.2f".format(
-                        labourCharge
-                    )
-                )
+                Log.d(TAG, "showExpenseAuctionDialog: TOTAL_LABOUR_CHARGE : $labourCharge")
+//            }
+            if (binding.tvTotalAmountBuyerAuctionFragment.text.toString()
+                    .equals("") || binding.tvTotalAmountBuyerAuctionFragment.text.toString()
+                    .isEmpty()
+            ) {
+                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("0.0")
+            } else {
+
+//                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
+//                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("%.2f".format(pcaCommission))
+//                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("%.2f".format(gcaCommission))
+//                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
+//                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("%.2f".format(transportCharge))
+//                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
+                val basicNF = NumberFormat.getCurrencyInstance().format(basic)
+                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(basicNF.toString())
+                val pcaCommNF = NumberFormat.getCurrencyInstance().format(basic)
+                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommNF.toString())
+                val gcaCommNF = NumberFormat.getCurrencyInstance().format(gcaCommission)
+                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(gcaCommNF.toString())
+                val marketCessNF = NumberFormat.getCurrencyInstance().format(marketCess)
+                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(marketCessNF.toString())
+                val transportChargeNF = NumberFormat.getCurrencyInstance().format(transportCharge)
+                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(transportChargeNF.toString())
+                val labourChargeNF = NumberFormat.getCurrencyInstance().format(labourCharge)
+                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(labourChargeNF.toString())
+                dialogBinding.tvBagsBuyerExpenseDialog.setText(model.Bags)
+                dialogBinding.tvPCANameBuyerExpenseDialog.setText(model.PCAName)
             }
 
         } catch (e: Exception) {
@@ -434,6 +511,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 auctionDetailList[0].BuyerCityId,
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
                 PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString(),
+                commodityBharti,
                 PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,"").toString(),
                 PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString(),
                 DateUtility().getyyyyMMdd(),

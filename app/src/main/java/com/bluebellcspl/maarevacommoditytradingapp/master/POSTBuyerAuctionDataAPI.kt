@@ -41,6 +41,7 @@ class POSTBuyerAuctionDataAPI(var context: Context,var activity: Activity,var fr
             JO.addProperty("BuyerCityId",model.BuyerCityId)
             JO.addProperty("BuyerRegId",model.BuyerRegId)
             JO.addProperty("CommodityId",model.CommodityId)
+            JO.addProperty("CommodityBhartiPrice",model.CommodityBhartiPrice)
             JO.addProperty("CommodityName",model.CommodityName)
             JO.addProperty("CompanyCode",model.CompanyCode)
             JO.addProperty("CreateDate",model.CreateDate)
