@@ -236,6 +236,7 @@
                             android:inputType="number"
                             android:textCursorDrawable="@null"
                             android:text="10000000"
+                            android:selectAllOnFocus="true"
                             android:maxLength="4"
                             android:padding="@dimen/_5sdp"
                             android:textAlignment="center"
@@ -244,6 +245,7 @@
                             android:textStyle="bold" />
 
                         <EditText
+                            android:theme="@style/Widget.AppCompat.EditText"
                             android:id="@+id/tv_UpperLimit_BuyerAuctionItemAdapter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -254,6 +256,7 @@
                             android:textCursorDrawable="@null"
                             android:inputType="number"
                             android:text="10000000"
+                            android:selectAllOnFocus="true"
                             android:padding="@dimen/_5sdp"
                             android:textAlignment="center"
                             android:textColor="@color/black"

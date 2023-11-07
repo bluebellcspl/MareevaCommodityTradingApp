@@ -173,6 +173,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             auctionDetailList = dataFromAPI.AuctionDetailsModel
             postAuction = dataFromAPI
             bindRecyclerView(auctionDetailList)
+            Log.d(TAG, "updateUIFromAPIData: FIRST_LIST : $auctionDetailList")
         } catch (e: Exception) {
             Log.e(TAG, "updateUIFromAPIData: ${e.message}")
             e.printStackTrace()
@@ -199,45 +200,49 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             auctionDetailList2 = ArrayList()
             val pcaCount = pcaDetailList.size
             val bagsPerPerson = distributeBagsEvenly(bags.toDouble(), pcaCount)
+            auctionDetailList2.addAll(auctionDetailList)
             for (i in 0 until pcaCount) {
-                val auctionDetailsModel = AuctionDetailsModel(
-                    auctionDetailList[i].APMCId,
-                    auctionDetailList[i].APMCName,
-                    auctionDetailList[i].Amount,
-                    auctionDetailList[i].AuctionMasterId,
-                    bagsPerPerson[i].toString(),
-                    auctionDetailList[i].BuyerCityId,
-                    auctionDetailList[i].CommodityId,
-                    auctionDetailList[i].DetailsId,
-                    auctionDetailList[i].DistrictId,
-                    auctionDetailList[i].GCACommCharge,
-                    auctionDetailList[i].GCACommRate,
-                    auctionDetailList[i].LowerLimit,
-                    auctionDetailList[i].MarketCessCharge,
-                    auctionDetailList[i].MarketCessRate,
-                    auctionDetailList[i].PCACityId,
-                    auctionDetailList[i].PCACommCharge,
-                    auctionDetailList[i].PCACommRate,
-                    auctionDetailList[i].PCAId,
-                    auctionDetailList[i].PCALowerLimit,
-                    auctionDetailList[i].PCAName,
-                    auctionDetailList[i].PCARegId,
-                    auctionDetailList[i].PCAUpperLimit,
-                    auctionDetailList[i].PerBoriRate,
-                    auctionDetailList[i].StateId,
-                    auctionDetailList[i].TransportId,
-                    auctionDetailList[i].TransportationCharge,
-                    auctionDetailList[i].UpdGCACommRate,
-                    auctionDetailList[i].UpdLabourCharge,
-                    auctionDetailList[i].UpdMarketCessRate,
-                    auctionDetailList[i].UpdPCACommRate,
-                    auctionDetailList[i].UpdPerBoriRate,
-                    auctionDetailList[i].UpdTransportId,
-                    auctionDetailList[i].UpperLimit,
-                    "0.0"
-                )
-                auctionDetailList2.add(auctionDetailsModel)
+//                val auctionDetailsModel = AuctionDetailsModel(
+//                    auctionDetailList[i].APMCId,
+//                    auctionDetailList[i].APMCName,
+//                    auctionDetailList[i].Amount,
+//                    auctionDetailList[i].AuctionMasterId,
+//                    bagsPerPerson[i].toString(),
+//                    auctionDetailList[i].BuyerCityId,
+//                    auctionDetailList[i].CommodityId,
+//                    auctionDetailList[i].DetailsId,
+//                    auctionDetailList[i].DistrictId,
+//                    auctionDetailList[i].GCACommCharge,
+//                    auctionDetailList[i].GCACommRate,
+//                    auctionDetailList[i].LowerLimit,
+//                    auctionDetailList[i].MarketCessCharge,
+//                    auctionDetailList[i].MarketCessRate,
+//                    auctionDetailList[i].PCACityId,
+//                    auctionDetailList[i].PCACommCharge,
+//                    auctionDetailList[i].PCACommRate,
+//                    auctionDetailList[i].PCAId,
+//                    auctionDetailList[i].PCALowerLimit,
+//                    auctionDetailList[i].PCAName,
+//                    auctionDetailList[i].PCARegId,
+//                    auctionDetailList[i].PCAUpperLimit,
+//                    auctionDetailList[i].PerBoriRate,
+//                    auctionDetailList[i].StateId,
+//                    auctionDetailList[i].TransportId,
+//                    auctionDetailList[i].TransportationCharge,
+//                    auctionDetailList[i].UpdGCACommRate,
+//                    auctionDetailList[i].UpdLabourCharge,
+//                    auctionDetailList[i].UpdMarketCessRate,
+//                    auctionDetailList[i].UpdPCACommRate,
+//                    auctionDetailList[i].UpdPerBoriRate,
+//                    auctionDetailList[i].UpdTransportId,
+//                    auctionDetailList[i].UpperLimit,
+//                    "0.0"
+//                )
+//                auctionDetailList2.add(auctionDetailsModel)
+                auctionDetailList2[i].Bags = bagsPerPerson[i].toString()
+                auctionDetailList2[i].Basic = "0.0"
             }
+            Log.d(TAG, "allocateBagsAutomatically: SECOND_LIST : $auctionDetailList2")
             bindRecyclerView(auctionDetailList2)
             calculateOtherExpenses(auctionDetailList2)
         } catch (e: Exception) {
@@ -302,6 +307,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                     .toInt() - ab).toString()
                 labourCharge += model.UpdLabourCharge.toDouble()
 
+                Log.d(TAG, "calculateOtherExpenses: PCA_NAME : ${model.PCAName}")
                 Log.d(TAG, "calculateOtherExpenses: ALLOCATED_BAGS : $ab")
                 Log.d(TAG, "calculateOtherExpenses: TOTAL_AMOUNT : $total")
                 Log.d(TAG, "calculateOtherExpenses: TOTAL_PCA_BASIC : $basic")
@@ -310,6 +316,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 Log.d(TAG, "calculateOtherExpenses: TOTAL_MARKETCESS : $marketCess")
                 Log.d(TAG, "calculateOtherExpenses: TOTAL_TRANSPORTATION_CHARGE : $transportCharge")
                 Log.d(TAG, "calculateOtherExpenses: TOTAL_LABOUR_CHARGE : $labourCharge")
+                Log.d(TAG, "calculateOtherExpenses: ================================================================================")
             }
             binding.tvLeftBagsBuyerAuctionFragment.setText(leftBags)
             binding.tvBasicAmountBuyerAuctionFragment.setText("%.2f".format(basic))
@@ -353,23 +360,20 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 if (model.LowerLimit.toDouble()>0 && model.UpperLimit.toDouble()>0)
                 {
                     allocatedBags+=model.Bags.toInt()
+                    transportCharge += model.TransportationCharge.toDouble()
+                    labourCharge += model.UpdLabourCharge.toDouble()
                 }
                 basic += model.Basic.toDouble()
                 total += model.Amount.toDouble()
                 pcaCommission += model.PCACommCharge.toDouble()
                 gcaCommission += model.GCACommCharge.toDouble()
                 marketCess += model.MarketCessCharge.toDouble()
-                transportCharge += model.TransportationCharge.toDouble()
                 Log.d(TAG, "showExpenseAuctionDialog: TC : ${model.TransportationCharge}")
-                labourCharge += model.UpdLabourCharge.toDouble()
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_AMOUNT : $total")
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_PCACOMMISSION : $pcaCommission")
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_GCACOMMISSION : $gcaCommission")
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_MARKETCESS : $marketCess")
-                Log.d(
-                    TAG,
-                    "showExpenseAuctionDialog: TOTAL_TRANSPORTATION_CHARGE : $transportCharge"
-                )
+                Log.d(TAG,"showExpenseAuctionDialog: TOTAL_TRANSPORTATION_CHARGE : $transportCharge")
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_LABOUR_CHARGE : $labourCharge")
             }
             if (binding.tvTotalAmountBuyerAuctionFragment.text.toString()

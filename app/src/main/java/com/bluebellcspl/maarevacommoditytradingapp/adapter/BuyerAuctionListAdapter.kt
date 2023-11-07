@@ -35,64 +35,31 @@ class BuyerAuctionListAdapter(
                     Log.d(TAG, "afterTextChanged: BAGS_AMOUNT : $BasicAmount")
                     var totalAmount = 0.0
 
-//                    if (model.UpdGCACommRate.isEmpty())
-//                    {
-//                        model.UpdGCACommRate = "0.0"
-//                    }
-//                    if (model.UpdPCACommRate.isEmpty())
-//                    {
-//                        model.UpdPCACommRate = "0.0"
-//                    }
-//                    if (model.UpdMarketCessRate.isEmpty())
-//                    {
-//                        model.UpdMarketCessRate = "0.0"
-//                    }
-//                    if (model.UpdPerBoriRate.isEmpty())
-//                    {
-//                        model.UpdPerBoriRate = "0.0"
-//                    }
-//                    if(model.TransportationCharge.isEmpty())
-//                    {
-//                        model.TransportationCharge
-//                    }
-                    if (model.UpdLabourCharge.isEmpty()) {
-                        model.UpdLabourCharge = "0"
-                    }
+                    var transportCharge =(bags.toDouble() * model.UpdPerBoriRate.toDouble())
+                    var labourCharge = model.UpdLabourCharge.toDouble()
+
                     val gcaCommission = ((BasicAmount * model.UpdGCACommRate.toDouble()) / 100.0)
                     val pcaCommission = (BasicAmount * model.UpdPCACommRate.toDouble()) / 100.0
                     val marketCess = (BasicAmount * model.UpdMarketCessRate.toDouble()) / 100.0
-//                    if (model.TransportationCharge.toDouble()<1)
-//                    {
-//                        model.TransportationCharge = "0"
-//                        transportCharge = 0.0
-//                    }else
-//                    {
-//                     transportCharge = (model.Bags.toDouble() * model.UpdPerBoriRate.toDouble())
-//                    }
-                    var transportCharge = (bags.toDouble() * model.UpdPerBoriRate.toDouble())
-                    var labourCharge = model.UpdLabourCharge.toDouble()
 
+                    Log.d(TAG, "afterTextChanged: PCA_NAME_MODEL : ${model.PCAName}")
                     Log.d(TAG, "afterTextChanged: MARKETCESS : $marketCess")
                     Log.d(TAG, "afterTextChanged: PCACOMISSION : $pcaCommission")
                     Log.d(TAG, "afterTextChanged: GCACOMISSION : $gcaCommission")
-                    Log.d(
-                        TAG,
-                        "afterTextChanged: TRANSPORTATION_CHARGE at $adapterPosition : $transportCharge"
-                    )
+                    Log.d(TAG,"afterTextChanged: TRANSPORTATION_CHARGE at $adapterPosition : $transportCharge")
                     Log.d(TAG, "afterTextChanged: LABOURCHARGES : $labourCharge")
-                    totalAmount =
-                        BasicAmount + gcaCommission + pcaCommission + marketCess + transportCharge + labourCharge
+                    if (upperLimit.toInt()!=0 && lowerLimit.toInt()!=0) {
+                        totalAmount =BasicAmount + gcaCommission + pcaCommission + marketCess + transportCharge + labourCharge
+                    }else
+                    {
+                        totalAmount = 0.0
+                    }
 
                     Log.d(TAG, "afterTextChanged: TOTAL_AMOUNT : $totalAmount")
                     Log.d(
                         TAG,
                         "afterTextChanged: ================================================================================"
                     )
-                    if (upperLimit.equals("0") && lowerLimit.equals("0")) {
-                        totalAmount = 0.0
-                        transportCharge = 0.0
-                        labourCharge = 0.0
-                    }
 
 //                    binding.tvAmountBuyerAuctionItemAdapter.setText("%.2f".format(totalAmount))
                     val nf = NumberFormat.getCurrencyInstance().format(totalAmount)
