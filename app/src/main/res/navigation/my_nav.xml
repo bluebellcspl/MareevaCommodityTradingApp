@@ -59,6 +59,15 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_PCAAuctionFragment_to_PCAAuctionListFragment"
+            app:destination="@id/PCAAuctionListFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/PCAAuctionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/addPCAFragment"
@@ -102,5 +111,14 @@
         <argument
             android:name="pcaListModel"
             app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/PCAAuctionListFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionListFragment"
+        android:label="PCAAuctionListFragment"
+        tools:layout="@layout/fragment_p_c_a_auction_list">
+        <argument
+            android:name="pcaAuctionDetailModel"
+            app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel" />
     </fragment>
 </navigation>

@@ -1,5 +1,9 @@
 package com.bluebellcspl.maarevacommoditytradingapp.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class ApiPCAAuctionDetail(
     var Amount: String,
     var Bags: String,
@@ -11,4 +15,4 @@ data class ApiPCAAuctionDetail(
     var ShopName: String,
     var ShopNo: String,
     var UpdateUser: String
-)
+):Parcelable
