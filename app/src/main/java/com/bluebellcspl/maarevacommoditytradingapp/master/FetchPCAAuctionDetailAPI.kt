@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionFragment
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.JsonObject
@@ -14,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var fragment: Fragment) {
     val job = Job()
@@ -27,11 +29,13 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
 
     private fun getPCAAuction() {
         try {
+            commonUIUtility.showProgress()
             val JO = JsonObject()
             JO.addProperty("Date",DateUtility().getyyyyMMdd())
             JO.addProperty("CompanyCode",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
-            JO.addProperty("MobileNo",PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,""))
             JO.addProperty("RegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
+            JO.addProperty("BuyerId",PrefUtil.getString(PrefUtil.KEY_BUYER_ID,""))
+            JO.addProperty("CommodityId",PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,""))
 
             Log.d(TAG, "getPCAAuction: JSON : $JO")
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
@@ -39,10 +43,27 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                 val result = APICall.getPCAAuctionDetail(JO)
                 if (result.isSuccessful)
                 {
-
+                    val pcaAuctionDetailModel = result.body()!!
+                    Log.d(TAG, "getPCAAuction: RESPONSE : $pcaAuctionDetailModel")
+                    withContext(Dispatchers.Main)
+                    {
+                        commonUIUtility.dismissProgress()
+                        if (fragment is PCAAuctionFragment)
+                        {
+                            (fragment as PCAAuctionFragment).updateUIFromAPIData(pcaAuctionDetailModel)
+                        }
+                    }
                 }else
                 {
-
+                    Log.e(TAG, "getPCAAuction: ${result.errorBody()}")
+                    withContext(Dispatchers.Main)
+                    {
+                        commonUIUtility.dismissProgress()
+                        if (fragment is PCAAuctionFragment)
+                        {
+                            (fragment as PCAAuctionFragment).noAuctionPopup()
+                        }
+                    }
                 }
             }
         }catch (e:Exception)

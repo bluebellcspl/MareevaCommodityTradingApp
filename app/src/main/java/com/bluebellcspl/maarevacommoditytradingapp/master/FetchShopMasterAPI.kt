@@ -54,12 +54,14 @@ class FetchShopMasterAPI(var context: Context, var activity: Activity) {
                         list.put("ShopId",model.ShopId)
                         list.put("ShopNo",model.ShopNo)
                         list.put("ShopName",model.ShopName)
+                        list.put("ShortShopName",model.ShortShopName)
                         list.put("ShopAddress",model.ShopAddress)
                         list.put("CompanyCode",model.CompanyCode)
                         list.put("IsActive",model.IsActive)
                         list.put("CreateUser",model.CreateUser)
                         list.put("CreateDate",model.CreateDate)
                         list.put("UpdateDate",model.UpdateDate)
+                        list.put("UpdateUser",model.UpdateUser)
                         DatabaseManager.commonInsert(list,Constants.TBL_ShopMaster)
                     }
                     withContext(Dispatchers.Main) {

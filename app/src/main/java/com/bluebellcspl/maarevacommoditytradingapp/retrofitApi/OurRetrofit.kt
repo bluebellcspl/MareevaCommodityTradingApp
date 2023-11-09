@@ -5,16 +5,14 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
-import com.bluebellcspl.maarevacommoditytradingapp.model.FetchBuyerAuctionDetail
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.RoleMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.StateMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.TransportationMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.UserMasterModel
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -98,5 +96,8 @@ interface OurRetrofit {
     suspend fun getUserMaster(@Body body: JsonObject): Response<UserMasterModel>
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionDetailsGet")
-    suspend fun getPCAAuctionDetail(@Body body: JsonObject): Response<String>
+    suspend fun getPCAAuctionDetail(@Body body: JsonObject): Response<PCAAuctionDetailModel>
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionInsUpd")
+    suspend fun postPCAAuctionDataInsUpd(@Body body: JsonObject): Response<JsonObject>
 }

@@ -12,6 +12,7 @@ data class ShopMasterModelItem(
     var ShopAddress: String,
     var ShopId: String,
     var ShopName: String,
+    var ShortShopName: String,
     var ShopNo: String,
     var StateId: String,
     var StateName: String,

@@ -1,0 +1,33 @@
+package com.bluebellcspl.maarevacommoditytradingapp.model
+
+data class POSTPCAAuctionData(
+    var PCAAuctionHeaderId:String,
+    var PCAAuctionDetailId:String,
+    var PCAAuctionMasterId:String,
+    var Date:String,
+    var BuyerId:String,
+    var RoleId:String,
+    var PCARegId:String,
+    var PCAId:String,
+    var CommodityId:String,
+    var CommodityBhartiPrice:String,
+    var APMCId:String,
+    var BuyerBori:String,
+    var BuyerLowerPrice:String,
+    var BuyerUpperPrice:String,
+    var AvgPrice:String,
+    var RemainingBags:String,
+    var TotalCost:String,
+    var TotalPurchasedBags:String,
+    var ShopId:String,
+    var ShopNo:String,
+    var Bags:String,
+    var CurrentPrice:String,
+    var Amount:String,
+    var CompanyCode:String,
+    var CreateUser:String,
+    var CreateDate:String,
+    var UpdateUser:String,
+    var UpdateDate:String,
+    var action:String
+)

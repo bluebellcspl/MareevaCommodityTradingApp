@@ -12,18 +12,35 @@
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_dashboardFragment_to_PCAAuctionFragment"
-            app:destination="@id/PCAAuctionFragment" />
+            app:destination="@id/PCAAuctionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/dashboardFragment" />
         <action
             android:id="@+id/action_dashboardFragment_to_addPCAFragment"
-            app:destination="@id/addPCAFragment" />
+            app:destination="@id/addPCAFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_dashboardFragment_to_PCAListFragment"
             app:destination="@id/PCAListFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/dashboardFragment" />
+            app:popUpTo="@id/dashboardFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_dashboardFragment_to_buyerAuctionFragment"
-            app:destination="@id/buyerAuctionFragment" />
+            app:destination="@id/buyerAuctionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/PCAAuctionFragment"
@@ -33,6 +50,15 @@
         <argument
             android:name="userType"
             app:argType="string" />
+        <action
+            android:id="@+id/action_PCAAuctionFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/dashboardFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/addPCAFragment"
@@ -48,7 +74,11 @@
             android:id="@+id/action_PCAListFragment_to_editPCAFragment"
             app:destination="@id/editPCAFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/PCAListFragment" />
+            app:popUpTo="@id/PCAListFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/buyerAuctionFragment"
@@ -64,7 +94,11 @@
             android:id="@+id/action_editPCAFragment_to_PCAListFragment"
             app:destination="@id/PCAListFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/PCAListFragment" />
+            app:popUpTo="@id/PCAListFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <argument
             android:name="pcaListModel"
             app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem" />

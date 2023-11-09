@@ -88,18 +88,33 @@ class Query {
 
         fun getShopName(apmcId:String):String{
             qry = "SELECT ShopName FROM ShopMaster WHERE APMCId='$apmcId' AND IsActive='true'"
-            Log.d(TAG, "getShopNameAndShopNo: $qry")
+            Log.d(TAG, "getShopName: $qry")
             return qry
         }
-        fun getShopIdByShopName(shopName:String):String{
-            qry = "SELECT ShopId FROM ShopMaster WHERE ShopName='$shopName'"
+        fun getShopNo(apmcId:String):String{
+            qry = "SELECT ShopNo FROM ShopMaster WHERE APMCId='$apmcId' AND IsActive='true'"
+            Log.d(TAG, "getShopNo: $qry")
+            return qry
+        }
+        fun getShopIdByShopName(shopName:String,apmcId: String):String{
+            qry = "SELECT ShopId FROM ShopMaster WHERE ShopName='$shopName' AND APMCId='$apmcId'"
             Log.d(TAG, "getShopIdByShopName: $qry")
+            return qry
+        }
+        fun getShopIdByShopNo(shopNo:String,apmcId: String):String{
+            qry = "SELECT ShopId FROM ShopMaster WHERE ShopNo='$shopNo' AND APMCId='$apmcId'"
+            Log.d(TAG, "getShopIdByShopNo: $qry")
             return qry
         }
 
         fun getShopNoByShopName(shopName:String,apmcId: String):String{
-            qry = "SELECT ShopNo FROM ShopMaster WHERE ShopName='$shopName' AND APMCId='$apmcId' AND IsActive='true'"
+            qry = "SELECT ShopNo FROM ShopMaster WHERE ShopName='$shopName' AND APMCId='$apmcId'"
             Log.d(TAG, "getShopNoByShopName: $qry")
+            return qry
+        }
+        fun getShopNameByShopNo(shopNo:String,apmcId: String):String{
+            qry = "SELECT ShopName FROM ShopMaster WHERE ShopNo='$shopNo' AND APMCId='$apmcId'"
+            Log.d(TAG, "getShopNameByShopNo: $qry")
             return qry
         }
 

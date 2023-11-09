@@ -9,6 +9,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentDashboard
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaDashboardLayoutBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragmentDirections
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchShopMasterAPI
 
 class PCADashboard(var context: Context, var activity: Activity,var fragment:DashboardFragment) {
@@ -21,7 +22,7 @@ class PCADashboard(var context: Context, var activity: Activity,var fragment:Das
 
     private fun bindPCADashboardComponent() {
         try {
-            FetchShopMasterAPI(activity,activity)
+            FetchShopMasterAPI(context, activity)
             binding = fragment.binding.pcaDashboard
             binding.cvAuctionPCA.setOnClickListener {
                 fragment.navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToPCAAuctionFragment("Hello"))
