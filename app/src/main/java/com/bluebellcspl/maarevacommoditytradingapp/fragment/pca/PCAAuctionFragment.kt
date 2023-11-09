@@ -2,7 +2,6 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.icu.text.DateFormat
 import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
@@ -11,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -29,9 +27,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.POSTPCAAuctionDetailAP
 import com.bluebellcspl.maarevacommoditytradingapp.model.ApiPCAAuctionDetail
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTPCAAuctionData
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import java.util.Calendar
 
 
 class PCAAuctionFragment : Fragment() {
@@ -66,7 +61,6 @@ class PCAAuctionFragment : Fragment() {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_auction, container, false)
-//        binding.tvAuctionItemCountPCAAuctionFragment.setText(args.userType)
         binding.tvHeaderCommodityNDate.setText(
             "${
                 PrefUtil.getString(
@@ -98,6 +92,10 @@ class PCAAuctionFragment : Fragment() {
                     }
                 }
             }
+
+        binding.btnListPCAAuctionFragment.setOnClickListener {
+            navController.navigate(PCAAuctionFragmentDirections.actionPCAAuctionFragmentToPCAAuctionListFragment(apiDataforPost))
+        }
 
         binding.btnAddPCAAuctionFragment.setOnClickListener {
             if (binding.edtCurrentPricePCAAuctionFragment.text.toString()
@@ -439,52 +437,3 @@ class PCAAuctionFragment : Fragment() {
         }
     }
 }
-//fun showPCAAddAuctionDialog() {
-//    try {
-//        val alertDailogBuilder = AlertDialog.Builder(requireContext())
-//        val dialogBinding = PcaAuctionDetailDailogLayoutBinding.inflate(layoutInflater)
-//        val dialogView = dialogBinding.root
-//        alertDailogBuilder.setView(dialogView)
-//        alertDialog = alertDailogBuilder.create()
-//        alertDialog.setCanceledOnTouchOutside(true)
-//        alertDialog.setCancelable(true)
-//        alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-//        alertDialog.show()
-//
-//        var shopNameList:ArrayList<String> = ArrayList()
-//        shopNameList.clear()
-//        shopNameList = getShopName()
-//        val shopAdapter = commonUIUtility.getCustomArrayAdapter(shopNameList)
-//        dialogBinding.actShopNamePCAAuctionDialog.setAdapter(shopAdapter)
-//        val shopTextWatcher:TextWatcher = object : TextWatcher {
-//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//            }
-//
-//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//            }
-//
-//            override fun afterTextChanged(p0: Editable?) {
-//                if (p0.toString().isNotEmpty())
-//                {
-//                    val shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(p0.toString(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
-//                    dialogBinding.edtShopNoPCAAuctionDialog.setText("")
-//                    if (!shopNo.equals("invalid"))
-//                    {
-//                        dialogBinding.edtShopNoPCAAuctionDialog.setText(shopNo)
-//                    }
-//                }
-//            }
-//        }
-//        dialogBinding.actShopNamePCAAuctionDialog.addTextChangedListener(shopTextWatcher)
-//        dialogBinding.tvCurrentTimePCAAuctionDialog.setText(DateUtility().get12HourTime())
-//        dialogBinding.cvCurrentTimePCAAuctionDialog.setOnClickListener {
-//            showTimePickerDialog(dialogBinding.tvCurrentTimePCAAuctionDialog)
-//        }
-//
-//    } catch (e: Exception) {
-//        Log.e(TAG, "showTaskAllocationDialog: ${e.message}")
-//        e.printStackTrace()
-//    }
-//}

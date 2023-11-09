@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaAuctionListAdapterBinding
-import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaListItemAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.ApiPCAAuctionDetail
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
@@ -32,5 +31,9 @@ class PCAAuctionListAdapter(var context: Context,var dataList:ArrayList<ApiPCAAu
         holder.binding.tvBagsPCAAuctionListAdapter.setText(model.Bags)
         val amountNF = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
         holder.binding.tvAmountPCAAuctionListAdapter.setText(amountNF)
+
+        holder.binding.cvPCAAuctionListAdapter.setOnClickListener {
+            recyclerViewHelper.onItemClick(holder.adapterPosition,"")
+        }
     }
 }
