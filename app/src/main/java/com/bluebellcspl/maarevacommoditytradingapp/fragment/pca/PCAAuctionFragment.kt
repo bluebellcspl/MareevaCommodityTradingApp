@@ -287,6 +287,13 @@ class PCAAuctionFragment : Fragment() {
         return dataList
     }
 
+    fun clearData()
+    {
+        binding.edtBagsPCAAuctionFragment.setText("")
+        binding.edtCurrentPricePCAAuctionFragment.setText("")
+        binding.edtTotalAmountPCAAuctionFragment.setText("0")
+    }
+
     private fun getShopNoFromDb(): ArrayList<String> {
         var dataList: ArrayList<String> = ArrayList()
         try {

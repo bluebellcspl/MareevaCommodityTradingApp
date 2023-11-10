@@ -56,6 +56,7 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/Register")
     suspend fun registerBuyer(@Body body: JsonObject): Response<String>
+
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/ShopMasterGet")
     suspend fun getShopMaster(@Body body: JsonObject): Response<ShopMasterModel>
@@ -67,9 +68,11 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAMasterApproveGet")
     suspend fun getApprovedPCAList(@Body body: JsonObject): Response<PCAListModel>
+
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAMasterNonApproveGet")
     suspend fun getUnapprovedPCAList(@Body body: JsonObject): Response<PCAListModel>
+
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAMasterGet")
     suspend fun getPCAMaster(@Body body: JsonObject): Response<PCAListModel>
@@ -77,6 +80,7 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/CityMasterGet")
     suspend fun getCityMaster(@Body body: JsonObject): Response<CityMasterModel>
+
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/TransportationMasterGet")
     suspend fun getTransportationMaster(@Body body: JsonObject): Response<TransportationMasterModel>
@@ -88,16 +92,24 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/BuyersAuctionDetailsGet")
     suspend fun getBuyerAuctionDetail(@Body body: JsonObject): Response<BuyerAuctionMasterModel>
+
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/BuyersAuctionInsUpd")
     suspend fun POSTBuyerAuctionDetail(@Body body: JsonObject): Response<String>
+
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/UserMasterGet")
     suspend fun getUserMaster(@Body body: JsonObject): Response<UserMasterModel>
+
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionDetailsGet")
     suspend fun getPCAAuctionDetail(@Body body: JsonObject): Response<PCAAuctionDetailModel>
+
     @Headers("Content-Type:application/json")
     @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionInsUpd")
     suspend fun postPCAAuctionDataInsUpd(@Body body: JsonObject): Response<JsonObject>
+
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionDelete")
+    suspend fun postPCAAuctionDataDelete(@Body body: JsonObject): Response<JsonObject>
 }

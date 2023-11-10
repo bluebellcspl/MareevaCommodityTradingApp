@@ -76,6 +76,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                         {
                             withContext(Dispatchers.Main)
                             {
+                                (fragment as PCAAuctionFragment).clearData()
                                 commonUIUtility.showToast("Bags Inserted Successfully!")
                                 commonUIUtility.dismissProgress()
                                 FetchPCAAuctionDetailAPI(context, activity, fragment)
@@ -84,9 +85,15 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                     }else if(responseJO.get("Message").asString.contains("Shop Details Updated Successfully",true)){
                         withContext(Dispatchers.Main)
                         {
-                            commonUIUtility.showToast("Bags Inserted Successfully!")
+                            commonUIUtility.showToast("Bags Updated Successfully!")
                             commonUIUtility.dismissProgress()
-//                            FetchPCAAuctionDetailAPI(context, activity, fragment)
+                            FetchPCAAuctionDetailAPI(context, activity, fragment)
+                        }
+                    }else{
+                        withContext(Dispatchers.Main)
+                        {
+                            commonUIUtility.showToast("Bags NOT Updated!")
+                            commonUIUtility.dismissProgress()
                         }
                     }
                 }else

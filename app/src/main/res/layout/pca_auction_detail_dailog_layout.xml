@@ -151,24 +151,12 @@
                         android:padding="@dimen/_3sdp">
 
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_List_PCAAuctionDialog"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_3sdp"
-                            android:layout_weight="0.5"
-                            android:text="List"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_15ssp"
-                            app:cornerRadius="@dimen/_5sdp" />
-
-                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_Add_PCAAuctionDialog"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/_3sdp"
                             android:layout_weight="0.5"
-                            android:text="Add"
+                            android:text="Update"
                             android:textSize="@dimen/_15ssp"
                             app:cornerRadius="@dimen/_5sdp" />
                     </LinearLayout>
