@@ -42,6 +42,9 @@ class BuyerDashboard(var context: Context,var activity: Activity,var fragment: D
                 fragment.navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToBuyerAuctionFragment())
             }
 
+            binding.cvLiveAuctionBuyer.setOnClickListener {
+                fragment.navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToLiveAuctionFragment())
+            }
         }catch (e:Exception)
         {
             e.printStackTrace()

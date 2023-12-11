@@ -182,7 +182,7 @@ class AddPCAFragment : Fragment() {
                 PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME, "").toString(),
                 PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "").toString(),
                 DateUtility().getyyyyMMdd(),
-                PrefUtil.getString(PrefUtil.KEY_MOBILE_NO, "").toString(),
+                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
                 districtId,
                 districtName,
                 binding.edtEmailAddPCAFragment.text.toString().trim(),

@@ -30,6 +30,18 @@ class BuyerAuctionListAdapter(
                 var lowerLimit = binding.tvLowerLimitBuyerAuctionItemAdapter.text.toString().trim()
                 var bags = binding.tvBagsBuyerAuctionItemAdapter.text.toString().trim()
                 if (upperLimit.isNotEmpty() && lowerLimit.isNotEmpty() && bags.isNotEmpty()) {
+                    if (model.UpdMarketCessRate.isEmpty())
+                    {
+                        model.UpdMarketCessRate = "0"
+                    }
+                    if (model.UpdPerBoriRate.isEmpty())
+                    {
+                        model.UpdPerBoriRate = "0"
+                    }
+                    if (model.UpdLabourCharge.isEmpty())
+                    {
+                        model.UpdLabourCharge = "0"
+                    }
                     val BasicAmount =
                         ((bags.toDouble() * commodityBhartiPrice.toDouble()) / 20) * ((upperLimit.toDouble() + lowerLimit.toDouble()) / 2)
                     Log.d(TAG, "afterTextChanged: BAGS_AMOUNT : $BasicAmount")
