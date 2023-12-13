@@ -93,7 +93,8 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             {
                 commonUIUtility.showToast("Please Enter Number of Bags!")
             }else {
-                showAlertDialog()
+//                showAlertDialog()
+                postAuctionData()
             }
         }
         //new design changes
@@ -305,7 +306,11 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 transportCharge += model.TransportationCharge.toDouble()
                 leftBags = (binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim()
                     .toInt() - ab).toString()
-                labourCharge += model.UpdLabourCharge.toDouble()
+                if (model.LabourCharge == null)
+                {
+                    model.LabourCharge = "0"
+                }
+                labourCharge += model.LabourCharge!!.toDouble()
 
                 Log.d(TAG, "calculateOtherExpenses: PCA_NAME : ${model.PCAName}")
                 Log.d(TAG, "calculateOtherExpenses: ALLOCATED_BAGS : $ab")
@@ -320,9 +325,9 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             }
             binding.tvLeftBagsBuyerAuctionFragment.setText(leftBags)
             binding.tvBasicAmountBuyerAuctionFragment.setText("%.2f".format(basic))
-            val nf = NumberFormat.getCurrencyInstance().format(total)
-            binding.tvTotalAmountBuyerAuctionFragment.setText(nf.toString() )
-//            binding.tvTotalAmountBuyerAuctionFragment.setText("%.2f".format(total))
+//            val nf = NumberFormat.getCurrencyInstance().format(total)
+//            binding.tvTotalAmountBuyerAuctionFragment.setText(nf.toString() )
+            binding.tvTotalAmountBuyerAuctionFragment.setText("%.2f".format(total))
 
             ALLOCATED_BAGS = ab.toString()
             TOTAL_PCA_BASIC = "%.2f".format(basic)
@@ -361,7 +366,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 {
                     allocatedBags+=model.Bags.toInt()
                     transportCharge += model.TransportationCharge.toDouble()
-                    labourCharge += model.UpdLabourCharge.toDouble()
+                    labourCharge += model.LabourCharge!!.toDouble()
                 }
                 basic += model.Basic.toDouble()
                 total += model.Amount.toDouble()
@@ -389,24 +394,24 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 dialogBinding.tvTotalBagsBuyerExpenseDialog.setText("0.0")
             } else {
 
-//                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
-//                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("%.2f".format(pcaCommission))
-//                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("%.2f".format(gcaCommission))
-//                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
-//                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("%.2f".format(transportCharge))
-//                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
-                val basicNF = NumberFormat.getCurrencyInstance().format(basic)
-                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(basicNF.toString())
-                val pcaCommNF = NumberFormat.getCurrencyInstance().format(pcaCommission)
-                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommNF.toString())
-                val gcaCommNF = NumberFormat.getCurrencyInstance().format(gcaCommission)
-                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(gcaCommNF.toString())
-                val marketCessNF = NumberFormat.getCurrencyInstance().format(marketCess)
-                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(marketCessNF.toString())
-                val transportChargeNF = NumberFormat.getCurrencyInstance().format(transportCharge)
-                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(transportChargeNF.toString())
-                val labourChargeNF = NumberFormat.getCurrencyInstance().format(labourCharge)
-                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(labourChargeNF.toString())
+                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
+                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("%.2f".format(pcaCommission))
+                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("%.2f".format(gcaCommission))
+                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
+                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("%.2f".format(transportCharge))
+                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
+//                val basicNF = NumberFormat.getCurrencyInstance().format(basic)
+//                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(basicNF.toString())
+//                val pcaCommNF = NumberFormat.getCurrencyInstance().format(pcaCommission)
+//                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommNF.toString())
+//                val gcaCommNF = NumberFormat.getCurrencyInstance().format(gcaCommission)
+//                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(gcaCommNF.toString())
+//                val marketCessNF = NumberFormat.getCurrencyInstance().format(marketCess)
+//                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(marketCessNF.toString())
+//                val transportChargeNF = NumberFormat.getCurrencyInstance().format(transportCharge)
+//                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(transportChargeNF.toString())
+//                val labourChargeNF = NumberFormat.getCurrencyInstance().format(labourCharge)
+//                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(labourChargeNF.toString())
                 dialogBinding.tvTotalBagsBuyerExpenseDialog.setText(allocatedBags.toString())
             }
 
@@ -444,7 +449,11 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 marketCess = model.MarketCessCharge.toDouble()
                 transportCharge = model.TransportationCharge.toDouble()
                 Log.d(TAG, "showExpenseAuctionDialog: TC : ${model.TransportationCharge}")
-                labourCharge = model.UpdLabourCharge.toDouble()
+            if (model.LabourCharge == null)
+            {
+                model.LabourCharge = "0"
+            }
+                labourCharge = model.LabourCharge!!.toDouble()
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_AMOUNT : $total")
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_PCACOMMISSION : $pcaCommission")
                 Log.d(TAG, "showExpenseAuctionDialog: TOTAL_GCACOMMISSION : $gcaCommission")
@@ -467,24 +476,24 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("0.0")
             } else {
 
-//                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
-//                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("%.2f".format(pcaCommission))
-//                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("%.2f".format(gcaCommission))
-//                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
-//                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("%.2f".format(transportCharge))
-//                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
-                val basicNF = NumberFormat.getCurrencyInstance().format(basic)
-                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(basicNF.toString())
-                val pcaCommNF = NumberFormat.getCurrencyInstance().format(pcaCommission)
-                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommNF.toString())
-                val gcaCommNF = NumberFormat.getCurrencyInstance().format(gcaCommission)
-                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(gcaCommNF.toString())
-                val marketCessNF = NumberFormat.getCurrencyInstance().format(marketCess)
-                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(marketCessNF.toString())
-                val transportChargeNF = NumberFormat.getCurrencyInstance().format(transportCharge)
-                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(transportChargeNF.toString())
-                val labourChargeNF = NumberFormat.getCurrencyInstance().format(labourCharge)
-                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(labourChargeNF.toString())
+                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
+                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("%.2f".format(pcaCommission))
+                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("%.2f".format(gcaCommission))
+                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
+                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("%.2f".format(transportCharge))
+                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
+//                val basicNF = NumberFormat.getCurrencyInstance().format(basic)
+//                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(basicNF.toString())
+//                val pcaCommNF = NumberFormat.getCurrencyInstance().format(pcaCommission)
+//                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommNF.toString())
+//                val gcaCommNF = NumberFormat.getCurrencyInstance().format(gcaCommission)
+//                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(gcaCommNF.toString())
+//                val marketCessNF = NumberFormat.getCurrencyInstance().format(marketCess)
+//                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(marketCessNF.toString())
+//                val transportChargeNF = NumberFormat.getCurrencyInstance().format(transportCharge)
+//                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(transportChargeNF.toString())
+//                val labourChargeNF = NumberFormat.getCurrencyInstance().format(labourCharge)
+//                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(labourChargeNF.toString())
                 dialogBinding.tvBagsBuyerExpenseDialog.setText(model.Bags)
                 dialogBinding.tvPCANameBuyerExpenseDialog.setText(model.PCAName)
             }

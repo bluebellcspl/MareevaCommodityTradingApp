@@ -42,13 +42,17 @@ class BuyerAuctionListAdapter(
                     {
                         model.UpdLabourCharge = "0"
                     }
+                    if (model.LabourCharge==null)
+                    {
+                        model.LabourCharge="0"
+                    }
                     val BasicAmount =
                         ((bags.toDouble() * commodityBhartiPrice.toDouble()) / 20) * ((upperLimit.toDouble() + lowerLimit.toDouble()) / 2)
                     Log.d(TAG, "afterTextChanged: BAGS_AMOUNT : $BasicAmount")
                     var totalAmount = 0.0
 
                     var transportCharge =(bags.toDouble() * model.UpdPerBoriRate.toDouble())
-                    var labourCharge = model.UpdLabourCharge.toDouble()
+                    var labourCharge = model.UpdLabourCharge.toDouble() * bags.toDouble()
 
                     val gcaCommission = ((BasicAmount * model.UpdGCACommRate.toDouble()) / 100.0)
                     val pcaCommission = (BasicAmount * model.UpdPCACommRate.toDouble()) / 100.0
@@ -73,9 +77,9 @@ class BuyerAuctionListAdapter(
                         "afterTextChanged: ================================================================================"
                     )
 
-//                    binding.tvAmountBuyerAuctionItemAdapter.setText("%.2f".format(totalAmount))
-                    val nf = NumberFormat.getCurrencyInstance().format(totalAmount)
-                    binding.tvAmountBuyerAuctionItemAdapter.setText(nf.toString())
+                    binding.tvAmountBuyerAuctionItemAdapter.setText("%.2f".format(totalAmount))
+//                    val nf = NumberFormat.getCurrencyInstance().format(totalAmount)
+//                    binding.tvAmountBuyerAuctionItemAdapter.setText(nf.toString())
                     model.Bags = bags
                     model.Amount = "%.2f".format(totalAmount)
                     model.LowerLimit = lowerLimit
@@ -87,7 +91,8 @@ class BuyerAuctionListAdapter(
                     model.PCACommRate = model.UpdPCACommRate
                     model.GCACommCharge = gcaCommission.toString()
                     model.GCACommRate = model.UpdGCACommRate
-                    model.UpdLabourCharge = labourCharge.toString()
+                    model.LabourCharge = labourCharge.toString()
+                    model.PerBoriLabourCharge = model.UpdLabourCharge
                     model.MarketCessCharge = marketCess.toString()
                     recyclerViewHelper.getBuyerAuctionDataList(dataList)
                 } else {
@@ -120,15 +125,12 @@ class BuyerAuctionListAdapter(
         holder.binding.tvBagsBuyerAuctionItemAdapter.setText(model.Bags)
         var pcaLowerLimit = ""
         var pcaUpperLimit = ""
-        if (model.PCAUpperLimit.equals("0") && model.PCALowerLimit.equals("0")) {
-            if ((model.LowerLimit.isNotEmpty() && model.LowerLimit.toDouble() > 0.0) && (model.UpperLimit.isNotEmpty() && model.UpperLimit.toDouble() > 0.0)) {
-                pcaLowerLimit = model.LowerLimit
-                pcaUpperLimit = model.UpperLimit
-            } else {
-                pcaLowerLimit = "0"
-                pcaUpperLimit = "0"
-            }
-        } else {
+        if (model.LowerLimit.toDouble()>0.0 && model.UpperLimit.toDouble()>0.0)
+        {
+            pcaLowerLimit = model.LowerLimit
+            pcaUpperLimit = model.UpperLimit
+        }else
+        {
             pcaLowerLimit = model.PCALowerLimit
             pcaUpperLimit = model.PCAUpperLimit
         }
