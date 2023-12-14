@@ -103,12 +103,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Upper Limit"
+                            android:text="Lower Limit"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp" />
 
                         <TextView
-                            android:id="@+id/tv_BuyersUpperLimit_PCAAuctionFragment"
+                            android:id="@+id/tv_BuyersLowerLimit_PCAAuctionFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
@@ -128,12 +128,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Lower Limit"
+                            android:text="Upper Limit"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp" />
 
                         <TextView
-                            android:id="@+id/tv_BuyersLowerLimit_PCAAuctionFragment"
+                            android:id="@+id/tv_BuyersUpperLimit_PCAAuctionFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
@@ -341,7 +341,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:digits="0123456789"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionDone"
                             android:inputType="number"
                             android:selectAllOnFocus="true"
                             android:textColor="@color/black"

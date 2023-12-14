@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.buyer.LiveAuctionFragment">
+
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/_3sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_AllocatedBags_BuyerAuctionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/colorSecondaryLight"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/allocated_bags"
+                        android:enabled="false"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:id="@+id/tv_AllocatedBags_BuyerAuctionFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:enabled="false"
+                        android:textAlignment="center"
+                        android:textColor="#A00909"
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_LeftBags_BuyerAuctionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/colorSecondaryLight"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/left_bags"
+                        android:enabled="false"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:id="@+id/tv_LeftBags_BuyerAuctionFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:enabled="false"
+                        android:textAlignment="center"
+                        android:textColor="#A00909"
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+        <!--    <LinearLayout-->
+        <!--        android:id="@+id/ll2"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:orientation="horizontal"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintTop_toBottomOf="@id/ll1"-->
+        <!--        android:padding="@dimen/_3sdp">-->
+        <!--        <com.google.android.material.card.MaterialCardView-->
+        <!--            android:id="@+id/cv_TotalCost_BuyerAuctionFragment"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight="1"-->
+        <!--            app:cardBackgroundColor="@color/colorSecondaryLight"-->
+        <!--            app:cardCornerRadius="@dimen/_10sdp"-->
+        <!--            app:cardUseCompatPadding="true">-->
+
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:padding="@dimen/_5sdp">-->
+
+        <!--                <TextView-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="match_parent"-->
+        <!--                    android:layout_weight="1"-->
+        <!--                    android:text="@string/total_cost"-->
+        <!--                    android:textAlignment="center"-->
+        <!--                    android:textColor="@color/black"-->
+        <!--                    android:textSize="@dimen/_14ssp" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/tv_TotalCost_BuyerAuctionFragment"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_weight="1"-->
+        <!--                    android:text=""-->
+        <!--                    android:textAlignment="center"-->
+        <!--                    android:textColor="#A00909"-->
+        <!--                    android:textSize="@dimen/_15ssp"-->
+        <!--                    android:textStyle="bold" />-->
+        <!--            </LinearLayout>-->
+        <!--        </com.google.android.material.card.MaterialCardView>-->
+        <!--        <com.google.android.material.card.MaterialCardView-->
+        <!--            android:id="@+id/cv_TotalExpense_BuyerAuctionFragment"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight="1"-->
+        <!--            app:cardBackgroundColor="@color/colorSecondaryLight"-->
+        <!--            app:cardCornerRadius="@dimen/_10sdp"-->
+        <!--            app:cardUseCompatPadding="true">-->
+
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:padding="@dimen/_5sdp">-->
+
+        <!--                <TextView-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="match_parent"-->
+        <!--                    android:layout_weight="1"-->
+        <!--                    android:text="@string/total_expense"-->
+        <!--                    android:textAlignment="center"-->
+        <!--                    android:textColor="@color/black"-->
+        <!--                    android:textSize="@dimen/_14ssp" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/tv_TotalExpense_BuyerAuctionFragment"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_weight="1"-->
+        <!--                    android:text=""-->
+        <!--                    android:textAlignment="center"-->
+        <!--                    android:textColor="#A00909"-->
+        <!--                    android:textSize="@dimen/_15ssp"-->
+        <!--                    android:textStyle="bold" />-->
+        <!--            </LinearLayout>-->
+        <!--        </com.google.android.material.card.MaterialCardView>-->
+        <!--    </LinearLayout>-->
+        <LinearLayout
+            android:id="@+id/ll2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/_3sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll1">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_TotalCost_BuyerAuctionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/colorSecondaryLight"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:hint="@string/allocated_bags"
+                        app:hintTextAppearance="@style/TextInputLayoutHintStyle"
+                        app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                        app:boxStrokeColor="@color/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_BuyerAllocatedBags_LiveAuctionFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:hint="@string/basic_amount"
+                        app:hintTextAppearance="@style/TextInputLayoutHintStyle"
+                        app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                        app:boxStrokeColor="@color/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_BuyerBasicAmount_LiveAuctionFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cv_BuyerExpense_LiveAuctionFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_3sdp"
+                        android:backgroundTint="@color/newPCACardColor">
+                        <LinearLayout
+                            android:id="@+id/ll_BuyerExpense"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+
+                            android:padding="@dimen/_4sdp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/expenses"
+                                android:textSize="@dimen/_11ssp"
+                                android:textColor="@color/white"/>
+
+                            <TextView
+                                android:id="@+id/tv_BuyerExpenses_LiveAuctionFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/_12ssp"
+                                android:paddingLeft="@dimen/_3sdp"
+                                android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:hint="@string/total_amount"
+                        app:hintTextAppearance="@style/TextInputLayoutHintStyle"
+                        app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                        app:boxStrokeColor="@color/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_BuyerTotalAmount_LiveAuctionFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_TotalExpense_BuyerAuctionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/colorSecondaryLight"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:hint="@string/purchased_bags"
+                        app:hintTextAppearance="@style/TextInputLayoutHintStyle"
+                        app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                        app:boxStrokeColor="@color/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_PCAPurchasedBags_LiveAuctionFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:hint="@string/basic_amount"
+                        app:hintTextAppearance="@style/TextInputLayoutHintStyle"
+                        app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                        app:boxStrokeColor="@color/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_PCABasicAmount_LiveAuctionFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cv_PCAExpense_LiveAuctionFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardUseCompatPadding="true"
+                        app:cardElevation="@dimen/_3sdp"
+                        android:backgroundTint="@color/newPCACardColor">
+                        <LinearLayout
+                            android:id="@+id/ll_PCAExpense"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_4sdp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/expenses"
+                                android:textSize="@dimen/_11ssp"
+                                android:textColor="@color/white"/>
+
+                            <TextView
+                                android:id="@+id/tv_PCAExpenses_LiveAuctionFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/_12ssp"
+                                android:paddingLeft="@dimen/_3sdp"
+                                android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:hint="@string/total_amount"
+                        app:hintTextAppearance="@style/TextInputLayoutHintStyle"
+                        app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                        app:boxStrokeColor="@color/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_PCATotalAmount_LiveAuctionFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_View_LiveAuctionFragment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_330sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/live_auction_adapter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
