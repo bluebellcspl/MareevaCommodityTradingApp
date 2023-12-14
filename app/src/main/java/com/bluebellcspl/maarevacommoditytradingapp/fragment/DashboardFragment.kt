@@ -64,18 +64,18 @@ class DashboardFragment : Fragment() {
         }
         menuHost = requireActivity()
 
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.ds_menu,menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when(menuItem.itemId){
-                    R.id.btn_Logout->logoutDialog()
-                }
-                return true
-            }
-        }, viewLifecycleOwner, Lifecycle.State.STARTED)
+//        menuHost.addMenuProvider(object : MenuProvider {
+//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+//                menuInflater.inflate(R.menu.ds_menu,menu)
+//            }
+//
+//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+//                when(menuItem.itemId){
+//                    R.id.btn_Logout->logoutDialog()
+//                }
+//                return true
+//            }
+//        }, viewLifecycleOwner, Lifecycle.State.STARTED)
 
         return binding.root
     }

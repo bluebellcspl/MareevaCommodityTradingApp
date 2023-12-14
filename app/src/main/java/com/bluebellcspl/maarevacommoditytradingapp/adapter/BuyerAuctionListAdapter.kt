@@ -138,10 +138,10 @@ class BuyerAuctionListAdapter(
         holder.binding.tvUpperLimitBuyerAuctionItemAdapter.setText(pcaUpperLimit)
 //        holder.binding.tvLastDayPriceBuyerAuctionItemAdapter.setText(model.LastDayPrice)
         model.Basic = "0.0"
-        if (model.Bags.isEmpty() || model.Bags.equals("") || model.Bags.toInt() < 1) {
-            holder.binding.cvAuctionDetailsBuyerAuctionItemAdapter.visibility = View.GONE
-            holder.binding.cvBagCountBuyerAuctionItemAdapter.visibility = View.GONE
-        }
+//        if (model.Bags.isEmpty() || model.Bags.equals("") || model.Bags.toInt() < 1) {
+//            holder.binding.cvAuctionDetailsBuyerAuctionItemAdapter.visibility = View.GONE
+//            holder.binding.cvBagCountBuyerAuctionItemAdapter.visibility = View.GONE
+//        }
         holder.calcutateData(model)
         holder.binding.cvAuctionDetailsBuyerAuctionItemAdapter.setOnClickListener {
             recyclerViewHelper.onItemClick(holder.adapterPosition,"")

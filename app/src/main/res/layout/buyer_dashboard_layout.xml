@@ -264,8 +264,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="gone"
-                    android:id="@+id/cv_Auction_Buyer2"
+                    android:id="@+id/cv_LiveAuction_Buyer"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_120sdp"
                     android:layout_weight="0.4"
@@ -284,8 +283,8 @@
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="@dimen/_70sdp"
-                            android:layout_height="@dimen/_70sdp"
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="@dimen/_60sdp"
                             app:cardCornerRadius="18dp"
                             app:cardUseCompatPadding="true">
 
@@ -295,14 +294,14 @@
                                 android:layout_gravity="center"
                                 android:padding="5dp"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/bid"
+                                android:src="@drawable/live_auction"
                                 app:tint="@color/colorPrimary" />
                         </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/auction"
+                            android:text="@string/live_auction"
                             android:fontFamily="@font/inter_medium"
                             android:textAlignment="center"
                             android:textColor="@color/black"
