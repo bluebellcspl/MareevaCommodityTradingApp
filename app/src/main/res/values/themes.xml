@@ -38,4 +38,9 @@
         <item name="android:textFontWeight" tools:targetApi="p">700</item>
 <!--        <item name="android:background">@drawable/pending_visit_text_bg</item>-->
     </style>
+
+    <style name="TextInputLayoutHintStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+    </style>
 </resources>

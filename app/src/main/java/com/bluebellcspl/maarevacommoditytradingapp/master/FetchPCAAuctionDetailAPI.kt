@@ -49,13 +49,27 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                     withContext(Dispatchers.Main)
                     {
                         commonUIUtility.dismissProgress()
-                        if (fragment is PCAAuctionFragment)
+                        if (pcaAuctionDetailModel.IsAuctionStop.equals("false",true))
                         {
-                            (fragment as PCAAuctionFragment).updateUIFromAPIData(pcaAuctionDetailModel)
-                        }else if (fragment is PCAAuctionListFragment)
+                            if (fragment is PCAAuctionFragment)
+                            {
+                                (fragment as PCAAuctionFragment).updateUIFromAPIData(pcaAuctionDetailModel)
+                            }else if (fragment is PCAAuctionListFragment)
+                            {
+                                (fragment as PCAAuctionListFragment).bindAuctionList(pcaAuctionDetailModel.ApiPCAAuctionDetail)
+                            }
+                        }else
                         {
-                            (fragment as PCAAuctionListFragment).bindAuctionList(pcaAuctionDetailModel.ApiPCAAuctionDetail)
+                            withContext(Dispatchers.Main)
+                            {
+                                commonUIUtility.dismissProgress()
+                                if (fragment is PCAAuctionFragment)
+                                {
+                                    (fragment as PCAAuctionFragment).noAuctionPopup()
+                                }
+                            }
                         }
+
                     }
                 }else
                 {

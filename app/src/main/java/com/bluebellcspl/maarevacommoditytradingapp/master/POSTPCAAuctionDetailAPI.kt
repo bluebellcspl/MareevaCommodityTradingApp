@@ -5,6 +5,8 @@ import android.content.Context
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTPCAAuctionData
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
@@ -29,6 +31,15 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
     private fun postPCAData() {
         try {
             commonUIUtility.showProgress()
+
+            val JO1 = JsonObject()
+            JO1.addProperty("Date", DateUtility().getyyyyMMdd())
+            JO1.addProperty("CompanyCode", PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
+            JO1.addProperty("RegId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
+            JO1.addProperty("BuyerId", PrefUtil.getString(PrefUtil.KEY_BUYER_ID,""))
+            JO1.addProperty("CommodityId", PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,""))
+
+
             val JO = JsonObject()
             JO.addProperty("PCAAuctionHeaderId",model.PCAAuctionHeaderId)
             JO.addProperty("PCAAuctionDetailId",model.PCAAuctionDetailId)
@@ -65,44 +76,69 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
             scope.launch(Dispatchers.IO)
             {
-                val result = APICall.postPCAAuctionDataInsUpd(JO)
-
-                if (result.isSuccessful)
+                val checkIsAuctionStatus = APICall.checkPCAIsAuctionStop(JO1)
+                if (checkIsAuctionStatus.isSuccessful)
                 {
-                    val responseJO = result.body()!!
-                    if (responseJO.get("Message").asString.contains("PCA Auction Insert Successfully",true))
+                    val checkStatusResponse = checkIsAuctionStatus.body()!!
+                    var status =checkStatusResponse.get("IsAuctionStop").asString
+                    if (status.equals("false",true))
                     {
-                        if (fragment is PCAAuctionFragment)
+                        val result = APICall.postPCAAuctionDataInsUpd(JO)
+
+                        if (result.isSuccessful)
                         {
+                            val responseJO = result.body()!!
+                            if (responseJO.get("Message").asString.contains("PCA Auction Insert Successfully",true))
+                            {
+                                if (fragment is PCAAuctionFragment)
+                                {
+                                    withContext(Dispatchers.Main)
+                                    {
+                                        (fragment as PCAAuctionFragment).clearData()
+                                        commonUIUtility.showToast("Bags Inserted Successfully!")
+                                        commonUIUtility.dismissProgress()
+                                        FetchPCAAuctionDetailAPI(context, activity, fragment)
+                                    }
+                                }
+                            }else if(responseJO.get("Message").asString.contains("Shop Details Updated Successfully",true)){
+                                withContext(Dispatchers.Main)
+                                {
+                                    commonUIUtility.showToast("Bags Updated Successfully!")
+                                    commonUIUtility.dismissProgress()
+                                    FetchPCAAuctionDetailAPI(context, activity, fragment)
+                                }
+                            }else{
+                                withContext(Dispatchers.Main)
+                                {
+                                    commonUIUtility.showToast("Bags NOT Updated!")
+                                    commonUIUtility.dismissProgress()
+                                }
+                            }
+                        }else
+                        {
+                            Log.e(TAG, "postPCAData: ${result.errorBody()}")
                             withContext(Dispatchers.Main)
                             {
-                                (fragment as PCAAuctionFragment).clearData()
-                                commonUIUtility.showToast("Bags Inserted Successfully!")
+                                commonUIUtility.showToast("Bags NOT Inserted!")
                                 commonUIUtility.dismissProgress()
-                                FetchPCAAuctionDetailAPI(context, activity, fragment)
                             }
                         }
-                    }else if(responseJO.get("Message").asString.contains("Shop Details Updated Successfully",true)){
+                    }else
+                    {
                         withContext(Dispatchers.Main)
                         {
-                            commonUIUtility.showToast("Bags Updated Successfully!")
                             commonUIUtility.dismissProgress()
-                            FetchPCAAuctionDetailAPI(context, activity, fragment)
-                        }
-                    }else{
-                        withContext(Dispatchers.Main)
-                        {
-                            commonUIUtility.showToast("Bags NOT Updated!")
-                            commonUIUtility.dismissProgress()
+                            if (fragment is PCAAuctionFragment) {
+                                (fragment as PCAAuctionFragment).noAuctionPopup()
+                            }
                         }
                     }
                 }else
                 {
-                    Log.e(TAG, "postPCAData: ${result.errorBody()}")
-                    withContext(Dispatchers.Main)
-                    {
-                        commonUIUtility.showToast("Bags NOT Inserted!")
+                    withContext(Dispatchers.Main){
+                        Log.e(TAG, "postPCAData: ${checkIsAuctionStatus.errorBody()}")
                         commonUIUtility.dismissProgress()
+                        commonUIUtility.showToast("Data NOT Inserted 2!")
                     }
                 }
             }

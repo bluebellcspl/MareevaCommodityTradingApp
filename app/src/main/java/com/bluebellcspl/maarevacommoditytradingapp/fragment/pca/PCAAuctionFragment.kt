@@ -98,14 +98,18 @@ class PCAAuctionFragment : Fragment() {
         }
 
         binding.btnAddPCAAuctionFragment.setOnClickListener {
-            if (binding.edtCurrentPricePCAAuctionFragment.text.toString()
-                    .toDouble() < BUYER_LOWER_LIMIT.toDouble()
-            ) {
+            val lowerSub =  BUYER_LOWER_LIMIT.split(".")[0]
+            val upperSub = BUYER_UPPER_LIMIT.split(".")[0]
+            Log.d(TAG, "onCreateView: LOWER_SUB_LENGTH : ${lowerSub.length}")
+            Log.d(TAG, "onCreateView: UPPER_SUB_LENGTH : ${upperSub.length}")
+            if (binding.edtCurrentPricePCAAuctionFragment.text.toString().length<lowerSub.length) {
                 commonUIUtility.showAlertWithOkButton("Current Price Must be Greater Than Lower Limit Price")
-            } else if (binding.edtCurrentPricePCAAuctionFragment.text.toString()
-                    .toDouble() > BUYER_UPPER_LIMIT.toDouble()
-            ) {
+            } else if (binding.edtCurrentPricePCAAuctionFragment.text.toString().length > upperSub.length) {
                 commonUIUtility.showAlertWithOkButton("Current Price Must be Lesser Than Upper Limit Price")
+            }
+            else if (shopId.equals("invalid")) {
+                commonUIUtility.showAlertWithOkButton("Please Select proper shop!")
+                binding.edtBagsPCAAuctionFragment.setText("")
             } else if (binding.actShopNamePCAAuctionFragment.text.toString()
                     .isEmpty() || binding.actShopNoPCAAuctionFragment.text.toString().isEmpty()
             ) {
@@ -113,7 +117,8 @@ class PCAAuctionFragment : Fragment() {
             } else if (binding.edtBagsPCAAuctionFragment.text.toString().toInt() < 1) {
                 commonUIUtility.showToast("Please Enter Bags!")
             } else {
-                alertForSubmitData()
+//                alertForSubmitData()
+                postPCAData()
             }
         }
 
@@ -209,14 +214,13 @@ class PCAAuctionFragment : Fragment() {
                 post_AvgPrice =
                     (cumulativeTotal + total) / (((totalPurchasedBags + bags.toInt()) * commodityBhartiRate.toDouble()) / 20)
                 Log.d(TAG, "calculateExpense: AVG_PRICE : $post_AvgPrice")
-                val AvgPriceNF = NumberFormat.getCurrencyInstance().format(post_AvgPrice)
-                binding.tvAveragePricePCAAuctionFragment.setText(AvgPriceNF)
+//                val AvgPriceNF = NumberFormat.getCurrencyInstance().format(post_AvgPrice)
+                binding.tvAveragePricePCAAuctionFragment.setText(String.format("%.2f",post_AvgPrice))
 
                 Log.d(TAG, "calculateExpense: CUMULATIVE_TOTAL : $cumulativeTotal")
-                val cumulativeTotalNF =
-                    NumberFormat.getCurrencyInstance().format(cumulativeTotal + total)
+//                val cumulativeTotalNF =NumberFormat.getCurrencyInstance().format(cumulativeTotal + total)
                 post_CumulativeTotal = cumulativeTotal + total
-                binding.tvTotalAmountPCAAuctionFragment.setText(cumulativeTotalNF)
+                binding.tvTotalAmountPCAAuctionFragment.setText(String.format("%.2f",post_CumulativeTotal))
 
             } else {
                 binding.edtTotalAmountPCAAuctionFragment.setText("")
@@ -370,7 +374,7 @@ class PCAAuctionFragment : Fragment() {
             Log.d(TAG, "afterTextChanged: SELECTED_SHOP_NAME : $shopName")
             Log.d(TAG, "afterTextChanged: FETCHED_SHOP_NO : $shopNo")
             if (!shopNo.equals("invalid", true)) {
-                shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(shopName,PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+                shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(shopNo,PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
                 binding.actShopNoPCAAuctionFragment.setText(shopNo)
             }
         } catch (e: Exception) {

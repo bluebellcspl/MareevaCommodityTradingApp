@@ -374,7 +374,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             if (!shopNo.equals("invalid", true)) {
                 shopId = DatabaseManager.ExecuteScalar(
                     Query.getShopIdByShopNo(
-                        shopName,
+                        shopNo,
                         PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString()
                     )
                 )!!

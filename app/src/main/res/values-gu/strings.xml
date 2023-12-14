@@ -117,4 +117,10 @@
     <string name="labour_charge_rupee">Labour Charge (₹)</string>
     <string name="submit">Submit</string>
     <string name="auction_inserted_successfully">Auction Inserted Successfully!</string>
+    <string name="allocated_bags">Allocated Bags</string>
+    <string name="total_cost">Total Cost</string>
+    <string name="total_expense">Total Expense</string>
+    <string name="expenses">Expenses</string>
+    <string name="purchased_bags">Purchased Bags</string>
+    <string name="live_auction">Live Auction</string>
 </resources>

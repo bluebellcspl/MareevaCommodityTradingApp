@@ -34,5 +34,7 @@ data class AuctionDetailsModel(
     var UpdPerBoriRate: String,
     var UpdTransportId: String,
     var UpperLimit: String,
+    var LabourCharge: String?,
+    var PerBoriLabourCharge: String,
     var Basic:String
 )
