@@ -5,6 +5,7 @@ data class LoginForAdminModel (
     var MobileNo: String,
     var OTP: String,
     var UserName: String,
-    var UserPassword: String
+    var UserPassword: String,
+    var TokenId:String
 )
 

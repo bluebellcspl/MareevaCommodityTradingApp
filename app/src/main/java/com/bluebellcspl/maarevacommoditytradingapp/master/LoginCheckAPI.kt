@@ -44,6 +44,7 @@ class LoginCheckAPI(
             JO.addProperty("UserPassword", model.UserPassword)
             JO.addProperty("OTP", model.OTP)
             JO.addProperty("CompanyCode", model.CompanyCode)
+            JO.addProperty("TokenId", model.TokenId)
 
             Log.d(TAG, "getLoginForAdmin: JSON : ${JO.toString()}")
 

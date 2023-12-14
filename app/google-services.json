@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1016124711291",
+    "project_id": "maarevacommoditytrading",
+    "storage_bucket": "maarevacommoditytrading.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016124711291:android:5e6b9f0e5cbb2ac0ff9dde",
+        "android_client_info": {
+          "package_name": "com.bluebellcspl.maarevacommoditytradingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgPUm4aybjc2xgYeDJG1xOMbywGUZzMII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
