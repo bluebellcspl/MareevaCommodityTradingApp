@@ -25,9 +25,9 @@ class ShopListAdatper(var context: Context,var dataList:ArrayList<LiveAuctionSho
         holder.binding.ShopName.setText(model.ShopName)
         val currentNf = NumberFormat.getCurrencyInstance().format(model.CurrentPrice.toDouble())
         val totalAmountNf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
-        holder.binding.shopRate.setText(currentNf)
+        holder.binding.shopRate.setText(model.CurrentPrice)
         holder.binding.ShopNo.setText(model.ShopNo)
         holder.binding.tvBags.setText(model.Bags)
-        holder.binding.tvTotalAmount.setText(totalAmountNf)
+        holder.binding.tvTotalAmount.setText(model.Amount)
     }
 }

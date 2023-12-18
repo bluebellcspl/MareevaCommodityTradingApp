@@ -11,85 +11,182 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cvPCA_LiveAuctionAdapter"
+        <!--        <com.google.android.material.card.MaterialCardView-->
+        <!--            android:id="@+id/cvPCA_LiveAuctionAdapter"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginLeft="5dp"-->
+        <!--            android:layout_marginRight="5dp"-->
+        <!--            app:cardCornerRadius="8dp"-->
+        <!--            app:cardElevation="5dp"-->
+        <!--            app:cardUseCompatPadding="true"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
+
+        <!--                <LinearLayout-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="match_parent"-->
+        <!--                    android:orientation="vertical"-->
+        <!--                    android:padding="8dp">-->
+
+        <!--                    <RelativeLayout-->
+        <!--                        android:id="@+id/ll_Header_LiveAuctionAdapter"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content">-->
+
+        <!--                        <TextView-->
+        <!--                            android:id="@+id/tvPCAName_LiveAuctionAdapter"-->
+        <!--                            android:layout_width="match_parent"-->
+        <!--                            android:layout_height="wrap_content"-->
+        <!--                            android:layout_alignParentStart="true"-->
+        <!--                            android:padding="10dp"-->
+        <!--                            android:layout_centerVertical="true"-->
+        <!--                            android:textColor="@color/black"-->
+        <!--                            android:textSize="18sp" />-->
+
+        <!--                        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--                            android:id="@+id/fab_StartAuction_LiveAucionFragment"-->
+        <!--                            android:layout_width="wrap_content"-->
+        <!--                            android:layout_height="wrap_content"-->
+        <!--                            android:layout_alignEnd="@id/tvPCAName_LiveAuctionAdapter"-->
+        <!--                            android:layout_marginStart="@dimen/_4sdp"-->
+        <!--                            android:layout_marginEnd="@dimen/_4sdp"-->
+        <!--                            android:layout_marginBottom="@dimen/_4sdp"-->
+        <!--                            android:contentDescription=""-->
+        <!--                            android:scaleType="center"-->
+        <!--                            android:src="@drawable/baseline_play_arrow_24"-->
+        <!--                            app:backgroundTint="@color/newPCACardColor"-->
+        <!--                            app:fabSize="mini" />-->
+
+        <!--                        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--                            android:id="@+id/fab_PauseAuction_LiveAucionFragment"-->
+        <!--                            android:layout_width="wrap_content"-->
+        <!--                            android:layout_height="wrap_content"-->
+        <!--                            android:layout_alignEnd="@id/tvPCAName_LiveAuctionAdapter"-->
+        <!--                            android:layout_margin="@dimen/_4sdp"-->
+        <!--                            android:contentDescription=""-->
+        <!--                            android:scaleType="center"-->
+        <!--                            android:src="@drawable/baseline_pause_24"-->
+        <!--                            android:visibility="gone"-->
+        <!--                            app:backgroundTint="@color/newPCACardColor"-->
+        <!--                            app:fabSize="mini" />-->
+
+        <!--                    </RelativeLayout>-->
+
+        <!--                    <LinearLayout-->
+        <!--                        android:id="@+id/ll_Expandable_LiveAuctionAdapter"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:orientation="vertical">-->
+
+        <!--                        <androidx.recyclerview.widget.RecyclerView-->
+        <!--                            android:id="@+id/rc_View_PCAShopList_LiveAuctionAdapter"-->
+        <!--                            android:layout_width="match_parent"-->
+        <!--                            android:layout_height="wrap_content"-->
+        <!--                            android:nestedScrollingEnabled="true"-->
+        <!--                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+        <!--                            tools:listitem="@layout/shop_list_adapter" />-->
+        <!--                    </LinearLayout>-->
+        <!--                </LinearLayout>-->
+        <!--        </com.google.android.material.card.MaterialCardView>-->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="5dp"
-            app:cardUseCompatPadding="true"
+            android:orientation="vertical"
+            android:padding="@dimen/_4sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
+            <LinearLayout
+                android:id="@+id/ll_Header_LiveAuctionAdapter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvPCAName"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.3"
+                    android:gravity="center_vertical"
+                    android:text="Madhavbhai"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
 
-                    <RelativeLayout
-                        android:id="@+id/ll_Header_LiveAuctionAdapter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvPCATotalBags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.28"
+                    android:gravity="center"
+                    android:padding="@dimen/_2sdp"
+                    android:text="1234.56"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tvPCAName_LiveAuctionAdapter"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:padding="10dp"
-                            android:layout_centerVertical="true"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/tvPCAAvgRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:gravity="center"
+                    android:padding="@dimen/_3sdp"
+                    android:text="12345.67"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/fab_StartAuction_LiveAucionFragment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignEnd="@id/tvPCAName_LiveAuctionAdapter"
-                            android:layout_marginStart="@dimen/_4sdp"
-                            android:layout_marginEnd="@dimen/_4sdp"
-                            android:layout_marginBottom="@dimen/_4sdp"
-                            android:contentDescription=""
-                            android:scaleType="center"
-                            android:src="@drawable/baseline_play_arrow_24"
-                            app:backgroundTint="@color/newPCACardColor"
-                            app:fabSize="mini" />
+                <TextView
+                    android:id="@+id/tvPCATotalAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.15"
+                    android:gravity="center"
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/fab_PauseAuction_LiveAucionFragment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignEnd="@id/tvPCAName_LiveAuctionAdapter"
-                            android:layout_margin="@dimen/_4sdp"
-                            android:contentDescription=""
-                            android:scaleType="center"
-                            android:src="@drawable/baseline_pause_24"
-                            android:visibility="gone"
-                            app:backgroundTint="@color/newPCACardColor"
-                            app:fabSize="mini" />
+                    android:text="12345678"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
 
-                    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/fab_StartAuction_LiveAucionFragment"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_play_arrow_24"
+                    app:tint="#43A047" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_Expandable_LiveAuctionAdapter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/fab_PauseAuction_LiveAucionFragment"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_pause_24"
+                    android:visibility="gone"
+                    app:tint="#990606" />
+            </LinearLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rc_View_PCAShopList_LiveAuctionAdapter"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="true"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/shop_list_adapter" />
-                    </LinearLayout>
-                </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            <LinearLayout
+                android:id="@+id/ll_Expandable_LiveAuctionAdapter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_View_PCAShopList_LiveAuctionAdapter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/shop_list_adapter" />
+            </LinearLayout>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
