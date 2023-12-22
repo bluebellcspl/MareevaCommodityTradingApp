@@ -150,7 +150,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             binding.tvPCAExpensesLiveAuctionFragment.setText(String.format("%.2f", pcaExpense))
             binding.edtPCATotalAmountLiveAuctionFragment.setText(
                 String.format(
-                    "Cost : %.2f",
+                    "%.2f",
                     pcaTotalAmount
                 )
             )
@@ -307,5 +307,15 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
 
     override fun getBuyerAuctionDataList(dataList: ArrayList<AuctionDetailsModel>) {
         TODO("Not yet implemented")
+    }
+
+//    override fun onDestroy() {
+//        webSocketClient.disconnect()
+//        super.onDestroy()
+//    }
+
+    override fun onDestroyView() {
+        webSocketClient.disconnect()
+        super.onDestroyView()
     }
 }
