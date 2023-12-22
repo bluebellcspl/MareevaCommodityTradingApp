@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_liveAuctionFragment"
             app:destination="@id/liveAuctionFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_profileOptionFragment"
+            app:destination="@id/profileOptionFragment" />
     </fragment>
     <fragment
         android:id="@+id/PCAAuctionFragment"
@@ -118,7 +121,7 @@
     <fragment
         android:id="@+id/PCAAuctionListFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionListFragment"
-        android:label="PCAAuctionListFragment"
+        android:label="Shop List"
         tools:layout="@layout/fragment_p_c_a_auction_list">
         <argument
             android:name="pcaAuctionDetailModel"
@@ -129,4 +132,53 @@
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.LiveAuctionFragment"
         android:label="@string/live_auction"
         tools:layout="@layout/fragment_live_auction" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="userType"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/agreementFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.AgreementFragment"
+        android:label="@string/agreement"
+        tools:layout="@layout/fragment_agreement" />
+    <fragment
+        android:id="@+id/termsNConditionFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.TermsNConditionFragment"
+        android:label="@string/terms_conditions"
+        tools:layout="@layout/fragment_terms_n_condition" />
+    <fragment
+        android:id="@+id/profileOptionFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileOptionFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile_option">
+        <action
+            android:id="@+id/action_profileOptionFragment_to_termsNConditionFragment"
+            app:destination="@id/termsNConditionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            />
+        <action
+            android:id="@+id/action_profileOptionFragment_to_agreementFragment"
+            app:destination="@id/agreementFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            />
+        <action
+            android:id="@+id/action_profileOptionFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            />
+    </fragment>
 </navigation>

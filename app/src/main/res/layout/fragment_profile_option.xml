@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.ProfileOptionFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_MyProfile_ProfileOptionFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/colorSecondaryLight"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_8sdp"
+                        android:text="Profile"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold"
+                        app:drawableLeftCompat="@drawable/baseline_circle_24"
+                        app:drawableTint="@color/colorPrimaryDark" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_BuyerTerm_ProfileOptionFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/colorSecondaryLight"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_8sdp"
+                        android:text="@string/terms_conditions"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold"
+                        app:drawableLeftCompat="@drawable/baseline_circle_24"
+                        app:drawableTint="@color/colorPrimaryDark" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_BuyerAgreement_ProfileOptionFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/colorSecondaryLight"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_8sdp"
+                        android:text="@string/agreement"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold"
+                        app:drawableLeftCompat="@drawable/baseline_circle_24"
+                        app:drawableTint="@color/colorPrimaryDark" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/colorSecondaryLight"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/_2sdp"
+                            android:text="Contact Us"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold"
+                            app:drawableLeftCompat="@drawable/baseline_circle_24"
+                            app:drawableTint="@color/colorPrimaryDark" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/your_message"
+                            app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                            app:boxStrokeColor="@color/colorPrimaryDark"
+                            app:hintTextColor="@color/colorPrimary">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/poppins"
+                                android:gravity="start"
+                                android:lines="3" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_margin="@dimen/_8sdp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Send"
+                            app:cornerRadius="@dimen/_8sdp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_BuyerLogout_ProfileOptionFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/colorSecondaryLight"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_8sdp"
+                        android:text="Logout"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold"
+                        app:drawableLeftCompat="@drawable/baseline_logout_24"
+                        app:drawableTint="@color/colorPrimaryDark" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -122,4 +122,11 @@
     <string name="expenses">Expenses</string>
     <string name="purchased_bags">Purchased Bags</string>
     <string name="live_auction">Live Auction</string>
+    <string name="profile">Profile</string>
+    <string name="office_address">Office Address</string>
+    <string name="warehouse_factory_address">Warehouse/Factory Address</string>
+    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="your_message">Your Message</string>
+    <string name="agreement">Agreement</string>
+    <string name="city">City</string>
 </resources>

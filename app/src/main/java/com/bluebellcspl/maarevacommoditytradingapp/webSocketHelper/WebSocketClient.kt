@@ -19,17 +19,23 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
+import java.util.concurrent.TimeUnit
 
-class WebSocketClient(var context: Context,var serverUrl:String, var lifeCycleOwner:LifecycleOwner,var onMessageReceived:(liveAuction:LiveAuctionMasterModel)->Unit) {
-    private var webSocket : WebSocket? = null
+class WebSocketClient(
+    var context: Context,
+    var serverUrl: String,
+    var lifeCycleOwner: LifecycleOwner,
+    var onMessageReceived: (liveAuction: LiveAuctionMasterModel) -> Unit
+) {
+    private var webSocket: WebSocket? = null
     private val TAG = "WebSocketClient"
-    fun connect(){
+    fun connect() {
         Log.d(TAG, "connect: SOCKET_URL : $serverUrl")
         val request = Request.Builder()
             .url(serverUrl)
             .build()
 
-        val webSocketListerner = object : WebSocketListener(){
+        val webSocketListerner = object : WebSocketListener() {
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
                 this@WebSocketClient.webSocket = null
@@ -46,18 +52,11 @@ class WebSocketClient(var context: Context,var serverUrl:String, var lifeCycleOw
                 Log.d(TAG, "onMessage: SOCKET_RECEIVED_MSG : $text")
                 //FOR RECYCLERVIEW
                 val gson = Gson()
-//                val jsonArray: JsonArray = JsonParser().parse(text).asJsonArray
                 val jsonObject: JsonObject = JsonParser().parse(text).asJsonObject
                 Log.d(TAG, "onMessage: NEW_JSON_OBJECT : ${jsonObject.toString()}")
                 val userListType = object : TypeToken<LiveAuctionMasterModel>() {}.type
-                var liveAuctionObject : LiveAuctionMasterModel = gson.fromJson(jsonObject.toString(),userListType)
-
-//                (context as Activity).runOnUiThread {
-////                    liveAuctionFragment.onMessageReceived(liveAuctionObject)
-//                    onMessageReceived(liveAuctionObject)
-//                }
-
-
+                var liveAuctionObject: LiveAuctionMasterModel =
+                    gson.fromJson(jsonObject.toString(), userListType)
 
                 lifeCycleOwner.lifecycleScope.launch(Dispatchers.Main) {
                     onMessageReceived(liveAuctionObject)
@@ -68,30 +67,19 @@ class WebSocketClient(var context: Context,var serverUrl:String, var lifeCycleOw
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 this@WebSocketClient.webSocket = webSocket
                 Log.d(TAG, "onOpen: SOCKET_CONNECTED")
-//                (context as Activity).runOnUiThread {
-//                    Toast.makeText(context,"Socket Connected!",Toast.LENGTH_SHORT).show()
-//                }
-//                send(ChatMessage(userName,"Joined the Chat",""))
-//                var liveAuctionList = ArrayList<LiveAuctionMaster>()
-//                webSocket.send("{\n" +
-//                        "    \"FromUserId\":\"1\",\n" +
-//                        "    \"ToUserId\":\"37\",\n" +
-//                        "    \"CompanyCode\":\"MAT189\",\n" +
-//                        "    \"Action\":\"All\",\n" +
-//                        "}")
             }
 
         }
 
-        val client = OkHttpClient()
-        webSocket = client.newWebSocket(request,webSocketListerner)
+        val client = OkHttpClient.Builder()
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .build()
+        webSocket = client.newWebSocket(request, webSocketListerner)
     }
-
-//    fun send(message: ChatMessage) {
-//        webSocket?.send(Gson().toJson(message))
-//    }
-
     fun disconnect() {
-        webSocket?.close(1000, "User disconnected")
+//        webSocket?.close(1000, "User disconnected")
+        webSocket?.cancel()
     }
 }

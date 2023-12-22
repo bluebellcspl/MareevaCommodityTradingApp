@@ -8,10 +8,6 @@ class PrefUtil {
         public val ACTION_INSERT = "insert"
         public val ACTION_UPDATE = "update"
         public val ACTION_RETRIEVE = "All"
-        public val ACTION_APPROVE = "approve"
-        public val ACTION_REJECT = "Reject"
-        public val ACTION_DELETE = "delete"
-        public val ACTION_FINAL_APPROVE = "Finalapprove"
         public val KEY_PREF = "rememberMe"
         public val KEY_LOGGEDIN = "loggedIn"
         public val KEY_LANGUAGE = "language"
@@ -35,7 +31,6 @@ class PrefUtil {
         public val KEY_BUYER_ID = "BuyerId"
         public val KEY_BUYER_CITY_ID = "CityId"
         public val KEY_TYPE_OF_USER = "Typeofuser"
-
         public val KEY_NAME = "Name"
         public val KEY_LOCATION = "Location"
         public val KEY_COMMODITY_Id = "CommodityId"

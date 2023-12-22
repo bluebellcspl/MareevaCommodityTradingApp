@@ -10,6 +10,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.PCAListFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
@@ -40,7 +41,16 @@ class FetchApprovedPCAListAPI(var context: Context, var activity: Activity,var f
             val JO = JsonObject()
             JO.addProperty("CompanyCode", "MAT189")
             JO.addProperty("Action", "All")
-            JO.addProperty("BuyerId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
+            var CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString()
+            var Buyer_Reg_Id = ""
+            if (CURRENT_USER.equals("pca",true))
+            {
+                Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_BUYER_ID,"").toString()
+            }else
+            {
+                Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
+            }
+            JO.addProperty("BuyerId", Buyer_Reg_Id)
             Log.d(TAG, "getPCAList: JSON : ${JO.toString()}")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
@@ -56,6 +66,7 @@ class FetchApprovedPCAListAPI(var context: Context, var activity: Activity,var f
                     val list = ContentValues()
                     DatabaseManager.deleteData(Constants.TBL_PCAMaster)
 
+                    var data:PCAListModelItem?=null
                     for(model in pcaList)
                     {
                         list.put("APMCId",model.APMCId)
@@ -104,6 +115,10 @@ class FetchApprovedPCAListAPI(var context: Context, var activity: Activity,var f
                         {
                             unapprovedPCAList.add(model)
                         }
+                        if (model.PCARegId.equals(PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()))
+                        {
+                            data = model
+                        }
 
                         DatabaseManager.commonInsert(list,Constants.TBL_PCAMaster)
                     }
@@ -121,6 +136,13 @@ class FetchApprovedPCAListAPI(var context: Context, var activity: Activity,var f
                         withContext(Main){
                             commonUIUtility.dismissProgress()
                             (fragment as DashboardFragment).bindingApprovedPCACount(approvedPCAList)
+                        }
+                    }else if (fragment is ProfileFragment)
+                    {
+                        withContext(Main){
+                            commonUIUtility.dismissProgress()
+                            Log.d(TAG, "getApprovedPCAList: PCA_DATA : $data")
+                            (fragment as ProfileFragment).bindPCAData(data)
                         }
                     }
                 }else

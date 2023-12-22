@@ -63,42 +63,26 @@ class DashboardFragment : Fragment() {
             PCADashboard(requireContext(),requireActivity(),this)
         }
         menuHost = requireActivity()
+        Log.d(TAG, "onCreateView: NAME : ${PrefUtil.getString(PrefUtil.KEY_NAME,"")}")
+        Log.d(TAG, "onCreateView: REGISTER_ID : ${PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"")}")
+        Log.d(TAG, "onCreateView: BUYER_ID : ${PrefUtil.getString(PrefUtil.KEY_BUYER_ID,"")}")
+        Log.d(TAG, "onCreateView: ROLE_ID : ${PrefUtil.getString(PrefUtil.KEY_ROLE_ID,"")}")
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.ds_menu,menu)
+            }
 
-//        menuHost.addMenuProvider(object : MenuProvider {
-//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-//                menuInflater.inflate(R.menu.ds_menu,menu)
-//            }
-//
-//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-//                when(menuItem.itemId){
-//                    R.id.btn_Logout->logoutDialog()
-//                }
-//                return true
-//            }
-//        }, viewLifecycleOwner, Lifecycle.State.STARTED)
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when(menuItem.itemId){
+                    R.id.btn_Profile->{
+                        navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToProfileOptionFragment())
+                    }
+                }
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.STARTED)
 
         return binding.root
-    }
-
-    fun logoutDialog() {
-        val alertDialog = AlertDialog.Builder(requireContext())
-        alertDialog.setCancelable(false)
-        alertDialog.setTitle("Logout")
-        alertDialog.setMessage("Do you want to Logout?")
-        alertDialog.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
-            override fun onClick(p0: DialogInterface?, p1: Int) {
-                p0!!.dismiss()
-                PrefUtil.deletePreference()
-                startActivity(Intent(requireContext(), LoginActivity::class.java))
-                requireActivity().finish()
-            }
-        })
-        alertDialog.setNegativeButton("No", object : DialogInterface.OnClickListener {
-            override fun onClick(p0: DialogInterface?, p1: Int) {
-                p0!!.dismiss()
-            }
-        })
-        alertDialog.show()
     }
 
     fun bindingApprovedPCACount(dataList:ArrayList<PCAListModelItem>){

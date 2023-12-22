@@ -72,70 +72,80 @@
                 android:textStyle="bold" />
         </LinearLayout>
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/ll3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/_5sdp"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll1">
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/black"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:gravity="center_vertical"
-                    android:text="@string/allocated_bags"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_13ssp" />
-
-                <TextView
-                    android:id="@+id/edt_BuyerAllocatedBags_LiveAuctionFragment"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_13ssp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/_3sdp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/total_amount"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_13ssp" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/edt_BuyerTotalAmount_LiveAuctionFragment"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:gravity="center_vertical"
+                        android:text="@string/allocated_bags"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <TextView
+                        android:id="@+id/edt_BuyerAllocatedBags_LiveAuctionFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13ssp" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:layout_weight="0.7"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="123456789.0"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_13ssp" />
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/total_amount"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13ssp" />
+
+                    <TextView
+                        android:id="@+id/edt_BuyerTotalAmount_LiveAuctionFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="0.7"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="123456789.0"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13ssp" />
+                </LinearLayout>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/black"/>
         </LinearLayout>
 
         <LinearLayout

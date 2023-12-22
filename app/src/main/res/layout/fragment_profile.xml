@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dashboard_bg"
+        tools:context=".fragment.ProfileFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/main_rl_ProfileFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--            Buyer View-->
+                <LinearLayout
+                    android:id="@+id/ll_BuyerView_ProfileFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:padding="@dimen/_8sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_5sdp">
+
+                            <!--                        </LinearLayout>-->
+                            <!--                    </com.google.android.material.card.MaterialCardView>-->
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/BuyerProfileImg_ProfileFragment"
+                                android:layout_width="@dimen/_150sdp"
+                                android:layout_height="@dimen/_150sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="@dimen/_10sdp"
+                                android:src="@drawable/add_user"
+                                app:civ_border_width="1dp" />
+
+                            <TextView
+                                android:id="@+id/tv_BuyerName_ProfileFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="@dimen/_25ssp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_BuyerEmail_ProfileFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="@color/colorPrimaryLight"
+                                android:textSize="@dimen/_20ssp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_5sdp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+
+                                    android:fontFamily="@font/inter_medium"
+                                    android:gravity="center"
+                                    android:text="@string/commodity"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_16ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_BuyerCommodity_ProfileFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:gravity="end"
+                                    android:padding="@dimen/_2sdp"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_16ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_5sdp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:gravity="center"
+                                    android:text="PAN Card"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_16ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_BuyerPANCard_ProfileFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="@dimen/_2sdp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:gravity="end"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_16ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_5sdp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:gravity="center"
+                                    android:text="Aadhar Card"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_16ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_BuyerAadharCard_ProfileFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:padding="@dimen/_2sdp"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:gravity="end"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_16ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_5sdp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:gravity="center"
+                                    android:text="GST No."
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_16ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_BuyerGSTNo_ProfileFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/inter_medium"
+                                    android:gravity="end"
+                                    android:text=""
+                                    android:padding="@dimen/_2sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_16ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:fontFamily="@font/poppins"
+                                android:gravity="center"
+                                android:text="@string/office_address"
+                                android:textColor="@color/colorPrimaryLight"
+                                android:textSize="@dimen/_18ssp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_BuyerOfficeAddress_ProfileFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="@dimen/_18ssp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:fontFamily="@font/poppins"
+                                android:gravity="center"
+                                android:visibility="gone"
+                                android:text="@string/warehouse_factory_address"
+                                android:textColor="@color/colorPrimaryLight"
+                                android:textSize="@dimen/_18ssp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_BuyerWarehouseAddress_ProfileFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:fontFamily="@font/poppins"
+                                android:gravity="center"
+                                android:text=""
+                                android:visibility="gone"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="@dimen/_18ssp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                </LinearLayout>
+                <!--            PCA View-->
+                <LinearLayout
+                    android:id="@+id/ll_PCAView_ProfileFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:layout_below="@id/ll_BuyerView_ProfileFragment"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/PCAProfileImg_ProfileFragment"
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="@dimen/_150sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:src="@drawable/add_user"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:id="@+id/tv_PCAName_ProfileFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text=""
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/_25ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_PCAEmail_ProfileFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text=""
+                            android:textColor="@color/colorPrimaryLight"
+                            android:textSize="@dimen/_20ssp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="@string/apmc"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCAAPMC_ProfileFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:padding="@dimen/_2sdp"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="PAN Card"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCAPANCard_ProfileFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_2sdp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="end"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="Aadhar Card"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCAAadharCard_ProfileFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:padding="@dimen/_2sdp"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="end"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="GST No."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCAGSTNo_ProfileFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="end"
+                                android:text=""
+                                android:padding="@dimen/_2sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text="@string/office_address"
+                            android:textColor="@color/colorPrimaryLight"
+                            android:textSize="@dimen/_18ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_PCAOfficeAddress_ProfileFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text=""
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/_18ssp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_10sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="@string/city"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCACity_ProfileFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:padding="@dimen/_2sdp"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
