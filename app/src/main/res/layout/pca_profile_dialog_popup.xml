@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_PCAProfileDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardElevation="@dimen/_3sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardUseCompatPadding="true"
+            android:background="@color/colorSecondary">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/ll_PCAView_ProfilePCADialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/PCAProfileImg_ProfilePCADialog"
+                            android:layout_width="@dimen/_120sdp"
+                            android:layout_height="@dimen/_120sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:src="@drawable/add_user"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:id="@+id/tv_PCAName_ProfilePCADialog"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text=""
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/_25ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_PCAEmail_ProfilePCADialog"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text=""
+                            android:textColor="@color/colorPrimaryLight"
+                            android:textSize="@dimen/_20ssp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="@string/apmc"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCAAPMC_ProfilePCADialog"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:padding="@dimen/_2sdp"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="PAN Card"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCAPANCard_ProfilePCADialog"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_2sdp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="end"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="Aadhar Card"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCAAadharCard_ProfilePCADialog"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:padding="@dimen/_2sdp"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="end"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="GST No."
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCAGSTNo_ProfilePCADialog"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="end"
+                                android:text=""
+                                android:padding="@dimen/_2sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text="@string/office_address"
+                            android:textColor="@color/colorPrimaryLight"
+                            android:textSize="@dimen/_18ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_PCAOfficeAddress_ProfilePCADialog"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="center"
+                            android:text=""
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/_18ssp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            >
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="@string/city"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PCACity_ProfilePCADialog"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:padding="@dimen/_2sdp"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/fab_edit_ProfilePCADialog"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cornerRadius="@dimen/_12sdp"
+                            android:text="@string/edit_pca"
+                            app:icon="@drawable/baseline_mode_edit_24"
+                            app:iconGravity="textStart"
+                            android:textSize="@dimen/_14ssp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

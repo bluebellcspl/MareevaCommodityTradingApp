@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,12 +15,16 @@ import com.bluebellcspl.maarevacommoditytradingapp.adapter.UnapprovePCAListAdapt
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAListBinding
+import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaAuctionDetailDailogLayoutBinding
+import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaProfileDialogPopupBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchUnapprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.Detail
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
+import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
+import com.bumptech.glide.Glide
 
 
 class PCAListFragment : Fragment(),RecyclerViewHelper {
@@ -100,12 +105,13 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
             if (onclickType.equals("ApprovedList"))
             {
                 var model = approvedPCAList[postion]
+                showPCAProfileDialogPopup(model,"ApprovedList")
 
-             navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
             }else
             {
                 var model = unapprovedPCAList[postion]
-                navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
+                showPCAProfileDialogPopup(model,"UnapprovedList")
+
             }
         }catch (e:Exception)
         {
@@ -120,5 +126,53 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
 
     override fun getBuyerAuctionDataList(dataList: ArrayList<AuctionDetailsModel>) {
 
+    }
+
+    fun showPCAProfileDialogPopup(model:PCAListModelItem,onclickType: String){
+        try {
+            val alertDailogBuilder = AlertDialog.Builder(requireContext())
+            val dialogBinding = PcaProfileDialogPopupBinding.inflate(layoutInflater)
+            val dialogView = dialogBinding.root
+            alertDailogBuilder.setView(dialogView)
+            val alertDialog = alertDailogBuilder.create()
+            alertDialog.setCanceledOnTouchOutside(true)
+            alertDialog.setCancelable(true)
+            alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+            alertDialog.show()
+
+            var IMG_URL = RetrofitHelper.IMG_BASE_URL + model.ProfilePic
+            Log.d(TAG, "bindPCAData: IMG_URL : $IMG_URL")
+            Glide.with(requireContext())
+                .load(IMG_URL)
+                .error(requireContext().getDrawable(R.drawable.baseline_person_24))
+                .placeholder(requireContext().getDrawable(R.drawable.baseline_person_24))
+                .into(dialogBinding.PCAProfileImgProfilePCADialog)
+
+            dialogBinding.tvPCANameProfilePCADialog.setText(model.PCAName)
+            dialogBinding.tvPCAEmailProfilePCADialog.setText(model.EmailId)
+            dialogBinding.tvPCAAPMCProfilePCADialog.setText(model.APMCName)
+            dialogBinding.tvPCAAadharCardProfilePCADialog.setText(model.AdharNo)
+            dialogBinding.tvPCAPANCardProfilePCADialog.setText(model.PanCardNo)
+            dialogBinding.tvPCAGSTNoProfilePCADialog.setText(model.GSTNo)
+            dialogBinding.tvPCAOfficeAddressProfilePCADialog.setText(model.Address)
+            dialogBinding.tvPCACityProfilePCADialog.setText(model.CityName)
+
+            dialogBinding.fabEditProfilePCADialog.setOnClickListener {
+                if (onclickType.equals("ApprovedList"))
+                {
+                    alertDialog.dismiss()
+                    navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
+                }else
+                {
+                    alertDialog.dismiss()
+                    navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
+                }
+            }
+
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "showPCAProfileDialogPopup: ${e.message}")
+        }
     }
 }

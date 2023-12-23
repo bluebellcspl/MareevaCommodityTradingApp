@@ -52,7 +52,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center|end"
                 android:padding="@dimen/_3sdp"
                 android:text="Cost"
                 android:layout_weight="1.2"
@@ -66,7 +66,7 @@
                 android:gravity="center"
                 android:layout_weight="0.8"
                 android:padding="@dimen/_3sdp"
-                android:text=""
+                android:text="4654654654654"
                 android:textColor="#452b90"
                 android:textSize="@dimen/_20ssp"
                 android:textStyle="bold" />

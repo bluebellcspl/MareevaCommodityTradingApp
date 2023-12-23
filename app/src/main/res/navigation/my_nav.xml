@@ -148,9 +148,9 @@
         tools:layout="@layout/fragment_agreement" />
     <fragment
         android:id="@+id/termsNConditionFragment"
-        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.TermsNConditionFragment"
-        android:label="@string/terms_conditions"
-        tools:layout="@layout/fragment_terms_n_condition" />
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.PrivacyPolicyFragment"
+        android:label="@string/privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
     <fragment
         android:id="@+id/profileOptionFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileOptionFragment"

@@ -129,4 +129,11 @@
     <string name="your_message">Your Message</string>
     <string name="agreement">Agreement</string>
     <string name="city">City</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="apmc_lbl">APMC :</string>
+    <string name="pan_card_lbl">PAN Card :</string>
+    <string name="aadhar_card_lbl">Aadhar Card :</string>
+    <string name="gst_no_lbl">GST No. :</string>
+    <string name="city_lbl">City :</string>
+    <string name="commodity_lbl">Commodity :</string>
 </resources>

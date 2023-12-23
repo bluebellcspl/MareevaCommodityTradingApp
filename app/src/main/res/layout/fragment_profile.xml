@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
+
                     android:padding="@dimen/_8sdp">
 
                         <LinearLayout
@@ -81,12 +81,12 @@
                                 android:padding="@dimen/_5sdp">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-
+                                    android:layout_weight="1"
                                     android:fontFamily="@font/inter_medium"
-                                    android:gravity="center"
-                                    android:text="@string/commodity"
+                                    android:gravity="center_vertical|end"
+                                    android:text="@string/commodity_lbl"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_16ssp" />
 
@@ -110,11 +110,12 @@
                                 android:padding="@dimen/_5sdp">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:fontFamily="@font/inter_medium"
-                                    android:gravity="center"
-                                    android:text="PAN Card"
+                                    android:gravity="end|center_vertical"
+                                    android:text="@string/pan_card_lbl"
+                                    android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_16ssp" />
 
@@ -139,11 +140,12 @@
                                 android:padding="@dimen/_5sdp">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="1"
                                     android:layout_height="match_parent"
                                     android:fontFamily="@font/inter_medium"
-                                    android:gravity="center"
-                                    android:text="Aadhar Card"
+                                    android:gravity="end|center_vertical"
+                                    android:text="@string/aadhar_card_lbl"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_16ssp" />
 
@@ -168,11 +170,12 @@
                                 android:padding="@dimen/_5sdp">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:fontFamily="@font/inter_medium"
-                                    android:gravity="center"
-                                    android:text="GST No."
+                                    android:gravity="end|center_vertical"
+                                    android:layout_weight="1"
+                                    android:text="@string/gst_no_lbl"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_16ssp" />
 
@@ -296,8 +299,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="center"
-                                android:text="@string/apmc"
+                                android:gravity="center_vertical|end"
+                                android:text= "@string/apmc_lbl"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_16ssp" />
 
@@ -307,7 +310,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="center"
+                                android:gravity="start"
                                 android:padding="@dimen/_2sdp"
                                 android:text=""
                                 android:textColor="@color/black"
@@ -322,11 +325,12 @@
                             android:padding="@dimen/_5sdp">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="center"
-                                android:text="PAN Card"
+                                android:gravity="end|center_vertical"
+                                android:layout_weight="1"
+                                android:text="@string/pan_card_lbl"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_16ssp" />
 
@@ -337,7 +341,7 @@
                                 android:padding="@dimen/_2sdp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="end"
+                                android:gravity="start"
                                 android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_16ssp"
@@ -351,11 +355,12 @@
                             android:padding="@dimen/_5sdp">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="center"
-                                android:text="Aadhar Card"
+                                android:gravity="end|center_vertical"
+                                android:layout_weight="1"
+                                android:text="@string/aadhar_card_lbl"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_16ssp" />
 
@@ -366,7 +371,7 @@
                                 android:layout_weight="1"
                                 android:padding="@dimen/_2sdp"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="end"
+                                android:gravity="start"
                                 android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_16ssp"
@@ -380,11 +385,12 @@
                             android:padding="@dimen/_5sdp">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="center"
-                                android:text="GST No."
+                                android:gravity="end|center_vertical"
+                                android:layout_weight="1"
+                                android:text="@string/gst_no_lbl"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_16ssp" />
 
@@ -394,7 +400,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="end"
+                                android:gravity="start"
                                 android:text=""
                                 android:padding="@dimen/_2sdp"
                                 android:textColor="@color/black"
@@ -436,8 +442,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="center"
-                                android:text="@string/city"
+                                android:gravity="end|center_vertical"
+                                android:text="@string/city_lbl"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_16ssp" />
 
@@ -447,7 +453,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_medium"
-                                android:gravity="center"
+                                android:gravity="start"
                                 android:padding="@dimen/_2sdp"
                                 android:text=""
                                 android:textColor="@color/black"

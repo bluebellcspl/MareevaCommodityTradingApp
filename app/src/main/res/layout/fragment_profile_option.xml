@@ -68,7 +68,7 @@
                         android:fontFamily="@font/poppins"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_8sdp"
-                        android:text="@string/terms_conditions"
+                        android:text="@string/privacy_policy"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_15ssp"
                         android:textStyle="bold"
