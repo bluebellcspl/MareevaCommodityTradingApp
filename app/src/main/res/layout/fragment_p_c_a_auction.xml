@@ -103,14 +103,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Lower Limit"
+                            android:text="Limit"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp" />
 
                         <TextView
                             android:id="@+id/tv_BuyersLowerLimit_PCAAuctionFragment"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                        <TextView
+                            android:id="@+id/tv_BuyersUpperLimit_PCAAuctionFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
                             android:gravity="center"
                             android:textStyle="bold"
                             android:textColor="@color/black"
@@ -128,12 +137,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Upper Limit"
+                            android:text="Budget"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp" />
 
                         <TextView
-                            android:id="@+id/tv_BuyersUpperLimit_PCAAuctionFragment"
+                            android:id="@+id/tv_BuyersBudget_PCAAuctionFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
@@ -293,7 +302,7 @@
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/act_ShopName_PCAAuctionFragment"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:imeOptions="actionNext"
                             android:inputType="text"
                             android:textColor="@color/black"

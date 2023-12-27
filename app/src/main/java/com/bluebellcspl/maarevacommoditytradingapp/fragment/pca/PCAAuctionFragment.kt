@@ -82,16 +82,28 @@ class PCAAuctionFragment : Fragment() {
         shopNoList = getShopNoFromDb()
 
         //OnFocusChangeListener
-        binding.edtBagsPCAAuctionFragment.onFocusChangeListener =
-            View.OnFocusChangeListener { view: View?, b: Boolean ->
-                if (b) {
-                    if (binding.actShopNoPCAAuctionFragment.text.toString().isNotEmpty()) {
-                        bindShopName(binding.actShopNoPCAAuctionFragment.text.toString().trim())
-                    } else {
-                        bindShopNo(binding.actShopNamePCAAuctionFragment.text.toString().trim())
-                    }
-                }
-            }
+//        binding.edtBagsPCAAuctionFragment.onFocusChangeListener =
+//            View.OnFocusChangeListener { view: View?, b: Boolean ->
+//                if (b) {
+//                    if (binding.actShopNoPCAAuctionFragment.text.toString().isNotEmpty()) {
+//                        bindShopName(binding.actShopNoPCAAuctionFragment.text.toString().trim())
+//                    } else {
+//                        bindShopNo(binding.actShopNamePCAAuctionFragment.text.toString().trim())
+//                    }
+//                }
+//            }
+
+        binding.actShopNoPCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
+            var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            binding.actShopNamePCAAuctionFragment.setText(shopName)
+        }
+
+        binding.actShopNamePCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
+            var shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            binding.actShopNoPCAAuctionFragment.setText(shopNo)
+        }
 
         binding.btnListPCAAuctionFragment.setOnClickListener {
             navController.navigate(PCAAuctionFragmentDirections.actionPCAAuctionFragmentToPCAAuctionListFragment(apiDataforPost))
@@ -170,10 +182,10 @@ class PCAAuctionFragment : Fragment() {
             override fun afterTextChanged(p0: Editable?) {
                 if (p0!!.toString().isNullOrBlank()) {
                     binding.edtCurrentPricePCAAuctionFragment.setText("0")
-                    val avgPrice = NumberFormat.getCurrencyInstance().format(AVG_PRICE.toDouble())
+                    val avgPrice = NumberFormat.getCurrencyInstance().format(AVG_PRICE.toDouble()).substring(1)
                     binding.tvAveragePricePCAAuctionFragment.setText(avgPrice)
                     val totalAmount =
-                        NumberFormat.getCurrencyInstance().format(TOTAL_AMOUNT.toDouble())
+                        NumberFormat.getCurrencyInstance().format(TOTAL_AMOUNT.toDouble()).substring(1)
                     binding.tvTotalAmountPCAAuctionFragment.setText(totalAmount)
                     binding.edtCurrentPricePCAAuctionFragment.setSelection(1)
                 } else if (p0!!.toString().length >= 2 && p0!!.toString().startsWith("0")) {
@@ -200,7 +212,7 @@ class PCAAuctionFragment : Fragment() {
                     total =
                         ((bags.toDouble() * commodityBhartiRate.toDouble()) / 20) * (currentPrice.toDouble())
                 }
-                val totalCostNF = NumberFormat.getCurrencyInstance().format(total)
+                val totalCostNF = NumberFormat.getCurrencyInstance().format(total).substring(1)
                 post_CurrentTotal = total
                 binding.edtTotalAmountPCAAuctionFragment.setText(totalCostNF.toString())
 
@@ -214,13 +226,15 @@ class PCAAuctionFragment : Fragment() {
                 post_AvgPrice =
                     (cumulativeTotal + total) / (((totalPurchasedBags + bags.toInt()) * commodityBhartiRate.toDouble()) / 20)
                 Log.d(TAG, "calculateExpense: AVG_PRICE : $post_AvgPrice")
-//                val AvgPriceNF = NumberFormat.getCurrencyInstance().format(post_AvgPrice)
-                binding.tvAveragePricePCAAuctionFragment.setText(String.format("%.2f",post_AvgPrice))
+                val AvgPriceNF = NumberFormat.getCurrencyInstance().format(post_AvgPrice).substring(1)
+//                binding.tvAveragePricePCAAuctionFragment.setText(String.format("%.2f",post_AvgPrice))
+                binding.tvAveragePricePCAAuctionFragment.setText(AvgPriceNF)
 
                 Log.d(TAG, "calculateExpense: CUMULATIVE_TOTAL : $cumulativeTotal")
-//                val cumulativeTotalNF =NumberFormat.getCurrencyInstance().format(cumulativeTotal + total)
+                val cumulativeTotalNF =NumberFormat.getCurrencyInstance().format(cumulativeTotal + total).substring(1)
                 post_CumulativeTotal = cumulativeTotal + total
-                binding.tvTotalAmountPCAAuctionFragment.setText(String.format("%.2f",post_CumulativeTotal))
+//                binding.tvTotalAmountPCAAuctionFragment.setText(String.format("%.2f",post_CumulativeTotal))
+                binding.tvTotalAmountPCAAuctionFragment.setText(cumulativeTotalNF)
 
             } else {
                 binding.edtTotalAmountPCAAuctionFragment.setText("")
@@ -237,18 +251,22 @@ class PCAAuctionFragment : Fragment() {
             binding.tvRemainingBagsPCAAuctionFragment.setText(apiDataModel.RemainingBags)
             binding.tvBuyerBagsPCAAuctionFragment.setText(apiDataModel.BuyerBori)
             val BuyerULNF =
-                NumberFormat.getCurrencyInstance().format(apiDataModel.BuyerUpperPrice.toDouble())
+                NumberFormat.getCurrencyInstance().format(apiDataModel.BuyerUpperPrice.toDouble()).substring(1)
             binding.tvBuyersUpperLimitPCAAuctionFragment.setText(BuyerULNF.toString())
             val BuyerLLNF =
-                NumberFormat.getCurrencyInstance().format(apiDataModel.BuyerLowerPrice.toDouble())
+                NumberFormat.getCurrencyInstance().format(apiDataModel.BuyerLowerPrice.toDouble()).substring(1)
             binding.tvBuyersLowerLimitPCAAuctionFragment.setText(BuyerLLNF)
             binding.tvPurchasedBagsPCAAuctionFragment.setText(apiDataModel.TotalPurchasedBags)
             val AvgPriceNF =
-                NumberFormat.getCurrencyInstance().format(apiDataModel.AvgPrice.toDouble())
+                NumberFormat.getCurrencyInstance().format(apiDataModel.AvgPrice.toDouble()).substring(1)
             binding.tvAveragePricePCAAuctionFragment.setText(AvgPriceNF)
             val TotalCostNf =
-                NumberFormat.getCurrencyInstance().format(apiDataModel.TotalCost.toDouble())
+                NumberFormat.getCurrencyInstance().format(apiDataModel.TotalCost.toDouble()).substring(1)
             binding.tvTotalAmountPCAAuctionFragment.setText(TotalCostNf)
+
+            val BuyerBudgerNF =
+                NumberFormat.getCurrencyInstance().format(apiDataModel.BuyerPCABudget.toDouble()).substring(1)
+            binding.tvBuyersBudgetPCAAuctionFragment.setText(BuyerBudgerNF)
             BUYER_UPPER_LIMIT = apiDataModel.BuyerUpperPrice
             BUYER_LOWER_LIMIT = apiDataModel.BuyerLowerPrice
             TOTAL_AMOUNT = apiDataModel.TotalCost

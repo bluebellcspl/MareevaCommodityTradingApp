@@ -12,6 +12,7 @@ data class PCAAuctionDetailModel(
     var BuyerBori: String,
     var BuyerId: String,
     var BuyerLowerPrice: String,
+    var BuyerPCABudget: String,
     var BuyerUpperPrice: String,
     var CommodityBhartiPrice: String,
     var CommodityId: String,
