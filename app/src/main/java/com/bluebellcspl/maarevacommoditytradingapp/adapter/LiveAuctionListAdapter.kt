@@ -1,6 +1,7 @@
 package com.bluebellcspl.maarevacommoditytradingapp.adapter
 
 import android.content.Context
+import android.icu.text.NumberFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -40,8 +41,8 @@ class LiveAuctionListAdapter(var context: Context,var dataList:ArrayList<LiveAuc
                         pcaBasic+=pcaData.Amount.toDouble()
                     }
                     pcaExpense = dataList.PCACommCharge.toDouble()+dataList.GCACommCharge.toDouble()+dataList.TransportationCharge.toDouble()+dataList.LabourCharge.toDouble()
-
-                    binding.tvPCATotalAmount.setText(String.format("%.2f",pcaBasic))
+                    val PCABasicNF = NumberFormat.getCurrencyInstance().format(pcaBasic).substring(1)
+                    binding.tvPCATotalAmount.setText(PCABasicNF)
                 }catch (e:Exception)
                 {
                     e.printStackTrace()
@@ -64,7 +65,8 @@ class LiveAuctionListAdapter(var context: Context,var dataList:ArrayList<LiveAuc
         val expanable = expandableList[holder.adapterPosition]
         holder.binding.tvPCAName.setText(model.PCAName)
         holder.bindShopList(model.ShopList)
-        holder.binding.tvPCAAvgRate.setText(model.AvgPrice)
+        val AvgPriceNF = NumberFormat.getCurrencyInstance().format(model.AvgPrice.toDouble()).substring(1)
+        holder.binding.tvPCAAvgRate.setText(AvgPriceNF)
         holder.binding.tvPCATotalBags.setText(model.TotalPurchasedBags)
         holder.calcutionTotalPCAAmount(model)
         if (model.IsAuctionStop.equals("False",true))

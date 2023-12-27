@@ -1,6 +1,7 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 
 import android.app.AlertDialog
+import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -112,7 +113,8 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             //Buyer Calculations
             binding.edtBuyerAllocatedBagsLiveAuctionFragment.setText(dataList.AllocatedBag)
             binding.edtBuyerBasicAmountLiveAuctionFragment.setText(dataList.Basic)
-            binding.edtBuyerTotalAmountLiveAuctionFragment.setText(dataList.TotalCost)
+            val BuyerTotalAmountNF = NumberFormat.getCurrencyInstance().format(dataList.TotalCost.toDouble()).substring(1)
+            binding.edtBuyerTotalAmountLiveAuctionFragment.setText(BuyerTotalAmountNF)
             var totalBuyerExpense =
                 dataList.TotalGCAComm.toDouble() + dataList.TotalPCAComm.toDouble() + dataList.TotalMarketCess.toDouble() + dataList.TotalLabourCharge.toDouble() + dataList.TotalTransportationCharge.toDouble()
             binding.tvBuyerExpensesLiveAuctionFragment.setText(
@@ -143,19 +145,17 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             binding.edtPCABasicAmountLiveAuctionFragment.setText(String.format("%.2f", pcaBasic))
             binding.edtPCAPurchasedBagsLiveAuctionFragment.setText(
                 String.format(
-                    "Bags : %s",
+                    "%s",
                     pcaTotalPurchasedBags.toString()
                 )
             )
             binding.tvPCAExpensesLiveAuctionFragment.setText(String.format("%.2f", pcaExpense))
-            binding.edtPCATotalAmountLiveAuctionFragment.setText(
-                String.format(
-                    "%.2f",
-                    pcaTotalAmount
-                )
-            )
+
+            val PCATotalAmountNF = NumberFormat.getCurrencyInstance().format(pcaTotalAmount).substring(1)
+            binding.edtPCATotalAmountLiveAuctionFragment.setText(PCATotalAmountNF)
             var rate = pcaBasic / ((pcaTotalPurchasedBags * COMMODITY_BHARTI.toDouble()) / 20.0)
-            binding.tvPCAAvgRateLiveAuctionFragment.setText(String.format("Rate : %.2f", rate))
+            val RateNF = NumberFormat.getCurrencyInstance().format(rate).substring(1)
+            binding.tvPCAAvgRateLiveAuctionFragment.setText(RateNF)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "calculateExpenses: ${e.message}")

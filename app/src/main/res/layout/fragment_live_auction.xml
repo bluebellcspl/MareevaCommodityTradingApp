@@ -22,27 +22,62 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/edt_PCAPurchasedBags_LiveAuctionFragment"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/_4ssp"
-                android:text="Bag : "
-                android:textColor="@color/black"
-                android:textSize="@dimen/_20ssp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|end"
+                    android:padding="@dimen/_3sdp"
+                    android:text="Bag  :"
 
-            <TextView
-                android:id="@+id/tv_PCAAvgRate_LiveAuctionFragment"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/edt_PCAPurchasedBags_LiveAuctionFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/_4ssp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/_4ssp"
-                android:text="Rate : "
-                android:textColor="@color/black"
-                android:textSize="@dimen/_20ssp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|end"
+                    android:padding="@dimen/_3sdp"
+                    android:text="Rate :"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_PCAAvgRate_LiveAuctionFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/_4ssp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,22 +86,22 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center|end"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
                 android:padding="@dimen/_3sdp"
-                android:text="Cost"
-                android:layout_weight="1.2"
+                android:text="Cost :"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_20ssp"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/edt_PCATotalAmount_LiveAuctionFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="0.8"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:layout_weight="1"
                 android:padding="@dimen/_3sdp"
-                android:text="4654654654654"
+                android:text=""
                 android:textColor="#452b90"
                 android:textSize="@dimen/_20ssp"
                 android:textStyle="bold" />
@@ -95,10 +130,10 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/_3sdp"
-                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:text="@string/allocated_bags"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_13ssp" />
@@ -107,7 +142,7 @@
                         android:id="@+id/edt_BuyerAllocatedBags_LiveAuctionFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1.8"
                         android:gravity="center"
                         android:textStyle="bold"
                         android:textColor="@color/black"
@@ -122,7 +157,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/_3sdp"
+
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="@string/total_amount"
@@ -133,11 +168,9 @@
                         android:id="@+id/edt_BuyerTotalAmount_LiveAuctionFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/_3sdp"
                         android:layout_weight="0.7"
                         android:gravity="center"
                         android:textStyle="bold"
-                        android:text="123456789.0"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_13ssp" />
                 </LinearLayout>
