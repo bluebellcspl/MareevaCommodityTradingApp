@@ -47,14 +47,39 @@ class HomeActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         setupActionBarWithNavController(navController)
         binding.toolbarHome.toolbar.setupWithNavController(navController)
+        var CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString()
+        setHomeDestination(CURRENT_USER)
         Log.d(TAG, "onCreate: Current_DESTINATION : ${navController.currentDestination}")
     }
 
     override fun onBackPressed() {
-        if (navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/dashboardFragment")) {
+        if (navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/dashboardFragment")||navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/buyerDashboardFragment")||navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/PCADashboardFragment")) {
             finishAffinity()
         } else {
             navController.navigateUp()
+        }
+    }
+
+    fun setHomeDestination(usertype:String)
+    {
+        try {
+            var startDestinationId = when (usertype) {
+                "Buyer"-> R.id.buyerDashboardFragment
+                "PCA" -> R.id.PCADashboardFragment
+                else -> R.id.dashboardFragment  // Provide a default fragment if needed
+            }
+
+            // Get the current navigation graph
+            val navInflater = navController.navInflater
+            val graph = navInflater.inflate(R.navigation.my_nav)
+
+            graph.setStartDestination(startDestinationId)
+
+            navController.graph = graph
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "setHomeDestination: ${e.message}")
         }
     }
 }

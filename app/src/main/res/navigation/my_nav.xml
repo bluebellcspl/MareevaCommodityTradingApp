@@ -189,4 +189,30 @@
             app:popExitAnim="@anim/slide_out_left"
             />
     </fragment>
+    <fragment
+        android:id="@+id/buyerDashboardFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragment"
+        android:label="@string/dashboard"
+        tools:layout="@layout/fragment_buyer_dashboard" >
+        <action
+            android:id="@+id/action_buyerDashboardFragment_to_addPCAFragment"
+            app:destination="@id/addPCAFragment" />
+        <action
+            android:id="@+id/action_buyerDashboardFragment_to_PCAListFragment"
+            app:destination="@id/PCAListFragment" />
+        <action
+            android:id="@+id/action_buyerDashboardFragment_to_buyerAuctionFragment"
+            app:destination="@id/buyerAuctionFragment" />
+        <action
+            android:id="@+id/action_buyerDashboardFragment_to_liveAuctionFragment"
+            app:destination="@id/liveAuctionFragment" />
+        <action
+            android:id="@+id/action_buyerDashboardFragment_to_profileOptionFragment"
+            app:destination="@id/profileOptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PCADashboardFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragment"
+        android:label="@string/dashboard"
+        tools:layout="@layout/fragment_p_c_a_dashboard" />
 </navigation>

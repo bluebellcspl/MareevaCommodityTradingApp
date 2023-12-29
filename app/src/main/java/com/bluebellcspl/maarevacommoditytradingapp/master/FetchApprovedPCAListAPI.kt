@@ -9,10 +9,9 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtilit
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
-import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.PCAListFragment
-import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
@@ -24,7 +23,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FetchApprovedPCAListAPI(var context: Context, var activity: Activity,var fragment:Fragment) {
+class FetchApprovedPCAListAPI(
+    var context: Context,
+    var activity: Activity,
+    var fragment: Fragment
+) {
     val job = Job()
     val scope = CoroutineScope(job)
     val commonUIUtility = CommonUIUtility(context)
@@ -41,121 +44,118 @@ class FetchApprovedPCAListAPI(var context: Context, var activity: Activity,var f
             val JO = JsonObject()
             JO.addProperty("CompanyCode", "MAT189")
             JO.addProperty("Action", "All")
-            var CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString()
+            var CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME, "").toString()
             var Buyer_Reg_Id = ""
-            if (CURRENT_USER.equals("pca",true))
-            {
-                Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_BUYER_ID,"").toString()
-            }else
-            {
-                Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
+            if (CURRENT_USER.equals("pca", true)) {
+                Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_BUYER_ID, "").toString()
+            } else {
+                Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
             }
             JO.addProperty("BuyerId", Buyer_Reg_Id)
             Log.d(TAG, "getPCAList: JSON : ${JO.toString()}")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
-            scope.launch(Dispatchers.IO){
+            scope.launch(Dispatchers.IO) {
 
                 val result = APICall.getPCAMaster(JO)
 
-                if (result.isSuccessful)
-                {
+                if (result.isSuccessful) {
                     val pcaList = result.body()!!
                     val approvedPCAList = ArrayList<PCAListModelItem>()
                     val unapprovedPCAList = ArrayList<PCAListModelItem>()
                     val list = ContentValues()
                     DatabaseManager.deleteData(Constants.TBL_PCAMaster)
 
-                    var data:PCAListModelItem?=null
-                    for(model in pcaList)
-                    {
-                        list.put("APMCId",model.APMCId)
-                        list.put("APMCName",model.APMCName)
-                        list.put("Address",model.Address)
-                        list.put("AdharNo",model.AdharNo)
-                        list.put("AdharPhoto",model.AdharPhoto)
-                        list.put("ApprStatus",model.ApprStatus)
-                        list.put("BuyerId",model.BuyerId)
-                        list.put("CityId",model.CityId)
-                        list.put("CityName",model.CityName)
-                        list.put("CommodityId",model.CommodityId)
-                        list.put("CommodityName",model.CommodityName)
-                        list.put("CompanyCode",model.CompanyCode)
-                        list.put("CreateDate",model.CreateDate)
-                        list.put("CreateUser",model.CreateUser)
-                        list.put("DistrictId",model.DistrictId)
-                        list.put("DistrictName",model.DistrictName)
-                        list.put("EmailId",model.EmailId)
-                        list.put("GCACommission",model.GCACommission)
-                        list.put("GSTCertiPhoto",model.GSTCertiPhoto)
-                        list.put("GSTNo",model.GSTNo)
-                        list.put("IsActive",model.IsActive)
-                        list.put("LabourCharges",model.LabourCharges)
-                        list.put("LicenseCopyPhoto",model.LicenseCopyPhoto)
-                        list.put("MarketCess",model.MarketCess)
-                        list.put("Mobile2",model.Mobile2)
-                        list.put("PCACommission",model.PCACommission)
-                        list.put("PCAId",model.PCAId)
-                        list.put("PCAName",model.PCAName)
-                        list.put("PCAPhoneNumber",model.PCAPhoneNumber)
-                        list.put("PCARegId",model.PCARegId)
-                        list.put("PanCardNo",model.PanCardNo)
-                        list.put("PanCardPhoto",model.PanCardPhoto)
-                        list.put("ProfilePic",model.ProfilePic)
-                        list.put("RoleId",model.RoleId)
-                        list.put("RoleName",model.RoleName)
-                        list.put("StateId",model.StateId)
-                        list.put("StateName",model.StateName)
-                        list.put("UpdateDate",model.UpdateDate)
-                        list.put("UpdateUser",model.UpdateUser)
+                    var data: PCAListModelItem? = null
+                    for (model in pcaList) {
+                        list.put("APMCId", model.APMCId)
+                        list.put("APMCName", model.APMCName)
+                        list.put("Address", model.Address)
+                        list.put("AdharNo", model.AdharNo)
+                        list.put("AdharPhoto", model.AdharPhoto)
+                        list.put("ApprStatus", model.ApprStatus)
+                        list.put("BuyerId", model.BuyerId)
+                        list.put("CityId", model.CityId)
+                        list.put("CityName", model.CityName)
+                        list.put("CommodityId", model.CommodityId)
+                        list.put("CommodityName", model.CommodityName)
+                        list.put("CompanyCode", model.CompanyCode)
+                        list.put("CreateDate", model.CreateDate)
+                        list.put("CreateUser", model.CreateUser)
+                        list.put("DistrictId", model.DistrictId)
+                        list.put("DistrictName", model.DistrictName)
+                        list.put("EmailId", model.EmailId)
+                        list.put("GCACommission", model.GCACommission)
+                        list.put("GSTCertiPhoto", model.GSTCertiPhoto)
+                        list.put("GSTNo", model.GSTNo)
+                        list.put("IsActive", model.IsActive)
+                        list.put("LabourCharges", model.LabourCharges)
+                        list.put("LicenseCopyPhoto", model.LicenseCopyPhoto)
+                        list.put("MarketCess", model.MarketCess)
+                        list.put("Mobile2", model.Mobile2)
+                        list.put("PCACommission", model.PCACommission)
+                        list.put("PCAId", model.PCAId)
+                        list.put("PCAName", model.PCAName)
+                        list.put("PCAPhoneNumber", model.PCAPhoneNumber)
+                        list.put("PCARegId", model.PCARegId)
+                        list.put("PanCardNo", model.PanCardNo)
+                        list.put("PanCardPhoto", model.PanCardPhoto)
+                        list.put("ProfilePic", model.ProfilePic)
+                        list.put("RoleId", model.RoleId)
+                        list.put("RoleName", model.RoleName)
+                        list.put("StateId", model.StateId)
+                        list.put("StateName", model.StateName)
+                        list.put("UpdateDate", model.UpdateDate)
+                        list.put("UpdateUser", model.UpdateUser)
 
-                        if (model.ApprStatus.equals("true")){
+                        if (model.ApprStatus.equals("true")) {
                             approvedPCAList.add(model)
-                        }else if(model.ApprStatus.equals("false"))
-                        {
+                        } else if (model.ApprStatus.equals("false")) {
                             unapprovedPCAList.add(model)
                         }
-                        if (model.PCARegId.equals(PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()))
-                        {
+                        if (model.PCARegId.equals(
+                                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
+                            )
+                        ) {
                             data = model
                         }
 
-                        DatabaseManager.commonInsert(list,Constants.TBL_PCAMaster)
+                        DatabaseManager.commonInsert(list, Constants.TBL_PCAMaster)
                     }
                     Log.d(TAG, "getApprovedPCAList: APPROVED_PCA_LIST : $approvedPCAList")
                     Log.d(TAG, "getApprovedPCAList: UNAPPROVED_PCA_LIST : $unapprovedPCAList")
-                    if (fragment is PCAListFragment)
-                    {
-                        withContext(Main){
+                    if (fragment is PCAListFragment) {
+                        withContext(Main) {
                             commonUIUtility.dismissProgress()
-                            (fragment as PCAListFragment).bindApprovedPCAListRecyclerView(approvedPCAList)
-                            (fragment as PCAListFragment).bindUnapprovedPCAListRecyclerView(unapprovedPCAList)
+                            (fragment as PCAListFragment).bindApprovedPCAListRecyclerView(
+                                approvedPCAList
+                            )
+                            (fragment as PCAListFragment).bindUnapprovedPCAListRecyclerView(
+                                unapprovedPCAList
+                            )
                         }
-                    }else if (fragment is DashboardFragment)
-                    {
-                        withContext(Main){
+                    } else if (fragment is BuyerDashboardFragment) {
+                        withContext(Main) {
                             commonUIUtility.dismissProgress()
-                            (fragment as DashboardFragment).bindingApprovedPCACount(approvedPCAList)
+                            (fragment as BuyerDashboardFragment).bindingApprovedPCACount(approvedPCAList)
                         }
-                    }else if (fragment is ProfileFragment)
-                    {
-                        withContext(Main){
+                    } else if (fragment is ProfileFragment) {
+                        withContext(Main) {
                             commonUIUtility.dismissProgress()
                             Log.d(TAG, "getApprovedPCAList: PCA_DATA : $data")
                             (fragment as ProfileFragment).bindPCAData(data)
                         }
                     }
-                }else
-                {
+                } else {
                     activity.runOnUiThread {
                         commonUIUtility.dismissProgress()
                     }
-                    Log.e(TAG, "getApprovedPCAList: ${result.errorBody()}", )
+                    Log.e(TAG, "getApprovedPCAList: ${result.errorBody()}")
                 }
 
             }
 
-        }catch (e:Exception){
+        } catch (e: Exception) {
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getApprovedPCAList: ${e.message}")

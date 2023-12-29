@@ -14,6 +14,7 @@
     <color name="newCommodityCardColor">#DCA8AB</color>
     <color name="pCACardColor">#f8b940</color>
     <color name="newPCACardColor">#797CA4</color>
+    <color name="newDSCardColor">#F4EBE8</color>
 
     <color name="newButtonColor">#00D361</color>
     <color name="amber">#ffb600</color>
