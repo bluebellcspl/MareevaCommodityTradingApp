@@ -137,4 +137,13 @@
     <string name="gst_no_lbl">GST No. :</string>
     <string name="city_lbl">City :</string>
     <string name="commodity_lbl">Commodity :</string>
+    <string name="total_pcas_lbl_new">Total PCAs :</string>
+    <string name="allocated_lbl">Allocated</string>
+    <string name="bags_lbl">Bags :</string>
+    <string name="purchased_lbl">Purchased</string>
+    <string name="rate_lbl">Rate :</string>
+    <string name="cost_lbl">Cost :</string>
+    <string name="avg_rate_lbl">Avg Rate :</string>
+    <string name="total_cost_lbl">Total Cost :</string>
+    <string name="date_lbl">Date :</string>
 </resources>

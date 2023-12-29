@@ -77,9 +77,9 @@ class BuyerAuctionListAdapter(
                         "afterTextChanged: ================================================================================"
                     )
 
-                    binding.tvAmountBuyerAuctionItemAdapter.setText("%.2f".format(totalAmount))
-//                    val nf = NumberFormat.getCurrencyInstance().format(totalAmount)
-//                    binding.tvAmountBuyerAuctionItemAdapter.setText(nf.toString())
+//                    binding.tvAmountBuyerAuctionItemAdapter.setText("%.2f".format(totalAmount))
+                    val nf = NumberFormat.getCurrencyInstance().format(totalAmount).substring(1)
+                    binding.tvAmountBuyerAuctionItemAdapter.setText(nf)
                     model.Bags = bags
                     model.Amount = "%.2f".format(totalAmount)
                     model.LowerLimit = lowerLimit

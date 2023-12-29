@@ -272,11 +272,9 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
         try {
             var isAuctionStop = ""
             if (onclickType.equals("start", true)) {
-//                isAuctionStop="false"
-                isAuctionStop = "true"
+                isAuctionStop="false"
             } else {
-//                isAuctionStop="true"
-                isAuctionStop = "false"
+                isAuctionStop="true"
             }
             val model = POSTAuctionStartStopAPIModel(
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),

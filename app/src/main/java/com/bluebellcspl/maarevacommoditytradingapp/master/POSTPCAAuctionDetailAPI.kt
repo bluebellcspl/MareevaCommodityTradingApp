@@ -88,7 +88,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                         if (result.isSuccessful)
                         {
                             val responseJO = result.body()!!
-                            if (responseJO.get("Message").asString.contains("PCA Auction Insert Successfully",true))
+                            if (responseJO.get("Message").asString.contains("Insert Successfully",true))
                             {
                                 if (fragment is PCAAuctionFragment)
                                 {
@@ -100,7 +100,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                                         FetchPCAAuctionDetailAPI(context, activity, fragment)
                                     }
                                 }
-                            }else if(responseJO.get("Message").asString.contains("Shop Details Updated Successfully",true)){
+                            }else if(responseJO.get("Message").asString.contains("Updated Successfully",true)){
                                 withContext(Dispatchers.Main)
                                 {
                                     commonUIUtility.showToast("Bags Updated Successfully!")
