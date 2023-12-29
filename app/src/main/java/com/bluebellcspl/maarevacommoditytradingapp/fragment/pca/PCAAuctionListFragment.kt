@@ -137,25 +137,20 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             val shopNameAdapter = commonUIUtility.getCustomArrayAdapter(getShopNameFromDB())
             val shopNoAdapter = commonUIUtility.getCustomArrayAdapter(getShopNoFromDb())
 
-            //OnFocusChangeListener
-            dialogBinding.edtBagsPCAAuctionDialog.onFocusChangeListener =
-                View.OnFocusChangeListener { view: View?, b: Boolean ->
-                    if (b) {
-                        if (dialogBinding.actShopNoPCAAuctionDialog.text.toString().isNotEmpty()) {
-                            bindShopName(
-                                dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim(),
-                                dialogBinding.actShopNamePCAAuctionDialog
-                            )
-                        } else {
-                            bindShopNo(
-                                dialogBinding.actShopNamePCAAuctionDialog.text.toString().trim(),
-                                dialogBinding.actShopNoPCAAuctionDialog
-                            )
-                        }
-                    }
-                }
             dialogBinding.actShopNoPCAAuctionDialog.setAdapter(shopNoAdapter)
             dialogBinding.actShopNamePCAAuctionDialog.setAdapter(shopNameAdapter)
+
+            dialogBinding.actShopNoPCAAuctionDialog.setOnItemClickListener { adapterView, view, i, l ->
+                var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+                shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+                dialogBinding.actShopNamePCAAuctionDialog.setText(shopName)
+            }
+
+            dialogBinding.actShopNamePCAAuctionDialog.setOnItemClickListener { adapterView, view, i, l ->
+                var shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(dialogBinding.actShopNamePCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+                shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopName(dialogBinding.actShopNamePCAAuctionDialog.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+                dialogBinding.actShopNoPCAAuctionDialog.setText(shopNo)
+            }
             dialogBinding.edtBagsPCAAuctionDialog.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -333,59 +328,6 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             Log.e(TAG, "calculateExpense: ${e.message}")
         }
     }
-
-    fun bindShopName(shopNo: String, view: MaterialAutoCompleteTextView) {
-        try {
-            shopId = ""
-            var shopName = DatabaseManager.ExecuteScalar(
-                Query.getShopNameByShopNo(
-                    shopNo,
-                    PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString()
-                )
-            )!!
-            Log.d(TAG, "afterTextChanged: SELECTED_SHOP_NO : $shopNo")
-            Log.d(TAG, "afterTextChanged: FETCHED_SHOP_NAME : $shopName")
-            if (!shopName.equals("invalid", true)) {
-                shopId = DatabaseManager.ExecuteScalar(
-                    Query.getShopIdByShopName(
-                        shopName,
-                        PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString()
-                    )
-                )!!
-                view.setText(shopName)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e(TAG, "bindShopName: ${e.message}")
-        }
-    }
-
-    fun bindShopNo(shopName: String, view: MaterialAutoCompleteTextView) {
-        try {
-            shopId = ""
-            var shopNo = DatabaseManager.ExecuteScalar(
-                Query.getShopNoByShopName(
-                    shopName,
-                    PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString()
-                )
-            )!!
-            Log.d(TAG, "afterTextChanged: SELECTED_SHOP_NAME : $shopName")
-            Log.d(TAG, "afterTextChanged: FETCHED_SHOP_NO : $shopNo")
-            if (!shopNo.equals("invalid", true)) {
-                shopId = DatabaseManager.ExecuteScalar(
-                    Query.getShopIdByShopNo(
-                        shopNo,
-                        PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString()
-                    )
-                )!!
-                view.setText(shopNo)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e(TAG, "bindShopNo: ${e.message}")
-        }
-    }
-
     private fun getShopNameFromDB(): ArrayList<String> {
         var dataList: ArrayList<String> = ArrayList()
         try {
