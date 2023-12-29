@@ -23,7 +23,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentBuyerDashboardBinding
-import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragmentDirections
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
@@ -72,6 +71,8 @@ class BuyerDashboardFragment : Fragment() {
             viewLifecycleOwner,
             ::onMessageReceived
         )
+
+        webSocketClient.connect()
         menuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -133,7 +134,8 @@ class BuyerDashboardFragment : Fragment() {
         try {
             binding.tvAllocatedBagsNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.bags_lbl),buyerData.AllocatedBags))
             binding.tvAllocatedRateNewBuyerDashboardFragment.setText("%s".format(requireContext().getString(R.string.rate_lbl)))
-            binding.tvAllocatedTotalCostNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.cost_lbl),buyerData.TotalCost))
+            val BuyerTotalAmountNF = NumberFormat.getCurrencyInstance().format(buyerData.TotalCost.toDouble()).substring(1)
+            binding.tvAllocatedTotalCostNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.cost_lbl),BuyerTotalAmountNF))
         }catch (e:Exception)
         {
             e.printStackTrace()

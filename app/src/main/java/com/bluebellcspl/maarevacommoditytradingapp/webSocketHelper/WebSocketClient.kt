@@ -80,6 +80,7 @@ class WebSocketClient(
     }
     fun disconnect() {
 //        webSocket?.close(1000, "User disconnected")
+        Log.d(TAG, "disconnect: SOCKET_CANCELED")
         webSocket?.cancel()
     }
 }

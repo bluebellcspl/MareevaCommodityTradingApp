@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityHomeBinding
 import java.util.Locale
 
@@ -41,6 +42,7 @@ class HomeActivity : AppCompatActivity() {
             exitTransition.duration = 1000
         }
         binding = DataBindingUtil.setContentView(this@HomeActivity,R.layout.activity_home)
+        DatabaseManager.initializeInstance(this)
         setSupportActionBar(binding.toolbarHome.toolbar)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment

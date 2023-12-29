@@ -26,6 +26,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.dashboardHelper.BuyerDashboar
 import com.bluebellcspl.maarevacommoditytradingapp.dashboardHelper.PCADashboard
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentDashboardBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchTransportationMasterAPI
@@ -47,20 +48,21 @@ class DashboardFragment : Fragment() {
         Log.d(TAG, "onCreateView: CURRENT_USER_ROLE : ${PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"")}")
         CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString()
         navController = findNavController()
-        FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
-        FetchCityMasterAPI(requireContext(),requireActivity())
-        FetchTransportationMasterAPI(requireContext(),requireActivity())
-        FetchCommodityMasterAPI(requireContext(), requireActivity())
+//        FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
+//        FetchCityMasterAPI(requireContext(),requireActivity())
+//        FetchTransportationMasterAPI(requireContext(),requireActivity())
+//        FetchCommodityMasterAPI(requireContext(), requireActivity())
         if (CURRENT_USER.equals("Buyer",true))
         {
             binding.buyerDashboard.root.visibility = View.VISIBLE
             binding.pcaDashboard.root.visibility = View.GONE
-            BuyerDashboard(requireContext(),requireActivity(),this)
+//            FetchBuyerAuctionDetailAPI(requireContext(), requireActivity(), this@DashboardFragment)
+            BuyerDashboard(requireContext(),requireActivity(),this,viewLifecycleOwner)
         }else if (CURRENT_USER.equals("PCA",true))
         {
             binding.pcaDashboard.root.visibility = View.VISIBLE
             binding.buyerDashboard.root.visibility = View.GONE
-            PCADashboard(requireContext(),requireActivity(),this)
+            PCADashboard(requireContext(),requireActivity(),this,viewLifecycleOwner)
         }
         menuHost = requireActivity()
         Log.d(TAG, "onCreateView: NAME : ${PrefUtil.getString(PrefUtil.KEY_NAME,"")}")
@@ -75,7 +77,7 @@ class DashboardFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when(menuItem.itemId){
                     R.id.btn_Profile->{
-                        navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToProfileOptionFragment())
+//                        navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToProfileOptionFragment())
                     }
                 }
                 return true
@@ -87,7 +89,8 @@ class DashboardFragment : Fragment() {
 
     fun bindingApprovedPCACount(dataList:ArrayList<PCAListModelItem>){
         try {
-                binding.buyerDashboard.tvPCACountBuyer.setText(dataList.size.toString())
+//                binding.buyerDashboard.tvPCACountBuyer.setText(dataList.size.toString())
+//                binding.buyerDashboard.tvPCACountNewBuyer.setText(String.format("%s %d",requireContext().getString(R.string.total_pcas_lbl_new),dataList.size))
         }catch (e:Exception)
         {
             e.printStackTrace()

@@ -3,16 +3,12 @@ package com.bluebellcspl.maarevacommoditytradingapp.dashboardHelper
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import android.view.View
+import androidx.lifecycle.LifecycleOwner
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
-import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentDashboardBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaDashboardLayoutBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
-import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragmentDirections
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchShopMasterAPI
 
-class PCADashboard(var context: Context, var activity: Activity,var fragment:DashboardFragment) {
+class PCADashboard(var context: Context, var activity: Activity,var fragment:DashboardFragment,var lifecycleOwner: LifecycleOwner) {
     private val commonUIUtility = CommonUIUtility(context)
     private val TAG = "PCADashboard"
     lateinit var binding:PcaDashboardLayoutBinding
@@ -22,11 +18,11 @@ class PCADashboard(var context: Context, var activity: Activity,var fragment:Das
 
     private fun bindPCADashboardComponent() {
         try {
-            FetchShopMasterAPI(context, activity)
-            binding = fragment.binding.pcaDashboard
-            binding.cvAuctionPCA.setOnClickListener {
-                fragment.navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToPCAAuctionFragment("Hello"))
-            }
+//            FetchShopMasterAPI(context, activity)
+//            binding = fragment.binding.pcaDashboard
+//            binding.cvAuctionPCA.setOnClickListener {
+//                fragment.navController.navigate(DashboardFragmentDirections.actionDashboardFragmentToPCAAuctionFragment("Hello"))
+//            }
 
         }catch (e:Exception)
         {

@@ -10,51 +10,6 @@
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment"
         android:label="@string/dashboard"
         tools:layout="@layout/fragment_dashboard" >
-        <action
-            android:id="@+id/action_dashboardFragment_to_PCAAuctionFragment"
-            app:destination="@id/PCAAuctionFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/dashboardFragment" />
-        <action
-            android:id="@+id/action_dashboardFragment_to_addPCAFragment"
-            app:destination="@id/addPCAFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_dashboardFragment_to_PCAListFragment"
-            app:destination="@id/PCAListFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/dashboardFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_dashboardFragment_to_buyerAuctionFragment"
-            app:destination="@id/buyerAuctionFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_dashboardFragment_to_liveAuctionFragment"
-            app:destination="@id/liveAuctionFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_dashboardFragment_to_profileOptionFragment"
-            app:destination="@id/profileOptionFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/PCAAuctionFragment"
@@ -66,9 +21,9 @@
             app:argType="string" />
         <action
             android:id="@+id/action_PCAAuctionFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment"
+            app:destination="@id/PCADashboardFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/dashboardFragment"
+            app:popUpTo="@id/PCADashboardFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
@@ -196,23 +151,58 @@
         tools:layout="@layout/fragment_buyer_dashboard" >
         <action
             android:id="@+id/action_buyerDashboardFragment_to_addPCAFragment"
-            app:destination="@id/addPCAFragment" />
+            app:destination="@id/addPCAFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_buyerDashboardFragment_to_PCAListFragment"
-            app:destination="@id/PCAListFragment" />
+            app:destination="@id/PCAListFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_buyerDashboardFragment_to_buyerAuctionFragment"
-            app:destination="@id/buyerAuctionFragment" />
+            app:destination="@id/buyerAuctionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_buyerDashboardFragment_to_liveAuctionFragment"
-            app:destination="@id/liveAuctionFragment" />
+            app:destination="@id/liveAuctionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_buyerDashboardFragment_to_profileOptionFragment"
-            app:destination="@id/profileOptionFragment" />
+            app:destination="@id/profileOptionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/PCADashboardFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/fragment_p_c_a_dashboard" />
+        tools:layout="@layout/fragment_p_c_a_dashboard" >
+        <action
+            android:id="@+id/action_PCADashboardFragment_to_PCAAuctionFragment"
+            app:destination="@id/PCAAuctionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_PCADashboardFragment_to_profileOptionFragment"
+            app:destination="@id/profileOptionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
 </navigation>
