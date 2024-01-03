@@ -144,6 +144,14 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 pcaMarketCess = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.MarketCessCharge.toDouble())/100.00
                 pcaCommCharge= (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.PCACommCharge.toDouble())/100.00
                 gcaCommCharge = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.GCACommCharge.toDouble())/100.00
+                if (PCAData.TransportationCharge.isEmpty())
+                {
+                    PCAData.TransportationCharge = "0"
+                }
+                if (PCAData.LabourCharge.isEmpty())
+                {
+                    PCAData.LabourCharge = "0"
+                }
                 pcaLabourCharge = pcaTotalPurchasedBags*PCAData.LabourCharge.toDouble()
                 pcaTransportationCharge = pcaTotalPurchasedBags*PCAData.TransportationCharge.toDouble()
 
@@ -247,6 +255,14 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 pcaMarketCess = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.MarketCessCharge.toDouble())/100.00
                 pcaCommCharge= (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.PCACommCharge.toDouble())/100.00
                 gcaCommCharge = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.GCACommCharge.toDouble())/100.00
+                if (PCAData.TransportationCharge.isEmpty())
+                {
+                    PCAData.TransportationCharge = "0"
+                }
+                if (PCAData.LabourCharge.isEmpty())
+                {
+                    PCAData.LabourCharge = "0"
+                }
                 pcaLabourCharge = pcaTotalPurchasedBags*PCAData.LabourCharge.toDouble()
                 pcaTransportationCharge = pcaTotalPurchasedBags*PCAData.TransportationCharge.toDouble()
 
