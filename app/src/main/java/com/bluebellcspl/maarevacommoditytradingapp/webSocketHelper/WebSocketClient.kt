@@ -79,8 +79,14 @@ class WebSocketClient(
         webSocket = client.newWebSocket(request, webSocketListerner)
     }
     fun disconnect() {
-//        webSocket?.close(1000, "User disconnected")
-        Log.d(TAG, "disconnect: SOCKET_CANCELED")
-        webSocket?.cancel()
+        try {
+//            webSocket?.close(1001, "User disconnected")
+            Log.d(TAG, "disconnect: SOCKET_DISCONNECTED")
+            webSocket?.cancel()
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "disconnect: ${e.message}", )
+        }
     }
 }

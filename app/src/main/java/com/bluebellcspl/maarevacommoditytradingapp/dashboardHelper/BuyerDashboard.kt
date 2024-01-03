@@ -36,18 +36,18 @@ class BuyerDashboard(var context: Context,var activity: Activity,var fragment: D
             binding = fragment.binding.buyerDashboard
             FetchAPMCMasterAPI(context,activity)
 //            binding.tvCommodityBuyer.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,"").toString())
-            //WebSocket Connection for LiveAuction Data
-            var commodityId = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "")
-            var companyCode = PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "")
-            var buyerRegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "")
-            COMMODITY_BHARTI =
-                DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
-            webSocketClient = WebSocketClient(
-                context,
-                "ws://maarevaapi.bbcspldev.in/MaarevaApi/MaarevaApi/BuyersLiveAuctionRtr?CommodityId=$commodityId&Date=${DateUtility().getCompletionDate()}&CompanyCode=$companyCode&BuyerRegId=$buyerRegId",
-                lifecycleOwner,
-                ::onMessageReceived
-            )
+//            //WebSocket Connection for LiveAuction Data
+//            var commodityId = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "")
+//            var companyCode = PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "")
+//            var buyerRegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "")
+//            COMMODITY_BHARTI =
+//                DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
+//            webSocketClient = WebSocketClient(
+//                context,
+//                "ws://maarevaapi.bbcspldev.in/MaarevaApi/MaarevaApi/BuyersLiveAuctionRtr?CommodityId=$commodityId&Date=${DateUtility().getCompletionDate()}&CompanyCode=$companyCode&BuyerRegId=$buyerRegId",
+//                lifecycleOwner,
+//                ::onMessageReceived
+//            )
 
 //            webSocketClient.connect()
 //            binding.tvCommodityNewBuyer.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,"").toString())

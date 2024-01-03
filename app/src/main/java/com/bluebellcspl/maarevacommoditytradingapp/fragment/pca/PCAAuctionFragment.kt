@@ -453,7 +453,7 @@ class PCAAuctionFragment : Fragment() {
                 "%.2f".format(post_CurrentTotal),
                 PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString(),
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
-                DateUtility().getyyyyMMdd(),
+                "",
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
                 DateUtility().getyyyyMMdd(),
                "Confirm"

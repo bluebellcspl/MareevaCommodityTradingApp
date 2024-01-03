@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.LiveAuctionListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
@@ -25,7 +23,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ExpandableObject
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
-import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTAuctionStartStopAPIModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.WebSocketClient
@@ -67,9 +64,9 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
 
     private fun setOnClickListener() {
         try {
-            binding.cvBuyerExpenseLiveAuctionFragment.setOnClickListener {
+            binding.edtPCATotalAmountLiveAuctionFragment.setOnClickListener {
                 if (lastPCAList.isNotEmpty()) {
-                    showBuyerExpensesPopup(newAuctionData!!)
+                    showPCAExpensesPopup(newAuctionData!!)
                 } else {
                     commonUIUtility.showToast("No Buyer Expense Data")
                 }
@@ -117,43 +114,60 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             binding.edtBuyerTotalAmountLiveAuctionFragment.setText(BuyerTotalAmountNF)
             var totalBuyerExpense =
                 dataList.TotalGCAComm.toDouble() + dataList.TotalPCAComm.toDouble() + dataList.TotalMarketCess.toDouble() + dataList.TotalLabourCharge.toDouble() + dataList.TotalTransportationCharge.toDouble()
-            binding.tvBuyerExpensesLiveAuctionFragment.setText(
-                String.format(
-                    "%.2f",
-                    totalBuyerExpense
-                )
-            )
+//            binding.tvBuyerExpensesLiveAuctionFragment.setText(String.format("%.2f",totalBuyerExpense))
 
             //PCAs Calculations
             var pcaBasic = 0.0
             var pcaExpense = 0.0
             var pcaTotalAmount = 0.0
             var pcaTotalPurchasedBags = 0
-//            var pcaMarketCess = 0.0
-//            var pcaCommCharge = 0.0
-//            var gcaCommCharge = 0.0
-//            var pcaTransportationCharge = 0.0
-//            var pcaLabourCharge = 0.0
+            var pcaMarketCess = 0.0
+            var pcaCommCharge = 0.0
+            var gcaCommCharge = 0.0
+            var pcaTransportationCharge = 0.0
+            var pcaLabourCharge = 0.0
+
+            var TOTAL_pcaMarketCess = 0.0
+            var TOTAL_pcaCommCharge = 0.0
+            var TOTAL_gcaCommCharge = 0.0
+            var TOTAL_pcaTransportationCharge = 0.0
+            var TOTAL_pcaLabourCharge = 0.0
+            var TOTAL_pcaExpense = 0.0
+            var TOTAL_pcaBasic = 0.0
+            var TOTAL_AuctionCost = 0.0
+            var TOTAL_AuctionBags=0
             for (PCAData in dataList.PCAList) {
                 for (ShopData in PCAData.ShopList) {
                     pcaBasic += ShopData.Amount.toDouble()
                 }
-                pcaTotalPurchasedBags += PCAData.TotalPurchasedBags.toInt()
-                pcaExpense += PCAData.PCACommCharge.toDouble() + PCAData.GCACommCharge.toDouble() + PCAData.TransportationCharge.toDouble() + PCAData.LabourCharge.toDouble() + PCAData.MarketCessCharge.toDouble()
+                pcaTotalPurchasedBags = PCAData.TotalPurchasedBags.toInt()
+                pcaMarketCess = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.MarketCessCharge.toDouble())/100.00
+                pcaCommCharge= (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.PCACommCharge.toDouble())/100.00
+                gcaCommCharge = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.GCACommCharge.toDouble())/100.00
+                pcaLabourCharge = pcaTotalPurchasedBags*PCAData.LabourCharge.toDouble()
+                pcaTransportationCharge = pcaTotalPurchasedBags*PCAData.TransportationCharge.toDouble()
+
+                pcaExpense = pcaMarketCess+pcaCommCharge+gcaCommCharge+pcaLabourCharge+pcaTransportationCharge
+
+                TOTAL_pcaMarketCess += pcaMarketCess
+                TOTAL_pcaCommCharge += pcaCommCharge
+                TOTAL_gcaCommCharge += gcaCommCharge
+                TOTAL_pcaTransportationCharge += pcaTransportationCharge
+                TOTAL_pcaLabourCharge += pcaLabourCharge
+                TOTAL_pcaBasic += pcaBasic
+                TOTAL_AuctionBags+=pcaTotalPurchasedBags
+                TOTAL_pcaExpense = TOTAL_pcaCommCharge+TOTAL_gcaCommCharge+TOTAL_pcaLabourCharge+TOTAL_pcaMarketCess+TOTAL_pcaTransportationCharge
+                TOTAL_AuctionCost = TOTAL_pcaBasic+TOTAL_pcaExpense
             }
             pcaTotalAmount = pcaBasic + pcaExpense
-            binding.edtPCABasicAmountLiveAuctionFragment.setText(String.format("%.2f", pcaBasic))
-            binding.edtPCAPurchasedBagsLiveAuctionFragment.setText(
-                String.format(
-                    "%s",
-                    pcaTotalPurchasedBags.toString()
-                )
-            )
-            binding.tvPCAExpensesLiveAuctionFragment.setText(String.format("%.2f", pcaExpense))
+//            binding.edtPCABasicAmountLiveAuctionFragment.setText(String.format("%.2f", pcaBasic))
+//            binding.tvPCAExpensesLiveAuctionFragment.setText(String.format("%.2f", pcaExpense))
 
-            val PCATotalAmountNF = NumberFormat.getCurrencyInstance().format(pcaTotalAmount).substring(1)
+            binding.edtPCAPurchasedBagsLiveAuctionFragment.setText(String.format("%s",TOTAL_AuctionBags.toString()))
+
+            val PCATotalAmountNF = NumberFormat.getCurrencyInstance().format(TOTAL_AuctionCost).substring(1)
             binding.edtPCATotalAmountLiveAuctionFragment.setText(PCATotalAmountNF)
-            var rate = pcaBasic / ((pcaTotalPurchasedBags * COMMODITY_BHARTI.toDouble()) / 20.0)
+            var rate = TOTAL_AuctionCost / ((TOTAL_AuctionBags * COMMODITY_BHARTI.toDouble()) / 20.0)
             val RateNF = NumberFormat.getCurrencyInstance().format(rate).substring(1)
             binding.tvPCAAvgRateLiveAuctionFragment.setText(RateNF)
         } catch (e: Exception) {
@@ -207,60 +221,59 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             var pcaExpense = 0.0
             var pcaTotalAmount = 0.0
             var pcaTotalPurchasedBags = 0
+            var TOTAL_pcaMarketCess = 0.0
+            var TOTAL_pcaCommCharge = 0.0
+            var TOTAL_gcaCommCharge = 0.0
+            var TOTAL_pcaTransportationCharge = 0.0
+            var TOTAL_pcaLabourCharge = 0.0
+            var TOTAL_pcaExpense = 0.0
+            var TOTAL_pcaBasic = 0.0
+            var TOTAL_AuctionCost = 0.0
+
             var pcaMarketCess = 0.0
             var pcaCommCharge = 0.0
             var gcaCommCharge = 0.0
             var pcaTransportationCharge = 0.0
             var pcaLabourCharge = 0.0
+
+
             for (PCAData in dataList.PCAList) {
                 for (ShopData in PCAData.ShopList) {
                     pcaBasic += ShopData.Amount.toDouble()
                 }
                 pcaTotalPurchasedBags += PCAData.TotalPurchasedBags.toInt()
-                pcaExpense += PCAData.PCACommCharge.toDouble() + PCAData.GCACommCharge.toDouble() + PCAData.TransportationCharge.toDouble() + PCAData.LabourCharge.toDouble()
+
+
+                pcaMarketCess = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.MarketCessCharge.toDouble())/100.00
+                pcaCommCharge= (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.PCACommCharge.toDouble())/100.00
+                gcaCommCharge = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.GCACommCharge.toDouble())/100.00
+                pcaLabourCharge = pcaTotalPurchasedBags*PCAData.LabourCharge.toDouble()
+                pcaTransportationCharge = pcaTotalPurchasedBags*PCAData.TransportationCharge.toDouble()
+
+                pcaExpense += pcaMarketCess+pcaCommCharge+gcaCommCharge+pcaLabourCharge+pcaTransportationCharge
                 pcaTotalAmount += pcaBasic + pcaExpense
-                pcaMarketCess += PCAData.MarketCessCharge.toDouble()
-                pcaCommCharge += PCAData.PCACommCharge.toDouble()
-                gcaCommCharge += PCAData.GCACommCharge.toDouble()
-                pcaTransportationCharge += PCAData.TransportationCharge.toDouble()
-                pcaLabourCharge += PCAData.LabourCharge.toDouble()
+
+                TOTAL_pcaMarketCess += pcaMarketCess
+                TOTAL_pcaCommCharge += pcaCommCharge
+                TOTAL_gcaCommCharge += gcaCommCharge
+                TOTAL_pcaTransportationCharge += pcaTransportationCharge
+                TOTAL_pcaLabourCharge += pcaLabourCharge
+                TOTAL_pcaBasic += pcaBasic
+                TOTAL_pcaExpense = TOTAL_pcaCommCharge+TOTAL_gcaCommCharge+TOTAL_pcaLabourCharge+TOTAL_pcaMarketCess+TOTAL_pcaTransportationCharge
+                TOTAL_AuctionCost = TOTAL_pcaBasic+TOTAL_pcaExpense
             }
-            dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(
-                String.format(
-                    "%.2f",
-                    pcaBasic
-                )
-            )
-            dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(
-                String.format(
-                    "%.2f",
-                    pcaLabourCharge
-                )
-            )
-            dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(
-                String.format(
-                    "%.2f",
-                    gcaCommCharge
-                )
-            )
-            dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(
-                String.format(
-                    "%.2f",
-                    pcaCommCharge
-                )
-            )
-            dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(
-                String.format(
-                    "%.2f",
-                    pcaTransportationCharge
-                )
-            )
-            dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(
-                String.format(
-                    "%.2f",
-                    pcaMarketCess
-                )
-            )
+            val pcaBasicNF = NumberFormat.getCurrencyInstance().format(pcaBasic).substring(1)
+            dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(pcaBasicNF)
+            val pcaLabourChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaLabourCharge).substring(1)
+            dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(pcaLabourChargeNF)
+            val gcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_gcaCommCharge).substring(1)
+            dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(gcaCommChargeNF)
+            val pcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaCommCharge).substring(1)
+            dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommChargeNF)
+            val pcaTransportChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaTransportationCharge).substring(1)
+            dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(pcaTransportChargeNF)
+            val pcaMarketCessNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaMarketCess).substring(1)
+            dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(pcaMarketCessNF)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -283,7 +296,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 DateUtility().getCompletionDate(),
                 lastPCAList[postion].PCARegId.toString(),
                 "2",
-                DateUtility().getyyyyMMdd(),
+                "",
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
                 isAuctionStop
             )
@@ -306,11 +319,6 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
     override fun getBuyerAuctionDataList(dataList: ArrayList<AuctionDetailsModel>) {
         TODO("Not yet implemented")
     }
-
-//    override fun onDestroy() {
-//        webSocketClient.disconnect()
-//        super.onDestroy()
-//    }
 
     override fun onDestroyView() {
         webSocketClient.disconnect()

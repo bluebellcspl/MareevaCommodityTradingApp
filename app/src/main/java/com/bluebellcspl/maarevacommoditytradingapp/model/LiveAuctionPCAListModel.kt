@@ -4,6 +4,8 @@ data class LiveAuctionPCAListModel(
     var AvgPrice: String,
     var BuyerBori: String,
     var BuyerId: String,
+    var BuyerLowerLimit: String,
+    var BuyerUpperLimit: String,
     var CommodityBhartiPrice: String,
     var CommodityId: String,
     var CommodityName: String,

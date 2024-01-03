@@ -33,6 +33,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.WebSocketClient
+import okhttp3.WebSocketListener
 
 
 class BuyerDashboardFragment : Fragment() {
@@ -43,6 +44,7 @@ class BuyerDashboardFragment : Fragment() {
     var newAuctionData: LiveAuctionMasterModel? = null
     var lastPCAList: ArrayList<LiveAuctionPCAListModel> = ArrayList()
     private lateinit var webSocketClient: WebSocketClient
+    private var isWebSocketConnected = false
     lateinit var menuHost: MenuHost
     var COMMODITY_BHARTI=""
     override fun onCreateView(
@@ -72,7 +74,7 @@ class BuyerDashboardFragment : Fragment() {
             ::onMessageReceived
         )
 
-        webSocketClient.connect()
+//        webSocketClient.connect()
         menuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -133,7 +135,9 @@ class BuyerDashboardFragment : Fragment() {
     {
         try {
             binding.tvAllocatedBagsNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.bags_lbl),buyerData.AllocatedBags))
-            binding.tvAllocatedRateNewBuyerDashboardFragment.setText("%s".format(requireContext().getString(R.string.rate_lbl)))
+            var rate = buyerData.TotalCost.toDouble() / ((buyerData.AllocatedBags.toDouble() * COMMODITY_BHARTI.toDouble()) / 20.0)
+            val BuyerRateNF = NumberFormat.getCurrencyInstance().format(rate).substring(1)
+            binding.tvAllocatedRateNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.rate_lbl),BuyerRateNF))
             val BuyerTotalAmountNF = NumberFormat.getCurrencyInstance().format(buyerData.TotalCost.toDouble()).substring(1)
             binding.tvAllocatedTotalCostNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.cost_lbl),BuyerTotalAmountNF))
         }catch (e:Exception)
@@ -169,46 +173,111 @@ class BuyerDashboardFragment : Fragment() {
             var pcaExpense = 0.0
             var pcaTotalAmount = 0.0
             var pcaTotalPurchasedBags = 0
-//            var pcaMarketCess = 0.0
-//            var pcaCommCharge = 0.0
-//            var gcaCommCharge = 0.0
-//            var pcaTransportationCharge = 0.0
-//            var pcaLabourCharge = 0.0
+            var pcaMarketCess = 0.0
+            var pcaCommCharge = 0.0
+            var gcaCommCharge = 0.0
+            var pcaTransportationCharge = 0.0
+            var pcaLabourCharge = 0.0
+
+            var TOTAL_pcaMarketCess = 0.0
+            var TOTAL_pcaCommCharge = 0.0
+            var TOTAL_gcaCommCharge = 0.0
+            var TOTAL_pcaTransportationCharge = 0.0
+            var TOTAL_pcaLabourCharge = 0.0
+            var TOTAL_pcaExpense = 0.0
+            var TOTAL_pcaBasic = 0.0
+            var TOTAL_AuctionCost = 0.0
+            var TOTAL_AuctionBags=0
             for (PCAData in dataList.PCAList) {
                 for (ShopData in PCAData.ShopList) {
                     pcaBasic += ShopData.Amount.toDouble()
                 }
-                pcaTotalPurchasedBags += PCAData.TotalPurchasedBags.toInt()
-                pcaExpense += PCAData.PCACommCharge.toDouble() + PCAData.GCACommCharge.toDouble() + PCAData.TransportationCharge.toDouble() + PCAData.LabourCharge.toDouble() + PCAData.MarketCessCharge.toDouble()
+                pcaTotalPurchasedBags = PCAData.TotalPurchasedBags.toInt()
+                pcaMarketCess = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.MarketCessCharge.toDouble())/100.00
+                pcaCommCharge= (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.PCACommCharge.toDouble())/100.00
+                gcaCommCharge = (((pcaTotalPurchasedBags*PCAData.CommodityBhartiPrice.toDouble())/20)*((PCAData.BuyerUpperLimit.toDouble()+PCAData.BuyerLowerLimit.toDouble())/2)*PCAData.GCACommCharge.toDouble())/100.00
+                pcaLabourCharge = pcaTotalPurchasedBags*PCAData.LabourCharge.toDouble()
+                pcaTransportationCharge = pcaTotalPurchasedBags*PCAData.TransportationCharge.toDouble()
+
+                pcaExpense = pcaMarketCess+pcaCommCharge+gcaCommCharge+pcaLabourCharge+pcaTransportationCharge
+
+                TOTAL_pcaMarketCess += pcaMarketCess
+                TOTAL_pcaCommCharge += pcaCommCharge
+                TOTAL_gcaCommCharge += gcaCommCharge
+                TOTAL_pcaTransportationCharge += pcaTransportationCharge
+                TOTAL_pcaLabourCharge += pcaLabourCharge
+                TOTAL_pcaBasic += pcaBasic
+                TOTAL_AuctionBags+=pcaTotalPurchasedBags
+                TOTAL_pcaExpense = TOTAL_pcaCommCharge+TOTAL_gcaCommCharge+TOTAL_pcaLabourCharge+TOTAL_pcaMarketCess+TOTAL_pcaTransportationCharge
+                TOTAL_AuctionCost = TOTAL_pcaBasic+TOTAL_pcaExpense
             }
             pcaTotalAmount = pcaBasic + pcaExpense
-            binding.tvPurchasedBagsNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.bags_lbl),pcaTotalPurchasedBags.toString()))
-//            binding.edtPCAPurchasedBagsLiveAuctionFragment.setText(String.format("%s",pcaTotalPurchasedBags.toString()))
+//            binding.edtPCABasicAmountLiveAuctionFragment.setText(String.format("%.2f", pcaBasic))
+//            binding.tvPCAExpensesLiveAuctionFragment.setText(String.format("%.2f", pcaExpense))
 
+            binding.tvPurchasedBagsNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.bags_lbl),TOTAL_AuctionBags.toString()))
 
-            val PCATotalAmountNF = NumberFormat.getCurrencyInstance().format(pcaTotalAmount).substring(1)
+            val PCATotalAmountNF = NumberFormat.getCurrencyInstance().format(TOTAL_AuctionCost).substring(1)
             binding.tvPurchasedTotalCostNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.cost_lbl),PCATotalAmountNF))
-            var rate = pcaBasic / ((pcaTotalPurchasedBags * COMMODITY_BHARTI.toDouble()) / 20.0)
+            var rate = TOTAL_AuctionCost / ((TOTAL_AuctionBags * COMMODITY_BHARTI.toDouble()) / 20.0)
             val RateNF = NumberFormat.getCurrencyInstance().format(rate).substring(1)
             binding.tvPurchasedAvgRateNewBuyerDashboardFragment.setText("%s %s".format(requireContext().getString(R.string.rate_lbl),RateNF))
+
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "calculateExpenses: ${e.message}")
         }
     }
 
+
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+//        webSocketClient.connect()
+        if (!isWebSocketConnected) {
+            webSocketClient.connect()
+            isWebSocketConnected = true
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!isWebSocketConnected) {
+            webSocketClient.connect()
+            isWebSocketConnected = true
+        }
     }
 
     override fun onStop() {
         super.onStop()
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        if (isWebSocketConnected) {
+            webSocketClient.disconnect()
+            isWebSocketConnected = false
+        }
     }
 
     override fun onDestroy() {
-        webSocketClient.disconnect()
         super.onDestroy()
+        // Disconnect the WebSocket in onDestroy to ensure proper cleanup
+        newAuctionData= null
+        lastPCAList = ArrayList()
+        if (isWebSocketConnected) {
+            webSocketClient.disconnect()
+            isWebSocketConnected = false
+        }
+    }
+
+    // ... (other methods)
+
+    // Ensure the WebSocket is disconnected when the fragment is destroyed
+    override fun onDestroyView() {
+        super.onDestroyView()
+         newAuctionData= null
+         lastPCAList = ArrayList()
+        if (isWebSocketConnected) {
+            webSocketClient.disconnect()
+            isWebSocketConnected = false
+        }
     }
 }
