@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentProfileOptionBinding
 
 class ProfileOptionFragment : Fragment() {
@@ -24,6 +25,7 @@ class ProfileOptionFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile_option, container, false)
+        binding.tvVersionProfileOptionFragment.setText("v${Constants.version}")
         binding.cvMyProfileProfileOptionFragment.setOnClickListener {
             navController.navigate(ProfileOptionFragmentDirections.actionProfileOptionFragmentToProfileFragment(PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString()))
         }

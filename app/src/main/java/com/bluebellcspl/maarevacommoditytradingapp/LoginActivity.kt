@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp
 
+import ConnectionCheck
 import android.app.ActivityOptions
 import android.content.Intent
 import android.content.res.Configuration
@@ -89,20 +90,24 @@ class LoginActivity : AppCompatActivity() {
             }
 
             binding.btnVerifyOTPLogin.setOnClickListener {
-                if (binding.edtOTPLogin.text.toString().isEmpty()) {
-                    commonUIUtility.showToast("Please Enter OTP!")
-                } else {
-
-                    val model = LoginForAdminModel(
-                        "MAT189",
-                        binding.edtPhoneNoLogin.text.toString().trim(),
-                        binding.edtOTPLogin.text.toString().trim(),
-                        "",
-                        "",
-                        TOKEN_ID
-                    )
-
-                    LoginCheckAPI(this, this@LoginActivity, model)
+                if (ConnectionCheck.isConnected(this@LoginActivity))
+                {
+                    if (binding.edtOTPLogin.text.toString().isEmpty()) {
+                        commonUIUtility.showToast("Please Enter OTP!")
+                    } else {
+                        val model = LoginForAdminModel(
+                            "MAT189",
+                            binding.edtPhoneNoLogin.text.toString().trim(),
+                            binding.edtOTPLogin.text.toString().trim(),
+                            "",
+                            "",
+                            TOKEN_ID
+                        )
+                        LoginCheckAPI(this, this@LoginActivity, model)
+                    }
+                }else
+                {
+                    commonUIUtility.showToast("No Internet Connection!")
                 }
             }
 
