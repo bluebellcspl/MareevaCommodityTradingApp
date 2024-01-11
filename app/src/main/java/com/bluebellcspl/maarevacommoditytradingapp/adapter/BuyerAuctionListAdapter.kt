@@ -51,8 +51,14 @@ class BuyerAuctionListAdapter(
                     Log.d(TAG, "afterTextChanged: BAGS_AMOUNT : $BasicAmount")
                     var totalAmount = 0.0
 
-                    var transportCharge =(bags.toDouble() * model.UpdPerBoriRate.toDouble())
-                    var labourCharge = model.UpdLabourCharge.toDouble() * bags.toDouble()
+                    var transportCharge =0.0
+                    var labourCharge = 0.0
+
+                    if (bags.toInt()>0 && upperLimit.toDouble()>0.0 && lowerLimit.toDouble()>0.0)
+                    {
+                        transportCharge =(bags.toDouble() * model.UpdPerBoriRate.toDouble())
+                        labourCharge = model.UpdLabourCharge.toDouble() * bags.toDouble()
+                    }
 
                     val gcaCommission = ((BasicAmount * model.UpdGCACommRate.toDouble()) / 100.0)
                     val pcaCommission = (BasicAmount * model.UpdPCACommRate.toDouble()) / 100.0
@@ -64,7 +70,7 @@ class BuyerAuctionListAdapter(
                     Log.d(TAG, "afterTextChanged: GCACOMISSION : $gcaCommission")
                     Log.d(TAG,"afterTextChanged: TRANSPORTATION_CHARGE at $adapterPosition : $transportCharge")
                     Log.d(TAG, "afterTextChanged: LABOURCHARGES : $labourCharge")
-                    if (upperLimit.toInt()!=0 && lowerLimit.toInt()!=0) {
+                    if (upperLimit.toDouble()>0.0 && lowerLimit.toDouble()>0.0 && bags.toInt()>0) {
                         totalAmount =BasicAmount + gcaCommission + pcaCommission + marketCess + transportCharge + labourCharge
                     }else
                     {
