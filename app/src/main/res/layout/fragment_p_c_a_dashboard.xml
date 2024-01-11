@@ -25,7 +25,86 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        app:cardBackgroundColor="@color/newCommodityCardColor"
+                        app:cardCornerRadius="@dimen/_8sdp"
+                        app:cardElevation="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_8sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/commodity"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_15ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_Commodity_New_PCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_medium"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_15ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        app:cardBackgroundColor="@color/newCommodityCardColor"
+                        app:cardCornerRadius="@dimen/_8sdp"
+                        app:cardElevation="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_8sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/date"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_15ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_Date_New_PCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_medium"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_15ssp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <!--                PCA Card Buyer-->
+                </LinearLayout>
+
                 <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
                     android:id="@+id/cv_Auction_PCADashboardFragment"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_120sdp"
@@ -71,37 +150,214 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!--            <com.google.android.material.card.MaterialCardView-->
-                <!--                android:visibility="gone"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="@dimen/_350sdp"-->
-                <!--                android:id="@+id/cv_Notification_PCADashboardFragment"-->
-                <!--                app:cardCornerRadius="@dimen/_8sdp"-->
-                <!--                app:cardElevation="@dimen/_5sdp"-->
-                <!--                app:cardUseCompatPadding="true"-->
-                <!--                app:cardBackgroundColor="@color/colorPrimaryLight">-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_BuyerAuction_New_PCADashboardFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    app:cardBackgroundColor="@color/newDSCardColor"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true">
 
-                <!--                <RelativeLayout-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    android:padding="@dimen/_5sdp">-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_8sdp">
 
-                <!--                    <TextView-->
-                <!--                        android:id="@+id/tv_NotificationLbl_PCADashboardFragment"-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:text="@string/notifications"-->
-                <!--                        android:textColor="@color/white"-->
-                <!--                        android:fontFamily="@font/poppins"-->
-                <!--                        android:textSize="@dimen/_22ssp"-->
-                <!--                        android:textStyle="bold" />-->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAllocatedBags_New_PCADashboardFragment"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="@dimen/_6sdp"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="@string/allocated_lbl"
+                            android:textSize="@dimen/_15ssp"
+                            app:cornerRadius="@dimen/_8sdp" />
 
-                <!--                    <androidx.recyclerview.widget.RecyclerView-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="match_parent"-->
-                <!--                        android:layout_below="@id/tv_NotificationLbl_PCADashboardFragment" />-->
-                <!--                </RelativeLayout>-->
-                <!--            </com.google.android.material.card.MaterialCardView>-->
+                        <TextView
+                            android:id="@+id/tv_AllocatedBags_New_PCADashboardFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:fontFamily="@font/poppins"
+                            android:text="@string/bags_lbl"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15ssp" />
+
+                        <TextView
+                            android:id="@+id/tv_AllocatedRate_New_PCADashboardFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:fontFamily="@font/poppins"
+                            android:text="@string/rate_lbl"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15ssp" />
+
+                        <TextView
+                            android:id="@+id/tv_AllocatedTotalCost_New_PCADashboardFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:fontFamily="@font/poppins"
+                            android:text="@string/cost_lbl"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15ssp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_PCAAuction_New_PCADashboardFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    app:cardBackgroundColor="@color/newDSCardColor"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_8sdp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPurchasedBags_New_PCADashboardFragment"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="@string/purchased_lbl"
+                            android:textSize="@dimen/_15ssp"
+                            app:cornerRadius="@dimen/_8sdp" />
+
+                        <TextView
+                            android:id="@+id/tv_PurchasedBags_New_PCADashboardFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:fontFamily="@font/poppins"
+                            android:text="@string/bags_lbl"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_22ssp" />
+
+                        <TextView
+                            android:id="@+id/tv_PurchasedAvgRate_New_PCADashboardFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:fontFamily="@font/poppins"
+                            android:text="@string/rate_lbl"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_22ssp" />
+
+                        <TextView
+                            android:id="@+id/tv_PurchasedTotalCost_New_PCADashboardFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:fontFamily="@font/poppins"
+                            android:text="@string/cost_lbl"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_22ssp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_PreviousAuction_New_PCADashboardFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    app:cardBackgroundColor="@color/newDSCardColor"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_5sdp">
+
+                            <TextView
+                                android:id="@+id/tv_PreviousAuctionDate_New_PCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_1sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/date_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PreviousAuctionPurchasedBags_New_PCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_1sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/bags_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PreviousAuctionAvgRate_New_PCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_1sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/avg_rate_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PreviousAuctionTotalCost_New_PCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_1sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/total_cost_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            app:fabCustomSize="@dimen/_30sdp"
+                            app:rippleColor="@color/colorSecondary"
+                            app:srcCompat="@drawable/baseline_file_download_24"
+                            app:tint="@color/black" />
+
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

@@ -40,15 +40,29 @@
                         android:layout_weight="0.5"
                         android:gravity="center_vertical"
                         android:text="Shop No"
+                        android:visibility="gone"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_13ssp" />
 
                     <TextView
                         android:id="@+id/tvShopNo_PCAAuctionListAdapter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:paddingRight="@dimen/_3sdp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvShopName_PCAAuctionListAdapter"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:text=""
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_2sdp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_13ssp"
                         android:textStyle="bold" />
@@ -58,6 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:padding="@dimen/_2sdp">
 
                     <TextView
@@ -69,15 +84,15 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_13ssp" />
 
-                    <TextView
-                        android:id="@+id/tvShopName_PCAAuctionListAdapter"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_13ssp"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/tvShopName_PCAAuctionListAdapter"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_weight="0.5"-->
+<!--                        android:text=""-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/_13ssp"-->
+<!--                        android:textStyle="bold" />-->
                 </LinearLayout>
 
                 <LinearLayout
