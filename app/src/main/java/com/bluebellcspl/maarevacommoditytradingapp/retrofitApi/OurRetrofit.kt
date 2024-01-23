@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.retrofitApi
 import com.bluebellcspl.maarevacommoditytradingapp.model.APMCMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerPrevAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
@@ -151,4 +152,9 @@ interface OurRetrofit {
 //    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionDelete")
     @POST("/MaarevaApi/MaarevaApi/BuyerMasterGet")
     suspend fun getBuyerMaster(@Body body: JsonObject): Response<BuyerMasterModel>
+
+    @Headers("Content-Type:application/json")
+//    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionDelete")
+    @POST("/MaarevaApi/MaarevaApi/BuyerDashPreAuctionGet")
+    suspend fun getBuyerPreviousAuction(@Body body: JsonObject): Response<BuyerPrevAuctionMasterModel>
 }

@@ -9,8 +9,7 @@
         android:id="@+id/dashboardFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/fragment_dashboard" >
-    </fragment>
+        tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/PCAAuctionFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionFragment"
@@ -62,7 +61,17 @@
         android:id="@+id/buyerAuctionFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerAuctionFragment"
         android:label="@string/buyer_auction"
-        tools:layout="@layout/fragment_buyer_auction" />
+        tools:layout="@layout/fragment_buyer_auction" >
+        <action
+            android:id="@+id/action_buyerAuctionFragment_to_buyerDashboardFragment"
+            app:destination="@id/buyerDashboardFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/buyerDashboardFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
     <fragment
         android:id="@+id/editPCAFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.EditPCAFragment"
@@ -184,6 +193,15 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_buyerDashboardFragment_to_buyerPreviousAuctionFragment"
+            app:destination="@id/buyerPreviousAuctionFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/buyerDashboardFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/PCADashboardFragment"
@@ -204,5 +222,14 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/buyerPreviousAuctionFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerPreviousAuctionFragment"
+        android:label="@string/buyer_previous_auction"
+        tools:layout="@layout/fragment_buyer_previous_auction" >
+        <argument
+            android:name="selectedPreviousAuctionDate"
+            app:argType="string" />
     </fragment>
 </navigation>
