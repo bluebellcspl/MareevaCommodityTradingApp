@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 
 class FetchApprovedPCAListAPI(
     var context: Context,
@@ -136,6 +137,7 @@ class FetchApprovedPCAListAPI(
                         }
                     } else if (fragment is BuyerDashboardFragment) {
                         withContext(Main) {
+                            yield()
                             commonUIUtility.dismissProgress()
                             (fragment as BuyerDashboardFragment).bindingApprovedPCACount(approvedPCAList)
                         }

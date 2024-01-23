@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 
+import ConnectionCheck
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.icu.text.NumberFormat
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -27,6 +29,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetai
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTBuyerAuctionDataAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTBuyerAuctionData
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.google.android.material.datepicker.CalendarConstraints
@@ -66,7 +69,12 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             DataBindingUtil.inflate(inflater, R.layout.fragment_buyer_auction, container, false)
         commodityBharti = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
         Log.d(TAG, "onCreateView: COMMODITY_BHARTI : $commodityBharti")
-        FetchBuyerAuctionDetailAPI(requireContext(), requireActivity(), this)
+        if (ConnectionCheck.isConnected(requireContext()))
+        {
+            FetchBuyerAuctionDetailAPI(requireContext(), requireActivity(), this)
+        }else{
+            commonUIUtility.showToast(getString(R.string.no_internet_connection))
+        }
         val today = MaterialDatePicker.todayInUtcMilliseconds()
         val calendarConstraints =
             CalendarConstraints.Builder().setValidator(DateValidatorPointForward.now())
@@ -354,6 +362,15 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             alertDialog.show()
 
             dialogBinding.llTotalBagsBuyerExpenseDialog.visibility = View.VISIBLE
+            dialogBinding.llExpensesBuyerExpenseDialog.setOnClickListener {
+                if (dialogBinding.llExpandableExpensesBuyerExpenseDialog.isVisible)
+                {
+                    dialogBinding.llExpandableExpensesBuyerExpenseDialog.visibility = View.GONE
+                }else
+                {
+                    dialogBinding.llExpandableExpensesBuyerExpenseDialog.visibility = View.VISIBLE
+                }
+            }
             var basic: Double = 0.0
             var total: Double = 0.0
             var pcaCommission = 0.0
@@ -387,6 +404,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                     .isEmpty()
             ) {
                 dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalExpenseBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("0.0")
@@ -403,6 +421,9 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
 //                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
                 val basicNF = NumberFormat.getCurrencyInstance().format(basic)
                 dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(basicNF.toString())
+                val totalExpense = pcaCommission+gcaCommission+marketCess+transportCharge+labourCharge
+                val ExpensesNF = NumberFormat.getCurrencyInstance().format(totalExpense)
+                dialogBinding.tvTotalExpenseBuyerExpenseDialog.setText(ExpensesNF.toString())
                 val pcaCommNF = NumberFormat.getCurrencyInstance().format(pcaCommission)
                 dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommNF.toString())
                 val gcaCommNF = NumberFormat.getCurrencyInstance().format(gcaCommission)
@@ -435,6 +456,15 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             var model = dataList[postion]
             dialogBinding.llPCANameBuyerExpenseDialog.visibility = View.VISIBLE
             dialogBinding.llBagsBuyerExpenseDialog.visibility = View.VISIBLE
+            dialogBinding.llExpensesBuyerExpenseDialog.setOnClickListener {
+                if (dialogBinding.llExpandableExpensesBuyerExpenseDialog.isVisible)
+                {
+                    dialogBinding.llExpandableExpensesBuyerExpenseDialog.visibility = View.GONE
+                }else
+                {
+                    dialogBinding.llExpandableExpensesBuyerExpenseDialog.visibility = View.VISIBLE
+                }
+            }
             var basic: Double = 0.0
             var total: Double = 0.0
             var pcaCommission = 0.0
@@ -470,6 +500,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                     .isEmpty()
             ) {
                 dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("0.0")
+                dialogBinding.tvTotalExpenseBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("0.0")
                 dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("0.0")
@@ -477,14 +508,11 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("0.0")
             } else {
 
-//                dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText("%.2f".format(basic))
-//                dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText("%.2f".format(pcaCommission))
-//                dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText("%.2f".format(gcaCommission))
-//                dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText("%.2f".format(marketCess))
-//                dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText("%.2f".format(transportCharge))
-//                dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText("%.2f".format(labourCharge))
                 val basicNF = NumberFormat.getCurrencyInstance().format(basic)
                 dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(basicNF.toString())
+                val totalExpense = pcaCommission+gcaCommission+marketCess+transportCharge+labourCharge
+                val ExpensesNF = NumberFormat.getCurrencyInstance().format(totalExpense)
+                dialogBinding.tvTotalExpenseBuyerExpenseDialog.setText(ExpensesNF)
                 val pcaCommNF = NumberFormat.getCurrencyInstance().format(pcaCommission)
                 dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommNF.toString())
                 val gcaCommNF = NumberFormat.getCurrencyInstance().format(gcaCommission)
@@ -553,8 +581,12 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 DateUtility().getyyyyMMdd(),
                 PrefUtil.getString(PrefUtil.KEY_BUYER_ID, "").toString()
             )
-
-            POSTBuyerAuctionDataAPI(requireContext(),requireActivity(),this,postAuctionDataModel)
+            if (ConnectionCheck.isConnected(requireContext()))
+            {
+                POSTBuyerAuctionDataAPI(requireContext(),requireActivity(),this,postAuctionDataModel)
+            }else{
+                commonUIUtility.showToast(getString(R.string.no_internet_connection))
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -562,6 +594,10 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         }
     }
 
+    fun redirectToBuyerDashboard()
+    {
+        navController.navigate(BuyerAuctionFragmentDirections.actionBuyerAuctionFragmentToBuyerDashboardFragment())
+    }
     data class newPCAModel(
         var PCAId: String,
         var PCAName: String,
@@ -576,5 +612,9 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     public fun onAuctionInsertSuccessful()
     {
         FetchBuyerAuctionDetailAPI(requireContext(), requireActivity(), this)
+    }
+
+    override fun getLiveAuctionPCAData(postion: Int, model: LiveAuctionPCAListModel) {
+        TODO("Not yet implemented")
     }
 }

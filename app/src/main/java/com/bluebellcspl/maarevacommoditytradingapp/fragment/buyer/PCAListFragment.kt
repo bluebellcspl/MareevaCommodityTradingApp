@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 
+import ConnectionCheck
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -13,14 +14,11 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.ApprovedPCAListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.UnapprovePCAListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
-import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAListBinding
-import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaAuctionDetailDailogLayoutBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaProfileDialogPopupBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchUnapprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
-import com.bluebellcspl.maarevacommoditytradingapp.model.Detail
+import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
@@ -42,7 +40,12 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_list, container, false)
-        FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
+        if (ConnectionCheck.isConnected(requireContext()))
+        {
+            FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
+        }else{
+            commonUIUtility.showToast(getString(R.string.no_internet_connection))
+        }
         return binding.root
     }
 
@@ -126,6 +129,10 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
 
     override fun getBuyerAuctionDataList(dataList: ArrayList<AuctionDetailsModel>) {
 
+    }
+
+    override fun getLiveAuctionPCAData(postion: Int, model: LiveAuctionPCAListModel) {
+        TODO("Not yet implemented")
     }
 
     fun showPCAProfileDialogPopup(model:PCAListModelItem,onclickType: String){

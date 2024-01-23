@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 
+import ConnectionCheck
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.icu.text.NumberFormat
@@ -30,10 +31,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.POSTPCAAuctionDeleteAP
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTPCAAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.ApiPCAAuctionDetail
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTPCAAuctionData
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.SwipeToDeleteCallback
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 
 class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
@@ -81,7 +82,12 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                 alertDialog.setMessage("Do you want to Delete PCA Data?")
                 alertDialog.setPositiveButton("Delete",object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
-                        POSTPCAAuctionDeleteAPI(requireContext(),requireActivity(),this@PCAAuctionListFragment,pcaAuctionList,position,adapter)
+                        if (ConnectionCheck.isConnected(requireContext()))
+                        {
+                            POSTPCAAuctionDeleteAPI(requireContext(),requireActivity(),this@PCAAuctionListFragment,pcaAuctionList,position,adapter)
+                        }else{
+                            commonUIUtility.showToast(getString(R.string.no_internet_connection))
+                        }
                         p0!!.dismiss()
                     }
                 })
@@ -275,7 +281,12 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                 DateUtility().getyyyyMMdd(),
                 "update"
             )
-            POSTPCAAuctionDetailAPI(requireContext(),requireActivity(),this,postDataModel)
+            if (ConnectionCheck.isConnected(requireContext()))
+            {
+                POSTPCAAuctionDetailAPI(requireContext(),requireActivity(),this,postDataModel)
+            }else{
+                commonUIUtility.showToast(getString(R.string.no_internet_connection))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "updatePCAData: ${e.message}")
@@ -393,5 +404,9 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
 
     override fun getBuyerAuctionDataList(dataList: ArrayList<AuctionDetailsModel>) {
 
+    }
+
+    override fun getLiveAuctionPCAData(postion: Int, model: LiveAuctionPCAListModel) {
+        TODO("Not yet implemented")
     }
 }

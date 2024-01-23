@@ -202,7 +202,12 @@ class AddPCAFragment : Fragment() {
                 ""
             )
             Log.d(TAG, "sendPCAData: ADD_PCA_MODEL : $model")
-            POSTPCAInsertAPI(requireContext(), requireActivity(), this, model)
+            if (ConnectionCheck.isConnected(requireContext()))
+            {
+                POSTPCAInsertAPI(requireContext(), requireActivity(), this, model)
+            }else{
+                commonUIUtility.showToast(getString(R.string.no_internet_connection))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "sendPCAData: ${e.message}")

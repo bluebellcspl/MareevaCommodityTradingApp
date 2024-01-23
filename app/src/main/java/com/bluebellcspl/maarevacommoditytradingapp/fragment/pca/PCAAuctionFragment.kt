@@ -92,13 +92,13 @@ class PCAAuctionFragment : Fragment() {
 //                    }
 //                }
 //            }
-
+        binding.actShopNoPCAAuctionFragment.threshold = 100
         binding.actShopNoPCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
             var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
             shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
             binding.actShopNamePCAAuctionFragment.setText(shopName)
         }
-
+        binding.actShopNamePCAAuctionFragment.threshold = 100
         binding.actShopNamePCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
             var shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
             shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
@@ -459,7 +459,12 @@ class PCAAuctionFragment : Fragment() {
                "Confirm"
             )
 
-            POSTPCAAuctionDetailAPI(requireContext(),requireActivity(),this,model)
+            if (ConnectionCheck.isConnected(requireContext()))
+            {
+                POSTPCAAuctionDetailAPI(requireContext(),requireActivity(),this,model)
+            }else{
+                commonUIUtility.showToast(getString(R.string.no_internet_connection))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "postPCAData: ${e.message}")

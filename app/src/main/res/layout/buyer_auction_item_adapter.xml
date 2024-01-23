@@ -244,7 +244,8 @@
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_15ssp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:nextFocusDown="@id/tv_UpperLimit_BuyerAuctionItemAdapter"/>
 
                         <EditText
                             android:theme="@style/Widget.AppCompat.EditText"
@@ -274,13 +275,11 @@
                             android:layout_margin="3dp"
                             android:layout_weight="0.7"
                             android:background="@drawable/outline_bg"
-                            android:textCursorDrawable="@null"
-                            android:inputType="number"
                             android:text="100000000"
                             android:fontFamily="@font/poppins"
                             android:padding="@dimen/_5sdp"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
+                            android:textColor="@color/disableText"
                             android:textSize="@dimen/_15ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -308,10 +307,12 @@
                     android:background="@android:color/transparent"
                     android:inputType="number"
                     android:padding="@dimen/_5sdp"
+                    android:maxLength="4"
                     android:text="500"
                     android:textAlignment="center"
                     android:fontFamily="@font/poppins"
                     android:textColor="@color/white"
+                    android:nextFocusDown="@id/tv_LowerLimit_BuyerAuctionItemAdapter"
                     android:textSize="@dimen/_15ssp" />
             </com.google.android.material.card.MaterialCardView>
 

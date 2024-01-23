@@ -77,7 +77,7 @@ class POSTBuyerAuctionDataAPI(var context: Context,var activity: Activity,var fr
                             commonUIUtility.showToast(context.getString(R.string.auction_inserted_successfully))
                             if (fragment is BuyerAuctionFragment)
                             {
-                                (fragment as BuyerAuctionFragment).onAuctionInsertSuccessful()
+                                (fragment as BuyerAuctionFragment).redirectToBuyerDashboard()
                             }
                         }
                     }else if (response.contains("Something went Wrong!"))

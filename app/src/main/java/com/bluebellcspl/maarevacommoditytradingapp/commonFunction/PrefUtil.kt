@@ -25,6 +25,7 @@ class PrefUtil {
         public val KEY_APMC_NAME = "APMCName"
         public val KEY_COMMODITY_ID = "CommodityId"
         public val KEY_COMMODITY_NAME = "CommodityName"
+        public val KEY_COMMODITY_BHARTI = "CommodityBharti"
         public val KEY_COMPANY_CODE = "CompanyCode"
         public val KEY_EMP_NAME = "Name"
         public val KEY_CREATE_USER = "CreateUser"

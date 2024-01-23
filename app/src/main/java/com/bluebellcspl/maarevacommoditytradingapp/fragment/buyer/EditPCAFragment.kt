@@ -249,8 +249,12 @@ class EditPCAFragment : Fragment() {
                 DateUtility().getyyyyMMdd(),
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
             )
-
-            POSTPCAEditAPI(requireContext(),requireActivity(),this,model,marketCess)
+            if (ConnectionCheck.isConnected(requireContext()))
+            {
+                POSTPCAEditAPI(requireContext(),requireActivity(),this,model,marketCess)
+            }else{
+                commonUIUtility.showToast(getString(R.string.no_internet_connection))
+            }
         }catch (e:Exception)
         {
             Log.e(TAG, "updatePCAData: ${e.message}")

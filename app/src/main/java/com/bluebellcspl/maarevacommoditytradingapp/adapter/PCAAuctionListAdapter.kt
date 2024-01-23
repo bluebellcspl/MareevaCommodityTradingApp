@@ -27,8 +27,10 @@ class PCAAuctionListAdapter(var context: Context,var dataList:ArrayList<ApiPCAAu
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
         holder.binding.tvShopNoPCAAuctionListAdapter.setText(model.ShopNo)
-        holder.binding.tvShopNamePCAAuctionListAdapter.setText(model.ShopName)
+        holder.binding.tvShopNamePCAAuctionListAdapter.setText("- %s".format(model.ShopName))
         holder.binding.tvBagsPCAAuctionListAdapter.setText(model.Bags)
+        val CurrentPriceNF = NumberFormat.getCurrencyInstance().format(model.CurrentPrice.toDouble())
+        holder.binding.tvCurrentPricePCAAuctionListAdapter.setText(CurrentPriceNF)
         val amountNF = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
         holder.binding.tvAmountPCAAuctionListAdapter.setText(amountNF)
 

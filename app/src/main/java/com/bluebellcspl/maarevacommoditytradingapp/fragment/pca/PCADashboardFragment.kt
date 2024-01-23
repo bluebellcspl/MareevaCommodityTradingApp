@@ -113,7 +113,8 @@ class PCADashboardFragment : Fragment() {
             var pcaTransportationCharge = pcaAllocatedBags * modelData.PerBoriRate.toDouble()
             var pcaAllocatedBasic = modelData.BuyerPCABudget.toDouble()
 
-            var totalPCABudget = pcaMarketCess+pcaCommRate+gcaCommRate+pcaLabourCharge+pcaTransportationCharge+pcaAllocatedBasic
+//            var totalPCABudget = pcaMarketCess+pcaCommRate+gcaCommRate+pcaLabourCharge+pcaTransportationCharge+pcaAllocatedBasic
+            var totalPCABudget = pcaAllocatedBasic
 
             val AllocatedBuyerCost = NumberFormat.getCurrencyInstance().format(totalPCABudget).substring(1)
             binding.tvAllocatedTotalCostNewPCADashboardFragment.setText("%s %s".format(resources.getString(R.string.cost_lbl),AllocatedBuyerCost))
@@ -133,7 +134,8 @@ class PCADashboardFragment : Fragment() {
             var purchased_pcaTransportationCharge = pcaTotalPurchasedBag * modelData.PerBoriRate.toDouble()
             var purchased_pcaBasic = modelData.TotalCost.toDouble()
 
-            var PCAtotalPurchasedCost = purchased_pcaMarketCess+purchased_pcaCommRate+purchased_gcaCommRate+purchased_pcaLabourCharge+purchased_pcaTransportationCharge+purchased_pcaBasic
+//            var PCAtotalPurchasedCost = purchased_pcaMarketCess+purchased_pcaCommRate+purchased_gcaCommRate+purchased_pcaLabourCharge+purchased_pcaTransportationCharge+purchased_pcaBasic
+            var PCAtotalPurchasedCost = purchased_pcaBasic
 
             val PurchasedPCACost = NumberFormat.getCurrencyInstance().format(PCAtotalPurchasedCost).substring(1)
             binding.tvPurchasedTotalCostNewPCADashboardFragment.setText("%s %s".format(resources.getString(R.string.cost_lbl),PurchasedPCACost))

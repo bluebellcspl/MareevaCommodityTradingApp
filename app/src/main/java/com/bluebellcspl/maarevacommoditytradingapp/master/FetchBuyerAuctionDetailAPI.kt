@@ -18,8 +18,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 
 class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,var fragment: Fragment) {
     val job = Job()
@@ -61,7 +63,7 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
                     Log.d(TAG, "getFetchBuyerAuctionDetail: RESPONSE : ${result.body()}")
                     if (fragment is BuyerDashboardFragment)
                     {
-                        withContext(Dispatchers.Main)
+                        withContext(Main)
                         {
                             commonUIUtility.dismissProgress()
                             (fragment as BuyerDashboardFragment).bindBuyerAllocatedData(result.body()!!)
