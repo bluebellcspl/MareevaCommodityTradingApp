@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.master
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.model.LoginWithOTPModel
@@ -46,6 +47,7 @@ class LoginWithOTPAPI(var context: Context, var activity: Activity,var phoneNo:S
                         withContext(Main){
                             commonUIUtility.dismissProgress()
                             commonUIUtility.showToast(context.getString(R.string.otp_sent_successfully_alert_msg))
+                            (activity as LoginActivity).binding.edtOTPLogin.requestFocus()
                         }
                     }else
                     {
