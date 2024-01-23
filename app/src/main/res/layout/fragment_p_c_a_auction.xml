@@ -42,6 +42,7 @@
                     android:layout_weight="0.7"
                     android:gravity="center"
                     android:textColor="#A00909"
+                    android:background="@color/colorSecondaryDark"
                     android:padding="@dimen/_5sdp"
                     android:textStyle="bold"
                     android:text=""
@@ -62,93 +63,106 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_3sdp">
-
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/allocated_lbl"
+                        android:padding="@dimen/_5sdp"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"/>
                     <LinearLayout
-                        android:layout_width="0dp"
+
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:padding="@dimen/_3sdp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Bags"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
-
-                        <TextView
-                            android:id="@+id/tv_BuyerBags_PCAAuctionFragment"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_3sdp">
 
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp" />
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Bags"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/_3sdp">
+                            <TextView
+                                android:id="@+id/tv_BuyerBags_PCAAuctionFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp" />
+                        </LinearLayout>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Limit"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
-
-                        <TextView
-                            android:id="@+id/tv_BuyersLowerLimit_PCAAuctionFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp" />
-                        <TextView
-                            android:id="@+id/tv_BuyersUpperLimit_PCAAuctionFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:gravity="center"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/_3sdp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Budget"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
-
-                        <TextView
-                            android:id="@+id/tv_BuyersBudget_PCAAuctionFragment"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp" />
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_3sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Limit"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_BuyersLowerLimit_PCAAuctionFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp" />
+                            <TextView
+                                android:id="@+id/tv_BuyersUpperLimit_PCAAuctionFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:gravity="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_3sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Budget"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_BuyersBudget_PCAAuctionFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -164,87 +178,99 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_InfoCard1_PCAAuctionFragment">
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_3sdp">
-
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/purchased_lbl"
+                        android:textStyle="bold"
+                        android:padding="@dimen/_5sdp"
+                        android:textSize="@dimen/_12ssp"
+                        android:textColor="@color/colorPrimary"/>
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:padding="@dimen/_3sdp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Purchased Bags"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
-
-                        <TextView
-                            android:id="@+id/tv_PurchasedBags_PCAAuctionFragment"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_3sdp">
 
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp" />
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/bags"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/_3sdp">
+                            <TextView
+                                android:id="@+id/tv_PurchasedBags_PCAAuctionFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textStyle="bold"
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Average Price"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp" />
+                        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_AveragePrice_PCAAuctionFragment"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp" />
-                    </LinearLayout>
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_3sdp">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/_3sdp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/rate"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Total Amount"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_14ssp" />
+                            <TextView
+                                android:id="@+id/tv_AveragePrice_PCAAuctionFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp" />
+                        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_TotalAmount_PCAAuctionFragment"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp" />
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_3sdp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/amount"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_TotalAmount_PCAAuctionFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

@@ -90,6 +90,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:imeOptions="actionDone"
+                            android:maxLength="5"
                             android:inputType="number"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14ssp" />

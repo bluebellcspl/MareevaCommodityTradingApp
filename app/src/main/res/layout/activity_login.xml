@@ -216,6 +216,7 @@
                                 android:layout_height="match_parent"
                                 android:imeOptions="actionDone"
                                 android:inputType="phone"
+                                android:digits="0123456789"
                                 android:maxLength="10"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_10ssp" />

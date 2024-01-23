@@ -349,6 +349,7 @@
                         </LinearLayout>
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/btnDatePicker_New_BuyerDashboardFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -357,8 +358,8 @@
                             android:contentDescription="Add PCA"
                             app:fabCustomSize="@dimen/_30sdp"
                             app:rippleColor="@color/colorSecondary"
-                            app:srcCompat="@drawable/baseline_file_download_24"
-                            app:tint="@color/black" />
+                            app:srcCompat="@drawable/baseline_calendar_today_24"
+                            app:tint="@color/newPCACardColor" />
 
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
