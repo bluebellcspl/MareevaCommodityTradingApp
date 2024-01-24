@@ -11,6 +11,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerAuctionFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragment
+import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.JsonObject
@@ -61,32 +62,33 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
                 if (result.isSuccessful)
                 {
                     Log.d(TAG, "getFetchBuyerAuctionDetail: RESPONSE : ${result.body()}")
-                    if (fragment is BuyerDashboardFragment)
-                    {
-                        withContext(Main)
-                        {
-                            commonUIUtility.dismissProgress()
-                            (fragment as BuyerDashboardFragment).bindBuyerAllocatedData(result.body()!!)
-                        }
-                    }else if(fragment is BuyerAuctionFragment)
-                    {
-                        if (result.body().toString().contains("No Data Found"))
-                        {
-                            withContext(Main){
-                                commonUIUtility.dismissProgress()
-                            }
-                        }
-                        else
-                        {
-                            val resultModel = result.body()!!
-                            withContext(Main){
-                                commonUIUtility.dismissProgress()
-                                if(fragment is BuyerAuctionFragment){
-                                    (fragment as BuyerAuctionFragment).updateUIFromAPIData(resultModel)
-                                }
-                            }
-                        }
-                    }
+//                    if (fragment is BuyerDashboardFragment)
+//                    {
+//                        withContext(Main)
+//                        {
+//                            commonUIUtility.dismissProgress()
+//                            (fragment as BuyerDashboardFragment).bindBuyerAllocatedData(result.body()!!)
+//                        }
+//                    }else if(fragment is BuyerAuctionFragment)
+//                    {
+//                        if (result.body().toString().contains("No Data Found"))
+//                        {
+//                            withContext(Main){
+//                                commonUIUtility.dismissProgress()
+//                            }
+//                        }
+//                        else
+//                        {
+//                            val resultModel = result.body()!!
+//                            withContext(Main){
+//                                commonUIUtility.dismissProgress()
+//                                if(fragment is BuyerAuctionFragment){
+//                                    (fragment as BuyerAuctionFragment).updateUIFromAPIData(resultModel)
+//                                }
+//                            }
+//                        }
+//                    }
+                    handleSuccess(result.body()!!)
                 }else
                 {
                     Log.e(TAG, "postPCAUpdatedData: ${result.errorBody()}")
@@ -101,6 +103,26 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getFetchBuyerAuctionDetail: ${e.message}")
+        }
+    }
+
+    private suspend fun handleSuccess(resultBody:BuyerAuctionMasterModel ) {
+        
+        withContext(Dispatchers.Main) {
+            commonUIUtility.dismissProgress()
+            when (fragment) {
+                is BuyerDashboardFragment -> {
+                    (fragment as BuyerDashboardFragment).bindBuyerAllocatedData(resultBody!!)
+                }
+                is BuyerAuctionFragment -> {
+                    if (resultBody.toString().contains("No Data Found")) {
+                        // Handle "No Data Found" case
+//                        commonUIUtility.dismissProgress()
+                    } else {
+                        (fragment as BuyerAuctionFragment).updateUIFromAPIData(resultBody!!)
+                    }
+                }
+            }
         }
     }
 

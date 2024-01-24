@@ -9,12 +9,14 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtilit
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerPreviousAuctionFragment
+import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerPrevAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -50,19 +52,20 @@ class FetchBuyerPreviousAuctionAPI(
                     if (result.isSuccessful) {
                         val buyerPrevAuctionMasterModel = result.body()!!
                         Log.d(TAG, "getBuyerPreviousAuction: RESPONSE_BUYER_PREV_AUCTION : $buyerPrevAuctionMasterModel")
-                        if (fragment is BuyerDashboardFragment)
-                        {
-                            withContext(Dispatchers.Main){
-                                commonUIUtility.dismissProgress()
-                                (fragment as BuyerDashboardFragment).bindPreviousAuctionData(buyerPrevAuctionMasterModel)
-                            }
-                        }
-                        if(fragment is BuyerPreviousAuctionFragment){
-                            withContext(Dispatchers.Main){
-                                commonUIUtility.dismissProgress()
-                                (fragment as BuyerPreviousAuctionFragment).bindDataOfPrevAuction(buyerPrevAuctionMasterModel)
-                            }
-                        }
+//                        if (fragment is BuyerDashboardFragment)
+//                        {
+//                            withContext(Dispatchers.Main){
+//                                commonUIUtility.dismissProgress()
+//                                (fragment as BuyerDashboardFragment).bindPreviousAuctionData(buyerPrevAuctionMasterModel)
+//                            }
+//                        }
+//                        if(fragment is BuyerPreviousAuctionFragment){
+//                            withContext(Dispatchers.Main){
+//                                commonUIUtility.dismissProgress()
+//                                (fragment as BuyerPreviousAuctionFragment).bindDataOfPrevAuction(buyerPrevAuctionMasterModel)
+//                            }
+//                        }
+                        handleResult(buyerPrevAuctionMasterModel)
                     } else {
                         withContext(Dispatchers.Main) {
                             commonUIUtility.dismissProgress()
@@ -84,6 +87,22 @@ class FetchBuyerPreviousAuctionAPI(
             commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
             e.printStackTrace()
             Log.e(TAG, "getBuyerPreviousAuction: ${e.message}")
+        }
+    }
+
+
+    private suspend fun handleResult(buyerPrevAuctionMasterModel: BuyerPrevAuctionMasterModel) {
+        withContext(Dispatchers.Main) {
+            commonUIUtility.dismissProgress()
+
+            when (fragment) {
+                is BuyerDashboardFragment -> {
+                    (fragment as BuyerDashboardFragment).bindPreviousAuctionData(buyerPrevAuctionMasterModel)
+                }
+                is BuyerPreviousAuctionFragment -> {
+                    (fragment as BuyerPreviousAuctionFragment).bindDataOfPrevAuction(buyerPrevAuctionMasterModel)
+                }
+            }
         }
     }
 }

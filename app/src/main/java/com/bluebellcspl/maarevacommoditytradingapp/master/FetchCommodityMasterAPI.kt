@@ -14,6 +14,7 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -60,14 +61,15 @@ class FetchCommodityMasterAPI(var context: Context, var activity: Activity) {
 
                         DatabaseManager.commonInsert(list,Constants.TBL_CommodityMaster)
                     }
+                    
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
                     }
                 }else{
                     withContext(Dispatchers.Main) {
                         commonUIUtility.dismissProgress()
+                        Log.e(TAG, "getCommodityMaster: ${result.errorBody().toString()}", )
                     }
-                    Log.e(TAG, "getCommodityMaster: ${result.errorBody().toString()}", )
                 }
             }
         }catch (e:Exception){

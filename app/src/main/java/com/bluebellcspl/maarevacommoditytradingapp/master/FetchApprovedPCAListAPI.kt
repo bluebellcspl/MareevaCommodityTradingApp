@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -125,29 +126,29 @@ class FetchApprovedPCAListAPI(
                     }
                     Log.d(TAG, "getApprovedPCAList: APPROVED_PCA_LIST : $approvedPCAList")
                     Log.d(TAG, "getApprovedPCAList: UNAPPROVED_PCA_LIST : $unapprovedPCAList")
-                    if (fragment is PCAListFragment) {
-                        withContext(Main) {
-                            commonUIUtility.dismissProgress()
-                            (fragment as PCAListFragment).bindApprovedPCAListRecyclerView(
-                                approvedPCAList
-                            )
-                            (fragment as PCAListFragment).bindUnapprovedPCAListRecyclerView(
-                                unapprovedPCAList
-                            )
-                        }
-                    } else if (fragment is BuyerDashboardFragment) {
-                        withContext(Main) {
-                            yield()
-                            commonUIUtility.dismissProgress()
-                            (fragment as BuyerDashboardFragment).bindingApprovedPCACount(approvedPCAList)
-                        }
-                    } else if (fragment is ProfileFragment) {
-                        withContext(Main) {
-                            commonUIUtility.dismissProgress()
-                            Log.d(TAG, "getApprovedPCAList: PCA_DATA : $data")
-                            (fragment as ProfileFragment).bindPCAData(data)
-                        }
-                    }
+//                    if (fragment is PCAListFragment) {
+//                        withContext(Main) {
+//                            commonUIUtility.dismissProgress()
+//                            (fragment as PCAListFragment).bindApprovedPCAListRecyclerView(
+//                                approvedPCAList
+//                            )
+//                            (fragment as PCAListFragment).bindUnapprovedPCAListRecyclerView(
+//                                unapprovedPCAList
+//                            )
+//                        }
+//                    } else if (fragment is BuyerDashboardFragment) {
+//                        withContext(Main) {
+//                            commonUIUtility.dismissProgress()
+//                            (fragment as BuyerDashboardFragment).bindingApprovedPCACount(approvedPCAList)
+//                        }
+//                    } else if (fragment is ProfileFragment) {
+//                        withContext(Main) {
+//                            commonUIUtility.dismissProgress()
+//                            Log.d(TAG, "getApprovedPCAList: PCA_DATA : $data")
+//                            (fragment as ProfileFragment).bindPCAData(data)
+//                        }
+//                    }
+                    handleResultInFragment(approvedPCAList,unapprovedPCAList,data)
                 } else {
                     activity.runOnUiThread {
                         commonUIUtility.dismissProgress()
@@ -161,6 +162,30 @@ class FetchApprovedPCAListAPI(
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getApprovedPCAList: ${e.message}")
+        }
+    }
+
+
+    private suspend fun handleResultInFragment(
+        approvedPCAList: ArrayList<PCAListModelItem>,
+        unapprovedPCAList: ArrayList<PCAListModelItem>,
+        data: PCAListModelItem?
+    ) {
+        withContext(Dispatchers.Main) {
+            commonUIUtility.dismissProgress()
+            when (fragment) {
+                is PCAListFragment -> {
+                    (fragment as PCAListFragment).bindApprovedPCAListRecyclerView(approvedPCAList)
+                    (fragment as PCAListFragment).bindUnapprovedPCAListRecyclerView(unapprovedPCAList)
+                }
+                is BuyerDashboardFragment -> {
+                    (fragment as BuyerDashboardFragment).bindingApprovedPCACount(approvedPCAList)
+                }
+                is ProfileFragment -> {
+                    Log.d(TAG, "handleResultInFragment: PCA_DATA : $data")
+                    (fragment as ProfileFragment).bindPCAData(data)
+                }
+            }
         }
     }
 

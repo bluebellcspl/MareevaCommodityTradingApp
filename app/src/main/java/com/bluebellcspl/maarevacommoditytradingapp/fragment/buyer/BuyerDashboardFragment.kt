@@ -4,6 +4,8 @@ import ConnectionCheck
 import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -50,6 +52,7 @@ import java.util.Locale
 
 
 class BuyerDashboardFragment : Fragment() {
+    private var isConnectingWebSocket = false
     lateinit var binding: FragmentBuyerDashboardBinding
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController by lazy { findNavController() }
@@ -82,40 +85,43 @@ class BuyerDashboardFragment : Fragment() {
         COMMODITY_BHARTI =
             DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
         if (ConnectionCheck.isConnected(requireContext())) {
-            val approvedListJOB = lifecycleScope.async {
-                FetchApprovedPCAListAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
-            }
-            val cityMasterJOB = lifecycleScope.async {
 
-                FetchCityMasterAPI(requireContext(), requireActivity())
-            }
-            val transportationMasterJOB = lifecycleScope.async {
-                FetchTransportationMasterAPI(requireContext(), requireActivity())
-            }
-            val commodityMasterJOB = lifecycleScope.async {
-
-                FetchCommodityMasterAPI(requireContext(), requireActivity())
-            }
-            val buyerAuctionFetchJOB = lifecycleScope.async {
-
-                FetchBuyerAuctionDetailAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
-            }
-            val buyerPreviousAuctionJOB = lifecycleScope.async {
-                FetchBuyerPreviousAuctionAPI(
-                    requireContext(),
-                    this@BuyerDashboardFragment,
-                    PREV_AUCTION_SELECTED_DATE
-                )
-            }
-
-            lifecycleScope.launch(Dispatchers.IO) {
-                approvedListJOB.await()
-                cityMasterJOB.await()
-                transportationMasterJOB.await()
-                commodityMasterJOB.await()
-                buyerAuctionFetchJOB.await()
-                buyerPreviousAuctionJOB.await()
-            }
+            FetchApprovedPCAListAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
+            FetchCityMasterAPI(requireContext(), requireActivity())
+            FetchTransportationMasterAPI(requireContext(), requireActivity())
+            FetchCommodityMasterAPI(requireContext(), requireActivity())
+            FetchBuyerAuctionDetailAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
+            FetchBuyerPreviousAuctionAPI(requireContext(),this@BuyerDashboardFragment,PREV_AUCTION_SELECTED_DATE)
+//            val approvedListJOB = lifecycleScope.async {
+//
+//            }
+//            val cityMasterJOB = lifecycleScope.async {
+//
+//
+//            }
+//            val transportationMasterJOB = lifecycleScope.async {
+//
+//            }
+//            val commodityMasterJOB = lifecycleScope.async {
+//
+//
+//            }
+//            val buyerAuctionFetchJOB = lifecycleScope.async {
+//
+//
+//            }
+//            val buyerPreviousAuctionJOB = lifecycleScope.async {
+//
+//            }
+//
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                approvedListJOB.await()
+//                cityMasterJOB.await()
+//                transportationMasterJOB.await()
+//                commodityMasterJOB.await()
+//                buyerAuctionFetchJOB.await()
+//                buyerPreviousAuctionJOB.await()
+//            }
 
         } else {
             commonUIUtility.showToast(getString(R.string.no_internet_connection))
@@ -430,30 +436,51 @@ class BuyerDashboardFragment : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        if (!isWebSocketConnected) {
-            Log.d(TAG, "onResume: WEB_SOCKET_CONNECT onResume")
-            if (ConnectionCheck.isConnected(requireContext())) {
-                webSocketClient.connect()
-                isWebSocketConnected = true
-            } else {
-                commonUIUtility.showToast(getString(R.string.no_internet_connection))
-            }
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+//        if (!isWebSocketConnected) {
+//            Log.d(TAG, "onResume: WEB_SOCKET_CONNECT onResume")
+//            if (ConnectionCheck.isConnected(requireContext())) {
+//                webSocketClient.connect()
+//                isWebSocketConnected = true
+//            } else {
+//                commonUIUtility.showToast(getString(R.string.no_internet_connection))
+//            }
+//        }
+//    }
 
     override fun onStart() {
         super.onStart()
-        if (!isWebSocketConnected) {
+//        if (!isWebSocketConnected) {
+//            Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
+//            if (ConnectionCheck.isConnected(requireContext())) {
+//                webSocketClient.connect()
+//                isWebSocketConnected = true
+//            } else {
+//                commonUIUtility.showToast(getString(R.string.no_internet_connection))
+//            }
+//        }
+
+        commonUIUtility.dismissProgress()
+        if (!isWebSocketConnected && !isConnectingWebSocket) {
             Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
-            if (ConnectionCheck.isConnected(requireContext())) {
-                webSocketClient.connect()
-                isWebSocketConnected = true
-            } else {
-                commonUIUtility.showToast(getString(R.string.no_internet_connection))
-            }
+
+            // Set the flag to indicate that a connection attempt is in progress
+            isConnectingWebSocket = true
+
+            // Delay WebSocket connection by 3 seconds
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (ConnectionCheck.isConnected(requireContext())) {
+                    webSocketClient.connect()
+                    isWebSocketConnected = true
+                } else {
+                    commonUIUtility.showToast(getString(R.string.no_internet_connection))
+                }
+
+                // Reset the flag after the connection attempt
+                isConnectingWebSocket = false
+            }, 5000) // 3000 milliseconds = 3 seconds
         }
     }
 

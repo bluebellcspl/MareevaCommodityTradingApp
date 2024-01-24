@@ -354,6 +354,7 @@
                             android:digits="0123456789"
                             android:selectAllOnFocus="true"
                             android:imeOptions="actionNext"
+                            android:maxLength="5"
                             android:inputType="number"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp" />
