@@ -74,11 +74,20 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <View
+            android:id="@+id/DividerView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_PreviousAuction_BuyerPrevAuctionFragment"/>
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/_5sdp"
             android:id="@+id/rc_View_BuyerPrevAuctionFragment"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_450sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/cv_PreviousAuction_BuyerPrevAuctionFragment" />
+            app:layout_constraintTop_toBottomOf="@+id/DividerView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

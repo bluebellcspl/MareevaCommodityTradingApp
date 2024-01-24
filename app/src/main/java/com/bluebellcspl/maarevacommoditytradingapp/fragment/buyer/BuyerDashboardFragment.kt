@@ -81,10 +81,9 @@ class BuyerDashboardFragment : Fragment() {
         var buyerRegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "")
         COMMODITY_BHARTI =
             DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
-        if (ConnectionCheck.isConnected(requireContext()))
-        {
+        if (ConnectionCheck.isConnected(requireContext())) {
             val approvedListJOB = lifecycleScope.async {
-                FetchApprovedPCAListAPI(requireContext(), requireActivity(), this@BuyerDashboardFragment)
+                FetchApprovedPCAListAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
             }
             val cityMasterJOB = lifecycleScope.async {
 
@@ -99,22 +98,26 @@ class BuyerDashboardFragment : Fragment() {
             }
             val buyerAuctionFetchJOB = lifecycleScope.async {
 
-                FetchBuyerAuctionDetailAPI(requireContext(), requireActivity(), this@BuyerDashboardFragment)
+                FetchBuyerAuctionDetailAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
             }
             val buyerPreviousAuctionJOB = lifecycleScope.async {
-//        FetchBuyerPreviousAuctionAPI(requireContext(), this@BuyerDashboardFragment, PREV_AUCTION_SELECTED_DATE)
+                FetchBuyerPreviousAuctionAPI(
+                    requireContext(),
+                    this@BuyerDashboardFragment,
+                    PREV_AUCTION_SELECTED_DATE
+                )
             }
 
-            lifecycleScope.launch(Dispatchers.IO){
+            lifecycleScope.launch(Dispatchers.IO) {
                 approvedListJOB.await()
                 cityMasterJOB.await()
                 transportationMasterJOB.await()
                 commodityMasterJOB.await()
                 buyerAuctionFetchJOB.await()
+                buyerPreviousAuctionJOB.await()
             }
 
-        }else
-        {
+        } else {
             commonUIUtility.showToast(getString(R.string.no_internet_connection))
         }
 
@@ -204,7 +207,10 @@ class BuyerDashboardFragment : Fragment() {
         try {
             Log.d(TAG, "bindBuyerAllocatedData: ALLOCATED_TOTAL_COST : ${buyerData.TotalCost}")
             Log.d(TAG, "bindBuyerAllocatedData: ALLOCATED_COMMODITY_BHARTI : ${COMMODITY_BHARTI}")
-            if (buyerData.TotalCost.isNotEmpty() && COMMODITY_BHARTI.isNotEmpty() && !COMMODITY_BHARTI.contains("invalid")) {
+            if (buyerData.TotalCost.isNotEmpty() && COMMODITY_BHARTI.isNotEmpty() && !COMMODITY_BHARTI.contains(
+                    "invalid"
+                )
+            ) {
                 binding.tvAllocatedBagsNewBuyerDashboardFragment.setText(
                     "%s %s".format(
                         requireContext().getString(
@@ -329,31 +335,35 @@ class BuyerDashboardFragment : Fragment() {
             Log.d(TAG, "calculateExpenses: TOTAL_EXPENSE_PCA : $TOTAL_pcaExpense")
             Log.d(TAG, "calculateExpenses: TOTAL_PCA_BASIC   : $TOTAL_pcaBasic")
 
-            binding.tvPurchasedBagsNewBuyerDashboardFragment.setText(
-                "%s %s".format(
-                    requireContext().getString(
-                        R.string.bags_lbl
-                    ), TOTAL_AuctionBags.toString()
-                )
-            )
+            if (dataList.TotalCost.isNotEmpty() && !COMMODITY_BHARTI.contains("invalid") && COMMODITY_BHARTI.isNotEmpty()) {
 
-            val PCATotalAmountNF =
-                NumberFormat.getCurrencyInstance().format(TOTAL_AuctionCost).substring(1)
-            binding.tvPurchasedTotalCostNewBuyerDashboardFragment.setText(
-                "%s %s".format(
-                    requireContext().getString(R.string.cost_lbl),
-                    PCATotalAmountNF
+                binding.tvPurchasedBagsNewBuyerDashboardFragment.setText(
+                    "%s %s".format(
+                        requireContext().getString(
+                            R.string.bags_lbl
+                        ), TOTAL_AuctionBags.toString()
+                    )
                 )
-            )
-            var rate =
-                TOTAL_AuctionCost / ((TOTAL_AuctionBags * COMMODITY_BHARTI.toDouble()) / 20.0)
-            val RateNF = NumberFormat.getCurrencyInstance().format(rate).substring(1)
-            binding.tvPurchasedAvgRateNewBuyerDashboardFragment.setText(
-                "%s %s".format(
-                    requireContext().getString(R.string.rate_lbl),
-                    RateNF
+
+                val PCATotalAmountNF =
+                    NumberFormat.getCurrencyInstance().format(TOTAL_AuctionCost).substring(1)
+                binding.tvPurchasedTotalCostNewBuyerDashboardFragment.setText(
+                    "%s %s".format(
+                        requireContext().getString(R.string.cost_lbl),
+                        PCATotalAmountNF
+                    )
                 )
-            )
+                var rate =
+                    TOTAL_AuctionCost / ((TOTAL_AuctionBags * COMMODITY_BHARTI.toDouble()) / 20.0)
+                val RateNF = NumberFormat.getCurrencyInstance().format(rate).substring(1)
+                binding.tvPurchasedAvgRateNewBuyerDashboardFragment.setText(
+                    "%s %s".format(
+                        requireContext().getString(R.string.rate_lbl),
+                        RateNF
+                    )
+                )
+
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -363,7 +373,7 @@ class BuyerDashboardFragment : Fragment() {
 
     private fun showDatePickerDialog() {
         val calendarConstraints = CalendarConstraints.Builder()
-            .setValidator(DateValidatorPointBackward.before(System.currentTimeMillis() + Constants.OneDayInMillies))
+            .setValidator(DateValidatorPointBackward.before(System.currentTimeMillis() - Constants.OneDayInMillies))
             .build()
         val builder =
             MaterialDatePicker.Builder.datePicker().setCalendarConstraints(calendarConstraints)
@@ -425,10 +435,10 @@ class BuyerDashboardFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         if (!isWebSocketConnected) {
             Log.d(TAG, "onResume: WEB_SOCKET_CONNECT onResume")
-            if (ConnectionCheck.isConnected(requireContext())){
+            if (ConnectionCheck.isConnected(requireContext())) {
                 webSocketClient.connect()
                 isWebSocketConnected = true
-            }else{
+            } else {
                 commonUIUtility.showToast(getString(R.string.no_internet_connection))
             }
         }
@@ -438,10 +448,10 @@ class BuyerDashboardFragment : Fragment() {
         super.onStart()
         if (!isWebSocketConnected) {
             Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
-            if (ConnectionCheck.isConnected(requireContext())){
+            if (ConnectionCheck.isConnected(requireContext())) {
                 webSocketClient.connect()
                 isWebSocketConnected = true
-            }else{
+            } else {
                 commonUIUtility.showToast(getString(R.string.no_internet_connection))
             }
         }
