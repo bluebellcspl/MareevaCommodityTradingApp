@@ -11,108 +11,113 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_BuyerExpenseDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/_8sdp"
-            app:cardUseCompatPadding="true"
             app:cardElevation="@dimen/_5sdp"
-            android:id="@+id/cv_BuyerExpenseDialog">
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/_10sdp">
+
                 <TextView
+                    android:id="@+id/tvlabelHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp"
-                    android:id="@+id/tvlabelHeader"
-                    android:gravity="center"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
+
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/ll_PCAName_BuyerExpenseDialog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/_5sdp">
+                    android:padding="@dimen/_5sdp"
+                    android:visibility="gone">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:text="@string/pca_name"
-                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/black"
-                        android:layout_weight="1" />
+                        android:textSize="@dimen/_15ssp" />
 
                     <TextView
                         android:id="@+id/tv_PCAName_BuyerExpenseDialog"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text=""
+                        android:layout_weight="1"
                         android:gravity="center_vertical|end"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_15ssp"
+                        android:text=""
                         android:textColor="@color/black"
-                        android:layout_weight="1" />
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/ll_Bags_BuyerExpenseDialog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/_5sdp">
+                    android:padding="@dimen/_5sdp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:text="@string/bags"
-                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/black"
-                        android:layout_weight="1" />
+                        android:textSize="@dimen/_15ssp" />
 
                     <TextView
                         android:id="@+id/tv_Bags_BuyerExpenseDialog"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text=""
+                        android:layout_weight="1"
                         android:gravity="center_vertical|end"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_15ssp"
+                        android:text=""
                         android:textColor="@color/black"
-                        android:layout_weight="1" />
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/ll_TotalBags_BuyerExpenseDialog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/_5sdp">
+                    android:padding="@dimen/_5sdp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:text="@string/total_bags"
-                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/black"
-                        android:layout_weight="1" />
+                        android:textSize="@dimen/_15ssp" />
 
                     <TextView
                         android:id="@+id/tv_TotalBags_BuyerExpenseDialog"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text=""
+                        android:layout_weight="1"
                         android:gravity="center_vertical|end"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_15ssp"
+                        android:text=""
                         android:textColor="@color/black"
-                        android:layout_weight="1" />
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -122,21 +127,21 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:text="@string/basic_amount"
-                        android:textSize="@dimen/_15ssp"
                         android:textColor="@color/black"
-                        android:layout_weight="1" />
+                        android:textSize="@dimen/_15ssp" />
 
                     <TextView
                         android:id="@+id/tv_TotalBasicAmount_BuyerExpenseDialog"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text=""
+                        android:layout_weight="1"
                         android:gravity="center_vertical|end"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_15ssp"
+                        android:text=""
                         android:textColor="@color/black"
-                        android:layout_weight="1" />
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -149,29 +154,30 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.5"
                         android:text="@string/expenses"
-                        android:textSize="@dimen/_14ssp"
                         android:textColor="@color/black"
-                        android:layout_weight="0.5" />
+                        android:textSize="@dimen/_14ssp" />
 
                     <TextView
                         android:id="@+id/tv_TotalExpense_BuyerExpenseDialog"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text=""
+                        android:layout_weight="0.5"
                         android:gravity="center_vertical|end"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_15ssp"
+                        android:text=""
                         android:textColor="@color/black"
-                        android:layout_weight="0.5" />
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_ExpandableExpenses_BuyerExpenseDialog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:id="@+id/ll_ExpandableExpenses_BuyerExpenseDialog"
                     android:visibility="gone">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -181,21 +187,21 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="0.5"
                             android:text="@string/gca_commission_rupee"
-                            android:textSize="@dimen/_14ssp"
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_14ssp" />
 
                         <TextView
                             android:id="@+id/tv_TotalGCACommission_BuyerExpenseDialog"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text=""
+                            android:layout_weight="0.5"
                             android:gravity="center_vertical|end"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_15ssp"
+                            android:text=""
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -207,21 +213,21 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="0.5"
                             android:text="@string/pca_commission_rupee"
-                            android:textSize="@dimen/_14ssp"
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_14ssp" />
 
                         <TextView
                             android:id="@+id/tv_TotalPCACommission_BuyerExpenseDialog"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text=""
+                            android:layout_weight="0.5"
                             android:gravity="center_vertical|end"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_15ssp"
+                            android:text=""
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -233,21 +239,21 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="0.5"
                             android:text="@string/market_cess_rupee"
-                            android:textSize="@dimen/_14ssp"
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_14ssp" />
 
                         <TextView
                             android:id="@+id/tv_TotalMarketCess_BuyerExpenseDialog"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text=""
+                            android:layout_weight="0.5"
                             android:gravity="center_vertical|end"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_15ssp"
+                            android:text=""
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -259,21 +265,21 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="0.5"
                             android:text="@string/transportation_charge_rupee"
-                            android:textSize="@dimen/_14ssp"
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_14ssp" />
 
                         <TextView
                             android:id="@+id/tv_TotalTransportCharge_BuyerExpenseDialog"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text=""
+                            android:layout_weight="0.5"
                             android:gravity="center_vertical|end"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_15ssp"
+                            android:text=""
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -285,21 +291,21 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="0.5"
                             android:text="@string/labour_charge_rupee"
-                            android:textSize="@dimen/_14ssp"
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_14ssp" />
 
                         <TextView
                             android:id="@+id/tv_TotalLabourCharge_BuyerExpenseDialog"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text=""
+                            android:layout_weight="0.5"
                             android:gravity="center_vertical|end"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_15ssp"
+                            android:text=""
                             android:textColor="@color/black"
-                            android:layout_weight="0.5" />
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
