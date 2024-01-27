@@ -115,8 +115,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
 
             binding.edtBuyerBasicAmountLiveAuctionFragment.setText(dataList.Basic)
             val BuyerTotalAmountNF =
-                NumberFormat.getCurrencyInstance().format(dataList.TotalCost.toDouble())
-                    .substring(1)
+                NumberFormat.getCurrencyInstance().format(dataList.TotalCost.toDouble()).substring(1)
             binding.edtBuyerTotalAmountLiveAuctionFragment.setText(BuyerTotalAmountNF)
             var totalBuyerExpense =
                 dataList.TotalGCAComm.toDouble() + dataList.TotalPCAComm.toDouble() + dataList.TotalMarketCess.toDouble() + dataList.TotalLabourCharge.toDouble() + dataList.TotalTransportationCharge.toDouble()
@@ -406,21 +405,21 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 TOTAL_AuctionCost += CURRENT_TOTAL_COST
                 TOTAL_pcaExpense += CURRENT_pcaExpense
             }
-            val pcaBasicNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaBasic)
+            val pcaBasicNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaBasic).substring(1)
             dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(pcaBasicNF)
             val totalExpense = TOTAL_pcaCommCharge+TOTAL_gcaCommCharge+TOTAL_pcaMarketCess+TOTAL_pcaTransportationCharge+TOTAL_pcaLabourCharge
-            val ExpensesNF = NumberFormat.getCurrencyInstance().format(totalExpense)
+            val ExpensesNF = NumberFormat.getCurrencyInstance().format(totalExpense).substring(1)
             dialogBinding.tvTotalExpenseBuyerExpenseDialog.setText(ExpensesNF)
-            val pcaLabourChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaLabourCharge)
+            val pcaLabourChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaLabourCharge).substring(1)
             dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(pcaLabourChargeNF)
-            val gcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_gcaCommCharge)
+            val gcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_gcaCommCharge).substring(1)
             dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(gcaCommChargeNF)
-            val pcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaCommCharge)
+            val pcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaCommCharge).substring(1)
             dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommChargeNF)
             val pcaTransportChargeNF =
-                NumberFormat.getCurrencyInstance().format(TOTAL_pcaTransportationCharge)
+                NumberFormat.getCurrencyInstance().format(TOTAL_pcaTransportationCharge).substring(1)
             dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(pcaTransportChargeNF)
-            val pcaMarketCessNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaMarketCess)
+            val pcaMarketCessNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaMarketCess).substring(1)
             dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(pcaMarketCessNF)
 
         } catch (e: Exception) {
@@ -552,21 +551,21 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 TOTAL_AuctionCost += CURRENT_TOTAL_COST
                 TOTAL_pcaExpense += CURRENT_pcaExpense
 //            }
-            val pcaBasicNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaBasic)
+            val pcaBasicNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaBasic).substring(1)
             dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(pcaBasicNF)
             val totalExpense = TOTAL_pcaCommCharge+TOTAL_gcaCommCharge+TOTAL_pcaMarketCess+TOTAL_pcaTransportationCharge+TOTAL_pcaLabourCharge
-            val ExpensesNF = NumberFormat.getCurrencyInstance().format(totalExpense)
+            val ExpensesNF = NumberFormat.getCurrencyInstance().format(totalExpense).substring(1)
             dialogBinding.tvTotalExpenseBuyerExpenseDialog.setText(ExpensesNF)
-            val pcaLabourChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaLabourCharge)
+            val pcaLabourChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaLabourCharge).substring(1)
             dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(pcaLabourChargeNF)
-            val gcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_gcaCommCharge)
+            val gcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_gcaCommCharge).substring(1)
             dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(gcaCommChargeNF)
-            val pcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaCommCharge)
+            val pcaCommChargeNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaCommCharge).substring(1)
             dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(pcaCommChargeNF)
             val pcaTransportChargeNF =
-                NumberFormat.getCurrencyInstance().format(TOTAL_pcaTransportationCharge)
+                NumberFormat.getCurrencyInstance().format(TOTAL_pcaTransportationCharge).substring(1)
             dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(pcaTransportChargeNF)
-            val pcaMarketCessNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaMarketCess)
+            val pcaMarketCessNF = NumberFormat.getCurrencyInstance().format(TOTAL_pcaMarketCess).substring(1)
             dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(pcaMarketCessNF)
 
         } catch (e: Exception) {

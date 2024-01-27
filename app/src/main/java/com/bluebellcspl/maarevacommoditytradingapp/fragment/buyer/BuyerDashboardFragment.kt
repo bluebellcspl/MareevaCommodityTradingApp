@@ -405,6 +405,7 @@ class BuyerDashboardFragment : Fragment() {
 
     fun bindPreviousAuctionData(modelData: BuyerPrevAuctionMasterModel) {
         try {
+            PREV_AUCTION_SELECTED_DATE = modelData.Date
             binding.tvPreviousAuctionDateNewBuyerDashboardFragment.setText(
                 "%s %s".format(
                     resources.getString(
