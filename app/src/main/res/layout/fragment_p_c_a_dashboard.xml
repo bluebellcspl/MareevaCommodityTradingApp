@@ -286,8 +286,6 @@
                     app:cardBackgroundColor="@color/newDSCardColor"
                     app:cardCornerRadius="@dimen/_8sdp"
                     app:cardElevation="@dimen/_5sdp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:clickable="true"
                     app:cardUseCompatPadding="true">
 
                     <RelativeLayout
@@ -346,15 +344,17 @@
                         </LinearLayout>
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/btnDatePicker_New_PCADashboardFragment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:contentDescription="Add PCA"
                             app:fabCustomSize="@dimen/_30sdp"
                             app:rippleColor="@color/colorSecondary"
-                            app:srcCompat="@drawable/baseline_file_download_24"
-                            app:tint="@color/black" />
+                            app:srcCompat="@drawable/baseline_calendar_today_24"
+                            app:tint="@color/newPCACardColor" />
 
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>

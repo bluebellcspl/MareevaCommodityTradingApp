@@ -9,6 +9,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAPrevAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.RoleMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.StateMasterModel
@@ -157,4 +158,9 @@ interface OurRetrofit {
 //    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionDelete")
     @POST("/MaarevaApi/MaarevaApi/BuyerDashPreAuctionGet")
     suspend fun getBuyerPreviousAuction(@Body body: JsonObject): Response<BuyerPrevAuctionMasterModel>
+    @Headers("Content-Type:application/json")
+//    @POST("/MaarevaApi/MaarevaApi/MaarevaApi/PCAAuctionDelete")
+    @POST("/MaarevaApi/MaarevaApi/PCADashPreAuctionGet")
+    suspend fun getPCAPreviousAuction(@Body body: JsonObject): Response<PCAPrevAuctionMasterModel>
+
 }

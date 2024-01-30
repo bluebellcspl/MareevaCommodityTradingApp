@@ -12,5 +12,9 @@ class URLHelper {
         val BUYER_AUCTION_REPORT = "https://maareva.bbcspldev.in/Report/BuyerDashPCAHeaderExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&BuyerRegId=<BUYER_REG_ID>"
 
         val LIVE_AUCTION_SOCKET_URL = "ws://maarevaapi.bbcspldev.in/MaarevaApi/MaarevaApi/BuyersLiveAuctionRtr?CommodityId=<COMMODITY_ID>&Date=<DATE>&CompanyCode=<COMPANY_CODE>&BuyerRegId=<BUYER_REG_ID>"
+
+        val PCA_AUCTION_REPORT = "https://maareva.bbcspldev.in/Report/PCADashPCAHeaderExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
+
+        val PCA_AUCTION_DETAIL_REPORT = "https://maareva.bbcspldev.in/Report/PCADashPCADetailsExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
     }
 }
