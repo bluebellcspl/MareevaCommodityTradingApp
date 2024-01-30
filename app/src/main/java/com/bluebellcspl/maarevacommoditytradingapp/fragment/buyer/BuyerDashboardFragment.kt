@@ -403,33 +403,34 @@ class BuyerDashboardFragment : Fragment() {
     }
 
 
-//    override fun onResume() {
-//        super.onResume()
-//        (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-//        if (!isWebSocketConnected) {
-//            Log.d(TAG, "onResume: WEB_SOCKET_CONNECT onResume")
-//            if (ConnectionCheck.isConnected(requireContext())) {
-//                webSocketClient.connect()
-//                isWebSocketConnected = true
-//            } else {
-//                commonUIUtility.showToast(getString(R.string.no_internet_connection))
-//            }
-//        }
-//    }
+    override fun onResume() {
+        super.onResume()
+
+        if (!isWebSocketConnected && !isConnectingWebSocket) {
+            Log.d(TAG, "onResume: WEB_SOCKET_CONNECT onResume")
+
+            // Set the flag to indicate that a connection attempt is in progress
+            isConnectingWebSocket = true
+
+            // Delay WebSocket connection by 3 seconds
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (ConnectionCheck.isConnected(requireContext())) {
+                    webSocketClient.connect()
+                    isWebSocketConnected = true
+                } else {
+                    commonUIUtility.showToast(getString(R.string.no_internet_connection))
+                }
+
+                // Reset the flag after the connection attempt
+                isConnectingWebSocket = false
+            }, 3000) // 3000 milliseconds = 3 seconds
+        }
+    }
 
     override fun onStart() {
         super.onStart()
-//        if (!isWebSocketConnected) {
-//            Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
-//            if (ConnectionCheck.isConnected(requireContext())) {
-//                webSocketClient.connect()
-//                isWebSocketConnected = true
-//            } else {
-//                commonUIUtility.showToast(getString(R.string.no_internet_connection))
-//            }
-//        }
 
-        commonUIUtility.dismissProgress()
+//        commonUIUtility.dismissProgress()
         if (!isWebSocketConnected && !isConnectingWebSocket) {
             Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
 
@@ -447,7 +448,7 @@ class BuyerDashboardFragment : Fragment() {
 
                 // Reset the flag after the connection attempt
                 isConnectingWebSocket = false
-            }, 5000) // 3000 milliseconds = 3 seconds
+            }, 3000) // 3000 milliseconds = 3 seconds
         }
     }
 

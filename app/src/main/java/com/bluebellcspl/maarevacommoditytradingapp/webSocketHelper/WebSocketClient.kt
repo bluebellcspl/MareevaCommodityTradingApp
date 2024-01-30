@@ -1,12 +1,9 @@
 package com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.LiveAuctionFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionMasterModel
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -33,27 +30,29 @@ class WebSocketClient(
     private val TAG = "WebSocketClient"
     fun connect() {
         try {
-            lifeCycleOwner.lifecycleScope.launch(Dispatchers.IO){
+
                 Log.d(TAG, "connect: SOCKET_URL : $serverUrl")
                 val request = Request.Builder()
                     .url(serverUrl)
                     .build()
 
-                val webSocketListerner = object : WebSocketListener() {
+                val client = createOkHttpClient()
 
+            lifeCycleOwner.lifecycleScope.launch(Dispatchers.IO){
+                webSocket = client.newWebSocket(request, object : WebSocketListener() {
                     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
                         this@WebSocketClient.webSocket = null
                         Log.d(TAG, "onClosed: SOCKET_CLOSED")
                     }
 
                     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+                        this@WebSocketClient.webSocket = null
                         t.printStackTrace()
                         Log.e(TAG, "onFailure: ${t.message}")
                         Log.e(TAG, "onFailure: FAILED_RESPONSE $response")
                     }
 
                     override fun onMessage(webSocket: WebSocket, text: String) {
-//                Log.d(TAG, "onMessage: SOCKET_RECEIVED_MSG : $text")
                         //FOR RECYCLERVIEW
                         val gson = Gson()
                         val jsonObject: JsonObject = JsonParser().parse(text).asJsonObject
@@ -61,54 +60,55 @@ class WebSocketClient(
                         val userListType = object : TypeToken<LiveAuctionMasterModel>() {}.type
                         var liveAuctionObject: LiveAuctionMasterModel =
                             gson.fromJson(jsonObject.toString(), userListType)
-
                         lifeCycleOwner.lifecycleScope.launch(Dispatchers.Main) {
                             onMessageReceived(liveAuctionObject)
                         }
-
                     }
 
                     override fun onOpen(webSocket: WebSocket, response: Response) {
                         this@WebSocketClient.webSocket = webSocket
                         Log.d(TAG, "onOpen: SOCKET_CONNECTED")
                     }
-
-                }
-
-                val loggingInterceptor = HttpLoggingInterceptor()
-                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-
-                val client = OkHttpClient.Builder()
-                    .connectTimeout(180, TimeUnit.SECONDS)
-                    .readTimeout(180, TimeUnit.SECONDS)
-                    .writeTimeout(180, TimeUnit.SECONDS)
-                    .pingInterval(10, TimeUnit.SECONDS)
-                    .addInterceptor(loggingInterceptor)
-                    .build()
-                webSocket = client.newWebSocket(request, webSocketListerner)
+                })
             }
 
         } catch (se:SocketTimeoutException) {
             se.printStackTrace()
-            Log.e(TAG, "connect: ${se.message}", )
+            Log.e(TAG, "SOCKET_TIMEOUT_EXCEPTION : ${se.message}", )
             disconnect()
         }
         catch (e:Exception)
         {
             disconnect()
             e.printStackTrace()
-            Log.d(TAG, "connect: ${e.message}")
+            Log.e(TAG, "SOCKET_CONNECTION_ERROR : ${e.message}")
+        }
+        finally {
+            Log.e(TAG, "FINALLY_BLOCK : ", )
         }
     }
     fun disconnect() {
         try {
-//            webSocket?.close(1001, "User disconnected")
             Log.d(TAG, "disconnect: SOCKET_DISCONNECTED")
-            webSocket?.cancel()
+//            webSocket?.cancel()
+            webSocket?.close(1000,"Disconnect Socket")
         }catch (e:Exception)
         {
             e.printStackTrace()
             Log.e(TAG, "disconnect: ${e.message}", )
         }
+    }
+
+    private fun createOkHttpClient(): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+
+        return OkHttpClient.Builder()
+            .connectTimeout(5, TimeUnit.MINUTES)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .pingInterval(5, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .build()
     }
 }

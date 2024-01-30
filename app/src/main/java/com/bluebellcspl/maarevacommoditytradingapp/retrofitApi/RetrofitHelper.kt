@@ -9,8 +9,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitHelper {
-//    val BASE_URL = "http://192.168.29.151:8092/"
-//    val BASE_URL = "http://maareva.bbcspldev.in/"
+
     val BASE_URL = "https://maarevaapi.bbcspldev.in/"
     val IMG_BASE_URL = "https://maareva.bbcspldev.in/UploadImages/"
     fun getInstance(): Retrofit {
