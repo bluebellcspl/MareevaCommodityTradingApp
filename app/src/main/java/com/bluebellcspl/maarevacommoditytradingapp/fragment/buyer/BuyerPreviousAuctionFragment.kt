@@ -99,7 +99,7 @@ class BuyerPreviousAuctionFragment : Fragment() {
             val fileURL = URLHelper.BUYER_AUCTION_REPORT.replace("<COMMODITY_ID>",PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()).replace("<DATE>",
                 PREV_AUCTION_SELECTED_DATE).replace("<COMPANY_CODE>",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()).replace("<BUYER_REG_ID>",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
 
-            fileDownloader.downloadFile(fileURL,"Auction_Report_$PREV_AUCTION_SELECTED_DATE.xlsx")
+            fileDownloader.downloadFile(fileURL,"Buyer_Auction_Report_$PREV_AUCTION_SELECTED_DATE.xlsx")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "downloadAuctionReport: ${e.message}")
@@ -112,7 +112,7 @@ class BuyerPreviousAuctionFragment : Fragment() {
             val fileUrl = URLHelper.BUYER_AUCTION_DETAIL_REPORT.replace("<COMMODITY_ID>",PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()).replace("<DATE>",
                 PREV_AUCTION_SELECTED_DATE).replace("<COMPANY_CODE>",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()).replace("<BUYER_REG_ID>",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
 
-            fileDownloader.downloadFile(fileUrl,"Auction_Detail_Report_$PREV_AUCTION_SELECTED_DATE.xlsx")
+            fileDownloader.downloadFile(fileUrl,"Buyer_Auction_Detail_Report_$PREV_AUCTION_SELECTED_DATE.xlsx")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "downloadAuctionDetailReport: ${e.message}")

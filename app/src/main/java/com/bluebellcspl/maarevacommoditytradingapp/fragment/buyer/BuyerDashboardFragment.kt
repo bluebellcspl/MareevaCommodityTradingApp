@@ -19,7 +19,6 @@ import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
@@ -45,10 +44,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.WebSocketClie
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 
@@ -93,36 +88,6 @@ class BuyerDashboardFragment : Fragment() {
             FetchCommodityMasterAPI(requireContext(), requireActivity())
             FetchBuyerAuctionDetailAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
             FetchBuyerPreviousAuctionAPI(requireContext(),this@BuyerDashboardFragment,PREV_AUCTION_SELECTED_DATE)
-//            val approvedListJOB = lifecycleScope.async {
-//
-//            }
-//            val cityMasterJOB = lifecycleScope.async {
-//
-//
-//            }
-//            val transportationMasterJOB = lifecycleScope.async {
-//
-//            }
-//            val commodityMasterJOB = lifecycleScope.async {
-//
-//
-//            }
-//            val buyerAuctionFetchJOB = lifecycleScope.async {
-//
-//
-//            }
-//            val buyerPreviousAuctionJOB = lifecycleScope.async {
-//
-//            }
-//
-//            lifecycleScope.launch(Dispatchers.IO) {
-//                approvedListJOB.await()
-//                cityMasterJOB.await()
-//                transportationMasterJOB.await()
-//                commodityMasterJOB.await()
-//                buyerAuctionFetchJOB.await()
-//                buyerPreviousAuctionJOB.await()
-//            }
 
         } else {
             commonUIUtility.showToast(getString(R.string.no_internet_connection))
