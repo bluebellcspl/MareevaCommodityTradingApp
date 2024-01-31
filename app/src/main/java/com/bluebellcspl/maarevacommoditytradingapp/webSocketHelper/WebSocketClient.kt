@@ -83,9 +83,7 @@ class WebSocketClient(
             e.printStackTrace()
             Log.e(TAG, "SOCKET_CONNECTION_ERROR : ${e.message}")
         }
-        finally {
-            Log.e(TAG, "FINALLY_BLOCK : ", )
-        }
+
     }
     fun disconnect() {
         try {
