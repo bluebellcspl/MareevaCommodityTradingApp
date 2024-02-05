@@ -17,5 +17,6 @@ class Constants {
         val TBL_PCAMaster = "PCAMaster"
         val TBL_CityMaster = "CityMaster"
         val TBL_TransportationMaster = "TransportationMaster"
+        val TBL_NotificationMaster = "NotificationMaster"
     }
 }

@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/btn_Profile" android:title="@string/profile" android:icon="@drawable/baseline_person_24" app:showAsAction="always"/>
+    <item
+        android:id="@+id/nav_Notification"
+        android:icon="@drawable/toolbar_notification_icon"
+        android:title="@string/notifications"
+        app:showAsAction="ifRoom"
+        android:actionLayout="@layout/notification_badge"
+        />
+    <item
+        android:id="@+id/btn_Profile"
+        android:icon="@drawable/baseline_person_24"
+        android:title="@string/profile"
+        app:showAsAction="always" />
 </menu>

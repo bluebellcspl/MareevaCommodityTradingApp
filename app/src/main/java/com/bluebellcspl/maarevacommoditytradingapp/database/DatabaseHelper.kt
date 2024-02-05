@@ -17,6 +17,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "MAAREVA.db",
         db?.execSQL("CREATE table PCAMaster (PCAId TEXT,StateId TEXT,StateName TEXT,DistrictId TEXT,DistrictName TEXT,APMCId TEXT,APMCName TEXT,CityId TEXT,CityName TEXT,CommodityId TEXT,CommodityName TEXT,PCAName TEXT,PCARegId TEXT,PCAPhoneNumber TEXT,Mobile2 TEXT,Address TEXT,EmailId TEXT,BuyerId TEXT,RoleId TEXT,RoleName TEXT,AdharNo TEXT,PanCardNo TEXT,GSTNo TEXT,AdharPhoto TEXT,PanCardPhoto TEXT,GSTCertiPhoto TEXT,LicenseCopyPhoto TEXT,ProfilePic TEXT,ApprStatus TEXT,GCACommission TEXT,PCACommission TEXT,MarketCess TEXT,LabourCharges TEXT,IsActive TEXT,CompanyCode TEXT,CreateUser TEXT,CreateDate TEXT,UpdateUser TEXT,UpdateDate TEXT)")
         db?.execSQL("CREATE table CityMaster (CityId TEXT,CityName TEXT,StateId TEXT,StateName TEXT,DistrictId TEXT,DistrictName TEXT,CompanyCode TEXT,IsActive TEXT,CreateUser TEXT,CreateDate TEXT,UpdateUser TEXT,UpdateDate TEXT)")
         db?.execSQL("CREATE table TransportationMaster (TransportId TEXT,City1 TEXT,CityName TEXT,City2 TEXT,CityName2 TEXT,PerBoriRate TEXT,CompanyCode TEXT,IsActive TEXT,CreateUser TEXT,Cdate TEXT)")
+        db?.execSQL("CREATE table NotificationMaster (NotificationId TEXT primary key,ShortMsg TEXT,FullMsg TEXT,FromRoleId TEXT,RoleName TEXT,ToRoleId TEXT,ToUserId TEXT,Name TEXT,Link TEXT,ISRead TEXT,ISSeen TEXT,CreateUser TEXT,Cdate TEXT)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

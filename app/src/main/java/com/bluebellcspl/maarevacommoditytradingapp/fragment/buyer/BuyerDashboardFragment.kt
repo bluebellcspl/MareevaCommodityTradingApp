@@ -13,6 +13,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -35,6 +36,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetai
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerPreviousAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchNotificationAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchTransportationMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerPrevAuctionMasterModel
@@ -43,6 +45,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.SocketHandler
 import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.WebSocketClient
+import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -58,7 +61,7 @@ import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import java.util.Locale
 
-
+@OptIn(ExperimentalBadgeUtils::class)
 class BuyerDashboardFragment : Fragment() {
     private var isConnectingWebSocket = false
     lateinit var binding: FragmentBuyerDashboardBinding
@@ -76,6 +79,8 @@ class BuyerDashboardFragment : Fragment() {
     var commodityId = ""
     var companyCode = ""
     var buyerRegId = ""
+    var NOTIFICATION_COUNT = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -104,7 +109,7 @@ class BuyerDashboardFragment : Fragment() {
             FetchCommodityMasterAPI(requireContext(), requireActivity())
             FetchBuyerAuctionDetailAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
             FetchBuyerPreviousAuctionAPI(requireContext(),this@BuyerDashboardFragment,PREV_AUCTION_SELECTED_DATE)
-
+            FetchNotificationAPI(requireContext(),this@BuyerDashboardFragment)
         } else {
             commonUIUtility.showToast(getString(R.string.no_internet_connection))
         }
@@ -118,15 +123,35 @@ class BuyerDashboardFragment : Fragment() {
 //        )
 
         menuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider {
+        menuHost.addMenuProvider(@ExperimentalBadgeUtils object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.ds_menu, menu)
+
+                val notificationMenuItem = menu.findItem(R.id.nav_Notification)
+//                val chatMenuItem = menu.findItem()
+                if (NOTIFICATION_COUNT>1)
+                {
+                    notificationMenuItem.setActionView(R.layout.notification_badge)
+                    val view = notificationMenuItem.actionView
+                    val badgeCounter = view?.findViewById<TextView>(R.id.tv_Notification_Badge)
+                    badgeCounter?.setText(NOTIFICATION_COUNT.toString())
+                    notificationMenuItem.actionView?.setOnClickListener {
+                        navController.navigate(BuyerDashboardFragmentDirections.actionBuyerDashboardFragmentToNotificationFragment())
+                    }
+                }else
+                {
+                    notificationMenuItem.setActionView(null)
+                }
+
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.btn_Profile -> {
                         navController.navigate(BuyerDashboardFragmentDirections.actionBuyerDashboardFragmentToProfileOptionFragment())
+                    }
+                    R.id.nav_Notification->{
+                        navController.navigate(BuyerDashboardFragmentDirections.actionBuyerDashboardFragmentToNotificationFragment())
                     }
                 }
                 return true
@@ -554,6 +579,17 @@ class BuyerDashboardFragment : Fragment() {
         {
             e.printStackTrace()
             Log.e(TAG, "disconnect: ${e.message}", )
+        }
+    }
+
+    fun updateNotificationCount(){
+        try {
+            NOTIFICATION_COUNT = DatabaseManager.ExecuteScalar(Query.getUnseenNotification())!!.toInt()
+            menuHost.invalidateMenu()
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "updateNotificationCount: ${e.message}")
         }
     }
 }

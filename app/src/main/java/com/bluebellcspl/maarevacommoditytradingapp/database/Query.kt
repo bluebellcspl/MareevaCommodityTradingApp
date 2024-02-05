@@ -136,6 +136,24 @@ class Query {
             return qry
         }
 
+        fun getUnseenNotification():String{
+            qry = "SELECT COUNT(ISSeen) FROM NotificationMaster WHERE ISSeen='false'"
+            Log.d(TAG, "getUnseenNotification: $qry")
+            return qry
+        }
+
+        fun updateNotificationSeenStatus():String{
+            qry = "UPDATE NotificationMaster SET ISSeen='true'"
+            Log.d(TAG, "updateNotificationSeenStatus: $qry")
+            return qry
+        }
+
+        fun getAllNotification():String{
+            qry = "SELECT * FROM NotificationMaster"
+            Log.d(TAG, "getAllNotification: $qry")
+            return qry
+        }
+
 
     }
 

@@ -202,6 +202,9 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_buyerDashboardFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/PCADashboardFragment"
@@ -249,4 +252,9 @@
             android:name="selectPreviousAuctionDate"
             app:argType="string" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_notification"
+        android:id="@+id/notificationFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.NotificationFragment"
+        android:label="@string/notifications" />
 </navigation>
