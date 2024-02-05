@@ -141,4 +141,12 @@ interface OurRetrofit {
     @POST("/MaarevaApi/MaarevaApi/NotificationListGet")
     suspend fun getNotification(@Body body: JsonObject): Response<NotificationRTRMasterModel>
 
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/ChangeAgreementStatus")
+    suspend fun POSTChangeAgreementStatus(@Body body: JsonObject): Response<String>
+
+    @Headers("Content-Type:application/json")
+    @POST("/MaarevaApi/MaarevaApi/Logout")
+    suspend fun Logout(@Body body: JsonObject): Response<String>
+
 }

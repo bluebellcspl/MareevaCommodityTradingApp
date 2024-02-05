@@ -62,6 +62,7 @@ class LoginCheckAPI(
                             commonUIUtility.showToast(context.getString(R.string.invalid_credentials_or_otp_alert_msg))
                         }
                     }else{
+                        val isAgreementRead = resultJO.get("IsAgreementRead").asString
                         PrefUtil.setString(PrefUtil.KEY_REGISTER_ID,resultJO.get("RegisterId").asString)
                         PrefUtil.setString(PrefUtil.KEY_NAME,resultJO.get("Name").asString)
                         PrefUtil.setString(PrefUtil.KEY_LOCATION,resultJO.get("Location").asString)
@@ -81,15 +82,25 @@ class LoginCheckAPI(
 
                         if (activity is LoginActivity)
                         {
-                            val loginBinding = (activity as LoginActivity).binding
-                            if (loginBinding.mchbRememberLogin.isChecked)
-                                {
-                                PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,true)
-                            }
 
-                            withContext(Main){
-                                commonUIUtility.dismissProgress()
-                                (activity as LoginActivity).redirectToHome()
+                            val loginBinding = (activity as LoginActivity).binding
+                            if (isAgreementRead.equals("true",true))
+                            {
+                                if (loginBinding.mchbRememberLogin.isChecked)
+                                {
+                                    PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,true)
+                                }
+
+                                withContext(Main){
+                                    commonUIUtility.dismissProgress()
+                                    (activity as LoginActivity).redirectToHome()
+                                }
+                            }else
+                            {
+                                withContext(Dispatchers.Main){
+                                    commonUIUtility.dismissProgress()
+                                    (activity as LoginActivity).showPCATermsAndConditionDialog()
+                                }
                             }
 
                         }
