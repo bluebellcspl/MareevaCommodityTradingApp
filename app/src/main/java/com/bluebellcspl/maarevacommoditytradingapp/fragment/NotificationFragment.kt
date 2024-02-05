@@ -59,9 +59,8 @@ class NotificationFragment : Fragment() {
                             cursor.getString(cursor.getColumnIndexOrThrow("ToUserId"))
                         )
                     )
-                    Log.d(TAG, "getNotificationFromDB: NOTIFICATION_LIST_SIZE : ${dataList.size}")
-
                 }
+                Log.d(TAG, "getNotificationFromDB: NOTIFICATION_LIST_SIZE : ${dataList.size}")
             }
         } catch (e: Exception) {
             dataList.clear()

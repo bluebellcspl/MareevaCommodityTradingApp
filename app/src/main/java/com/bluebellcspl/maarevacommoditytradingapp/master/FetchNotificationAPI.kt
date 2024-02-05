@@ -9,6 +9,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragment
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.JsonObject
@@ -32,7 +33,7 @@ class FetchNotificationAPI(var context:Context,var fragment:Fragment) {
         try {
             commonUIUtility.showProgress()
             var typeOfUser = ""
-            if (PrefUtil.getString(PrefUtil.KEY_TYPE_OF_USER,"").toString().equals("PCA",true))
+            if (PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString().equals("PCA",true))
             {
                 typeOfUser = "3"
             }else
@@ -76,6 +77,12 @@ class FetchNotificationAPI(var context:Context,var fragment:Fragment) {
                         {
                             commonUIUtility.dismissProgress()
                             (fragment as BuyerDashboardFragment).updateNotificationCount()
+                        }
+                    }else if (fragment is PCADashboardFragment){
+                        withContext(Dispatchers.Main)
+                        {
+                            commonUIUtility.dismissProgress()
+                            (fragment as PCADashboardFragment).updateNotificationCount()
                         }
                     }
                 }else

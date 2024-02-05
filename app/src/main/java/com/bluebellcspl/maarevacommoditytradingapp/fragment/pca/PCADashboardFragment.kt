@@ -10,6 +10,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -25,9 +26,11 @@ import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCADashboardBinding
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragmentDirections
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerPreviousAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchNotificationAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchPCAAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchPCAPreviousAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchShopMasterAPI
@@ -49,6 +52,7 @@ class PCADashboardFragment : Fragment() {
     lateinit var menuHost: MenuHost
     var COMMODITY_BHARTI = ""
     var PREV_AUCTION_SELECTED_DATE = ""
+    var NOTIFICATION_COUNT = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,21 +66,38 @@ class PCADashboardFragment : Fragment() {
         FetchCommodityMasterAPI(requireContext(), requireActivity())
         FetchShopMasterAPI(requireContext(), requireActivity())
         FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
-        FetchPCAPreviousAuctionAPI(
-            requireContext(),
-            this@PCADashboardFragment,
-            PREV_AUCTION_SELECTED_DATE
-        )
+        FetchPCAPreviousAuctionAPI(requireContext(),this@PCADashboardFragment,PREV_AUCTION_SELECTED_DATE)
+        FetchNotificationAPI(requireContext(),this@PCADashboardFragment)
         menuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.ds_menu, menu)
+
+                val notificationMenuItem = menu.findItem(R.id.nav_Notification)
+
+                if (NOTIFICATION_COUNT>1)
+                {
+                    notificationMenuItem.setActionView(R.layout.notification_badge)
+                    val view = notificationMenuItem.actionView
+                    val badgeCounter = view?.findViewById<TextView>(R.id.tv_Notification_Badge)
+                    badgeCounter?.setText(NOTIFICATION_COUNT.toString())
+                    notificationMenuItem.actionView?.setOnClickListener {
+                        navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToNotificationFragment())
+                    }
+                }else
+                {
+                    notificationMenuItem.setActionView(null)
+                }
+
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.btn_Profile -> {
                         navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToProfileOptionFragment())
+                    }
+                    R.id.nav_Notification->{
+                        navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToNotificationFragment())
                     }
                 }
                 return true
@@ -292,6 +313,17 @@ class PCADashboardFragment : Fragment() {
         }
         if (!datePicker.isAdded) {
             datePicker.show(childFragmentManager, datePicker.toString())
+        }
+    }
+
+    fun updateNotificationCount(){
+        try {
+            NOTIFICATION_COUNT = DatabaseManager.ExecuteScalar(Query.getUnseenNotification())!!.toInt()
+            menuHost.invalidateMenu()
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "updateNotificationCount: ${e.message}")
         }
     }
 
