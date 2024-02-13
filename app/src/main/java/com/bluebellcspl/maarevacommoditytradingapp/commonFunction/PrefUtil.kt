@@ -40,6 +40,7 @@ class PrefUtil {
         public val KEY_IsActive = "IsActive"
         public val KEY_IsUser = "IsUser"
         public val KEY_CREATE_DATE = "CreateDate"
+        public val KEY_HAS_LOGGEDIN_PREVIOUSLY = "hasLoggedInPreviously"
 
 
 

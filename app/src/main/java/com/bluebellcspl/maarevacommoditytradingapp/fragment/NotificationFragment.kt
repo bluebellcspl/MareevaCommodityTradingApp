@@ -46,13 +46,14 @@ class NotificationFragment : Fragment() {
                         NotificationRTRMasterModelItem(
                             cursor.getString(cursor.getColumnIndexOrThrow("Cdate")),
                             cursor.getString(cursor.getColumnIndexOrThrow("CreateUser")),
-                            cursor.getString(cursor.getColumnIndexOrThrow("FromRoleId")),
+//                            cursor.getString(cursor.getColumnIndexOrThrow("FromRoleId")),
+                            "",
                             cursor.getString(cursor.getColumnIndexOrThrow("FullMsg")),
                             cursor.getString(cursor.getColumnIndexOrThrow("ISRead")),
                             cursor.getString(cursor.getColumnIndexOrThrow("ISSeen")),
                             cursor.getString(cursor.getColumnIndexOrThrow("Link")),
                             cursor.getString(cursor.getColumnIndexOrThrow("Name")),
-                            cursor.getString(cursor.getColumnIndexOrThrow("NotificationId")),
+                            cursor.getInt(cursor.getColumnIndexOrThrow("NotificationId")),
                             cursor.getString(cursor.getColumnIndexOrThrow("RoleName")),
                             cursor.getString(cursor.getColumnIndexOrThrow("ShortMsg")),
                             cursor.getString(cursor.getColumnIndexOrThrow("ToRoleId")),
@@ -60,7 +61,7 @@ class NotificationFragment : Fragment() {
                         )
                     )
                 }
-                Log.d(TAG, "getNotificationFromDB: NOTIFICATION_LIST_SIZE : ${dataList.size}")
+                Log.d(TAG, "getNotificationFromDB: NOTIFICATION_LIST_SIZE : ${dataList.toString()}")
             }
         } catch (e: Exception) {
             dataList.clear()

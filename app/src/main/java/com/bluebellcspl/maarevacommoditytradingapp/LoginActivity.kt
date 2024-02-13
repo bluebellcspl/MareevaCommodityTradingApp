@@ -22,8 +22,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityLoginBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.TermsAndConditionDialogBinding
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.master.LoginCheckAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.LoginWithOTPAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.LogoutAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTChangeAgreementStatus
 import com.bluebellcspl.maarevacommoditytradingapp.model.LoginForAdminModel
 import com.google.android.gms.tasks.OnCompleteListener
@@ -63,20 +65,12 @@ class LoginActivity : AppCompatActivity() {
         DatabaseManager.initializeInstance(this)
         setLanguage()
         binding.tvVersionLogin.setText(Constants.version)
-        binding.mchbAdminLoginLogin.isChecked = false
 
-        binding.mchbAdminLoginLogin.addOnCheckedStateChangedListener { checkBox, state ->
-            if (checkBox.isChecked)
-            {
-                binding.llAdmin.visibility = View.VISIBLE
-                binding.llBuyerOrPCA.visibility = View.GONE
-                binding.btnRegisterLogin.visibility = View.GONE
-            }else
-            {
-                binding.llAdmin.visibility = View.GONE
-                binding.llBuyerOrPCA.visibility = View.VISIBLE
-                binding.btnRegisterLogin.visibility = View.VISIBLE
-            }
+        val isLoggedIn = PrefUtil.getBoolean(PrefUtil.KEY_LOGGEDIN,false)
+        val hasLoggedInPreviously = PrefUtil.getBoolean(PrefUtil.KEY_HAS_LOGGEDIN_PREVIOUSLY,false)
+        if (hasLoggedInPreviously || !isLoggedIn)
+        {
+            LogoutAPI(this, this@LoginActivity,DashboardFragment())
         }
         setOnClickListeners()
 

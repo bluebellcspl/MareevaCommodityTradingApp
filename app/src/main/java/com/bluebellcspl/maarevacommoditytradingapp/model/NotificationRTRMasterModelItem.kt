@@ -9,7 +9,7 @@ data class NotificationRTRMasterModelItem(
     var ISSeen: String,
     var Link: String,
     var Name: String,
-    var NotificationId: String,
+    var NotificationId: Int,
     var RoleName: String,
     var ShortMsg: String,
     var ToRoleId: String,

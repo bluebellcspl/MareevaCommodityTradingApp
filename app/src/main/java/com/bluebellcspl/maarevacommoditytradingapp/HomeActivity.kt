@@ -33,6 +33,7 @@ class HomeActivity : AppCompatActivity() {
             activityConf,
             baseContext.resources.displayMetrics
         )
+        PrefUtil.setBoolean(PrefUtil.KEY_HAS_LOGGEDIN_PREVIOUSLY,true)
         super.onCreate(savedInstanceState)
         with(window) {
             requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)

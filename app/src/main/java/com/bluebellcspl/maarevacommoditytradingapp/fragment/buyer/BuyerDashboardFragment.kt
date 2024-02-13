@@ -31,6 +31,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.constants.URLHelper
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentBuyerDashboardBinding
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerPreviousAuctionAPI
@@ -102,7 +103,7 @@ class BuyerDashboardFragment : Fragment() {
         COMMODITY_BHARTI =
             DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
         if (ConnectionCheck.isConnected(requireContext())) {
-
+            FetchAPMCMasterAPI(requireContext(),requireActivity())
             FetchApprovedPCAListAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
             FetchCityMasterAPI(requireContext(), requireActivity())
             FetchTransportationMasterAPI(requireContext(), requireActivity())

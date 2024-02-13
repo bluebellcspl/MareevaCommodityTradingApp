@@ -149,7 +149,7 @@ class Query {
         }
 
         fun getAllNotification():String{
-            qry = "SELECT * FROM NotificationMaster"
+            qry = "SELECT * FROM NotificationMaster ORDER By NotificationId desc"
             Log.d(TAG, "getAllNotification: $qry")
             return qry
         }

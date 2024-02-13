@@ -16,6 +16,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentProfileOptionBinding
+import com.bluebellcspl.maarevacommoditytradingapp.master.LogoutAPI
 
 class ProfileOptionFragment : Fragment() {
     lateinit var binding:FragmentProfileOptionBinding
@@ -52,9 +53,7 @@ class ProfileOptionFragment : Fragment() {
         alertDialog.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
-                PrefUtil.deletePreference()
-                DatabaseManager.deleteData(Constants.TBL_NotificationMaster)
-                startActivity(Intent(requireContext(), LoginActivity::class.java))
+                requireActivity().startActivity(Intent(activity, LoginActivity::class.java))
                 requireActivity().finish()
             }
         })

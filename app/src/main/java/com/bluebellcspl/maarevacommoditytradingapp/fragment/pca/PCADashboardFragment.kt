@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 
+import ConnectionCheck
 import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -27,6 +28,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCADashboardBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragmentDirections
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerPreviousAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
@@ -61,13 +63,16 @@ class PCADashboardFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_dashboard, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        FetchCityMasterAPI(requireContext(), requireActivity())
-        FetchTransportationMasterAPI(requireContext(), requireActivity())
-        FetchCommodityMasterAPI(requireContext(), requireActivity())
-        FetchShopMasterAPI(requireContext(), requireActivity())
-        FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
-        FetchPCAPreviousAuctionAPI(requireContext(),this@PCADashboardFragment,PREV_AUCTION_SELECTED_DATE)
-        FetchNotificationAPI(requireContext(),this@PCADashboardFragment)
+        if(ConnectionCheck.isConnected(requireContext())) {
+            FetchAPMCMasterAPI(requireContext(),requireActivity())
+            FetchCityMasterAPI(requireContext(), requireActivity())
+            FetchTransportationMasterAPI(requireContext(), requireActivity())
+            FetchCommodityMasterAPI(requireContext(), requireActivity())
+            FetchShopMasterAPI(requireContext(), requireActivity())
+            FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
+            FetchPCAPreviousAuctionAPI(requireContext(),this@PCADashboardFragment,PREV_AUCTION_SELECTED_DATE)
+            FetchNotificationAPI(requireContext(), this@PCADashboardFragment)
+        }
         menuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
