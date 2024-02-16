@@ -307,7 +307,7 @@
                     android:background="@android:color/transparent"
                     android:inputType="number"
                     android:padding="@dimen/_5sdp"
-                    android:maxLength="4"
+                    android:maxLength="5"
                     android:text="500"
                     android:textAlignment="center"
                     android:fontFamily="@font/poppins"

@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 import ConnectionCheck
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -319,16 +320,22 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                     model.LabourCharge = "0"
                 }
                 labourCharge += model.LabourCharge!!.toDouble()
-
+                val formattedBasic = DecimalFormat("0.00").format(basic)
+                val formattedTotal = DecimalFormat("0.00").format(total)
+                val formattedPCAComm = DecimalFormat("0.00").format(pcaCommission)
+                val formattedGCAComm = DecimalFormat("0.00").format(gcaCommission)
+                val formattedMarketCess = DecimalFormat("0.00").format(marketCess)
+                val formattedTransport = DecimalFormat("0.00").format(transportCharge)
+                val formattedLabour = DecimalFormat("0.00").format(labourCharge)
                 Log.d(TAG, "calculateOtherExpenses: PCA_NAME : ${model.PCAName}")
                 Log.d(TAG, "calculateOtherExpenses: ALLOCATED_BAGS : $ab")
-                Log.d(TAG, "calculateOtherExpenses: TOTAL_AMOUNT : $total")
-                Log.d(TAG, "calculateOtherExpenses: TOTAL_PCA_BASIC : $basic")
-                Log.d(TAG, "calculateOtherExpenses: TOTAL_PCACOMMISSION : $pcaCommission")
-                Log.d(TAG, "calculateOtherExpenses: TOTAL_GCACOMMISSION : $gcaCommission")
-                Log.d(TAG, "calculateOtherExpenses: TOTAL_MARKETCESS : $marketCess")
-                Log.d(TAG, "calculateOtherExpenses: TOTAL_TRANSPORTATION_CHARGE : $transportCharge")
-                Log.d(TAG, "calculateOtherExpenses: TOTAL_LABOUR_CHARGE : $labourCharge")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_AMOUNT : $formattedTotal")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_PCA_BASIC : $formattedBasic")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_PCACOMMISSION : $formattedPCAComm")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_GCACOMMISSION : $formattedGCAComm")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_MARKETCESS : $formattedMarketCess")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_TRANSPORTATION_CHARGE : $formattedTransport")
+                Log.d(TAG, "calculateOtherExpenses: TOTAL_LABOUR_CHARGE : $formattedLabour")
                 Log.d(TAG, "calculateOtherExpenses: ================================================================================")
             }
             binding.tvLeftBagsBuyerAuctionFragment.setText(leftBags)
@@ -338,14 +345,23 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             binding.tvTotalAmountBuyerAuctionFragment.setText(totalnf)
 //            binding.tvTotalAmountBuyerAuctionFragment.setText("%.2f".format(total))
 
+//            ALLOCATED_BAGS = ab.toString()
+//            TOTAL_PCA_BASIC = "%.2f".format(basic)
+//            TOTAL_AMOUNT = "%.2f".format(total)
+//            TOTAL_PCA_COMMISSION = "%.2f".format(pcaCommission)
+//            TOTAL_GCA_COMMISSION = "%.2f".format(gcaCommission)
+//            TOTAL_MARKETCESS = "%.2f".format(marketCess)
+//            TOTAL_TRANSPORTATION_CHARGE = "%.2f".format(transportCharge)
+//            TOTAL_LABOUR_CHARGE = "%.2f".format(labourCharge)
+
             ALLOCATED_BAGS = ab.toString()
-            TOTAL_PCA_BASIC = "%.2f".format(basic)
-            TOTAL_AMOUNT = "%.2f".format(total)
-            TOTAL_PCA_COMMISSION = "%.2f".format(pcaCommission)
-            TOTAL_GCA_COMMISSION = "%.2f".format(gcaCommission)
-            TOTAL_MARKETCESS = "%.2f".format(marketCess)
-            TOTAL_TRANSPORTATION_CHARGE = "%.2f".format(transportCharge)
-            TOTAL_LABOUR_CHARGE = "%.2f".format(labourCharge)
+            TOTAL_PCA_BASIC = DecimalFormat("0.00").format(basic)
+            TOTAL_AMOUNT = DecimalFormat("0.00").format(total)
+            TOTAL_PCA_COMMISSION = DecimalFormat("0.00").format(pcaCommission)
+            TOTAL_GCA_COMMISSION = DecimalFormat("0.00").format(gcaCommission)
+            TOTAL_MARKETCESS = DecimalFormat("0.00").format(marketCess)
+            TOTAL_TRANSPORTATION_CHARGE = DecimalFormat("0.00").format(transportCharge)
+            TOTAL_LABOUR_CHARGE = DecimalFormat("0.00").format(labourCharge)
         }
     }
 

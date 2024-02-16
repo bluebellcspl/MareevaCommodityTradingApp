@@ -1,12 +1,16 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 
+import ConnectionCheck
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +22,7 @@ import androidx.navigation.fragment.navArgs
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.EditableDecimalInputFilter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
@@ -49,8 +54,8 @@ class PCAAuctionFragment : Fragment() {
     var shopId = ""
     var post_AvgPrice = 0.0
     var post_CumulativeTotal = 0.0
-    var post_RemainingBags = 0
-    var post_PurchasedBags = 0
+    var post_RemainingBags = 0f
+    var post_PurchasedBags = 0f
     var post_CurrentTotal = 0.0
     lateinit var apiDataforPost: PCAAuctionDetailModel
     lateinit var commodityBhartiRate: String
@@ -93,6 +98,7 @@ class PCAAuctionFragment : Fragment() {
 //                }
 //            }
         binding.actShopNoPCAAuctionFragment.threshold = 100
+        binding.edtBagsPCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
         binding.actShopNoPCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
             var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
             shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
@@ -126,7 +132,9 @@ class PCAAuctionFragment : Fragment() {
                     .isEmpty() || binding.actShopNoPCAAuctionFragment.text.toString().isEmpty()
             ) {
                 commonUIUtility.showAlertWithOkButton("Please Enter Shop Name or Shop No!")
-            } else if (binding.edtBagsPCAAuctionFragment.text.toString().toInt() < 1) {
+            } else if (binding.edtBagsPCAAuctionFragment.text.toString().endsWith(".") || binding.edtBagsPCAAuctionFragment.text.toString().startsWith(".")) {
+                commonUIUtility.showToast("Please Enter Valid Input!")
+            } else if (binding.edtBagsPCAAuctionFragment.text.toString().toFloat() < 1) {
                 commonUIUtility.showToast("Please Enter Bags!")
             } else {
 //                alertForSubmitData()
@@ -156,9 +164,21 @@ class PCAAuctionFragment : Fragment() {
                     binding.edtBagsPCAAuctionFragment.setText(subStr)
                     binding.edtBagsPCAAuctionFragment.setSelection(1)
                 } else {
-                    var bags = p0!!.toString().trim()
-                    if (bags.toInt() > 0) {
-                        post_PurchasedBags = PURCHASED_BAG.toInt() + bags.toInt()
+                    var decimalBags = p0!!.toString().trim()
+                    var bags = ""
+                    if (decimalBags.contains("."))
+                    {
+                        val decimal = p0!!.toString().trim().split(".")[1]
+                        val currentBag = p0!!.toString().trim().split(".")[0]
+                        bags= "$currentBag.5"
+                        Log.d(TAG, "afterTextChanged: NEW_DECIMAL_BAGS : $bags")
+                    }
+                    else
+                    {
+                        bags = p0!!.toString().trim()
+                    }
+                    if (bags.toFloat() > 0) {
+                        post_PurchasedBags = PURCHASED_BAG.toFloat() + bags.toFloat()
                         post_RemainingBags = BUYER_BORI.toInt() - post_PurchasedBags
                         binding.tvRemainingBagsPCAAuctionFragment.setText(post_RemainingBags.toString())
                         binding.tvPurchasedBagsPCAAuctionFragment.setText(post_PurchasedBags.toString())
@@ -203,12 +223,21 @@ class PCAAuctionFragment : Fragment() {
 
     fun calculateExpense(dataList: ArrayList<ApiPCAAuctionDetail>) {
         try {
-            var bags = binding.edtBagsPCAAuctionFragment.text.toString().trim()
+            var newbags = binding.edtBagsPCAAuctionFragment.text.toString().trim()
+            var bags = ""
+            if (newbags.contains("."))
+            {
+                val currentBag = newbags.split(".")[0]
+                bags= "$currentBag.5"
+            }else
+            {
+                bags= binding.edtBagsPCAAuctionFragment.text.toString().trim()
+            }
             var currentPrice = binding.edtCurrentPricePCAAuctionFragment.text.toString().trim()
             if (bags.isNotEmpty() && currentPrice.isNotEmpty()) {
                 //Current Calculation of Bags
                 var total = 0.0
-                if (bags.toInt() > 0 && currentPrice.toDouble() > 0) {
+                if (bags.toFloat() > 0 && currentPrice.toDouble() > 0) {
                     total =
                         ((bags.toDouble() * commodityBhartiRate.toDouble()) / 20) * (currentPrice.toDouble())
                 }
@@ -218,21 +247,23 @@ class PCAAuctionFragment : Fragment() {
 
                 //Header Calculation for Total Cost from ArrayList
                 var cumulativeTotal = 0.0
-                var totalPurchasedBags = 0
+                var totalPurchasedBags = 0f
                 for (i in 0 until dataList.size) {
                     cumulativeTotal += dataList[i].Amount.toDouble()
-                    totalPurchasedBags += dataList[i].Bags.toInt()
+                    totalPurchasedBags += dataList[i].Bags.toFloat()
                 }
                 post_AvgPrice =
-                    (cumulativeTotal + total) / (((totalPurchasedBags + bags.toInt()) * commodityBhartiRate.toDouble()) / 20)
-                Log.d(TAG, "calculateExpense: AVG_PRICE : $post_AvgPrice")
-                val AvgPriceNF = NumberFormat.getCurrencyInstance().format(post_AvgPrice).substring(1)
+                    (cumulativeTotal + total) / (((totalPurchasedBags + bags.toFloat()) * commodityBhartiRate.toDouble()) / 20)
+                val formattedPost_AvgPrice = DecimalFormat("########0.00").format(post_AvgPrice)
+                val fomattedCumilativeTotal = DecimalFormat("########0.00").format(cumulativeTotal)
+                Log.d(TAG, "calculateExpense: AVG_PRICE : $formattedPost_AvgPrice")
+                val AvgPriceNF = NumberFormat.getCurrencyInstance().format(formattedPost_AvgPrice.toDouble()).substring(1)
 //                binding.tvAveragePricePCAAuctionFragment.setText(String.format("%.2f",post_AvgPrice))
                 binding.tvAveragePricePCAAuctionFragment.setText(AvgPriceNF)
 
-                Log.d(TAG, "calculateExpense: CUMULATIVE_TOTAL : $cumulativeTotal")
-                val cumulativeTotalNF =NumberFormat.getCurrencyInstance().format(cumulativeTotal + total).substring(1)
-                post_CumulativeTotal = cumulativeTotal + total
+                Log.d(TAG, "calculateExpense: CUMULATIVE_TOTAL : $fomattedCumilativeTotal")
+                val cumulativeTotalNF =NumberFormat.getCurrencyInstance().format(fomattedCumilativeTotal.toDouble() + total).substring(1)
+                post_CumulativeTotal = fomattedCumilativeTotal.toDouble() + total
 //                binding.tvTotalAmountPCAAuctionFragment.setText(String.format("%.2f",post_CumulativeTotal))
                 binding.tvTotalAmountPCAAuctionFragment.setText(cumulativeTotalNF)
 
@@ -427,6 +458,16 @@ class PCAAuctionFragment : Fragment() {
 
     private fun postPCAData() {
         try {
+            var currentBags = ""
+            if (binding.edtBagsPCAAuctionFragment.text.toString().contains("."))
+            {
+                val newBag = binding.edtBagsPCAAuctionFragment.text.toString().split(".")[0]
+                currentBags = "$newBag.5"
+            }else
+            {
+                currentBags = binding.edtBagsPCAAuctionFragment.text.toString().trim()
+            }
+
             val model = POSTPCAAuctionData(
                 apiDataforPost.PCAAuctionHeaderId,
                 "",
@@ -448,7 +489,7 @@ class PCAAuctionFragment : Fragment() {
                 post_PurchasedBags.toString(),
                 shopId,
                 binding.actShopNoPCAAuctionFragment.text.toString().trim(),
-                binding.edtBagsPCAAuctionFragment.text.toString().trim(),
+                currentBags,
                 binding.edtCurrentPricePCAAuctionFragment.text.toString().trim(),
                 "%.2f".format(post_CurrentTotal),
                 PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString(),

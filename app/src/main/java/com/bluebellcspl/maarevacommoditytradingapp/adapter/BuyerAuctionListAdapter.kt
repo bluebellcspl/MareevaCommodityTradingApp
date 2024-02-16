@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionItemAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
+import java.text.DecimalFormat
 
 class BuyerAuctionListAdapter(
     var context: Context,
@@ -87,19 +88,20 @@ class BuyerAuctionListAdapter(
                     val nf = NumberFormat.getCurrencyInstance().format(totalAmount).substring(1)
                     binding.tvAmountBuyerAuctionItemAdapter.setText(nf)
                     model.Bags = bags
-                    model.Amount = "%.2f".format(totalAmount)
+                    model.Amount = DecimalFormat("0.00").format(totalAmount)
                     model.LowerLimit = lowerLimit
                     model.UpperLimit = upperLimit
-                    model.Basic = BasicAmount.toString()
-                    model.TransportationCharge = "%.2f".format(transportCharge)
+                    model.Basic = DecimalFormat("0.00").format(BasicAmount)
+                    model.TransportationCharge = DecimalFormat("0.00").format(transportCharge)
                     model.PerBoriRate = model.UpdPerBoriRate
-                    model.PCACommCharge = pcaCommission.toString()
+                    model.PCACommCharge = DecimalFormat("0.00").format(pcaCommission)
                     model.PCACommRate = model.UpdPCACommRate
-                    model.GCACommCharge = gcaCommission.toString()
+                    model.GCACommCharge = DecimalFormat("0.00").format(gcaCommission)
                     model.GCACommRate = model.UpdGCACommRate
-                    model.LabourCharge = labourCharge.toString()
+                    model.LabourCharge = DecimalFormat("0.00").format(labourCharge)
                     model.PerBoriLabourCharge = model.UpdLabourCharge
-                    model.MarketCessCharge = marketCess.toString()
+                    model.MarketCessCharge = DecimalFormat("0.00").format(marketCess)
+                    model.MarketCessRate = model.UpdMarketCessRate
                     recyclerViewHelper.getBuyerAuctionDataList(dataList)
                 } else {
                     binding.tvAmountBuyerAuctionItemAdapter.setText("")
