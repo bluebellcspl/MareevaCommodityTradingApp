@@ -375,9 +375,8 @@
                             android:id="@+id/edt_CurrentPrice_PCAAuctionFragment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:digits="0123456789"
                             android:imeOptions="actionDone"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:selectAllOnFocus="true"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp" />

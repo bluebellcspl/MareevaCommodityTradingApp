@@ -99,6 +99,7 @@ class PCAAuctionFragment : Fragment() {
 //            }
         binding.actShopNoPCAAuctionFragment.threshold = 100
         binding.edtBagsPCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
+        binding.edtCurrentPricePCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(7, 2))
         binding.actShopNoPCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
             var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
             shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
@@ -120,9 +121,13 @@ class PCAAuctionFragment : Fragment() {
             val upperSub = BUYER_UPPER_LIMIT.split(".")[0]
             Log.d(TAG, "onCreateView: LOWER_SUB_LENGTH : ${lowerSub.length}")
             Log.d(TAG, "onCreateView: UPPER_SUB_LENGTH : ${upperSub.length}")
-            if (binding.edtCurrentPricePCAAuctionFragment.text.toString().length<lowerSub.length) {
+            if (!binding.edtCurrentPricePCAAuctionFragment.text.toString().contains(".") && binding.edtCurrentPricePCAAuctionFragment.text.toString().length<lowerSub.length-1) {
                 commonUIUtility.showAlertWithOkButton("Current Price Must be Greater Than Lower Limit Price")
-            } else if (binding.edtCurrentPricePCAAuctionFragment.text.toString().length > upperSub.length) {
+            }else if (binding.edtCurrentPricePCAAuctionFragment.text.toString().contains(".") && binding.edtCurrentPricePCAAuctionFragment.text.toString().split(".")[0].length < lowerSub.length-1) {
+                commonUIUtility.showAlertWithOkButton("Current Price Must be Lesser Than Upper Limit Price")
+            }else if (!binding.edtCurrentPricePCAAuctionFragment.text.toString().contains(".") && binding.edtCurrentPricePCAAuctionFragment.text.toString().length > upperSub.length+1) {
+                commonUIUtility.showAlertWithOkButton("Current Price Must be Lesser Than Upper Limit Price")
+            }else if (binding.edtCurrentPricePCAAuctionFragment.text.toString().contains(".") && binding.edtCurrentPricePCAAuctionFragment.text.toString().split(".")[0].length > upperSub.length+1) {
                 commonUIUtility.showAlertWithOkButton("Current Price Must be Lesser Than Upper Limit Price")
             }
             else if (shopId.equals("invalid")) {
@@ -385,7 +390,7 @@ class PCAAuctionFragment : Fragment() {
         try {
             val alertDialog = AlertDialog.Builder(requireContext())
             alertDialog.setTitle("Alert")
-            alertDialog.setMessage("No Auction Today,Buyer has not allocated any Auction Today!")
+            alertDialog.setMessage(getString(R.string.no_auction_for_today_contact_your_customer_alert_msg))
             alertDialog.setCancelable(false)
             alertDialog.setNegativeButton("OK", object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {

@@ -160,4 +160,6 @@
     <string name="otp">ઓ ટી પી</string>
     <string name="shop_name">દુકાનનું નામ</string>
     <string name="unappproved_pca_list">અસ્વીકૃત PCA ની યાદી</string>
+    <string name="full_name">પૂરું નામ</string>
+    <string name="no_auction_for_today_contact_your_customer_alert_msg">આજે તમને કોઈ હરાજી આપેલ નથી. શેઠનો સિંપકક કરવા તવનિંતી.</string>
 </resources>
