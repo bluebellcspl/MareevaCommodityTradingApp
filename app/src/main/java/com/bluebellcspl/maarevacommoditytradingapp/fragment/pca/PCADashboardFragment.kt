@@ -1,6 +1,10 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 
 import ConnectionCheck
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -27,9 +31,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCADashboardBinding
-import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragmentDirections
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerPreviousAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchNotificationAPI
@@ -37,7 +39,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.FetchPCAAuctionDetailA
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchPCAPreviousAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchShopMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchTransportationMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerPrevAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAPrevAuctionMasterModel
 import com.google.android.material.datepicker.CalendarConstraints
@@ -55,6 +56,7 @@ class PCADashboardFragment : Fragment() {
     var COMMODITY_BHARTI = ""
     var PREV_AUCTION_SELECTED_DATE = ""
     var NOTIFICATION_COUNT = 0
+    lateinit var filter: IntentFilter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,15 +65,11 @@ class PCADashboardFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_dashboard, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        if(ConnectionCheck.isConnected(requireContext())) {
-            FetchAPMCMasterAPI(requireContext(),requireActivity())
-            FetchCityMasterAPI(requireContext(), requireActivity())
-            FetchTransportationMasterAPI(requireContext(), requireActivity())
-            FetchCommodityMasterAPI(requireContext(), requireActivity())
-            FetchShopMasterAPI(requireContext(), requireActivity())
-            FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
-            FetchPCAPreviousAuctionAPI(requireContext(),this@PCADashboardFragment,PREV_AUCTION_SELECTED_DATE)
-            FetchNotificationAPI(requireContext(), this@PCADashboardFragment)
+        filter = IntentFilter("ACTION_NOTIFICATION_RECEIVED")
+        fetchDataFromAPI()
+        binding.swipeToRefreshPCADashboardFragment.setOnRefreshListener {
+            binding.swipeToRefreshPCADashboardFragment.isRefreshing = false
+            fetchDataFromAPI()
         }
         menuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
@@ -80,7 +78,7 @@ class PCADashboardFragment : Fragment() {
 
                 val notificationMenuItem = menu.findItem(R.id.nav_Notification)
 
-                if (NOTIFICATION_COUNT>1)
+                if (NOTIFICATION_COUNT>0)
                 {
                     notificationMenuItem.setActionView(R.layout.notification_badge)
                     val view = notificationMenuItem.actionView
@@ -108,6 +106,7 @@ class PCADashboardFragment : Fragment() {
                 return true
             }
         }, viewLifecycleOwner, Lifecycle.State.STARTED)
+        updateNotificationCount()
         var commodityId = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "")
         COMMODITY_BHARTI =
             DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
@@ -120,6 +119,19 @@ class PCADashboardFragment : Fragment() {
         binding.tvDateNewPCADashboardFragment.setText(DateUtility().getCompletionDate())
         setOnClickListeners()
         return binding.root
+    }
+
+    private fun fetchDataFromAPI() {
+        try {
+            if(ConnectionCheck.isConnected(requireContext())) {
+                FetchCityMasterAPI(requireContext(), requireActivity())
+                FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
+                FetchPCAPreviousAuctionAPI(requireContext(),this@PCADashboardFragment,PREV_AUCTION_SELECTED_DATE)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "fetchDataFromAPI: ${e.message}", )
+            e.printStackTrace()
+        }
     }
 
     private fun setOnClickListeners() {
@@ -168,7 +180,7 @@ class PCADashboardFragment : Fragment() {
                     ), modelData.BuyerBori
                 )
             )
-            var pcaAllocatedBags = modelData.BuyerBori.toInt()
+            var pcaAllocatedBags = modelData.BuyerBori.toFloat()
             var commodityBhartiPrice = modelData.CommodityBhartiPrice.toDouble()
             var buyerUpperLimit = modelData.BuyerUpperPrice.toDouble()
             var buyerLowerLimit = modelData.BuyerLowerPrice.toDouble()
@@ -207,9 +219,9 @@ class PCADashboardFragment : Fragment() {
 
             //Purchased Calculation
 
-            var pcaTotalPurchasedBag = modelData.TotalPurchasedBags.toInt()
+            var pcaTotalPurchasedBag = modelData.TotalPurchasedBags.toFloat()
             binding.tvPurchasedBagsNewPCADashboardFragment.setText(
-                "%s %d".format(
+                "%s %s".format(
                     resources.getString(
                         R.string.bags_lbl
                     ), pcaTotalPurchasedBag
@@ -241,7 +253,7 @@ class PCADashboardFragment : Fragment() {
                 )
             )
             var purchased_Avgrate = 0.0
-            if (pcaTotalPurchasedBag.toInt() > 0 && PCAtotalPurchasedCost > 0.0) {
+            if (pcaTotalPurchasedBag> 0 && PCAtotalPurchasedCost > 0.0) {
                 purchased_Avgrate =
                     PCAtotalPurchasedCost / ((pcaTotalPurchasedBag * COMMODITY_BHARTI.toDouble()) / 20.0)
             }
@@ -257,8 +269,8 @@ class PCADashboardFragment : Fragment() {
 
 
         } catch (e: Exception) {
-            e.message
-            Log.e(TAG, "bindBuyerAllocatedData: ")
+            e.printStackTrace()
+            Log.e(TAG, "bindBuyerAllocatedData: ${e.message}")
         }
     }
 
@@ -323,8 +335,13 @@ class PCADashboardFragment : Fragment() {
 
     fun updateNotificationCount(){
         try {
-            NOTIFICATION_COUNT = DatabaseManager.ExecuteScalar(Query.getUnseenNotification())!!.toInt()
-            menuHost.invalidateMenu()
+
+            NOTIFICATION_COUNT = DatabaseManager.ExecuteScalar(Query.getTMPTUnseenNotification())!!.toInt()
+            Log.d(TAG, "updateNotificationCount: NOTIFICATION_COUNT : $NOTIFICATION_COUNT")
+            requireActivity().runOnUiThread {
+                menuHost.invalidateMenu()
+            }
+
         }catch (e:Exception)
         {
             e.printStackTrace()
@@ -332,13 +349,21 @@ class PCADashboardFragment : Fragment() {
         }
     }
 
+    private val notificationReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updateNotificationCount()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        requireContext().registerReceiver(notificationReceiver,filter)
     }
 
     override fun onStop() {
         super.onStop()
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        requireContext().unregisterReceiver(notificationReceiver)
     }
 }
