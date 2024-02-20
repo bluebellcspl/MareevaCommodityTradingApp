@@ -1,6 +1,10 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 
 import ConnectionCheck
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -21,6 +25,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
@@ -81,7 +86,7 @@ class BuyerDashboardFragment : Fragment() {
     var companyCode = ""
     var buyerRegId = ""
     var NOTIFICATION_COUNT = 0
-
+    lateinit var filter:IntentFilter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -102,35 +107,22 @@ class BuyerDashboardFragment : Fragment() {
         buyerRegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
         COMMODITY_BHARTI =
             DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
-        if (ConnectionCheck.isConnected(requireContext())) {
-            FetchAPMCMasterAPI(requireContext(),requireActivity())
-            FetchApprovedPCAListAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
-            FetchCityMasterAPI(requireContext(), requireActivity())
-            FetchTransportationMasterAPI(requireContext(), requireActivity())
-            FetchCommodityMasterAPI(requireContext(), requireActivity())
-            FetchBuyerAuctionDetailAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
-            FetchBuyerPreviousAuctionAPI(requireContext(),this@BuyerDashboardFragment,PREV_AUCTION_SELECTED_DATE)
-            FetchNotificationAPI(requireContext(),this@BuyerDashboardFragment)
-        } else {
-            commonUIUtility.showToast(getString(R.string.no_internet_connection))
+
+        filter = IntentFilter("ACTION_NOTIFICATION_RECEIVED")
+       fetchDataFromAPI()
+
+        binding.swipeToRefreshBuyerDashboardFragment.setOnRefreshListener {
+            binding.swipeToRefreshBuyerDashboardFragment.isRefreshing = false
+            fetchDataFromAPI()
         }
-
-
-//        webSocketClient = WebSocketClient(
-//            requireContext(),
-//            URLHelper.LIVE_AUCTION_SOCKET_URL.replace("<COMMODITY_ID>",commodityId.toString()).replace("<DATE>",DateUtility().getCompletionDate()).replace("<COMPANY_CODE>",companyCode.toString()).replace("<BUYER_REG_ID>",buyerRegId.toString()),
-//            viewLifecycleOwner,
-//            ::onMessageReceived
-//        )
-
         menuHost = requireActivity()
-        menuHost.addMenuProvider(@ExperimentalBadgeUtils object : MenuProvider {
+        menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.ds_menu, menu)
 
                 val notificationMenuItem = menu.findItem(R.id.nav_Notification)
 //                val chatMenuItem = menu.findItem()
-                if (NOTIFICATION_COUNT>1)
+                if (NOTIFICATION_COUNT>0)
                 {
                     notificationMenuItem.setActionView(R.layout.notification_badge)
                     val view = notificationMenuItem.actionView
@@ -158,8 +150,26 @@ class BuyerDashboardFragment : Fragment() {
                 return true
             }
         }, viewLifecycleOwner, Lifecycle.State.STARTED)
+        updateNotificationCount()
         setOnclickListeners()
         return binding.root
+    }
+
+    private fun fetchDataFromAPI() {
+        try {
+            if (ConnectionCheck.isConnected(requireContext())) {
+                FetchApprovedPCAListAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
+                FetchCityMasterAPI(requireContext(), requireActivity())
+                FetchBuyerAuctionDetailAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
+                FetchBuyerPreviousAuctionAPI(requireContext(),this@BuyerDashboardFragment,PREV_AUCTION_SELECTED_DATE)
+            } else {
+                commonUIUtility.showToast(getString(R.string.no_internet_connection))
+            }
+        }catch (e:Exception)
+        {
+            Log.e(TAG, "fetchDataFromAPI: ${e.message}", )
+            e.printStackTrace()
+        }
     }
 
     private fun setOnclickListeners() {
@@ -260,15 +270,21 @@ class BuyerDashboardFragment : Fragment() {
 
     fun onMessageReceived(dataList: LiveAuctionMasterModel) {
         try {
-            if (dataList.PCAList.isNotEmpty()) {
+            if (dataList.AllocatedBag.isNotEmpty() && dataList.TotalCost.isNotEmpty() && dataList.Basic.isNotEmpty())
+            {
+                if (dataList.PCAList.isNotEmpty()) {
 
-                if (dataList.PCAList != lastPCAList) {
-                    Log.d(TAG, "onMessageReceived: LAST_PCA_LIST : $lastPCAList")
-                    Log.d(TAG, "onMessageReceived: CURRENT_PCA_LIST : $dataList")
-                    lastPCAList = dataList.PCAList
-                    newAuctionData = dataList
-                    calculateExpenses(dataList)
+                    if (dataList.PCAList != lastPCAList) {
+                        Log.d(TAG, "onMessageReceived: LAST_PCA_LIST : $lastPCAList")
+                        Log.d(TAG, "onMessageReceived: CURRENT_PCA_LIST : $dataList")
+                        lastPCAList = dataList.PCAList
+                        newAuctionData = dataList
+                        calculateExpenses(dataList)
+                    }
                 }
+            }else
+            {
+                disconnect()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -287,7 +303,7 @@ class BuyerDashboardFragment : Fragment() {
             var TOTAL_pcaExpense = 0.0
             var TOTAL_pcaBasic = 0.0
             var TOTAL_AuctionCost = 0.0
-            var TOTAL_AuctionBags = 0
+            var TOTAL_AuctionBags = 0f
 
 
             for (PCAData in dataList.PCAList) {
@@ -303,7 +319,7 @@ class BuyerDashboardFragment : Fragment() {
                 for (ShopData in PCAData.ShopList) {
                     currentPCABasic += ShopData.Amount.toDouble()
                     var SHOP_CURRENT_PRICE = ShopData.CurrentPrice.toDouble()
-                    var SHOP_CURRENT_BAGS = ShopData.Bags.toInt()
+                    var SHOP_CURRENT_BAGS = ShopData.Bags.toFloat()
 
                     var pcaMarketCess =
                         (((SHOP_CURRENT_BAGS * PCAData.CommodityBhartiPrice.toDouble()) / 20) * (SHOP_CURRENT_PRICE) * PCAData.MarketCessCharge.toDouble()) / 100.00
@@ -341,7 +357,7 @@ class BuyerDashboardFragment : Fragment() {
                 TOTAL_gcaCommCharge += CURRENT_gcaCommCharge
                 TOTAL_pcaTransportationCharge += CURRENT_pcaTransportationCharge
                 TOTAL_pcaLabourCharge += CURRENT_pcaLabourCharge
-                TOTAL_AuctionBags += PCAData.TotalPurchasedBags.toInt()
+                TOTAL_AuctionBags += PCAData.TotalPurchasedBags.toFloat()
                 TOTAL_AuctionCost += CURRENT_TOTAL_COST
                 TOTAL_pcaExpense += CURRENT_pcaExpense
             }
@@ -477,6 +493,7 @@ class BuyerDashboardFragment : Fragment() {
         super.onStart()
 
 //        commonUIUtility.dismissProgress()
+        requireContext().registerReceiver(notificationReceiver,filter)
         if (!isWebSocketConnected && !isConnectingWebSocket) {
             Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
 
@@ -505,6 +522,7 @@ class BuyerDashboardFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        requireContext().unregisterReceiver(notificationReceiver)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         if (isWebSocketConnected) {
             Log.d(TAG, "onStop: WEB_SOCKET_DISCONNECT onStop")
@@ -519,24 +537,16 @@ class BuyerDashboardFragment : Fragment() {
         // Disconnect the WebSocket in onDestroy to ensure proper cleanup
         newAuctionData = null
         lastPCAList = ArrayList()
-        if (isWebSocketConnected) {
-            Log.d(TAG, "onDestroy: WEB_SOCKET_DISCONNECT onDestroy")
-//            webSocketClient.disconnect()
-            disconnect()
-            isWebSocketConnected = false
-        }
+        Log.d(TAG, "onDestroy: WEB_SOCKET_DISCONNECT onDestroy")
+        disconnect()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         newAuctionData = null
         lastPCAList = ArrayList()
-        if (isWebSocketConnected) {
-            Log.d(TAG, "onDestroyView: WEB_SOCKET_DISCONNECT onDestroyView")
-//            webSocketClient.disconnect()
-            disconnect()
-            isWebSocketConnected = false
-        }
+        Log.d(TAG, "onDestroyView: WEB_SOCKET_DISCONNECT onDestroyView")
+        disconnect()
     }
 
     private inner class MyWebSocketListener:WebSocketListener(){
@@ -585,12 +595,23 @@ class BuyerDashboardFragment : Fragment() {
 
     fun updateNotificationCount(){
         try {
-            NOTIFICATION_COUNT = DatabaseManager.ExecuteScalar(Query.getUnseenNotification())!!.toInt()
-            menuHost.invalidateMenu()
+
+            NOTIFICATION_COUNT = DatabaseManager.ExecuteScalar(Query.getTMPTUnseenNotification())!!.toInt()
+            Log.d(TAG, "updateNotificationCount: NOTIFICATION_COUNT : $NOTIFICATION_COUNT")
+            requireActivity().runOnUiThread {
+                menuHost.invalidateMenu()
+            }
+
         }catch (e:Exception)
         {
             e.printStackTrace()
             Log.e(TAG, "updateNotificationCount: ${e.message}")
+        }
+    }
+
+    private val notificationReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updateNotificationCount()
         }
     }
 }

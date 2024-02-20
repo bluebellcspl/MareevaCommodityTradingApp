@@ -24,14 +24,13 @@ class NotificationAdapter(var context: Context,var notificationList:ArrayList<No
 
         holder.binding.tvNotificationDateTimeNotificationAdapter.setText(model.Cdate)
         holder.binding.tvNotificationLblNotificationAdapter.setText(model.FullMsg)
-
-//        if (model.ISRead.equals("false")){
-//            holder.binding.cvNotificationNotificationAdapter.setCardBackgroundColor(context.getColor(
-//                R.color.colorSecondaryDark))
-//        }
-//        else{
-//            holder.binding.cvNotificationNotificationAdapter.setCardBackgroundColor(context.getColor(
-//                R.color.white))
-//        }
+        if (model.ISSeen.equals("false")){
+            holder.binding.cvNotificationNotificationAdapter.setCardBackgroundColor(context.getColor(
+                R.color.colorSecondaryDark))
+        }
+        else{
+            holder.binding.cvNotificationNotificationAdapter.setCardBackgroundColor(context.getColor(
+                R.color.white))
+        }
     }
 }

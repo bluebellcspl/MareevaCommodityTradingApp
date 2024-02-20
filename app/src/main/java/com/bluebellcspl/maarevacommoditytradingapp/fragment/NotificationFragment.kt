@@ -1,12 +1,18 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment
 
+import ConnectionCheck
+import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.NotificationAdapter
@@ -14,6 +20,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtilit
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentNotificationBinding
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchNotificationAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModelItem
 
 
@@ -22,6 +29,7 @@ class NotificationFragment : Fragment() {
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController by lazy { findNavController() }
     val TAG = "NotificationFragment"
+    lateinit var filter: IntentFilter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,9 +37,15 @@ class NotificationFragment : Fragment() {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
-        DatabaseManager.ExecuteQuery(Query.updateNotificationSeenStatus())
-        val notificationList = getNotificationFromDB()
-        bindNotificationList(notificationList)
+        filter = IntentFilter("ACTION_NOTIFICATION_RECEIVED")
+        clearNotification()
+        if (ConnectionCheck.isConnected(requireContext()))
+        {
+            FetchNotificationAPI(requireContext(),this@NotificationFragment)
+        }else
+        {
+            bindNotificationList()
+        }
         return binding.root
     }
 
@@ -71,8 +85,9 @@ class NotificationFragment : Fragment() {
         return dataList
     }
 
-    fun bindNotificationList(notificationList:ArrayList<NotificationRTRMasterModelItem>){
+    fun bindNotificationList(){
         try {
+            val notificationList = getNotificationFromDB()
             if (notificationList.size>0)
             {
                 val adapter = NotificationAdapter(requireContext(),notificationList)
@@ -86,5 +101,35 @@ class NotificationFragment : Fragment() {
             e.printStackTrace()
             Log.e(TAG, "bindNotificationList: ${e.message}", )
         }
+    }
+
+    private fun clearNotification(){
+        try {
+            val notificationManager = requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.cancelAll()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "clearNotification: ${e.message}", )
+        }
+    }
+
+    private val notificationReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            FetchNotificationAPI(requireContext(),this@NotificationFragment)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requireContext().registerReceiver(notificationReceiver,filter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        requireContext().unregisterReceiver(notificationReceiver)
+        clearNotification()
+        DatabaseManager.ExecuteQuery(Query.updateNotificationSeenStatus())
+        DatabaseManager.ExecuteQuery(Query.updateTMPNotificationSeenStatus())
+
     }
 }

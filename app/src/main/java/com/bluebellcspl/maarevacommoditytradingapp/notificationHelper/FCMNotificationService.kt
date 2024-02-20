@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.notificationHelper
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -10,10 +11,14 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bluebellcspl.maarevacommoditytradingapp.HomeActivity
 import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
+import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -25,6 +30,11 @@ class FCMNotificationService : FirebaseMessagingService() {
         super.onNewToken(token)
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        DatabaseManager.initializeInstance(applicationContext)
+    }
+
     override fun onMessageReceived(message: RemoteMessage) {
         Log.d(TAG, "onMessageReceived FROM : ${message.from}")
 
@@ -33,6 +43,9 @@ class FCMNotificationService : FirebaseMessagingService() {
         if (message.notification != null) {
 //            showNotification(message.notification!!)
             sendNotification(message.notification!!)
+            sendNotificationReceivedBroadcast()
+            insertTempNotification(message.notification!!)
+
         }
     }
 
@@ -80,4 +93,26 @@ class FCMNotificationService : FirebaseMessagingService() {
         }
         return intent
     }
+
+    private fun insertTempNotification(message: RemoteMessage.Notification){
+        try {
+            val list = ContentValues()
+            list.put("TmpNotificationId",NotificationId)
+            list.put("Title",message.title)
+            list.put("FullMsg",message.body)
+            list.put("Cdate",DateUtility().getyyyyMMdd())
+            list.put("IsSeen","false")
+
+            DatabaseManager.commonInsert(list,Constants.TBL_TempNotificationMaster)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "insertTempNotification: ${e.message}")
+        }
+    }
+
+    private fun sendNotificationReceivedBroadcast() {
+        val intent = Intent("ACTION_NOTIFICATION_RECEIVED")
+        this.sendBroadcast(intent)
+    }
+
 }
