@@ -4,19 +4,17 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
-import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentProfileOptionBinding
-import com.bluebellcspl.maarevacommoditytradingapp.master.LogoutAPI
 
 class ProfileOptionFragment : Fragment() {
     lateinit var binding:FragmentProfileOptionBinding
@@ -53,6 +51,7 @@ class ProfileOptionFragment : Fragment() {
         alertDialog.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
+                PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,false)
                 requireActivity().startActivity(Intent(activity, LoginActivity::class.java))
                 requireActivity().finish()
             }

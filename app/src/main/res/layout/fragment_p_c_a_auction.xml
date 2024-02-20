@@ -91,7 +91,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Bags"
+                                android:text="@string/bags"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_14ssp" />
 
@@ -116,7 +116,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Limit"
+                                android:text="@string/limit"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_14ssp" />
 
@@ -150,7 +150,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Budget"
+                                android:text="@string/budget"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_14ssp" />
 
@@ -301,7 +301,7 @@
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
-                        android:hint="Shop No.">
+                        android:hint="@string/shop_no">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/act_ShopNo_PCAAuctionFragment"
@@ -323,7 +323,7 @@
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
-                        android:hint="Shop Name">
+                        android:hint="@string/shop_name">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/act_ShopName_PCAAuctionFragment"
@@ -345,7 +345,7 @@
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
                         app:endIconMode="clear_text"
-                        android:hint="Bags">
+                        android:hint="@string/bags">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_Bags_PCAAuctionFragment"
@@ -369,7 +369,7 @@
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
                         app:endIconMode="clear_text"
-                        android:hint="Current Price">
+                        android:hint="@string/current_price">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_CurrentPrice_PCAAuctionFragment"
@@ -392,7 +392,7 @@
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
-                        android:hint="Total Amount">
+                        android:hint="@string/total_amount">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_TotalAmount_PCAAuctionFragment"

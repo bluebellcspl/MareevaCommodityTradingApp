@@ -45,30 +45,33 @@ class FetchAPMCMasterAPI(var context: Context, var activity: Activity) {
                 {
                     val apmcMasterModel = result.body()!!
                     val list = ContentValues()
-                    DatabaseManager.deleteData(Constants.TBL_APMCMaster)
-                    for (model in apmcMasterModel)
-                    {
-                        list.put("APMCId",model.APMCId)
-                        list.put("APMCName",model.APMCName)
-                        list.put("SrNo",model.SrNo)
-                        list.put("Location",model.Location)
-                        list.put("MarketCess",model.MarketCess)
-                        list.put("LabourCharges",model.LabourCharges)
-                        list.put("TranportationCharges",model.TranportationCharges)
-                        list.put("NoOfShop",model.NoOfShop)
-                        list.put("StateId",model.StateId)
-                        list.put("StateName",model.StateName)
-                        list.put("DistrictId",model.DistrictId)
-                        list.put("DistrictName",model.DistrictName)
-                        list.put("CompanyCode",model.CompanyCode)
-                        list.put("IsActive",model.IsActive)
-                        list.put("CreateUser",model.CreateUser)
-                        list.put("CreateDate",model.CreateDate)
-                        list.put("UpdateDate",model.UpdateDate)
-                        list.put("UpdateUser",model.UpdateUser)
+                    if (apmcMasterModel.isNotEmpty()){
+                        DatabaseManager.deleteData(Constants.TBL_APMCMaster)
+                        for (model in apmcMasterModel)
+                        {
+                            list.put("APMCId",model.APMCId)
+                            list.put("APMCName",model.APMCName)
+                            list.put("SrNo",model.SrNo)
+                            list.put("Location",model.Location)
+                            list.put("MarketCess",model.MarketCess)
+                            list.put("LabourCharges",model.LabourCharges)
+                            list.put("TranportationCharges",model.TranportationCharges)
+                            list.put("NoOfShop",model.NoOfShop)
+                            list.put("StateId",model.StateId)
+                            list.put("StateName",model.StateName)
+                            list.put("DistrictId",model.DistrictId)
+                            list.put("DistrictName",model.DistrictName)
+                            list.put("CompanyCode",model.CompanyCode)
+                            list.put("IsActive",model.IsActive)
+                            list.put("CreateUser",model.CreateUser)
+                            list.put("CreateDate",model.CreateDate)
+                            list.put("UpdateDate",model.UpdateDate)
+                            list.put("UpdateUser",model.UpdateUser)
 
-                        DatabaseManager.commonInsert(list, Constants.TBL_APMCMaster)
+                            DatabaseManager.commonInsert(list, Constants.TBL_APMCMaster)
+                        }
                     }
+
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
                     }

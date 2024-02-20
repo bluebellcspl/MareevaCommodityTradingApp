@@ -34,7 +34,7 @@ class FetchTransportationMasterAPI(var context: Context,var activity: Activity) 
             commonUIUtility.showProgress()
             val JO = JsonObject()
 //            JO.addProperty("BuyerId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
-            JO.addProperty("CompanyCode", PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
+            JO.addProperty("CompanyCode", "MAT189")
             JO.addProperty("Action", PrefUtil.ACTION_RETRIEVE)
 
             Log.d(TAG, "getTransportationMaster: JSON : $JO")
@@ -49,22 +49,26 @@ class FetchTransportationMasterAPI(var context: Context,var activity: Activity) 
                     val transportationMasterModel = result.body()!!
 
                     val list = ContentValues()
-                    DatabaseManager.deleteData(Constants.TBL_TransportationMaster)
-                    for(model in transportationMasterModel)
+                    if (transportationMasterModel.isNotEmpty())
                     {
-                        list.put("Cdate",model.Cdate)
-                        list.put("City1",model.City1)
-                        list.put("City2",model.City2)
-                        list.put("CityName",model.CityName)
-                        list.put("CityName2",model.CityName2)
-                        list.put("CompanyCode",model.CompanyCode)
-                        list.put("CreateUser",model.CreateUser)
-                        list.put("IsActive",model.IsActive)
-                        list.put("PerBoriRate",model.PerBoriRate)
-                        list.put("TransportId",model.TransportId)
+                        DatabaseManager.deleteData(Constants.TBL_TransportationMaster)
+                        for(model in transportationMasterModel)
+                        {
+                            list.put("Cdate",model.Cdate)
+                            list.put("City1",model.City1)
+                            list.put("City2",model.City2)
+                            list.put("CityName",model.CityName)
+                            list.put("CityName2",model.CityName2)
+                            list.put("CompanyCode",model.CompanyCode)
+                            list.put("CreateUser",model.CreateUser)
+                            list.put("IsActive",model.IsActive)
+                            list.put("PerBoriRate",model.PerBoriRate)
+                            list.put("TransportId",model.TransportId)
 
-                        DatabaseManager.commonInsert(list,Constants.TBL_TransportationMaster)
+                            DatabaseManager.commonInsert(list,Constants.TBL_TransportationMaster)
+                        }
                     }
+
                     withContext(Dispatchers.Main)
                     {
                         commonUIUtility.dismissProgress()

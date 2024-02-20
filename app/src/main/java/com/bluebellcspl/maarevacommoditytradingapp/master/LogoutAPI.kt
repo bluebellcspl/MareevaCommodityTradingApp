@@ -33,6 +33,7 @@ class LogoutAPI(var context: Context,var activity: Activity,var fragment: Fragme
     private fun logoutUser() {
         try {
             commonUIUtility.showProgress()
+            Log.d(TAG, "logoutUser: PROGRESS_START")
             val JO = JsonObject()
             JO.addProperty("RegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
             JO.addProperty("RoleId",PrefUtil.getString(PrefUtil.KEY_ROLE_ID,"").toString())
@@ -48,7 +49,9 @@ class LogoutAPI(var context: Context,var activity: Activity,var fragment: Fragme
                     if (result.body()!!.contains("Updated Successfully")){
                         withContext(Dispatchers.Main){
                             commonUIUtility.dismissProgress()
+                            Log.d(TAG, "logoutUser: PROGRESS_END")
                             PrefUtil.deletePreference()
+                            DatabaseManager.deleteData(Constants.TBL_TempNotificationMaster)
                             DatabaseManager.deleteData(Constants.TBL_NotificationMaster)
                         }
 
@@ -57,13 +60,15 @@ class LogoutAPI(var context: Context,var activity: Activity,var fragment: Fragme
                 {
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
+                        Log.d(TAG, "logoutUser: PROGRESS_END")
 //                        commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
-                        Log.e(TAG, "logoutUser: ERROR : ${result.errorBody()}", )
+                        Log.e(TAG, "logoutUser: ERROR : ${result.errorBody().toString()}", )
                     }
                 }
             }
         } catch (e: Exception) {
             commonUIUtility.dismissProgress()
+            Log.d(TAG, "logoutUser: PROGRESS_END")
             Log.e(TAG, "logoutUser: ${e.message}")
             e.printStackTrace()
             commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))

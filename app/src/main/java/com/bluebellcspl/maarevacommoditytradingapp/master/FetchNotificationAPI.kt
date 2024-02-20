@@ -8,6 +8,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtilit
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.NotificationFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
@@ -72,11 +73,11 @@ class FetchNotificationAPI(var context:Context,var fragment:Fragment) {
 
                         DatabaseManager.commonInsert(list, Constants.TBL_NotificationMaster)
                     }
-                    if (fragment is BuyerDashboardFragment){
+                    if (fragment is NotificationFragment){
                         withContext(Dispatchers.Main)
                         {
                             commonUIUtility.dismissProgress()
-                            (fragment as BuyerDashboardFragment).updateNotificationCount()
+                            (fragment as NotificationFragment).bindNotificationList()
                         }
                     }else if (fragment is PCADashboardFragment){
                         withContext(Dispatchers.Main)

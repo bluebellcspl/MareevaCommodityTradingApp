@@ -66,64 +66,67 @@ class FetchApprovedPCAListAPI(
                     val approvedPCAList = ArrayList<PCAListModelItem>()
                     val unapprovedPCAList = ArrayList<PCAListModelItem>()
                     val list = ContentValues()
-                    DatabaseManager.deleteData(Constants.TBL_PCAMaster)
-
                     var data: PCAListModelItem? = null
-                    for (model in pcaList) {
-                        list.put("APMCId", model.APMCId)
-                        list.put("APMCName", model.APMCName)
-                        list.put("Address", model.Address)
-                        list.put("AdharNo", model.AdharNo)
-                        list.put("AdharPhoto", model.AdharPhoto)
-                        list.put("ApprStatus", model.ApprStatus)
-                        list.put("BuyerId", model.BuyerId)
-                        list.put("CityId", model.CityId)
-                        list.put("CityName", model.CityName)
-                        list.put("CommodityId", model.CommodityId)
-                        list.put("CommodityName", model.CommodityName)
-                        list.put("CompanyCode", model.CompanyCode)
-                        list.put("CreateDate", model.CreateDate)
-                        list.put("CreateUser", model.CreateUser)
-                        list.put("DistrictId", model.DistrictId)
-                        list.put("DistrictName", model.DistrictName)
-                        list.put("EmailId", model.EmailId)
-                        list.put("GCACommission", model.GCACommission)
-                        list.put("GSTCertiPhoto", model.GSTCertiPhoto)
-                        list.put("GSTNo", model.GSTNo)
-                        list.put("IsActive", model.IsActive)
-                        list.put("LabourCharges", model.LabourCharges)
-                        list.put("LicenseCopyPhoto", model.LicenseCopyPhoto)
-                        list.put("MarketCess", model.MarketCess)
-                        list.put("Mobile2", model.Mobile2)
-                        list.put("PCACommission", model.PCACommission)
-                        list.put("PCAId", model.PCAId)
-                        list.put("PCAName", model.PCAName)
-                        list.put("PCAPhoneNumber", model.PCAPhoneNumber)
-                        list.put("PCARegId", model.PCARegId)
-                        list.put("PanCardNo", model.PanCardNo)
-                        list.put("PanCardPhoto", model.PanCardPhoto)
-                        list.put("ProfilePic", model.ProfilePic)
-                        list.put("RoleId", model.RoleId)
-                        list.put("RoleName", model.RoleName)
-                        list.put("StateId", model.StateId)
-                        list.put("StateName", model.StateName)
-                        list.put("UpdateDate", model.UpdateDate)
-                        list.put("UpdateUser", model.UpdateUser)
+                    if (pcaList.isNotEmpty())
+                    {
+                        DatabaseManager.deleteData(Constants.TBL_PCAMaster)
+                        for (model in pcaList) {
+                            list.put("APMCId", model.APMCId)
+                            list.put("APMCName", model.APMCName)
+                            list.put("Address", model.Address)
+                            list.put("AdharNo", model.AdharNo)
+                            list.put("AdharPhoto", model.AdharPhoto)
+                            list.put("ApprStatus", model.ApprStatus)
+                            list.put("BuyerId", model.BuyerId)
+                            list.put("CityId", model.CityId)
+                            list.put("CityName", model.CityName)
+                            list.put("CommodityId", model.CommodityId)
+                            list.put("CommodityName", model.CommodityName)
+                            list.put("CompanyCode", model.CompanyCode)
+                            list.put("CreateDate", model.CreateDate)
+                            list.put("CreateUser", model.CreateUser)
+                            list.put("DistrictId", model.DistrictId)
+                            list.put("DistrictName", model.DistrictName)
+                            list.put("EmailId", model.EmailId)
+                            list.put("GCACommission", model.GCACommission)
+                            list.put("GSTCertiPhoto", model.GSTCertiPhoto)
+                            list.put("GSTNo", model.GSTNo)
+                            list.put("IsActive", model.IsActive)
+                            list.put("LabourCharges", model.LabourCharges)
+                            list.put("LicenseCopyPhoto", model.LicenseCopyPhoto)
+                            list.put("MarketCess", model.MarketCess)
+                            list.put("Mobile2", model.Mobile2)
+                            list.put("PCACommission", model.PCACommission)
+                            list.put("PCAId", model.PCAId)
+                            list.put("PCAName", model.PCAName)
+                            list.put("PCAPhoneNumber", model.PCAPhoneNumber)
+                            list.put("PCARegId", model.PCARegId)
+                            list.put("PanCardNo", model.PanCardNo)
+                            list.put("PanCardPhoto", model.PanCardPhoto)
+                            list.put("ProfilePic", model.ProfilePic)
+                            list.put("RoleId", model.RoleId)
+                            list.put("RoleName", model.RoleName)
+                            list.put("StateId", model.StateId)
+                            list.put("StateName", model.StateName)
+                            list.put("UpdateDate", model.UpdateDate)
+                            list.put("UpdateUser", model.UpdateUser)
 
-                        if (model.ApprStatus.equals("true")) {
-                            approvedPCAList.add(model)
-                        } else if (model.ApprStatus.equals("false")) {
-                            unapprovedPCAList.add(model)
-                        }
-                        if (model.PCARegId.equals(
-                                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
-                            )
-                        ) {
-                            data = model
-                        }
+                            if (model.ApprStatus.equals("true")) {
+                                approvedPCAList.add(model)
+                            } else if (model.ApprStatus.equals("false")) {
+                                unapprovedPCAList.add(model)
+                            }
+                            if (model.PCARegId.equals(
+                                    PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
+                                )
+                            ) {
+                                data = model
+                            }
 
-                        DatabaseManager.commonInsert(list, Constants.TBL_PCAMaster)
+                            DatabaseManager.commonInsert(list, Constants.TBL_PCAMaster)
+                        }
                     }
+
                     Log.d(TAG, "getApprovedPCAList: APPROVED_PCA_LIST : $approvedPCAList")
                     Log.d(TAG, "getApprovedPCAList: UNAPPROVED_PCA_LIST : $unapprovedPCAList")
 //                    if (fragment is PCAListFragment) {

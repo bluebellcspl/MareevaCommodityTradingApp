@@ -129,7 +129,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             var TOTAL_pcaExpense = 0.0
             var TOTAL_pcaBasic = 0.0
             var TOTAL_AuctionCost = 0.0
-            var TOTAL_AuctionBags = 0
+            var TOTAL_AuctionBags = 0f
 
             for (PCAData in dataList.PCAList) {
                 var currentPCABasic = 0.0
@@ -144,7 +144,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 for (ShopData in PCAData.ShopList) {
                     currentPCABasic += ShopData.Amount.toDouble()
                     var SHOP_CURRENT_PRICE = ShopData.CurrentPrice.toDouble()
-                    var SHOP_CURRENT_BAGS = ShopData.Bags.toInt()
+                    var SHOP_CURRENT_BAGS = ShopData.Bags.toFloat()
 
                     var pcaMarketCess =
                         (((SHOP_CURRENT_BAGS * PCAData.CommodityBhartiPrice.toDouble()) / 20) * (SHOP_CURRENT_PRICE) * PCAData.MarketCessCharge.toDouble()) / 100.00
@@ -220,7 +220,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 TOTAL_gcaCommCharge += CURRENT_gcaCommCharge
                 TOTAL_pcaTransportationCharge += CURRENT_pcaTransportationCharge
                 TOTAL_pcaLabourCharge += CURRENT_pcaLabourCharge
-                TOTAL_AuctionBags += PCAData.TotalPurchasedBags.toInt()
+                TOTAL_AuctionBags += PCAData.TotalPurchasedBags.toFloat()
                 TOTAL_AuctionCost += CURRENT_TOTAL_COST
                 TOTAL_pcaExpense += CURRENT_pcaExpense
             }
@@ -313,7 +313,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             var TOTAL_pcaExpense = 0.0
             var TOTAL_pcaBasic = 0.0
             var TOTAL_AuctionCost = 0.0
-            var TOTAL_AuctionBags = 0
+            var TOTAL_AuctionBags = 0f
 
 
             for (PCAData in dataList.PCAList) {
@@ -329,7 +329,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 for (ShopData in PCAData.ShopList) {
                     currentPCABasic = ShopData.Amount.toDouble()
                     var SHOP_CURRENT_PRICE = ShopData.CurrentPrice.toDouble()
-                    var SHOP_CURRENT_BAGS = ShopData.Bags.toInt()
+                    var SHOP_CURRENT_BAGS = ShopData.Bags.toFloat()
 
                     var pcaMarketCess =
                         (((SHOP_CURRENT_BAGS * PCAData.CommodityBhartiPrice.toDouble()) / 20) * (SHOP_CURRENT_PRICE) * PCAData.MarketCessCharge.toDouble()) / 100.00
@@ -401,7 +401,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 TOTAL_gcaCommCharge += CURRENT_gcaCommCharge
                 TOTAL_pcaTransportationCharge += CURRENT_pcaTransportationCharge
                 TOTAL_pcaLabourCharge += CURRENT_pcaLabourCharge
-                TOTAL_AuctionBags += PCAData.TotalPurchasedBags.toInt()
+                TOTAL_AuctionBags += PCAData.TotalPurchasedBags.toFloat()
                 TOTAL_AuctionCost += CURRENT_TOTAL_COST
                 TOTAL_pcaExpense += CURRENT_pcaExpense
             }
@@ -459,7 +459,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             var TOTAL_pcaExpense = 0.0
             var TOTAL_pcaBasic = 0.0
             var TOTAL_AuctionCost = 0.0
-            var TOTAL_AuctionBags = 0
+            var TOTAL_AuctionBags = 0f
 
 
 //            for (PCAData in dataList.PCAList) {
@@ -475,7 +475,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 for (ShopData in PCAData.ShopList) {
                     currentPCABasic = ShopData.Amount.toDouble()
                     var SHOP_CURRENT_PRICE = ShopData.CurrentPrice.toDouble()
-                    var SHOP_CURRENT_BAGS = ShopData.Bags.toInt()
+                    var SHOP_CURRENT_BAGS = ShopData.Bags.toFloat()
 
                     var pcaMarketCess =
                         (((SHOP_CURRENT_BAGS * PCAData.CommodityBhartiPrice.toDouble()) / 20) * (SHOP_CURRENT_PRICE) * PCAData.MarketCessCharge.toDouble()) / 100.00
@@ -547,7 +547,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 TOTAL_gcaCommCharge += CURRENT_gcaCommCharge
                 TOTAL_pcaTransportationCharge += CURRENT_pcaTransportationCharge
                 TOTAL_pcaLabourCharge += CURRENT_pcaLabourCharge
-                TOTAL_AuctionBags += PCAData.TotalPurchasedBags.toInt()
+                TOTAL_AuctionBags += PCAData.TotalPurchasedBags.toFloat()
                 TOTAL_AuctionCost += CURRENT_TOTAL_COST
                 TOTAL_pcaExpense += CURRENT_pcaExpense
 //            }

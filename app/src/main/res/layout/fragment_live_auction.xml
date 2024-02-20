@@ -33,7 +33,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|end"
                     android:padding="@dimen/_3sdp"
-                    android:text="Bag  :"
+                    android:text="@string/bags_lbl"
 
                     android:textColor="@color/black"
                     android:textSize="@dimen/_20ssp"
@@ -62,7 +62,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|end"
                     android:padding="@dimen/_3sdp"
-                    android:text="Rate :"
+                    android:text="@string/rate_lbl"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_20ssp"
                     android:textStyle="bold" />
@@ -90,7 +90,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|end"
                 android:padding="@dimen/_3sdp"
-                android:text="Cost :"
+                android:text="@string/cost_lbl"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_20ssp"
                 android:textStyle="bold" />

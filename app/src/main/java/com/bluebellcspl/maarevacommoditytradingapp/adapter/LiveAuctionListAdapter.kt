@@ -56,7 +56,7 @@ class LiveAuctionListAdapter(
 //                pcaExpense =
 //                    dataModel.PCACommCharge.toDouble() + dataModel.GCACommCharge.toDouble() + dataModel.TransportationCharge.toDouble() + dataModel.LabourCharge.toDouble()+dataModel.MarketCessCharge.toDouble()
 //                var totalPCACost = pcaExpense+pcaBasic
-//                var pcaTotalBags = dataModel.TotalPurchasedBags.toInt()
+//                var pcaTotalBags = dataModel.TotalPurchasedBags.toFloat()
 
                 var currentPCABasic = 0.0
                 var CURRENT_pcaMarketCess = 0.0
@@ -71,7 +71,7 @@ class LiveAuctionListAdapter(
                 for (ShopData in dataModel.ShopList) {
                     currentPCABasic = ShopData.Amount.toDouble()
                     var SHOP_CURRENT_PRICE = ShopData.CurrentPrice.toDouble()
-                    var SHOP_CURRENT_BAGS = ShopData.Bags.toInt()
+                    var SHOP_CURRENT_BAGS = ShopData.Bags.toFloat()
 
                     var pcaMarketCess =
                         (((SHOP_CURRENT_BAGS * dataModel.CommodityBhartiPrice.toDouble()) / 20) * (SHOP_CURRENT_PRICE) * dataModel.MarketCessCharge.toDouble()) / 100.00
@@ -103,7 +103,7 @@ class LiveAuctionListAdapter(
                 }
                 val PCATOTALNF = NumberFormat.getCurrencyInstance().format(CURRENT_TOTAL_COST).substring(1)
                 binding.tvPCATotalAmount.setText(PCATOTALNF)
-                var pcaAvgRate = CURRENT_TOTAL_COST/((dataModel.TotalPurchasedBags.toInt()*dataModel.CommodityBhartiPrice.toDouble())/20)
+                var pcaAvgRate = CURRENT_TOTAL_COST/((dataModel.TotalPurchasedBags.toFloat()*dataModel.CommodityBhartiPrice.toDouble())/20)
                 val AvgRateNF = NumberFormat.getCurrencyInstance().format(pcaAvgRate).substring(1)
                 binding.tvPCAAvgRate.setText(AvgRateNF)
 

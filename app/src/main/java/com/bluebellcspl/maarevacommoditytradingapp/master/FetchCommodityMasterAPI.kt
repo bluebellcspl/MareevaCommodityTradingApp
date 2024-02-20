@@ -35,7 +35,7 @@ class FetchCommodityMasterAPI(var context: Context, var activity: Activity) {
             val JO = JsonObject()
             JO.addProperty("CompanyCode", "MAT189")
             JO.addProperty("Action", "All")
-            Log.d(TAG, "getStateMaster: JSON : ${JO.toString()}")
+            Log.d(TAG, "getCommodityMaster: JSON : ${JO.toString()}")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
 
@@ -46,22 +46,25 @@ class FetchCommodityMasterAPI(var context: Context, var activity: Activity) {
                 {
                     val commodityMasterModel = result.body()!!
                     val list = ContentValues()
-                    DatabaseManager.deleteData(Constants.TBL_CommodityMaster)
-                    for (model in commodityMasterModel)
+                    if (commodityMasterModel.isNotEmpty())
                     {
-                        list.put("CommodityId",model.CommodityId)
-                        list.put("CommodityName",model.CommodityName)
-                        list.put("Bharti",model.Bharti)
-                        list.put("CompanyCode",model.CompanyCode)
-                        list.put("IsActive",model.IsActive)
-                        list.put("CreateUser",model.CreateUser)
-                        list.put("CreateDate",model.CreateDate)
-                        list.put("UpdateDate",model.UpdateDate)
-                        list.put("UpdateUser",model.UpdateUser)
+                        DatabaseManager.deleteData(Constants.TBL_CommodityMaster)
+                        for (model in commodityMasterModel)
+                        {
+                            list.put("CommodityId",model.CommodityId)
+                            list.put("CommodityName",model.CommodityName)
+                            list.put("Bharti",model.Bharti)
+                            list.put("CompanyCode",model.CompanyCode)
+                            list.put("IsActive",model.IsActive)
+                            list.put("CreateUser",model.CreateUser)
+                            list.put("CreateDate",model.CreateDate)
+                            list.put("UpdateDate",model.UpdateDate)
+                            list.put("UpdateUser",model.UpdateUser)
 
-                        DatabaseManager.commonInsert(list,Constants.TBL_CommodityMaster)
+                            DatabaseManager.commonInsert(list,Constants.TBL_CommodityMaster)
+                        }
                     }
-                    
+
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
                     }

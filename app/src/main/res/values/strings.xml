@@ -160,6 +160,12 @@
     <string name="auction_report">Auction Report</string>
     <string name="detail_auction_report">Detail Auction Report</string>
     <string name="pca_previous_auction">PCA Previous Auction</string>
+    <string name="limit">Limit</string>
+    <string name="budget">Budget</string>
+    <string name="send">Send</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="otp">OTP</string>
+    <string name="shop_name">Shop Name</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

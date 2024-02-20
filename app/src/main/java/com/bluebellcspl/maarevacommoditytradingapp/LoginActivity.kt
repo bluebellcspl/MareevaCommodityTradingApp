@@ -14,7 +14,6 @@ import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
@@ -23,6 +22,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityLoginBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.TermsAndConditionDialogBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCMasterAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchShopMasterAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchTransportationMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.LoginCheckAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.LoginWithOTPAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.LogoutAPI
@@ -61,17 +64,24 @@ class LoginActivity : AppCompatActivity() {
             exitTransition.duration = 1000
         }
         binding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
+        if (ConnectionCheck.isConnected(this))
+        {
+            FetchAPMCMasterAPI(this,this@LoginActivity)
+            FetchTransportationMasterAPI(this,this@LoginActivity)
+            FetchCommodityMasterAPI(this,this@LoginActivity)
+            FetchShopMasterAPI(this,this@LoginActivity)
+
+            val isLoggedIn = PrefUtil.getBoolean(PrefUtil.KEY_LOGGEDIN,false)
+            val hasLoggedInPreviously = PrefUtil.getBoolean(PrefUtil.KEY_HAS_LOGGEDIN_PREVIOUSLY,false)
+            if (!isLoggedIn)
+            {
+                LogoutAPI(this, this@LoginActivity,DashboardFragment())
+            }
+        }
         getToken()
         DatabaseManager.initializeInstance(this)
         setLanguage()
         binding.tvVersionLogin.setText(Constants.version)
-
-        val isLoggedIn = PrefUtil.getBoolean(PrefUtil.KEY_LOGGEDIN,false)
-        val hasLoggedInPreviously = PrefUtil.getBoolean(PrefUtil.KEY_HAS_LOGGEDIN_PREVIOUSLY,false)
-        if (hasLoggedInPreviously || !isLoggedIn)
-        {
-            LogoutAPI(this, this@LoginActivity,DashboardFragment())
-        }
         setOnClickListeners()
 
     }

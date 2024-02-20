@@ -43,7 +43,7 @@
                         android:fontFamily="@font/poppins"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_8sdp"
-                        android:text="Profile"
+                        android:text="@string/profile"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_15ssp"
                         android:textStyle="bold"
@@ -121,7 +121,7 @@
                             android:fontFamily="@font/poppins"
                             android:gravity="center_vertical"
                             android:padding="@dimen/_2sdp"
-                            android:text="Contact Us"
+                            android:text="@string/contact_us"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_15ssp"
                             android:textStyle="bold"
@@ -154,7 +154,7 @@
                             android:layout_gravity="end"
                             android:layout_margin="@dimen/_8sdp"
                             android:fontFamily="@font/poppins"
-                            android:text="Send"
+                            android:text="@string/send"
                             app:cornerRadius="@dimen/_8sdp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -176,7 +176,7 @@
                         android:fontFamily="@font/poppins"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_8sdp"
-                        android:text="Logout"
+                        android:text="@string/logout"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_15ssp"
                         android:textStyle="bold"

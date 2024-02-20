@@ -34,7 +34,7 @@
     <string name="buyer_registered_successfully_alert_msg">Buyer Registered Successfully!</string>
     <string name="dashboard">Dashboard</string>
     <string name="commodity_name_lbl">Commodity Name</string>
-    <string name="total_pcas_lbl">Total PCAs</string>
+    <string name="total_pcas_lbl">કુલ પાકા આડતતયા</string>
     <string name="notifications">Notifications</string>
     <string name="add_pca">Add PCA</string>
     <string name="pca_list">PCA List</string>
@@ -152,4 +152,10 @@
     <string name="auction_report">Auction Report</string>
     <string name="detail_auction_report">Detail Auction Report</string>
     <string name="pca_previous_auction">PCA Previous Auction</string>
+    <string name="limit">Limit</string>
+    <string name="budget">Budget</string>
+    <string name="send">Send</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="otp">OTP</string>
+    <string name="shop_name">Shop Name</string>
 </resources>
