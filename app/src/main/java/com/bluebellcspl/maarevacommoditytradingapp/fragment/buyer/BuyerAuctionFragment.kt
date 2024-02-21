@@ -540,7 +540,11 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 val labourChargeNF = NumberFormat.getCurrencyInstance().format(labourCharge).substring(1)
                 dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(labourChargeNF.toString())
                 dialogBinding.tvBagsBuyerExpenseDialog.setText(model.Bags)
-                dialogBinding.tvPCANameBuyerExpenseDialog.setText(model.PCAName)
+                if (PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").equals("gu")) {
+                    dialogBinding.tvPCANameBuyerExpenseDialog.setText(DatabaseManager.ExecuteScalar(Query.getGujaratiPCANameByPCAId(model.PCAId)))
+                } else {
+                    dialogBinding.tvPCANameBuyerExpenseDialog.setText(model.PCAName)
+                }
             }
 
         } catch (e: Exception) {

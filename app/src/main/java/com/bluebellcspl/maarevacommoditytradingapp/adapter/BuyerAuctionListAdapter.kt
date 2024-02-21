@@ -9,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionItemAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
@@ -127,7 +130,11 @@ class BuyerAuctionListAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
-        holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(model.PCAName)
+        if (PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").equals("gu")) {
+            holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(DatabaseManager.ExecuteScalar(Query.getGujaratiPCANameByPCAId(model.PCAId)))
+        } else {
+            holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(model.PCAName)
+        }
         val nf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
         holder.binding.tvAmountBuyerAuctionItemAdapter.setText(nf.toString())
         holder.binding.tvBagsBuyerAuctionItemAdapter.setText(model.Bags)
