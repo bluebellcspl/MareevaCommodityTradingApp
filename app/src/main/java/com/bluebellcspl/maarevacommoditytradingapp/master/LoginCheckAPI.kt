@@ -11,6 +11,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.LoginForAdminModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.model.RegErrorReponse
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,7 +61,7 @@ class LoginCheckAPI(
                     {
                         withContext(Main){
                             commonUIUtility.dismissProgress()
-                            commonUIUtility.showToast(context.getString(R.string.invalid_credentials_or_otp_alert_msg))
+                            commonUIUtility.showToast(resultJO.get("Message").asString)
                         }
                     }else{
                         val isAgreementRead = resultJO.get("IsAgreementRead").asString
@@ -107,9 +109,21 @@ class LoginCheckAPI(
                     }
                 }else
                 {
-                    withContext(Main){
-                        commonUIUtility.dismissProgress()
-                        commonUIUtility.showToast(context.getString(R.string.invalid_credentials_or_otp_alert_msg))
+                    val errorResult = Gson().fromJson(result.errorBody()!!.string(),RegErrorReponse::class.java)
+                    errorResult?.let {
+                        if (!errorResult.Success) {
+                            val errorMessage = errorResult.Message
+                            withContext(Dispatchers.Main) {
+                                commonUIUtility.dismissProgress()
+                                commonUIUtility.showToast(errorMessage)
+                            }
+                        }else
+                        {
+                            withContext(Dispatchers.Main) {
+                                commonUIUtility.dismissProgress()
+                                commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
+                            }
+                        }
                     }
                     Log.e(TAG, "getLoginForAdmin: ${result.errorBody().toString()}", )
                 }

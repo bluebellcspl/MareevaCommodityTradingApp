@@ -50,22 +50,23 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_16ssp" />
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cv_Spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="@dimen/_5sdp"
-                        app:cardElevation="@dimen/_3sdp"
-                        app:cardBackgroundColor="@color/colorSecondaryLight"
-                        app:cardUseCompatPadding="true">
+<!--                    <com.google.android.material.card.MaterialCardView-->
+<!--                        android:visibility="gone"-->
+<!--                        android:id="@+id/cv_Spinner"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:cardCornerRadius="@dimen/_5sdp"-->
+<!--                        app:cardElevation="@dimen/_3sdp"-->
+<!--                        app:cardBackgroundColor="@color/colorSecondaryLight"-->
+<!--                        app:cardUseCompatPadding="true">-->
 
-                        <Spinner
-                            android:id="@+id/spn_language"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/language"
-                            android:padding="@dimen/_5sdp" />
-                    </com.google.android.material.card.MaterialCardView>
+<!--                        <Spinner-->
+<!--                            android:id="@+id/spn_language"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:entries="@array/language"-->
+<!--                            android:padding="@dimen/_5sdp" />-->
+<!--                    </com.google.android.material.card.MaterialCardView>-->
 
                     <LinearLayout
                         android:id="@+id/ll_BuyerOrPCA"
