@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentProfileOptionBinding
@@ -24,6 +25,7 @@ import java.util.Locale
 class ProfileOptionFragment : Fragment() {
     lateinit var binding:FragmentProfileOptionBinding
     private val navController by lazy { findNavController() }
+    private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     var isInitial = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,31 +84,28 @@ class ProfileOptionFragment : Fragment() {
     private fun setLanguage() {
         var language: String = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").toString()
 //    var language:String = prefUtil.getString(prefUtil.Key, "en")
-        val users = arrayOf("ENGLISH", "ગુજરાતી")
+        val users = arrayListOf<String>("English", "ગુજરાતી")
+        if (language.equals("en"))
+        {
+            binding.actLanguageProfileOptionFragment.setText(users[0])
+        }else
+        {
+                binding.actLanguageProfileOptionFragment.setText(users[1])
+        }
+        binding.actLanguageProfileOptionFragment.threshold = 101
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, users)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spnLanguage.setAdapter(adapter)
-        binding.spnLanguage.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View,
-                position: Int,
-                l: Long
-            ) {
-                if (users[position].equals("ENGLISH", ignoreCase = true)) {
-                    language = "en"
-                } else if (users[position].equals("ગુજરાતી", ignoreCase = true)) {
-                    language = "gu"
+        binding.actLanguageProfileOptionFragment.setAdapter(commonUIUtility.getCustomArrayAdapter(users))
+        binding.actLanguageProfileOptionFragment.setOnItemClickListener { adapterView, view, i, l ->
+                var selectedLanguage = ""
+            if (users[i].equals("English", ignoreCase = true)) {
+                    selectedLanguage = "en"
+                } else if (users[i].equals("ગુજરાતી", ignoreCase = true)) {
+                    selectedLanguage = "gu"
                 }
-                setLocale(language)
-                PrefUtil.setString(PrefUtil.KEY_LANGUAGE, language)
-            }
-
-            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-        })
-        when (language) {
-            "en" -> binding.spnLanguage.setSelection(0)
-            "gu" -> binding.spnLanguage.setSelection(1)
+                isInitial = language.equals(selectedLanguage)
+                setLocale(selectedLanguage)
+                PrefUtil.setString(PrefUtil.KEY_LANGUAGE, selectedLanguage)
         }
     }
 

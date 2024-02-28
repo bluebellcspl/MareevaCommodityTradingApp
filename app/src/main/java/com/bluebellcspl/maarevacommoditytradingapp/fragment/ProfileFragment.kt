@@ -51,6 +51,7 @@ class ProfileFragment : Fragment() {
 
             binding.tvBuyerNameProfileFragment.setText(data?.Name)
             binding.tvBuyerEmailProfileFragment.setText(data?.Email)
+            binding.tvBuyerPhoneNoProfileFragment.setText(data?.MobileNo)
             binding.tvBuyerCommodityProfileFragment.setText(data?.CommodityName)
             binding.tvBuyerAadharCardProfileFragment.setText(data?.AdharCardNo)
             binding.tvBuyerPANCardProfileFragment.setText(data?.PanCardNo)
@@ -74,6 +75,7 @@ class ProfileFragment : Fragment() {
 
             binding.tvPCANameProfileFragment.setText(data?.PCAName)
             binding.tvPCAEmailProfileFragment.setText(data?.EmailId)
+            binding.tvPCAPhoneNoProfileFragment.setText(data?.PCAPhoneNumber)
             binding.tvPCAAPMCProfileFragment.setText(data?.APMCName)
             binding.tvPCAAadharCardProfileFragment.setText(data?.AdharNo)
             binding.tvPCAPANCardProfileFragment.setText(data?.PanCardNo)

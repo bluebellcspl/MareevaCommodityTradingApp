@@ -168,12 +168,27 @@
                     app:cardElevation="@dimen/_3sdp"
                     app:cardUseCompatPadding="true">
 
-                    <Spinner
-                        android:id="@+id/spn_language"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/language"
-                        android:padding="@dimen/_5sdp" />
+                        android:layout_margin="@dimen/_5sdp"
+                        android:hint="@string/select_language"
+                        android:textColorHint="@color/colorPrimaryDark"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/act_Language_ProfileOptionFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp"
+                            android:inputType="none"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+<!--                    <Spinner-->
+<!--                        android:id="@+id/spn_language"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:entries="@array/language"-->
+<!--                        android:padding="@dimen/_5sdp" />-->
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView

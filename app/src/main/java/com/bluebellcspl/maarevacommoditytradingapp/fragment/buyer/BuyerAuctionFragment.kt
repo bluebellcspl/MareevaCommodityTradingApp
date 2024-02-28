@@ -212,43 +212,6 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             val bagsPerPerson = distributeBagsEvenly(bags.toDouble(), pcaCount)
             auctionDetailList2.addAll(auctionDetailList)
             for (i in 0 until pcaCount) {
-//                val auctionDetailsModel = AuctionDetailsModel(
-//                    auctionDetailList[i].APMCId,
-//                    auctionDetailList[i].APMCName,
-//                    auctionDetailList[i].Amount,
-//                    auctionDetailList[i].AuctionMasterId,
-//                    bagsPerPerson[i].toString(),
-//                    auctionDetailList[i].BuyerCityId,
-//                    auctionDetailList[i].CommodityId,
-//                    auctionDetailList[i].DetailsId,
-//                    auctionDetailList[i].DistrictId,
-//                    auctionDetailList[i].GCACommCharge,
-//                    auctionDetailList[i].GCACommRate,
-//                    auctionDetailList[i].LowerLimit,
-//                    auctionDetailList[i].MarketCessCharge,
-//                    auctionDetailList[i].MarketCessRate,
-//                    auctionDetailList[i].PCACityId,
-//                    auctionDetailList[i].PCACommCharge,
-//                    auctionDetailList[i].PCACommRate,
-//                    auctionDetailList[i].PCAId,
-//                    auctionDetailList[i].PCALowerLimit,
-//                    auctionDetailList[i].PCAName,
-//                    auctionDetailList[i].PCARegId,
-//                    auctionDetailList[i].PCAUpperLimit,
-//                    auctionDetailList[i].PerBoriRate,
-//                    auctionDetailList[i].StateId,
-//                    auctionDetailList[i].TransportId,
-//                    auctionDetailList[i].TransportationCharge,
-//                    auctionDetailList[i].UpdGCACommRate,
-//                    auctionDetailList[i].UpdLabourCharge,
-//                    auctionDetailList[i].UpdMarketCessRate,
-//                    auctionDetailList[i].UpdPCACommRate,
-//                    auctionDetailList[i].UpdPerBoriRate,
-//                    auctionDetailList[i].UpdTransportId,
-//                    auctionDetailList[i].UpperLimit,
-//                    "0.0"
-//                )
-//                auctionDetailList2.add(auctionDetailsModel)
                 auctionDetailList2[i].Bags = bagsPerPerson[i].toString()
                 auctionDetailList2[i].Basic = "0.0"
             }
