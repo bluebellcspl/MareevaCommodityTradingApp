@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.Intent.getIntent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,19 +28,20 @@ class ProfileOptionFragment : Fragment() {
     private val navController by lazy { findNavController() }
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     var isInitial = true
+    val TAG = "ProfileOptionFragment"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val languageCode = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "en")
-        val activityConf = Configuration()
-        val newLocale = Locale(languageCode)
-        activityConf.setLocale(newLocale)
-        requireContext().resources.updateConfiguration(
-            activityConf,
-            requireContext().resources.displayMetrics
-        )
+//        val languageCode = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "en")
+//        val activityConf = Configuration()
+//        val newLocale = Locale(languageCode)
+//        activityConf.setLocale(newLocale)
+//        requireContext().resources.updateConfiguration(
+//            activityConf,
+//            requireContext().resources.displayMetrics
+//        )
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile_option, container, false)
         setLanguage()
         binding.tvVersionProfileOptionFragment.setText("v${Constants.version}")
@@ -63,9 +65,9 @@ class ProfileOptionFragment : Fragment() {
     fun logoutDialog() {
         val alertDialog = AlertDialog.Builder(requireContext())
         alertDialog.setCancelable(false)
-        alertDialog.setTitle("Logout")
-        alertDialog.setMessage("Do you want to Logout?")
-        alertDialog.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
+        alertDialog.setTitle(requireContext().getString(R.string.logout))
+        alertDialog.setMessage(requireContext().getString(R.string.do_you_want_to_logout_alert_msg))
+        alertDialog.setPositiveButton(requireContext().getString(R.string.yes), object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
                 PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,false)
@@ -73,7 +75,7 @@ class ProfileOptionFragment : Fragment() {
                 requireActivity().finish()
             }
         })
-        alertDialog.setNegativeButton("No", object : DialogInterface.OnClickListener {
+        alertDialog.setNegativeButton(requireContext().getString(R.string.no), object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
             }
@@ -82,15 +84,18 @@ class ProfileOptionFragment : Fragment() {
     }
 
     private fun setLanguage() {
-        var language: String = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").toString()
+        var language: String = PrefUtil.getSystemLanguage().toString()
 //    var language:String = prefUtil.getString(prefUtil.Key, "en")
         val users = arrayListOf<String>("English", "ગુજરાતી")
         if (language.equals("en"))
         {
             binding.actLanguageProfileOptionFragment.setText(users[0])
-        }else
+        }else if (language.equals("gu"))
         {
                 binding.actLanguageProfileOptionFragment.setText(users[1])
+        }else
+        {
+            binding.actLanguageProfileOptionFragment.setText("English")
         }
         binding.actLanguageProfileOptionFragment.threshold = 101
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, users)
@@ -104,8 +109,9 @@ class ProfileOptionFragment : Fragment() {
                     selectedLanguage = "gu"
                 }
                 isInitial = language.equals(selectedLanguage)
-                setLocale(selectedLanguage)
-                PrefUtil.setString(PrefUtil.KEY_LANGUAGE, selectedLanguage)
+            setLocale(selectedLanguage)
+            PrefUtil.setSystemLanguage(selectedLanguage)
+            Log.d(TAG, "setLanguage: SYSTEM_LANGUAGE : ${PrefUtil.getSystemLanguage()}")
         }
     }
 

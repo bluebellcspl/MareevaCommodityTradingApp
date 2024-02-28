@@ -24,7 +24,7 @@ class HomeActivity : AppCompatActivity() {
     val TAG = "HomeActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         PrefUtil.getInstance(this)
-        val languageCode = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "en")
+        val languageCode = PrefUtil.getSystemLanguage().toString()
         val activityConf = Configuration()
         val newLocale = Locale(languageCode)
         activityConf.setLocale(newLocale)

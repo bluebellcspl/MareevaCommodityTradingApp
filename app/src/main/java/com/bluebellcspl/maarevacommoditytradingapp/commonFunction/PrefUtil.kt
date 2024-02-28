@@ -46,15 +46,30 @@ class PrefUtil {
 
         lateinit var editor: SharedPreferences.Editor
         lateinit var preferences: SharedPreferences
+        lateinit var systemLanguageEditor: SharedPreferences.Editor
+        lateinit var systemLanguagePreferences: SharedPreferences
 
         fun getInstance(context: Context) {
             preferences = context.getSharedPreferences(KEY_PREF, 0)
             editor = preferences.edit()
         }
 
+        fun getLanguageInstance(context: Context) {
+            systemLanguagePreferences = context.getSharedPreferences("Language", 0)
+            systemLanguageEditor = systemLanguagePreferences.edit()
+        }
+
         public fun setString(PrefName: String, Value: String) {
             editor.putString(PrefName, Value)
             editor.commit()
+        }
+
+        public fun setSystemLanguage(Value: String) {
+            systemLanguageEditor.putString(KEY_LANGUAGE, Value)
+            systemLanguageEditor.commit()
+        }
+        public fun getSystemLanguage():String? {
+            return systemLanguagePreferences.getString(KEY_LANGUAGE, "")
         }
 
         public fun getString(PrefName: String, Value: String): String? {
