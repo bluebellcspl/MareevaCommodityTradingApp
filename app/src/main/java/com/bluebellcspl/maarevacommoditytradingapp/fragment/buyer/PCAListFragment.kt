@@ -168,10 +168,14 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
                 if (onclickType.equals("ApprovedList"))
                 {
                     alertDialog.dismiss()
+//                    model.GujaratiShortPCAName=""
+                    Log.d(TAG, "showPCAProfileDialogPopup: PCA_MODEL_FOR_EDIT : $model")
                     navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
                 }else
                 {
                     alertDialog.dismiss()
+//                    model.GujaratiShortPCAName=""
+                    Log.d(TAG, "showPCAProfileDialogPopup: PCA_MODEL_FOR_EDIT : $model")
                     navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
                 }
             }

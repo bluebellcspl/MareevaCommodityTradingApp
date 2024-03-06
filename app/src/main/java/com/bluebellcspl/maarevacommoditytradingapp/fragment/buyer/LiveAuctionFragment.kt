@@ -4,6 +4,8 @@ import ConnectionCheck
 import android.app.AlertDialog
 import android.icu.text.NumberFormat
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.LiveAuctionListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
@@ -29,7 +32,18 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTAuctionStartStopAPIModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
+import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.SocketHandler
 import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.WebSocketClient
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import okhttp3.Response
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
 
 class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
     lateinit var binding: FragmentLiveAuctionBinding
@@ -41,6 +55,11 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
     var lastPCAList: ArrayList<LiveAuctionPCAListModel> = ArrayList()
     var newAuctionData: LiveAuctionMasterModel? = null
     var COMMODITY_BHARTI = ""
+    private var webSocket: WebSocket? = null
+    private var isConnectingWebSocket = false
+    var commodityId = ""
+    var companyCode = ""
+    var buyerRegId = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,18 +67,11 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_live_auction, container, false)
-        var commodityId = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "")
-        var companyCode = PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "")
-        var buyerRegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "")
+         commodityId = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "").toString()
+         companyCode = PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "").toString()
+         buyerRegId = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
         COMMODITY_BHARTI =
             DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
-
-        webSocketClient = WebSocketClient(
-            requireContext(),
-            URLHelper.LIVE_AUCTION_SOCKET_URL.replace("<COMMODITY_ID>",commodityId.toString()).replace("<DATE>",DateUtility().getCompletionDate()).replace("<COMPANY_CODE>",companyCode.toString()).replace("<BUYER_REG_ID>",buyerRegId.toString()),
-            viewLifecycleOwner,
-            ::onMessageReceived
-        )
         setOnClickListener()
         return binding.root
     }
@@ -90,8 +102,6 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
         if (dataList.PCAList.isNotEmpty()) {
 
             if (dataList.PCAList != lastPCAList) {
-//                Log.d(TAG, "onMessageReceived: LAST_PCA_LIST : $lastPCAList")
-//                Log.d(TAG, "onMessageReceived: CURRENT_PCA_LIST : $dataList")
                 var expandableList: ArrayList<ExpandableObject> = ArrayList()
                 for (i in dataList.PCAList.indices) {
                     expandableList.add(ExpandableObject(false))
@@ -99,7 +109,8 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 adapter =
                     LiveAuctionListAdapter(requireContext(), dataList.PCAList, expandableList, this)
                 binding.rcViewLiveAuctionFragment.adapter = adapter
-                binding.rcViewLiveAuctionFragment.invalidate()
+//                binding.rcViewLiveAuctionFragment.invalidate()
+                adapter.submitList(dataList.PCAList)
                 lastPCAList = dataList.PCAList
                 newAuctionData = dataList
                 calculateExpenses(dataList)
@@ -623,27 +634,64 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
 
     override fun onResume() {
         super.onResume()
-//        webSocketClient.connect()
-        if (!isWebSocketConnected) {
-            if (ConnectionCheck.isConnected(requireContext())) {
+        if (!isWebSocketConnected && !isConnectingWebSocket) {
+            Log.d(TAG, "onResume: WEB_SOCKET_CONNECT onResume")
 
-                webSocketClient.connect()
-                isWebSocketConnected = true
-            } else {
-                commonUIUtility.showToast("No Internet Connection!")
-            }
+            // Set the flag to indicate that a connection attempt is in progress
+            isConnectingWebSocket = true
+
+                if (ConnectionCheck.isConnected(requireContext())) {
+//                    webSocketClient.connect()
+                    lifecycleScope.launch(Dispatchers.IO)
+                    {
+                        webSocket = SocketHandler.getWebSocket(
+                            URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
+                                "<COMMODITY_ID>",
+                                commodityId.toString()
+                            ).replace("<DATE>", DateUtility().getCompletionDate())
+                                .replace("<COMPANY_CODE>", companyCode.toString())
+                                .replace("<BUYER_REG_ID>", buyerRegId.toString()),
+                            MyWebSocketListener()
+                        )
+                    }
+                    isWebSocketConnected = true
+                } else {
+                    commonUIUtility.showToast(getString(R.string.no_internet_connection))
+                }
+
+                // Reset the flag after the connection attempt
+                isConnectingWebSocket = false
         }
     }
 
     override fun onStart() {
         super.onStart()
-        if (!isWebSocketConnected) {
-            if (ConnectionCheck.isConnected(requireContext())) {
-                webSocketClient.connect()
-                isWebSocketConnected = true
-            } else {
-                commonUIUtility.showToast("No Internet Connection!")
-            }
+        if (!isWebSocketConnected && !isConnectingWebSocket) {
+            Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
+
+            // Set the flag to indicate that a connection attempt is in progress
+            isConnectingWebSocket = true
+
+                if (ConnectionCheck.isConnected(requireContext())) {
+                    lifecycleScope.launch(Dispatchers.IO)
+                    {
+                        webSocket = SocketHandler.getWebSocket(
+                            URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
+                                "<COMMODITY_ID>",
+                                commodityId.toString()
+                            ).replace("<DATE>", DateUtility().getCompletionDate())
+                                .replace("<COMPANY_CODE>", companyCode.toString())
+                                .replace("<BUYER_REG_ID>", buyerRegId.toString()),
+                            MyWebSocketListener()
+                        )
+                    }
+                    isWebSocketConnected = true
+                } else {
+                    commonUIUtility.showToast(getString(R.string.no_internet_connection))
+                }
+
+                // Reset the flag after the connection attempt
+                isConnectingWebSocket = false
         }
     }
 
@@ -651,7 +699,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
         super.onStop()
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         if (isWebSocketConnected) {
-            webSocketClient.disconnect()
+            disconnect()
             isWebSocketConnected = false
         }
     }
@@ -661,10 +709,50 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
         // Disconnect the WebSocket in onDestroy to ensure proper cleanup
         newAuctionData = null
         lastPCAList = ArrayList()
-        if (isWebSocketConnected) {
-            webSocketClient.disconnect()
-            isWebSocketConnected = false
+        disconnect()
+    }
+
+    fun disconnect() {
+        try {
+            Log.d(TAG, "disconnect: SOCKET_DISCONNECTED")
+            webSocket?.close(1000, "Disconnect Socket")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "disconnect: ${e.message}")
         }
+    }
+
+    private inner class MyWebSocketListener : WebSocketListener() {
+        override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+            this@LiveAuctionFragment.webSocket = null
+            Log.d(TAG, "onClosed: SOCKET_CLOSED")
+        }
+
+        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+            this@LiveAuctionFragment.webSocket = null
+            t.printStackTrace()
+            Log.e(TAG, "onFailure: ${t.message}")
+            Log.e(TAG, "onFailure: FAILED_RESPONSE $response")
+        }
+
+        override fun onMessage(webSocket: WebSocket, text: String) {
+            //FOR RECYCLERVIEW
+            val gson = Gson()
+            val jsonObject: JsonObject = JsonParser().parse(text).asJsonObject
+            Log.d(TAG, "onMessage: NEW_JSON_OBJECT : ${jsonObject.toString()}")
+            val userListType = object : TypeToken<LiveAuctionMasterModel>() {}.type
+            var liveAuctionObject: LiveAuctionMasterModel =
+                gson.fromJson(jsonObject.toString(), userListType)
+            lifecycleScope.launch(Dispatchers.Main) {
+                onMessageReceived(liveAuctionObject)
+            }
+        }
+
+        override fun onOpen(webSocket: WebSocket, response: Response) {
+            this@LiveAuctionFragment.webSocket = webSocket
+            Log.d(TAG, "onOpen: SOCKET_CONNECTED")
+        }
+
     }
 
 }

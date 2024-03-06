@@ -151,7 +151,7 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
-            />
+            app:popUpTo="@id/profileOptionFragment" />
     </fragment>
     <fragment
         android:id="@+id/buyerDashboardFragment"

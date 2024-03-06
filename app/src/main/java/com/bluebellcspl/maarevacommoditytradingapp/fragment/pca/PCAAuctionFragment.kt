@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 import ConnectionCheck
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
 import android.os.Bundle
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
@@ -100,15 +102,40 @@ class PCAAuctionFragment : Fragment() {
         binding.actShopNoPCAAuctionFragment.threshold = 100
         binding.edtBagsPCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
         binding.edtCurrentPricePCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(7, 2))
+//        binding.actShopNoPCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
+//            var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+//            shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+//            binding.actShopNamePCAAuctionFragment.setText(shopName)
+//        }
+//        binding.actShopNamePCAAuctionFragment.threshold = 100
+//        binding.actShopNamePCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
+//            var shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+//            shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+//            binding.actShopNoPCAAuctionFragment.setText(shopNo)
+//        }
+
         binding.actShopNoPCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
-            var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
             shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            var shopName =if (PrefUtil.getSystemLanguage().toString().equals("en"))
+            {
+                DatabaseManager.ExecuteScalar(Query.getShortShopNameByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            }else
+            {
+                DatabaseManager.ExecuteScalar(Query.getGujShortShopNameByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            }
+
             binding.actShopNamePCAAuctionFragment.setText(shopName)
         }
         binding.actShopNamePCAAuctionFragment.threshold = 100
         binding.actShopNamePCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
-            var shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
-            shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            var shopNo = if (PrefUtil.getSystemLanguage().toString().equals("en"))
+            {
+                DatabaseManager.ExecuteScalar(Query.getShopNoByShortShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            }else
+            {
+                DatabaseManager.ExecuteScalar(Query.getShopNoByGujShortShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+            }
+            shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(shopNo,PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
             binding.actShopNoPCAAuctionFragment.setText(shopNo)
         }
 
@@ -323,13 +350,23 @@ class PCAAuctionFragment : Fragment() {
     private fun getShopNameFromDB(): ArrayList<String> {
         var dataList: ArrayList<String> = ArrayList()
         try {
-            val cursor = DatabaseManager.ExecuteRawSql(
-                Query.getShopName(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString())
-            )
+            var query = if (PrefUtil.getSystemLanguage().toString().equals("en"))
+            {
+                Query.getShortShopName(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString())
+            }else
+            {
+                Query.getGujShortShopName(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString())
+            }
+            val cursor = DatabaseManager.ExecuteRawSql(query)
             if (cursor != null && cursor.count > 0) {
                 dataList.clear()
                 while (cursor.moveToNext()) {
-                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShopName")))
+                    if (PrefUtil.getSystemLanguage().toString().equals("en")){
+                        dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShortShopName")))
+                    }else
+                    {
+                        dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("GujaratiShortShopName")))
+                    }
                 }
                 dataList.sort()
                 val shopNameAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
@@ -514,6 +551,17 @@ class PCAAuctionFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "postPCAData: ${e.message}")
+        }
+    }
+
+    fun redirectToLogin(){
+        try {
+            PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,false)
+            requireActivity().startActivity(Intent(requireActivity(), LoginActivity::class.java))
+            requireActivity().finish()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "redirectToLogin: ${e.message}")
         }
     }
 }

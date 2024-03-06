@@ -6,11 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.LiveAuctionAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.ExpandableObject
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionShopListModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
 
@@ -21,7 +27,34 @@ class LiveAuctionListAdapter(
     var recyclerViewHelper: RecyclerViewHelper
 ) : RecyclerView.Adapter<LiveAuctionListAdapter.MyViewHolder>() {
     val TAG = "LiveAuctionListAdapter"
+    private var oldAuctionList= ArrayList<LiveAuctionPCAListModel>()
+    private var newAuctionList = dataList
 
+    private var diffUtilCallBack = object : DiffUtil.Callback(){
+        override fun getOldListSize(): Int {
+            return oldAuctionList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newAuctionList.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldAuctionList[oldItemPosition].PCAAuctionMasterId==newAuctionList[newItemPosition].PCAAuctionMasterId
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldAuctionList[oldItemPosition]==newAuctionList[newItemPosition]
+        }
+    }
+
+    fun submitList(newLiveAuctionList:List<LiveAuctionPCAListModel>){
+        oldAuctionList = ArrayList(newLiveAuctionList)
+        val differ = DiffUtil.calculateDiff(diffUtilCallBack)
+        oldAuctionList.clear()
+        oldAuctionList.addAll(newLiveAuctionList)
+        differ.dispatchUpdatesTo(this)
+    }
     inner class MyViewHolder(var binding: LiveAuctionAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
@@ -41,22 +74,11 @@ class LiveAuctionListAdapter(
         fun bindShopList(shopList: ArrayList<LiveAuctionShopListModel>) {
             val adapter = ShopListAdatper(context, shopList)
             binding.rcViewPCAShopListLiveAuctionAdapter.adapter = adapter
-            binding.rcViewPCAShopListLiveAuctionAdapter.invalidate()
+            adapter.submitList(shopList)
         }
 
         fun calcutionTotalPCAAmount(dataModel: LiveAuctionPCAListModel) {
             try {
-//                var pcaBasic = 0.0
-//                var pcaExpense = 0.0
-//                for (pcaData in dataModel.ShopList) {
-//                    pcaBasic += pcaData.Amount.toDouble()
-//                }
-//
-//
-//                pcaExpense =
-//                    dataModel.PCACommCharge.toDouble() + dataModel.GCACommCharge.toDouble() + dataModel.TransportationCharge.toDouble() + dataModel.LabourCharge.toDouble()+dataModel.MarketCessCharge.toDouble()
-//                var totalPCACost = pcaExpense+pcaBasic
-//                var pcaTotalBags = dataModel.TotalPurchasedBags.toFloat()
 
                 var currentPCABasic = 0.0
                 var CURRENT_pcaMarketCess = 0.0
@@ -126,17 +148,20 @@ class LiveAuctionListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dataList.size
+        return newAuctionList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
         val expanable = expandableList[holder.adapterPosition]
         holder.binding.tvPCAName.setText(model.PCAName)
+        if (PrefUtil.getSystemLanguage().equals("gu")) {
+            holder.binding.tvPCAName.setText(DatabaseManager.ExecuteScalar(Query.getGujaratiPCANameByPCAId(model.PCAId)))
+        } else {
+            holder.binding.tvPCAName.setText(model.PCAName)
+        }
         holder.bindShopList(model.ShopList)
-//        val AvgPriceNF =
-//            NumberFormat.getCurrencyInstance().format(model.AvgPrice.toDouble()).substring(1)
-//        holder.binding.tvPCAAvgRate.setText(AvgPriceNF)
+
         holder.binding.tvPCATotalBags.setText(model.TotalPurchasedBags)
         holder.calcutionTotalPCAAmount(model)
 

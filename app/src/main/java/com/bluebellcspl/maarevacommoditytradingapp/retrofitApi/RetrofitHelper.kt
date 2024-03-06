@@ -10,8 +10,11 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitHelper {
 
-    val BASE_URL = "https://maarevaapi.bbcspldev.in/"
-    val IMG_BASE_URL = "https://maareva.bbcspldev.in/UploadImages/"
+//    val BASE_URL = "https://maarevaapi.bbcspldev.in/"
+    val BASE_URL = "https://maareva.com/"
+//    val IMG_BASE_URL = "https://maareva.bbcspldev.in/UploadImages/"
+    val IMG_BASE_URL = "https://maareva.com/UploadImages/"
+
     fun getInstance(): Retrofit {
         val gson = GsonBuilder().setLenient().serializeNulls().create()
 

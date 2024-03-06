@@ -168,6 +168,20 @@
     <string name="shop_name">Shop Name</string>
     <string name="full_name">Full Name</string>
     <string name="no_auction_for_today_contact_your_customer_alert_msg">"No Auction for Today,\nContact your customer "</string>
+    <string name="do_you_want_to_logout_alert_msg">Do you want to Logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="pca_short_name">PCA Short Name</string>
+    <string name="pca_gujarati_name">PCA Gujarati Name</string>
+    <string name="pca_gujarati_short_name">PCA Gujarati Short Name</string>
+    <string name="please_enter_pca_gujarati_name_alert_msg">Please Enter PCA Gujarati Name!</string>
+    <string name="select_city">Select City</string>
+    <string name="select_language">Select Language</string>
+    <string name="edit">Edit</string>
+    <string name="close">Close</string>
+    <string name="do_you_want_to_update_auction_alert_msg">Do you want to update Auction?</string>
+    <string name="please_enter_valid_bags_alert_msg">Please Enter Valid Bags!</string>
+    <string name="please_enter_valid_input_alert_msg">Please Enter Valid Input!</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

@@ -23,6 +23,7 @@ data class PCAAuctionDetailModel(
     var Date: String,
     var GCACommRate: String,
     var IsAuctionStop: String,
+    var IsActive: String,
     var MCessRate: String,
     var PCAAuctionHeaderId: String,
     var PCAAuctionMasterId: String,

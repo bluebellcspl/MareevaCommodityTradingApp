@@ -88,10 +88,9 @@
                             android:id="@+id/edt_Bags_PCAAuctionDialog"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:digits="0123456789"
                             android:selectAllOnFocus="true"
                             android:imeOptions="actionNext"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -112,9 +111,8 @@
                             android:id="@+id/edt_CurrentPrice_PCAAuctionDialog"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:digits="0123456789"
                             android:imeOptions="actionNext"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:selectAllOnFocus="true"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp" />

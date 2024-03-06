@@ -92,7 +92,7 @@ class NotificationFragment : Fragment() {
             {
                 val adapter = NotificationAdapter(requireContext(),notificationList)
                 binding.rcViewNotificationFragment.adapter = adapter
-                binding.rcViewNotificationFragment.invalidate()
+                adapter.submitList(notificationList)
             }else
             {
                 commonUIUtility.showToast("No Notifications")

@@ -10,8 +10,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.AddPCAFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.LoginWithOTPModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTPCAInsertModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.RegErrorReponse
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +43,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
             JO.addProperty("PCAName",model.PCAName)
             JO.addProperty("PCAPhoneNumber",model.PCAPhoneNumber)
             JO.addProperty("Typeofuser",model.Typeofuser)
-            JO.addProperty("Address",model.Address)
+            JO.addProperty("OfficeAddress",model.OfficeAddress)
             JO.addProperty("EmailId",model.EmailId)
             JO.addProperty("BuyerId",model.BuyerId)
             JO.addProperty("RoleId",model.RoleId)
@@ -63,6 +65,9 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
             JO.addProperty("APMCId",model.APMCId)
             JO.addProperty("APMCName",model.APMCName)
             JO.addProperty("CommodityName",model.CommodityName)
+            JO.addProperty("GujaratiPCAName",model.GujaratiPCAName)
+            JO.addProperty("PCAShortName",model.PCAShortName)
+            JO.addProperty("GujaratiShortPCAName",model.GujaratiShortPCAName)
 
             Log.d(TAG, "postPCAData: PCA_INSERT_JSON : ${JO.toString()}")
 
@@ -74,34 +79,44 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
                 if (result.isSuccessful)
                 {
                     val resultJO = result.body()!!
-                    if (resultJO.contains("PCA Created successfully")){
-                        if (fragment is AddPCAFragment)
-                        {
-                            withContext(Main){
-                                commonUIUtility.dismissProgress()
-                                commonUIUtility.showToast(context.getString(R.string.pca_created_successfully_alert_msg))
-                                (fragment as AddPCAFragment).clearData()
+                    if (resultJO.get("Success").asBoolean)
+                    {
+                        if (resultJO.get("Message").asString.contains("Successfully",true)){
+                            if (fragment is AddPCAFragment)
+                            {
+                                withContext(Main){
+                                    commonUIUtility.dismissProgress()
+                                    commonUIUtility.showToast(context.getString(R.string.pca_created_successfully_alert_msg))
+                                    (fragment as AddPCAFragment).clearData()
+                                }
                             }
-                        }
-                    }else if (resultJO.contains("Already Exist")){
-                        if (fragment is AddPCAFragment)
-                        {
-                            withContext(Main){
-                                commonUIUtility.dismissProgress()
-                                commonUIUtility.showToast(context.getString(R.string.phone_no_already_exist_alert_msg))
+                        }else if (resultJO.get("Message").asString.contains("Already",true)){
+                            if (fragment is AddPCAFragment)
+                            {
+                                withContext(Main){
+                                    commonUIUtility.dismissProgress()
+                                    commonUIUtility.showToast(context.getString(R.string.phone_no_already_exist_alert_msg))
+                                }
                             }
                         }
                     }
                 }else
                 {
-                    withContext(Main){
-                        commonUIUtility.dismissProgress()
-                        commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
+                    val errorResponse = Gson().fromJson(result.errorBody()!!.string(),RegErrorReponse::class.java)
+                    errorResponse?.let {
+                        if (!errorResponse.Success)
+                        {
+                            withContext(Main){
+                                commonUIUtility.dismissProgress()
+                                commonUIUtility.showToast(errorResponse.Message)
+                                Log.e(TAG, "postPCAData: ERROR_RESPONSE : ${errorResponse.Message}", )
+                            }
+                        }
                     }
-                    Log.e(TAG, "postPCAData: ${result.errorBody()}", )
+                    Log.e(TAG, "postPCAData: ${result.errorBody()!!.string()}", )
                 }
             }
-            9887654321
+
         }catch (e:Exception)
         {
             e.printStackTrace()

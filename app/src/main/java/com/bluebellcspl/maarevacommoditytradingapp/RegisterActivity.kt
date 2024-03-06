@@ -220,7 +220,7 @@ class RegisterActivity : AppCompatActivity() {
 //    }
 
     private fun setLanguage() {
-        var language: String = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").toString()
+        var language: String = PrefUtil.getSystemLanguage().toString()
 //    var language:String = prefUtil.getString(prefUtil.Key, "en")
         val users = arrayOf("ENGLISH", "ગુજરાતી")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, users)

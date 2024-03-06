@@ -8,6 +8,8 @@ data class APMCMasterModelItem(
     var CreateUser: String,
     var DistrictId: String,
     var DistrictName: String,
+    var CityId: String,
+    var CityName: String,
     var IsActive: String,
     var LabourCharges: String,
     var Location: String,

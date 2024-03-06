@@ -112,6 +112,12 @@ class Query {
             Log.d(TAG, "getShopNoByShopName: $qry")
             return qry
         }
+
+        fun getShopNoByGujShopName(shopName:String,apmcId: String):String{
+            qry = "SELECT ShopNo FROM ShopMaster WHERE ShopName='$shopName' AND APMCId='$apmcId'"
+            Log.d(TAG, "getShopNoByShopName: $qry")
+            return qry
+        }
         fun getShopNameByShopNo(shopNo:String,apmcId: String):String{
             qry = "SELECT ShopName FROM ShopMaster WHERE ShopNo='$shopNo' AND APMCId='$apmcId'"
             Log.d(TAG, "getShopNameByShopNo: $qry")
@@ -165,6 +171,76 @@ class Query {
             return qry
         }
 
+        fun getGujaratiCommodityNameByCommodityId(commodityId: String):String{
+            qry = "SELECT GujaratiCommodityName FROM CommodityMaster WHERE CommodityId='$commodityId'"
+            Log.d(TAG, "getGujaratiCommodityNameByCommodityId: $qry")
+            return qry
+        }
+
+        fun getGujaratiPCANameByPCAId(PCAId: String):String{
+            qry = "SELECT GujaratiPCAName FROM PCAMaster WHERE PCAId='$PCAId'"
+            Log.d(TAG, "getGujaratiPCANameByPCAId: $qry")
+            return qry
+        }
+
+        fun getShortShopName(apmcId:String):String{
+            qry = "SELECT ShortShopName FROM ShopMaster WHERE APMCId='$apmcId' AND IsActive='true'"
+            Log.d(TAG, "getShortShopName: $qry")
+            return qry
+        }
+
+        fun getGujShortShopName(apmcId:String):String{
+            qry = "SELECT GujaratiShortShopName FROM ShopMaster WHERE APMCId='$apmcId' AND IsActive='true'"
+            Log.d(TAG, "getGujShortShopName: $qry")
+            return qry
+        }
+
+        fun getShortShopNameByShopNo(shopNo:String,apmcId: String):String{
+            qry = "SELECT ShortShopName FROM ShopMaster WHERE ShopNo='$shopNo' AND APMCId='$apmcId'"
+            Log.d(TAG, "getShortShopNameByShopNo: $qry")
+            return qry
+        }
+        fun getGujShortShopNameByShopNo(shopNo:String,apmcId: String):String{
+            qry = "SELECT GujaratiShortShopName FROM ShopMaster WHERE ShopNo='$shopNo' AND APMCId='$apmcId'"
+            Log.d(TAG, "getGujShortShopNameByShopNo: $qry")
+            return qry
+        }
+
+        fun getShopNoByShortShopName(shopName:String,apmcId: String):String{
+            qry = "SELECT ShopNo FROM ShopMaster WHERE ShortShopName='$shopName' AND APMCId='$apmcId'"
+            Log.d(TAG, "getShopNoByShortShopName: $qry")
+            return qry
+        }
+
+        fun getShopNoByGujShortShopName(shopName:String,apmcId: String):String{
+            qry = "SELECT ShopNo FROM ShopMaster WHERE GujaratiShortShopName='$shopName' AND APMCId='$apmcId'"
+            Log.d(TAG, "getShopNoByGujShortShopName: $qry")
+            return qry
+        }
+
+        fun getCityName():String{
+            qry = "SELECT CityName FROM APMCMaster"
+            Log.d(TAG, "getCityName: $qry")
+            return qry
+        }
+
+        fun getCityIdByCityName(cityName:String):String{
+            qry = "SELECT CityId FROM APMCMaster WHERE CityName='$cityName'"
+            Log.d(TAG, "getCityIdByCityName: $qry")
+            return qry
+        }
+
+        fun getAPMCNameByCityId(cityId:String):String{
+            qry = "SELECT APMCName FROM APMCMaster WHERE IsActive='true' AND CityId='$cityId'"
+            Log.d(TAG, "getAPMCNameByCityId: $qry")
+            return qry
+        }
+
+        fun getCityNameByAPMCId(apmcId:String):String{
+            qry = "SELECT CityName FROM APMCMaster WHERE IsActive='true' AND APMCId='$apmcId'"
+            Log.d(TAG, "getAPMCNameByCityId: $qry")
+            return qry
+        }
 
     }
 

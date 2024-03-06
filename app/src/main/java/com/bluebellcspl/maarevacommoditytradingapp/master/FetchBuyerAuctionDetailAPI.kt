@@ -46,7 +46,7 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
             JO.addProperty("BuyerRegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
             JO.addProperty("CompanyCode",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
             JO.addProperty("Date",DateUtility().getyyyyMMdd())
-//            JO.addProperty("Date","2023-10-27")
+//            JO.addProperty("Date","2024-03-02")
             JO.addProperty("Action","All")
 //            JO.addProperty("AuctionMasterId","")
 //            JO.addProperty("UserName","")
@@ -62,32 +62,6 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
                 if (result.isSuccessful)
                 {
                     Log.d(TAG, "getFetchBuyerAuctionDetail: RESPONSE : ${result.body()}")
-//                    if (fragment is BuyerDashboardFragment)
-//                    {
-//                        withContext(Main)
-//                        {
-//                            commonUIUtility.dismissProgress()
-//                            (fragment as BuyerDashboardFragment).bindBuyerAllocatedData(result.body()!!)
-//                        }
-//                    }else if(fragment is BuyerAuctionFragment)
-//                    {
-//                        if (result.body().toString().contains("No Data Found"))
-//                        {
-//                            withContext(Main){
-//                                commonUIUtility.dismissProgress()
-//                            }
-//                        }
-//                        else
-//                        {
-//                            val resultModel = result.body()!!
-//                            withContext(Main){
-//                                commonUIUtility.dismissProgress()
-//                                if(fragment is BuyerAuctionFragment){
-//                                    (fragment as BuyerAuctionFragment).updateUIFromAPIData(resultModel)
-//                                }
-//                            }
-//                        }
-//                    }
                     handleSuccess(result.body()!!)
                 }else
                 {

@@ -50,6 +50,7 @@ class FetchApprovedPCAListAPI(
             var Buyer_Reg_Id = ""
             if (CURRENT_USER.equals("pca", true)) {
                 Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_BUYER_ID, "").toString()
+                JO.addProperty("PCAId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString())
             } else {
                 Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
             }
@@ -99,6 +100,8 @@ class FetchApprovedPCAListAPI(
                             list.put("PCACommission", model.PCACommission)
                             list.put("PCAId", model.PCAId)
                             list.put("PCAName", model.PCAName)
+                            list.put("GujaratiPCAName", model.GujaratiPCAName)
+                            list.put("PCAShortName", model.PCAShortName)
                             list.put("PCAPhoneNumber", model.PCAPhoneNumber)
                             list.put("PCARegId", model.PCARegId)
                             list.put("PanCardNo", model.PanCardNo)

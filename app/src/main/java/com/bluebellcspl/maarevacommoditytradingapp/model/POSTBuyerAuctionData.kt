@@ -24,7 +24,7 @@ data class POSTBuyerAuctionData(
     var TotalLabourCharge: String,
     var TotalMarketCess: String,
     var TotalPCAComm: String,
-    var TotalPCAs: Int,
+    var TotalPCAs: String,
     var TotalTransportationCharge: String,
     var UpdateDate: String,
     var UpdateUser: String

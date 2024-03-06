@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         PrefUtil.getInstance(this)
+        PrefUtil.getLanguageInstance(this)
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
             checkUserPermissions()
         }, 2000)

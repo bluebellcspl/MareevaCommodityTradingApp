@@ -47,7 +47,8 @@ class LoginActivity : AppCompatActivity() {
     var TOKEN_ID=""
     override fun onCreate(savedInstanceState: Bundle?) {
         PrefUtil.getInstance(this)
-        val languageCode = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "en")
+        PrefUtil.getLanguageInstance(this)
+        val languageCode = PrefUtil.getSystemLanguage()
         val activityConf = Configuration()
         val newLocale = Locale(languageCode)
         activityConf.setLocale(newLocale)
@@ -80,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
         }
         getToken()
         DatabaseManager.initializeInstance(this)
-        setLanguage()
+
         binding.tvVersionLogin.setText(Constants.version)
         setOnClickListeners()
 
@@ -129,52 +130,6 @@ class LoginActivity : AppCompatActivity() {
             Log.e(TAG, "setOnClickListeners: ${e.message}")
         }
     }
-
-    private fun setLanguage() {
-        var language: String = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").toString()
-//    var language:String = prefUtil.getString(prefUtil.Key, "en")
-        val users = arrayOf("ENGLISH", "ગુજરાતી")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, users)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spnLanguage.setAdapter(adapter)
-        binding.spnLanguage.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View,
-                position: Int,
-                l: Long
-            ) {
-                if (users[position].equals("ENGLISH", ignoreCase = true)) {
-                    language = "en"
-                } else if (users[position].equals("ગુજરાતી", ignoreCase = true)) {
-                    language = "gu"
-                }
-                setLocale(language)
-                PrefUtil.setString(PrefUtil.KEY_LANGUAGE, language)
-            }
-
-            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-        })
-        when (language) {
-            "en" -> binding.spnLanguage.setSelection(0)
-            "gu" -> binding.spnLanguage.setSelection(1)
-        }
-    }
-
-    fun setLocale(languageCode: String?) {
-        val activityConf = Configuration()
-        val newLocale = Locale(languageCode)
-        activityConf.setLocale(newLocale)
-        getBaseContext().getResources()
-            .updateConfiguration(activityConf, getBaseContext().getResources().getDisplayMetrics())
-        if (isInitial) {
-            isInitial = false
-        } else {
-            finish()
-            startActivity(getIntent())
-        }
-    }
-
     fun showLoginComponentRoleWise(roleName: String) {
         try {
             if (roleName.equals("Buyer", true) || roleName.equals("PCA", true)) {

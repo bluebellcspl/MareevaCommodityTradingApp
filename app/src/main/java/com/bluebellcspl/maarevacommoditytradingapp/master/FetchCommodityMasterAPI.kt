@@ -53,6 +53,7 @@ class FetchCommodityMasterAPI(var context: Context, var activity: Activity) {
                         {
                             list.put("CommodityId",model.CommodityId)
                             list.put("CommodityName",model.CommodityName)
+                            list.put("GujaratiCommodityName",model.GujaratiCommodityName)
                             list.put("Bharti",model.Bharti)
                             list.put("CompanyCode",model.CompanyCode)
                             list.put("IsActive",model.IsActive)

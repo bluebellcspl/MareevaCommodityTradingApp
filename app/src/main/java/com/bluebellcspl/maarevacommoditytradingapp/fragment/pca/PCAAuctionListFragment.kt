@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.PCAAuctionListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.EditableDecimalInputFilter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
@@ -36,6 +38,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.POSTPCAAuctionData
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.SwipeToDeleteCallback
 import com.google.android.material.textfield.TextInputEditText
+import java.text.DecimalFormat
 
 class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
     lateinit var binding: FragmentPCAAuctionListBinding
@@ -145,7 +148,12 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
 
             dialogBinding.actShopNoPCAAuctionDialog.setAdapter(shopNoAdapter)
             dialogBinding.actShopNamePCAAuctionDialog.setAdapter(shopNameAdapter)
-
+            dialogBinding.edtBagsPCAAuctionDialog.filters =arrayOf<InputFilter>(
+                EditableDecimalInputFilter(5, 2)
+            )
+            dialogBinding.edtCurrentPricePCAAuctionDialog.filters =arrayOf<InputFilter>(
+                EditableDecimalInputFilter(7, 2)
+            )
             dialogBinding.actShopNoPCAAuctionDialog.setOnItemClickListener { adapterView, view, i, l ->
                 var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
                 shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
@@ -176,13 +184,6 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                         dialogBinding.edtBagsPCAAuctionDialog.setText(subStr)
                         dialogBinding.edtBagsPCAAuctionDialog.setSelection(1)
                     } else {
-//                    var bags = p0!!.toString().trim()
-//                    if (bags.toInt() > 0) {
-//                        post_PurchasedBags = PURCHASED_BAG.toInt() + bags.toInt()
-//                        post_RemainingBags = BUYER_BORI.toInt() - post_PurchasedBags
-//                        binding.tvRemainingBagsPCAAuctionFragment.setText(post_RemainingBags.toString())
-//                        binding.tvPurchasedBagsPCAAuctionFragment.setText(post_PurchasedBags.toString())
-//                    }
                         calculateExpense(
                             dialogBinding.edtBagsPCAAuctionDialog.text.toString().trim(),
                             dialogBinding.edtCurrentPricePCAAuctionDialog.text.toString().trim(),
@@ -231,13 +232,28 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                         .isEmpty()
                 ) {
                     commonUIUtility.showAlertWithOkButton("Please Enter Shop Name or Shop No!")
-                } else if (dialogBinding.edtBagsPCAAuctionDialog.text.toString().toInt() < 1) {
+                } else if (dialogBinding.edtBagsPCAAuctionDialog.text.toString().toFloat() < 1) {
                     commonUIUtility.showToast("Please Enter Bags!")
-                } else {
-                    model.Amount = "%.2f".format(post_CurrentTotal)
-                    model.Bags = dialogBinding.edtBagsPCAAuctionDialog.text.toString().trim()
+                }else if (dialogBinding.edtBagsPCAAuctionDialog.text.toString().endsWith(".") || dialogBinding.edtBagsPCAAuctionDialog.text.toString().startsWith(".")){
+                    commonUIUtility.showToast(getString(R.string.please_enter_valid_bags_alert_msg))
+                }else if (dialogBinding.edtCurrentPricePCAAuctionDialog.text.toString().endsWith(".") || dialogBinding.edtCurrentPricePCAAuctionDialog.text.toString().startsWith(".")){
+                    commonUIUtility.showToast(getString(R.string.please_enter_valid_input_alert_msg))
+                }
+                else {
+                    val newbags = dialogBinding.edtBagsPCAAuctionDialog.text.toString().toString()
+                    var bags = ""
+                    if (newbags.contains("."))
+                    {
+                        val currentBag = newbags.split(".")[0]
+                        bags= "$currentBag.5"
+                    }else
+                    {
+                        bags= dialogBinding.edtBagsPCAAuctionDialog.text.toString().trim()
+                    }
+                    model.Amount = DecimalFormat("0.00").format(post_CurrentTotal)
+                    model.Bags = DecimalFormat("0.00").format(bags.toFloat())
                     model.ShopNo = dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim()
-                    model.CurrentPrice = "%.2f".format(post_CurrentPrice)
+                    model.CurrentPrice = DecimalFormat("0.00").format(post_CurrentPrice)
                     alertDialog.dismiss()
                     updatePCAData(model)
                 }
@@ -303,9 +319,18 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             if (bags.isNotEmpty() && currentPrice.isNotEmpty()) {
                 //Current Calculation of Bags
                 var total = 0.0
-                if (bags.toInt() > 0 && currentPrice.toDouble() > 0) {
+                var latestBags = ""
+                if (bags.contains("."))
+                {
+                    val currentBag = bags.split(".")[0]
+                    latestBags = "$currentBag.5"
+                }else
+                {
+                    latestBags = bags
+                }
+                if (latestBags.toFloat() > 0 && currentPrice.toDouble() > 0) {
                     total =
-                        ((bags.toDouble() * commodityBhartiRate.toDouble()) / 20) * (currentPrice.toDouble())
+                        ((latestBags.toFloat() * commodityBhartiRate.toDouble()) / 20) * (currentPrice.toDouble())
                 }
                 val totalCostNF = NumberFormat.getCurrencyInstance().format(total)
                 post_CurrentPrice = currentPrice.toDouble()
@@ -314,13 +339,13 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
 
                 //Header Calculation for Total Cost from ArrayList
                 var cumulativeTotal = 0.0
-                var totalPurchasedBags = 0
+                var totalPurchasedBags = 0f
                 for (i in 0 until dataList.size) {
                     cumulativeTotal += dataList[i].Amount.toDouble()
-                    totalPurchasedBags += dataList[i].Bags.toInt()
+                    totalPurchasedBags += dataList[i].Bags.toFloat()
                 }
                 post_AvgPrice =
-                    (cumulativeTotal + total) / (((totalPurchasedBags + bags.toInt()) * commodityBhartiRate.toDouble()) / 20)
+                    (cumulativeTotal + total) / (((totalPurchasedBags + latestBags.toFloat()) * commodityBhartiRate.toDouble()) / 20)
                 Log.d(TAG, "calculateExpense: AVG_PRICE : $post_AvgPrice")
 //                val AvgPriceNF = NumberFormat.getCurrencyInstance().format(post_AvgPrice)
 //                binding.tvAveragePricePCAAuctionFragment.setText(AvgPriceNF)

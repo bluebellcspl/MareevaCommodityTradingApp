@@ -130,7 +130,7 @@ class BuyerAuctionListAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
-        if (PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").equals("gu")) {
+        if (PrefUtil.getSystemLanguage().equals("gu")) {
             holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(DatabaseManager.ExecuteScalar(Query.getGujaratiPCANameByPCAId(model.PCAId)))
         } else {
             holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(model.PCAName)

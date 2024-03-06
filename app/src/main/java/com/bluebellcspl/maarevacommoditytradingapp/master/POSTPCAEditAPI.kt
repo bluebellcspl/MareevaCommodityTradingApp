@@ -11,8 +11,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.EditPCAFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTPCAInsertModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.RegErrorReponse
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +47,7 @@ class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment:
             JO.addProperty(  "PCAName",model.PCAName)
             JO.addProperty(  "PCAPhoneNumber",model.PCAPhoneNumber)
             JO.addProperty(  "Typeofuser","2")
-            JO.addProperty(  "Address",model.Address)
+            JO.addProperty(  "OfficeAddress",model.Address)
             JO.addProperty(  "EmailId",model.EmailId)
             JO.addProperty(  "BuyerId",model.BuyerId)
             JO.addProperty(  "RoleId",model.RoleId)
@@ -81,21 +83,34 @@ class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment:
 
                 if (result.isSuccessful)
                 {
-                    if (result.body()!!.contains("PCA Details Updated successfully")){
-                        if (fragment is EditPCAFragment)
-                        {
-                            withContext(Main){
-                                commonUIUtility.dismissProgress()
-                                (fragment as EditPCAFragment).successRedirect()
-                            }
+//                    if (result.body()!!.contains("PCA Details Updated successfully")){
+//                        if (fragment is EditPCAFragment)
+//                        {
+//                            withContext(Main){
+//                                commonUIUtility.dismissProgress()
+//                                (fragment as EditPCAFragment).successRedirect()
+//                            }
+//                        }
+//                    }
+                    val responseJo = result.body()!!
+                    if (responseJo.get("Success").asBoolean)
+                    {
+                        withContext(Main){
+                            commonUIUtility.dismissProgress()
+                            commonUIUtility.showToast(responseJo.get("Message").asString)
+                            (fragment as EditPCAFragment).successRedirect()
                         }
                     }
                 }else
                 {
-                    Log.e(TAG, "postPCAUpdatedData: ${result.errorBody()}")
-                    withContext(Main){
-                        commonUIUtility.dismissProgress()
-                        commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
+                    val errorResponseJO = Gson().fromJson(result.errorBody()!!.string(),RegErrorReponse::class.java)
+                    if (!errorResponseJO.Success)
+                    {
+                        withContext(Main){
+                            commonUIUtility.dismissProgress()
+                            commonUIUtility.showToast(errorResponseJO.Message)
+                            Log.e(TAG, "postPCAData: ERROR_RESPONSE : ${errorResponseJO.Message}")
+                        }
                     }
                 }
             }

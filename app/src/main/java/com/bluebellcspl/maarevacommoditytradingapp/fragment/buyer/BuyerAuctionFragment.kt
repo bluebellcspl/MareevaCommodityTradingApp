@@ -19,11 +19,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerAuctionListAdapter
+import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerAuctionPopupAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
+import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionPopupAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerExpenseDialogLayoutBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentBuyerAuctionBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetailAPI
@@ -61,6 +63,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     lateinit var AUCTION_MASTER_ID: String
     lateinit var postAuction: BuyerAuctionMasterModel
     lateinit var commodityBharti:String
+    var isAuctionForUpdate = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -102,8 +105,13 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             {
                 commonUIUtility.showToast("Please Enter Number of Bags!")
             }else {
-//                showAlertDialog()
-                postAuctionData()
+                if (isAuctionForUpdate)
+                {
+                    showAlertDialog()
+                }else
+                {
+                    postAuctionData()
+                }
             }
         }
         //new design changes
@@ -183,6 +191,10 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             auctionDetailList = dataFromAPI.AuctionDetailsModel
             postAuction = dataFromAPI
             bindRecyclerView(auctionDetailList)
+            if (dataFromAPI.BudgetAmount.isNotEmpty() && dataFromAPI.TotalBags.isNotEmpty())
+            {
+                currentAuctionEditPopup(dataFromAPI)
+            }
             Log.d(TAG, "updateUIFromAPIData: FIRST_LIST : $auctionDetailList")
         } catch (e: Exception) {
             Log.e(TAG, "updateUIFromAPIData: ${e.message}")
@@ -503,7 +515,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 val labourChargeNF = NumberFormat.getCurrencyInstance().format(labourCharge).substring(1)
                 dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(labourChargeNF.toString())
                 dialogBinding.tvBagsBuyerExpenseDialog.setText(model.Bags)
-                if (PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").equals("gu")) {
+                if (PrefUtil.getSystemLanguage().equals("gu")) {
                     dialogBinding.tvPCANameBuyerExpenseDialog.setText(DatabaseManager.ExecuteScalar(Query.getGujaratiPCANameByPCAId(model.PCAId)))
                 } else {
                     dialogBinding.tvPCANameBuyerExpenseDialog.setText(model.PCAName)
@@ -519,13 +531,13 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     fun showAlertDialog() {
         val alertDialog = AlertDialog.Builder(requireContext())
         alertDialog.setTitle("Alert")
-        alertDialog.setMessage("Do you want to submit Data?")
-        alertDialog.setPositiveButton("YES", object : DialogInterface.OnClickListener {
+        alertDialog.setMessage(requireContext().getString(R.string.do_you_want_to_update_auction_alert_msg))
+        alertDialog.setPositiveButton(requireContext().getString(R.string.yes), object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 postAuctionData()
             }
         })
-        alertDialog.setNegativeButton("NO", object : DialogInterface.OnClickListener {
+        alertDialog.setNegativeButton(requireContext().getString(R.string.no), object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
             }
@@ -559,7 +571,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 TOTAL_LABOUR_CHARGE,
                 TOTAL_MARKETCESS,
                 TOTAL_PCA_COMMISSION,
-                pcaDetailList.size,
+                pcaDetailList.size.toString(),
                 TOTAL_TRANSPORTATION_CHARGE,
                 DateUtility().getyyyyMMdd(),
                 PrefUtil.getString(PrefUtil.KEY_BUYER_ID, "").toString()
@@ -599,5 +611,41 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
 
     override fun getLiveAuctionPCAData(postion: Int, model: LiveAuctionPCAListModel) {
         TODO("Not yet implemented")
+    }
+
+    fun currentAuctionEditPopup(dataFromAPI: BuyerAuctionMasterModel){
+        try {
+            val alertDailogBuilder = AlertDialog.Builder(requireContext())
+            val dialogBinding = BuyerAuctionPopupAdapterBinding.inflate(layoutInflater)
+            val dialogView = dialogBinding.root
+            alertDailogBuilder.setView(dialogView)
+            alertDialog = alertDailogBuilder.create()
+            alertDialog.setCanceledOnTouchOutside(false)
+            alertDialog.setCancelable(false)
+            alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+            alertDialog.show()
+
+            dataFromAPI.CommodityBhartiPrice = commodityBharti
+            val amountNF = NumberFormat.getCurrencyInstance().format(dataFromAPI.BudgetAmount.toDouble()).substring(1)
+            dialogBinding.tvTotalBagsBuyerAuctionPopup.setText(dataFromAPI.TotalBags)
+            dialogBinding.tvTotalAmountBuyerAuctionPopup.setText(amountNF)
+            dialogBinding.tvLeftBagsBuyerAuctionPopup.setText(dataFromAPI.LeftBags)
+
+            val popupAdapter = BuyerAuctionPopupAdapter(requireContext(),dataFromAPI.AuctionDetailsModel,dataFromAPI.CommodityBhartiPrice)
+            dialogBinding.rcViewBuyerAuctionPopup.adapter = popupAdapter
+            dialogBinding.rcViewBuyerAuctionPopup.invalidate()
+
+            dialogBinding.btnEditAuctionBuyerAuctionPopup.setOnClickListener {
+                isAuctionForUpdate = true
+                alertDialog.dismiss()
+            }
+            dialogBinding.btnClosePopupBuyerAuctionPopup.setOnClickListener {
+                alertDialog.dismiss()
+                navController.navigateUp()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "currentAuctionEditPopup: ${e.message}", )
+        }
     }
 }

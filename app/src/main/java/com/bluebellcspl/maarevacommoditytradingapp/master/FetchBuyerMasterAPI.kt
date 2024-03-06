@@ -34,6 +34,7 @@ class FetchBuyerMasterAPI(var context: Context, var activity: Activity, var frag
             val JO = JsonObject()
             JO.addProperty("CompanyCode", "MAT189")
             JO.addProperty("Action", "All")
+            JO.addProperty("BuyerId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
 
             Log.d(TAG, "getBuyerMaster: FETCH_BUYER_MASTER_JSON : ${JO.toString()}")
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)

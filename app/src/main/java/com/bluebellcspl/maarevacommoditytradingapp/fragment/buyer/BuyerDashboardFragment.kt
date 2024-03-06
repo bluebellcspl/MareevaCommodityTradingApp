@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Configuration
 import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -67,7 +68,7 @@ import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import java.util.Locale
 
-@OptIn(ExperimentalBadgeUtils::class)
+
 class BuyerDashboardFragment : Fragment() {
     private var isConnectingWebSocket = false
     lateinit var binding: FragmentBuyerDashboardBinding
@@ -86,7 +87,7 @@ class BuyerDashboardFragment : Fragment() {
     var companyCode = ""
     var buyerRegId = ""
     var NOTIFICATION_COUNT = 0
-    lateinit var filter:IntentFilter
+    lateinit var filter: IntentFilter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -95,12 +96,27 @@ class BuyerDashboardFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_buyer_dashboard, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        binding.tvCommodityNewBuyerDashboardFragment.setText(
-            PrefUtil.getString(
-                PrefUtil.KEY_COMMODITY_NAME,
-                ""
-            ).toString()
-        )
+        Log.d(TAG, "onCreateView: CURRENT_SYSTEM_LANGUAGE : ${PrefUtil.getSystemLanguage().toString()}")
+        if (PrefUtil.getSystemLanguage().toString().isNullOrEmpty())
+        {
+            PrefUtil.setSystemLanguage("en")
+        }
+        if (PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "").equals("gu")) {
+            binding.tvCommodityNewBuyerDashboardFragment.setText(
+                DatabaseManager.ExecuteScalar(
+                    Query.getGujaratiCommodityNameByCommodityId(
+                        PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "").toString()
+                    )
+                )
+            )
+        } else {
+            binding.tvCommodityNewBuyerDashboardFragment.setText(
+                PrefUtil.getString(
+                    PrefUtil.KEY_COMMODITY_NAME,
+                    ""
+                ).toString()
+            )
+        }
         binding.tvDateNewBuyerDashboardFragment.setText(DateUtility().getCompletionDate())
         commodityId = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "").toString()
         companyCode = PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "").toString()
@@ -109,10 +125,11 @@ class BuyerDashboardFragment : Fragment() {
             DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
 
         filter = IntentFilter("ACTION_NOTIFICATION_RECEIVED")
-       fetchDataFromAPI()
+        fetchDataFromAPI()
 
         binding.swipeToRefreshBuyerDashboardFragment.setOnRefreshListener {
             binding.swipeToRefreshBuyerDashboardFragment.isRefreshing = false
+            updateNotificationCount()
             fetchDataFromAPI()
         }
         menuHost = requireActivity()
@@ -121,9 +138,7 @@ class BuyerDashboardFragment : Fragment() {
                 menuInflater.inflate(R.menu.ds_menu, menu)
 
                 val notificationMenuItem = menu.findItem(R.id.nav_Notification)
-//                val chatMenuItem = menu.findItem()
-                if (NOTIFICATION_COUNT>0)
-                {
+                if (NOTIFICATION_COUNT > 0) {
                     notificationMenuItem.setActionView(R.layout.notification_badge)
                     val view = notificationMenuItem.actionView
                     val badgeCounter = view?.findViewById<TextView>(R.id.tv_Notification_Badge)
@@ -131,8 +146,7 @@ class BuyerDashboardFragment : Fragment() {
                     notificationMenuItem.actionView?.setOnClickListener {
                         navController.navigate(BuyerDashboardFragmentDirections.actionBuyerDashboardFragmentToNotificationFragment())
                     }
-                }else
-                {
+                } else {
                     notificationMenuItem.setActionView(null)
                 }
 
@@ -143,7 +157,7 @@ class BuyerDashboardFragment : Fragment() {
                     R.id.btn_Profile -> {
                         navController.navigate(BuyerDashboardFragmentDirections.actionBuyerDashboardFragmentToProfileOptionFragment())
                     }
-                    R.id.nav_Notification->{
+                    R.id.nav_Notification -> {
                         navController.navigate(BuyerDashboardFragmentDirections.actionBuyerDashboardFragmentToNotificationFragment())
                     }
                 }
@@ -158,16 +172,27 @@ class BuyerDashboardFragment : Fragment() {
     private fun fetchDataFromAPI() {
         try {
             if (ConnectionCheck.isConnected(requireContext())) {
-                FetchApprovedPCAListAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
+                FetchApprovedPCAListAPI(
+                    requireContext(),
+                    requireActivity(),
+                    this@BuyerDashboardFragment
+                )
                 FetchCityMasterAPI(requireContext(), requireActivity())
-                FetchBuyerAuctionDetailAPI(requireContext(),requireActivity(),this@BuyerDashboardFragment)
-                FetchBuyerPreviousAuctionAPI(requireContext(),this@BuyerDashboardFragment,PREV_AUCTION_SELECTED_DATE)
+                FetchBuyerAuctionDetailAPI(
+                    requireContext(),
+                    requireActivity(),
+                    this@BuyerDashboardFragment
+                )
+                FetchBuyerPreviousAuctionAPI(
+                    requireContext(),
+                    this@BuyerDashboardFragment,
+                    PREV_AUCTION_SELECTED_DATE
+                )
             } else {
                 commonUIUtility.showToast(getString(R.string.no_internet_connection))
             }
-        }catch (e:Exception)
-        {
-            Log.e(TAG, "fetchDataFromAPI: ${e.message}", )
+        } catch (e: Exception) {
+            Log.e(TAG, "fetchDataFromAPI: ${e.message}")
             e.printStackTrace()
         }
     }
@@ -270,8 +295,7 @@ class BuyerDashboardFragment : Fragment() {
 
     fun onMessageReceived(dataList: LiveAuctionMasterModel) {
         try {
-            if (dataList.AllocatedBag.isNotEmpty() && dataList.TotalCost.isNotEmpty() && dataList.Basic.isNotEmpty())
-            {
+            if (dataList.AllocatedBag.isNotEmpty() && dataList.TotalCost.isNotEmpty() && dataList.Basic.isNotEmpty()) {
                 if (dataList.PCAList.isNotEmpty()) {
 
                     if (dataList.PCAList != lastPCAList) {
@@ -282,8 +306,7 @@ class BuyerDashboardFragment : Fragment() {
                         calculateExpenses(dataList)
                     }
                 }
-            }else
-            {
+            } else {
                 disconnect()
             }
         } catch (e: Exception) {
@@ -475,8 +498,15 @@ class BuyerDashboardFragment : Fragment() {
 //                    webSocketClient.connect()
                     lifecycleScope.launch(Dispatchers.IO)
                     {
-                        delay(3000)
-                        webSocket=SocketHandler.getWebSocket(URLHelper.LIVE_AUCTION_SOCKET_URL.replace("<COMMODITY_ID>",commodityId.toString()).replace("<DATE>",DateUtility().getCompletionDate()).replace("<COMPANY_CODE>",companyCode.toString()).replace("<BUYER_REG_ID>",buyerRegId.toString()),MyWebSocketListener())
+                        webSocket = SocketHandler.getWebSocket(
+                            URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
+                                "<COMMODITY_ID>",
+                                commodityId.toString()
+                            ).replace("<DATE>", DateUtility().getCompletionDate())
+                                .replace("<COMPANY_CODE>", companyCode.toString())
+                                .replace("<BUYER_REG_ID>", buyerRegId.toString()),
+                            MyWebSocketListener()
+                        )
                     }
                     isWebSocketConnected = true
                 } else {
@@ -493,7 +523,7 @@ class BuyerDashboardFragment : Fragment() {
         super.onStart()
 
 //        commonUIUtility.dismissProgress()
-        requireContext().registerReceiver(notificationReceiver,filter)
+        requireContext().registerReceiver(notificationReceiver, filter)
         if (!isWebSocketConnected && !isConnectingWebSocket) {
             Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
 
@@ -506,8 +536,15 @@ class BuyerDashboardFragment : Fragment() {
 //                    webSocketClient.connect()
                     lifecycleScope.launch(Dispatchers.IO)
                     {
-                        delay(3000)
-                        webSocket=SocketHandler.getWebSocket(URLHelper.LIVE_AUCTION_SOCKET_URL.replace("<COMMODITY_ID>",commodityId.toString()).replace("<DATE>",DateUtility().getCompletionDate()).replace("<COMPANY_CODE>",companyCode.toString()).replace("<BUYER_REG_ID>",buyerRegId.toString()),MyWebSocketListener())
+                        webSocket = SocketHandler.getWebSocket(
+                            URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
+                                "<COMMODITY_ID>",
+                                commodityId.toString()
+                            ).replace("<DATE>", DateUtility().getCompletionDate())
+                                .replace("<COMPANY_CODE>", companyCode.toString())
+                                .replace("<BUYER_REG_ID>", buyerRegId.toString()),
+                            MyWebSocketListener()
+                        )
                     }
                     isWebSocketConnected = true
                 } else {
@@ -516,14 +553,13 @@ class BuyerDashboardFragment : Fragment() {
 
                 // Reset the flag after the connection attempt
                 isConnectingWebSocket = false
-            }, 3000) // 3000 milliseconds = 3 seconds
+            }, 2000)
         }
     }
 
     override fun onStop() {
         super.onStop()
         requireContext().unregisterReceiver(notificationReceiver)
-        (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         if (isWebSocketConnected) {
             Log.d(TAG, "onStop: WEB_SOCKET_DISCONNECT onStop")
 //            webSocketClient.disconnect()
@@ -535,6 +571,7 @@ class BuyerDashboardFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         // Disconnect the WebSocket in onDestroy to ensure proper cleanup
+        (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         newAuctionData = null
         lastPCAList = ArrayList()
         Log.d(TAG, "onDestroy: WEB_SOCKET_DISCONNECT onDestroy")
@@ -549,7 +586,7 @@ class BuyerDashboardFragment : Fragment() {
         disconnect()
     }
 
-    private inner class MyWebSocketListener:WebSocketListener(){
+    private inner class MyWebSocketListener : WebSocketListener() {
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
             this@BuyerDashboardFragment.webSocket = null
             Log.d(TAG, "onClosed: SOCKET_CLOSED")
@@ -585,25 +622,25 @@ class BuyerDashboardFragment : Fragment() {
     fun disconnect() {
         try {
             Log.d(TAG, "disconnect: SOCKET_DISCONNECTED")
-            webSocket?.close(1000,"Disconnect Socket")
-        }catch (e:Exception)
-        {
+//            webSocket?.close(1000, "Disconnect Socket")
+            webSocket?.cancel()
+        } catch (e: Exception) {
             e.printStackTrace()
-            Log.e(TAG, "disconnect: ${e.message}", )
+            Log.e(TAG, "disconnect: ${e.message}")
         }
     }
 
-    fun updateNotificationCount(){
+    fun updateNotificationCount() {
         try {
 
-            NOTIFICATION_COUNT = DatabaseManager.ExecuteScalar(Query.getTMPTUnseenNotification())!!.toInt()
+            NOTIFICATION_COUNT =
+                DatabaseManager.ExecuteScalar(Query.getTMPTUnseenNotification())!!.toInt()
             Log.d(TAG, "updateNotificationCount: NOTIFICATION_COUNT : $NOTIFICATION_COUNT")
             requireActivity().runOnUiThread {
                 menuHost.invalidateMenu()
             }
 
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "updateNotificationCount: ${e.message}")
         }

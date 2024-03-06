@@ -69,8 +69,8 @@ class POSTBuyerAuctionDataAPI(var context: Context,var activity: Activity,var fr
                 val result = APICall.POSTBuyerAuctionDetail(JO)
                 if (result.isSuccessful)
                 {
-                    val response = result.body()!!
-                    if (response.contains("Successfully"))
+                    val responseJO = result.body()!!
+                    if (responseJO.get("Success").asBoolean)
                     {
                         withContext(Dispatchers.Main){
                             commonUIUtility.dismissProgress()
@@ -80,11 +80,11 @@ class POSTBuyerAuctionDataAPI(var context: Context,var activity: Activity,var fr
                                 (fragment as BuyerAuctionFragment).redirectToBuyerDashboard()
                             }
                         }
-                    }else if (response.contains("Something went Wrong!"))
+                    }else
                     {
                         withContext(Dispatchers.Main){
                             commonUIUtility.dismissProgress()
-                            commonUIUtility.showToast(response)
+                            commonUIUtility.showToast(responseJO.get("Message").asString)
                         }
                     }
                 }else

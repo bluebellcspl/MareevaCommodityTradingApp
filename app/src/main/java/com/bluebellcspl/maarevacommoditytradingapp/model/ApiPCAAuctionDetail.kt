@@ -13,6 +13,8 @@ data class ApiPCAAuctionDetail(
     var PCAAuctionMasterId: String,
     var ShopId: String,
     var ShopName: String,
+    var ShortShopName: String,
+    var GujaratiShortShopName: String,
     var ShopNo: String,
     var UpdateUser: String
 ):Parcelable

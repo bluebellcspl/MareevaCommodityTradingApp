@@ -23,6 +23,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
@@ -66,9 +67,15 @@ class PCADashboardFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_dashboard, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         filter = IntentFilter("ACTION_NOTIFICATION_RECEIVED")
+        Log.d(TAG, "onCreateView: CURRENT_SYSTEM_LANGUAGE : ${PrefUtil.getSystemLanguage().toString()}")
+        if (PrefUtil.getSystemLanguage().toString().isNullOrEmpty())
+        {
+            PrefUtil.setSystemLanguage("en")
+        }
         fetchDataFromAPI()
         binding.swipeToRefreshPCADashboardFragment.setOnRefreshListener {
             binding.swipeToRefreshPCADashboardFragment.isRefreshing = false
+            updateNotificationCount()
             fetchDataFromAPI()
         }
         menuHost = requireActivity()
@@ -110,12 +117,22 @@ class PCADashboardFragment : Fragment() {
         var commodityId = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "")
         COMMODITY_BHARTI =
             DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
-        binding.tvCommodityNewPCADashboardFragment.setText(
-            PrefUtil.getString(
-                PrefUtil.KEY_COMMODITY_NAME,
-                ""
+        if (PrefUtil.getSystemLanguage().equals("gu")) {
+            binding.tvCommodityNewPCADashboardFragment.setText(
+                DatabaseManager.ExecuteScalar(
+                    Query.getGujaratiCommodityNameByCommodityId(
+                        PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "").toString()
+                    )
+                )
             )
-        )
+        } else {
+            binding.tvCommodityNewPCADashboardFragment.setText(
+                PrefUtil.getString(
+                    PrefUtil.KEY_COMMODITY_NAME,
+                    ""
+                ).toString()
+            )
+        }
         binding.tvDateNewPCADashboardFragment.setText(DateUtility().getCompletionDate())
         setOnClickListeners()
         return binding.root
@@ -352,6 +369,17 @@ class PCADashboardFragment : Fragment() {
     private val notificationReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             updateNotificationCount()
+        }
+    }
+
+    fun redirectToLogin(){
+        try {
+            PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,false)
+            requireActivity().startActivity(Intent(requireActivity(), LoginActivity::class.java))
+            requireActivity().finish()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "redirectToLogin: ${e.message}", )
         }
     }
 

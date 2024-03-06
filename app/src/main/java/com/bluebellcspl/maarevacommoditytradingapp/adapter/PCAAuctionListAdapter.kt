@@ -5,6 +5,7 @@ import android.icu.text.NumberFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaAuctionListAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.ApiPCAAuctionDetail
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
@@ -27,7 +28,18 @@ class PCAAuctionListAdapter(var context: Context,var dataList:ArrayList<ApiPCAAu
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
         holder.binding.tvShopNoPCAAuctionListAdapter.setText(model.ShopNo)
-        holder.binding.tvShopNamePCAAuctionListAdapter.setText("- %s".format(model.ShopName))
+        if (PrefUtil.getSystemLanguage().toString().equals("en"))
+        {
+            holder.binding.tvShopNamePCAAuctionListAdapter.setText("- %s".format(model.ShortShopName))
+        }else
+        {
+            if (model.GujaratiShortShopName.isNotEmpty()){
+                holder.binding.tvShopNamePCAAuctionListAdapter.setText("- %s".format(model.GujaratiShortShopName))
+            }else
+            {
+                holder.binding.tvShopNamePCAAuctionListAdapter.setText("- %s".format(model.ShortShopName))
+            }
+        }
         holder.binding.tvBagsPCAAuctionListAdapter.setText(model.Bags)
         val CurrentPriceNF = NumberFormat.getCurrencyInstance().format(model.CurrentPrice.toDouble())
         holder.binding.tvCurrentPricePCAAuctionListAdapter.setText(CurrentPriceNF)
