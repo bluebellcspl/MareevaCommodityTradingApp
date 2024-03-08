@@ -81,19 +81,34 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
     }
 
     private suspend fun handleSuccess(resultBody:BuyerAuctionMasterModel ) {
-        
-        withContext(Dispatchers.Main) {
-            commonUIUtility.dismissProgress()
-            when (fragment) {
-                is BuyerDashboardFragment -> {
-                    (fragment as BuyerDashboardFragment).bindBuyerAllocatedData(resultBody!!)
+        if (resultBody!!.IsActive.equals("False",true))
+        {
+            withContext(Main){
+                commonUIUtility.dismissProgress()
+                when(fragment){
+                    is BuyerDashboardFragment->{
+                        (fragment as BuyerDashboardFragment).redirectToLogin()
+                    }
+                    is BuyerAuctionFragment->{
+                        (fragment as BuyerAuctionFragment).redirectToLogin()
+                    }
                 }
-                is BuyerAuctionFragment -> {
-                    if (resultBody.toString().contains("No Data Found")) {
-                        // Handle "No Data Found" case
+            }
+        }else
+        {
+            withContext(Dispatchers.Main) {
+                commonUIUtility.dismissProgress()
+                when (fragment) {
+                    is BuyerDashboardFragment -> {
+                        (fragment as BuyerDashboardFragment).bindBuyerAllocatedData(resultBody!!)
+                    }
+                    is BuyerAuctionFragment -> {
+                        if (resultBody.toString().contains("No Data Found")) {
+                            // Handle "No Data Found" case
 //                        commonUIUtility.dismissProgress()
-                    } else {
-                        (fragment as BuyerAuctionFragment).updateUIFromAPIData(resultBody!!)
+                        } else {
+                            (fragment as BuyerAuctionFragment).updateUIFromAPIData(resultBody!!)
+                        }
                     }
                 }
             }

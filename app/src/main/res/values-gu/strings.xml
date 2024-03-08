@@ -169,11 +169,13 @@
     <string name="pca_gujarati_name">PCA Gujarati Name</string>
     <string name="pca_gujarati_short_name">PCA Gujarati Short Name</string>
     <string name="please_enter_pca_gujarati_name_alert_msg">Please Enter PCA Gujarati Name!</string>
-    <string name="select_city">Select City</string>
-    <string name="select_language">Select Language</string>
-    <string name="edit">Edit</string>
-    <string name="close">Close</string>
-    <string name="do_you_want_to_update_auction_alert_msg">Do you want to update Auction?</string>
-    <string name="please_enter_valid_bags_alert_msg">Please Enter Valid Bags!</string>
-    <string name="please_enter_valid_input_alert_msg">Please Enter Valid Input!</string>
+    <string name="select_city">શહેર પસંદ કરો</string>
+    <string name="select_language">ભાષા પસંદ કરો</string>
+    <string name="edit">ફેરફાર કરો</string>
+    <string name="close">બંધ</string>
+    <string name="do_you_want_to_update_auction_alert_msg">શું તમે હરાજી અપડેટ કરવા માંગો છો?</string>
+    <string name="please_enter_valid_bags_alert_msg">કૃપા કરીને માન્ય બોરી દાખલ કરો!</string>
+    <string name="please_enter_valid_input_alert_msg">કૃપા કરીને માન્ય ઇનપુટ દાખલ કરો!</string>
+    <string name="do_you_want_to_delete_pca_data_alert_msg">શું તમે PCA ડેટા ડિલીટ કરવા માંગો છો?</string>
+    <string name="delete">ડિલીટ કરો</string>
 </resources>

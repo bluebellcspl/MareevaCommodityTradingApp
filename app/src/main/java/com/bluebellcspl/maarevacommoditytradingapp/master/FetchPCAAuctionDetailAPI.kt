@@ -4,14 +4,19 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionListFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragment
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionErrorResponse
+import com.bluebellcspl.maarevacommoditytradingapp.model.RegErrorReponse
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
+import com.google.gson.Gson
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -77,15 +82,46 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                     }
                 }else
                 {
-                    Log.e(TAG, "getPCAAuction: ${result.errorBody()}")
-                    withContext(Dispatchers.Main)
-                    {
-                        commonUIUtility.dismissProgress()
-                        if (fragment is PCAAuctionFragment)
-                        {
-                            (fragment as PCAAuctionFragment).noAuctionPopup()
+//                    Log.e(TAG, "getPCAAuction_Error: $errorbody")
+//                    withContext(Dispatchers.Main)
+//                    {
+//                        commonUIUtility.dismissProgress()
+//                        if (fragment is PCAAuctionFragment)
+//                        {
+//                            (fragment as PCAAuctionFragment).noAuctionPopup()
+//                        }
+//                    }
+
+                    val errorbody = result.errorBody()?.string()
+
+                    val errorResult = Gson().fromJson(errorbody, PCAAuctionErrorResponse::class.java)
+                    if (!errorResult.IsActive.isNullOrEmpty() && errorResult.IsActive.equals("False",true)) {
+                        withContext(Dispatchers.Main) {
+                            commonUIUtility.dismissProgress()
+                            if (fragment is PCAAuctionFragment) {
+                                (fragment as PCAAuctionFragment).redirectToLogin()
+                            }
+                            if (fragment is PCADashboardFragment) {
+                                (fragment as PCADashboardFragment).redirectToLogin()
+                            }
+                        }
+                    } else if (!errorResult.Message.isNullOrEmpty() && errorResult.Message.contains("No Auction")) {
+                        withContext(Dispatchers.Main) {
+                            commonUIUtility.dismissProgress()
+                            if (fragment is PCAAuctionFragment) {
+                                (fragment as PCAAuctionFragment).noAuctionPopup()
+                            }
+                        }
+                    } else if (errorResult.Result.contains("False")) {
+                        withContext(Dispatchers.Main) {
+                            commonUIUtility.dismissProgress()
+                            if (fragment is PCAAuctionFragment) {
+                                (fragment as PCAAuctionFragment).noAuctionPopup()
+                            }
                         }
                     }
+
+
                 }
             }
         }catch (e:Exception)

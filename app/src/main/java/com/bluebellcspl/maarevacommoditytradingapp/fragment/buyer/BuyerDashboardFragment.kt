@@ -28,6 +28,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
+import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
@@ -643,6 +644,17 @@ class BuyerDashboardFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "updateNotificationCount: ${e.message}")
+        }
+    }
+
+    fun redirectToLogin(){
+        try {
+            PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,false)
+            requireActivity().startActivity(Intent(requireActivity(), LoginActivity::class.java))
+            requireActivity().finish()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "redirectToLogin: ${e.message}", )
         }
     }
 

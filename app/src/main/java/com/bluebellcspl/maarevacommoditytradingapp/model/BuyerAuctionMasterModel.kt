@@ -27,5 +27,6 @@ data class BuyerAuctionMasterModel(
     var TotalPCAs: String,
     var TotalTransportationCharge: String,
     var UpdateDate: String,
-    var UpdateUser: String
+    var UpdateUser: String,
+    var IsActive: String
 )

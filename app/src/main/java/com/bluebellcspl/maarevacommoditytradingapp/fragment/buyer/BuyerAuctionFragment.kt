@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 import ConnectionCheck
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
@@ -17,6 +18,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerAuctionListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerAuctionPopupAdapter
@@ -646,6 +648,17 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "currentAuctionEditPopup: ${e.message}", )
+        }
+    }
+
+    fun redirectToLogin(){
+        try {
+            PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,false)
+            requireActivity().startActivity(Intent(requireActivity(), LoginActivity::class.java))
+            requireActivity().finish()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "redirectToLogin: ${e.message}", )
         }
     }
 }

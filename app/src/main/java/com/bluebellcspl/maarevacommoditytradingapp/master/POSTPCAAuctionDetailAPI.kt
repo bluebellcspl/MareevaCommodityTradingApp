@@ -8,9 +8,12 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtilit
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionFragment
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragment
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionErrorResponse
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTPCAAuctionData
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -76,12 +79,19 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
             scope.launch(Dispatchers.IO)
             {
-                val checkIsAuctionStatus = APICall.checkPCAIsAuctionStop(JO1)
+                val checkIsAuctionStatus = APICall.getPCAAuctionDetail(JO1)
                 if (checkIsAuctionStatus.isSuccessful)
                 {
                     val checkStatusResponse = checkIsAuctionStatus.body()!!
-                    var status =checkStatusResponse.get("IsAuctionStop").asString
-                    if (status.equals("false",true))
+                    var status =checkStatusResponse.IsAuctionStop
+                    if (checkStatusResponse.IsActive.equals("False",true)) {
+                        withContext(Dispatchers.Main){
+                            commonUIUtility.dismissProgress()
+                            if (fragment is PCAAuctionFragment){
+                                (fragment as PCAAuctionFragment).redirectToLogin()
+                            }
+                        }
+                    }else if (status.equals("false",true))
                     {
                         val result = APICall.postPCAAuctionDataInsUpd(JO)
 
@@ -135,10 +145,32 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                     }
                 }else
                 {
-                    withContext(Dispatchers.Main){
-                        Log.e(TAG, "postPCAData: ${checkIsAuctionStatus.errorBody()}")
-                        commonUIUtility.dismissProgress()
-                        commonUIUtility.showToast("Data NOT Inserted 2!")
+                    val errorbody = checkIsAuctionStatus.errorBody()?.string()
+                    val errorResult = Gson().fromJson(errorbody, PCAAuctionErrorResponse::class.java)
+                    if (!errorResult.IsActive.isNullOrEmpty() && errorResult.IsActive.equals("False",true)) {
+                        withContext(Dispatchers.Main) {
+                            commonUIUtility.dismissProgress()
+                            if (fragment is PCAAuctionFragment) {
+                                (fragment as PCAAuctionFragment).redirectToLogin()
+                            }
+                            if (fragment is PCADashboardFragment) {
+                                (fragment as PCADashboardFragment).redirectToLogin()
+                            }
+                        }
+                    } else if (!errorResult.Message.isNullOrEmpty() && errorResult.Message.contains("No Auction")) {
+                        withContext(Dispatchers.Main) {
+                            commonUIUtility.dismissProgress()
+                            if (fragment is PCAAuctionFragment) {
+                                (fragment as PCAAuctionFragment).noAuctionPopup()
+                            }
+                        }
+                    } else if (errorResult.Result.contains("False")) {
+                        withContext(Dispatchers.Main) {
+                            commonUIUtility.dismissProgress()
+                            if (fragment is PCAAuctionFragment) {
+                                (fragment as PCAAuctionFragment).noAuctionPopup()
+                            }
+                        }
                     }
                 }
             }

@@ -82,8 +82,8 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
 
                 val alertDialog = AlertDialog.Builder(requireContext())
                 alertDialog.setTitle("Alert!")
-                alertDialog.setMessage("Do you want to Delete PCA Data?")
-                alertDialog.setPositiveButton("Delete",object : DialogInterface.OnClickListener {
+                alertDialog.setMessage(requireContext().getString(R.string.do_you_want_to_delete_pca_data_alert_msg))
+                alertDialog.setPositiveButton(requireContext().getString(R.string.delete),object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
                         if (ConnectionCheck.isConnected(requireContext()))
                         {
@@ -94,7 +94,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                         p0!!.dismiss()
                     }
                 })
-                alertDialog.setNegativeButton("No",object : DialogInterface.OnClickListener {
+                alertDialog.setNegativeButton(requireContext().getString(R.string.no),object : DialogInterface.OnClickListener {
                     override fun onClick(p0: DialogInterface?, p1: Int) {
 
                         adapter.notifyDataSetChanged()
