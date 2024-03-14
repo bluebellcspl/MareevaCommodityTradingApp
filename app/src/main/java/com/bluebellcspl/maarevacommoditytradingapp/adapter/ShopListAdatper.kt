@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ShopListAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionShopListModel
 
@@ -50,8 +51,20 @@ class ShopListAdatper(var context: Context,var dataList:ArrayList<LiveAuctionSho
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
+        if (PrefUtil.getSystemLanguage().toString().equals("gu"))
+        {
+            if (model.GujaratiShortShopName.isNotEmpty())
+            {
+                holder.binding.ShopName.setText(model.GujaratiShortShopName)
+            }else
+            {
+                holder.binding.ShopName.setText(model.ShortShopName)
+            }
 
-        holder.binding.ShopName.setText(model.ShopName)
+        }else
+        {
+            holder.binding.ShopName.setText(model.ShortShopName)
+        }
         val currentNf = NumberFormat.getCurrencyInstance().format(model.CurrentPrice.toDouble()).substring(1)
         val totalAmountNf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble()).substring(1)
         holder.binding.shopRate.setText(currentNf)

@@ -101,7 +101,7 @@ class FCMNotificationService : FirebaseMessagingService() {
             list.put("Title",message.title)
             list.put("FullMsg",message.body)
             list.put("Cdate",DateUtility().getyyyyMMdd())
-            list.put("IsSeen","false")
+            list.put("IsRead","false")
 
             DatabaseManager.commonInsert(list,Constants.TBL_TempNotificationMaster)
         } catch (e: Exception) {

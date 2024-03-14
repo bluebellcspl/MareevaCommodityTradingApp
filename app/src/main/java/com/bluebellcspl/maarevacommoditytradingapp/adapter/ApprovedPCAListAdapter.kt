@@ -52,7 +52,16 @@ class ApprovedPCAListAdapter(
         holder.binding.tvApprovedStatusPCAListItem.setText(context.getString(R.string.approved))
         holder.binding.tvApprovedStatusPCAListItem.setBackgroundResource(R.drawable.approved_pca_tile_bg)
         if (PrefUtil.getSystemLanguage().equals("gu")) {
-            holder.binding.tvPCANamePCAListItem.setText(model.GujaratiPCAName)
+
+                model.GujaratiPCAName?.let {
+                    if (it.isNotEmpty())
+                    {
+                        holder.binding.tvPCANamePCAListItem.setText(model.GujaratiPCAName)
+                    }else
+                    {
+                        holder.binding.tvPCANamePCAListItem.setText(model.PCAName)
+                    }
+                }
         } else {
             holder.binding.tvPCANamePCAListItem.setText(model.PCAName)
         }

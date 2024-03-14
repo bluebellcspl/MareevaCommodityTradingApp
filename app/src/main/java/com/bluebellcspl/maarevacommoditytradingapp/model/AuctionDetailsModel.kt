@@ -21,6 +21,8 @@ data class AuctionDetailsModel(
     var PCAId: String,
     var PCALowerLimit: String,
     var PCAName: String,
+    var PCAShortName: String,
+    var GujaratiPCAShortName: String,
     var PCARegId: String,
     var PCAUpperLimit: String,
     var PerBoriRate: String,

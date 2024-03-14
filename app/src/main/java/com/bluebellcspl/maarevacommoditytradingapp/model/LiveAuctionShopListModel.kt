@@ -12,5 +12,7 @@ data class LiveAuctionShopListModel(
     var PCARegId: String,
     var ShopId: String,
     var ShopName: String,
+    var ShortShopName: String,
+    var GujaratiShortShopName: String,
     var ShopNo: String
 )

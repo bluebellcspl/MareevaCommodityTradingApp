@@ -143,24 +143,24 @@ class Query {
         }
 
         fun getUnseenNotification():String{
-            qry = "SELECT COUNT(ISSeen) FROM NotificationMaster WHERE ISSeen='false'"
+            qry = "SELECT NotificationId FROM NotificationMaster WHERE ISRead='false'"
             Log.d(TAG, "getUnseenNotification: $qry")
             return qry
         }
 
         fun getTMPTUnseenNotification():String{
-            qry = "SELECT COUNT(IsSeen) FROM TempNotificationMaster WHERE IsSeen='false'"
+            qry = "SELECT COUNT(ISRead) FROM TempNotificationMaster WHERE ISRead='false'"
             Log.d(TAG, "getTMPTUnseenNotification: $qry")
             return qry
         }
 
         fun updateNotificationSeenStatus():String{
-            qry = "UPDATE NotificationMaster SET ISSeen='true'"
+            qry = "UPDATE NotificationMaster SET ISRead='true'"
             Log.d(TAG, "updateNotificationSeenStatus: $qry")
             return qry
         }
         fun updateTMPNotificationSeenStatus():String{
-            qry = "UPDATE TempNotificationMaster SET IsSeen='true'"
+            qry = "UPDATE TempNotificationMaster SET ISRead='true'"
             Log.d(TAG, "updateNotificationSeenStatus: $qry")
             return qry
         }

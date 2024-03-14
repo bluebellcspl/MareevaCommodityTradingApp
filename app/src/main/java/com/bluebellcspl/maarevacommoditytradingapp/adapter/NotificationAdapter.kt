@@ -74,7 +74,7 @@ class NotificationAdapter(
 
         holder.binding.tvNotificationDateTimeNotificationAdapter.setText(model.Cdate)
         holder.binding.tvNotificationLblNotificationAdapter.setText(model.FullMsg)
-        if (model.ISSeen.equals("false")) {
+        if (model.ISRead.equals("false")) {
             holder.binding.cvNotificationNotificationAdapter.setCardBackgroundColor(
                 context.getColor(
                     R.color.colorSecondaryDark

@@ -21,7 +21,9 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentNotificationBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchNotificationAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.POSTSeenNotificationAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModelItem
+import com.bluebellcspl.maarevacommoditytradingapp.model.POSTSeenNotificationModel
 
 
 class NotificationFragment : Fragment() {
@@ -64,7 +66,8 @@ class NotificationFragment : Fragment() {
                             "",
                             cursor.getString(cursor.getColumnIndexOrThrow("FullMsg")),
                             cursor.getString(cursor.getColumnIndexOrThrow("ISRead")),
-                            cursor.getString(cursor.getColumnIndexOrThrow("ISSeen")),
+//                            cursor.getString(cursor.getColumnIndexOrThrow("ISSeen")),
+                            "",
                             cursor.getString(cursor.getColumnIndexOrThrow("Link")),
                             cursor.getString(cursor.getColumnIndexOrThrow("Name")),
                             cursor.getInt(cursor.getColumnIndexOrThrow("NotificationId")),
@@ -128,8 +131,35 @@ class NotificationFragment : Fragment() {
         super.onStop()
         requireContext().unregisterReceiver(notificationReceiver)
         clearNotification()
+        val unSeenNotificationList = getUnseenNotification()
+        if (ConnectionCheck.isConnected(requireContext()))
+        {
+            POSTSeenNotificationAPI(requireContext(),this@NotificationFragment,unSeenNotificationList)
+        }
         DatabaseManager.ExecuteQuery(Query.updateNotificationSeenStatus())
         DatabaseManager.ExecuteQuery(Query.updateTMPNotificationSeenStatus())
 
     }
+
+    private fun getUnseenNotification():ArrayList<POSTSeenNotificationModel>{
+        val dataList = ArrayList<POSTSeenNotificationModel>()
+        try {
+            val cursor = DatabaseManager.ExecuteRawSql(Query.getUnseenNotification())
+            if (cursor!= null && cursor.count>0)
+            {
+                while (cursor.moveToNext())
+                {
+                    val model = POSTSeenNotificationModel(cursor.getString(cursor.getColumnIndexOrThrow("NotificationId")))
+                    dataList.add(model)
+                }
+                Log.d(TAG, "getUnseenNotification: UNSEEN_NOTIFICATION_LIST_COUNT : ${dataList.size}")
+            }
+        } catch (e: Exception) {
+            dataList.clear()
+            e.printStackTrace()
+            Log.e(TAG, "getUnseenNotification: ${e.message}")
+        }
+        return dataList
+    }
+
 }

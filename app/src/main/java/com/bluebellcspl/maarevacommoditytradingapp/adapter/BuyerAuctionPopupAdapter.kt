@@ -8,12 +8,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
-import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionItemAdapterBinding
+import com.bluebellcspl.maarevacommoditytradingapp.databinding.BuyerAuctionPopupPreviewAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
-import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import java.text.DecimalFormat
 
 class BuyerAuctionPopupAdapter(
@@ -22,13 +22,13 @@ class BuyerAuctionPopupAdapter(
     var commodityBhartiPrice: String
 ) : RecyclerView.Adapter<BuyerAuctionPopupAdapter.MyViewHolder>() {
     val TAG = "BuyerAuctionPopupAdapter"
-    inner class MyViewHolder(var binding: BuyerAuctionItemAdapterBinding) :
+    inner class MyViewHolder(var binding: BuyerAuctionPopupPreviewAdapterBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun calcutateData(model: AuctionDetailsModel) {
             try {
-                var upperLimit = binding.tvUpperLimitBuyerAuctionItemAdapter.text.toString().trim()
-                var lowerLimit = binding.tvLowerLimitBuyerAuctionItemAdapter.text.toString().trim()
-                var bags = binding.tvBagsBuyerAuctionItemAdapter.text.toString().trim()
+                var upperLimit = binding.tvUpperLimitBuyerAuctionPreviewAdapter.text.toString().trim()
+                var lowerLimit = binding.tvLowerLimitBuyerAuctionPreviewAdapter.text.toString().trim()
+                var bags = binding.tvPCABagsBuyerAuctionPreviewAdapter.text.toString().trim()
                 if (upperLimit.isNotEmpty() && lowerLimit.isNotEmpty() && bags.isNotEmpty()) {
                     if (model.UpdMarketCessRate.isEmpty())
                     {
@@ -83,9 +83,9 @@ class BuyerAuctionPopupAdapter(
                         "afterTextChanged: ================================================================================"
                     )
 
-//                    binding.tvAmountBuyerAuctionItemAdapter.setText("%.2f".format(totalAmount))
+//                    binding.tvAmountBuyerAuctionPreviewAdapter.setText("%.2f".format(totalAmount))
                     val nf = NumberFormat.getCurrencyInstance().format(totalAmount).substring(1)
-                    binding.tvAmountBuyerAuctionItemAdapter.setText(nf)
+                    binding.tvAmountBuyerAuctionPreviewAdapter.setText(nf)
                     model.Bags = bags
                     model.Amount = DecimalFormat("0.00").format(totalAmount)
                     model.LowerLimit = lowerLimit
@@ -102,7 +102,7 @@ class BuyerAuctionPopupAdapter(
                     model.MarketCessCharge = DecimalFormat("0.00").format(marketCess)
                     model.MarketCessRate = model.UpdMarketCessRate
                 } else {
-                    binding.tvAmountBuyerAuctionItemAdapter.setText("")
+                    binding.tvAmountBuyerAuctionPreviewAdapter.setText("")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -112,7 +112,7 @@ class BuyerAuctionPopupAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(BuyerAuctionItemAdapterBinding.inflate(
+        return MyViewHolder(BuyerAuctionPopupPreviewAdapterBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         ))
     }
@@ -123,20 +123,20 @@ class BuyerAuctionPopupAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
-        holder.binding.tvBagsBuyerAuctionItemAdapter.isEnabled = false
-        holder.binding.tvAmountBuyerAuctionItemAdapter.isEnabled = false
-        holder.binding.tvUpperLimitBuyerAuctionItemAdapter.isEnabled = false
-        holder.binding.tvLowerLimitBuyerAuctionItemAdapter.isEnabled = false
         if (PrefUtil.getSystemLanguage().equals("gu")) {
-            holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(
-                DatabaseManager.ExecuteScalar(
-                    Query.getGujaratiPCANameByPCAId(model.PCAId)))
+            if (model.GujaratiPCAShortName.isNotEmpty())
+            {
+                holder.binding.tvPCANameBuyerAuctionPreviewAdapter.setText(model.GujaratiPCAShortName)
+            }else
+            {
+                holder.binding.tvPCANameBuyerAuctionPreviewAdapter.setText(model.PCAShortName)
+            }
         } else {
-            holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(model.PCAName)
+            holder.binding.tvPCANameBuyerAuctionPreviewAdapter.setText(model.PCAShortName)
         }
         val nf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
-        holder.binding.tvAmountBuyerAuctionItemAdapter.setText(nf.toString())
-        holder.binding.tvBagsBuyerAuctionItemAdapter.setText(model.Bags)
+        holder.binding.tvAmountBuyerAuctionPreviewAdapter.setText(nf.toString())
+        holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.setText("%s %s".format(context.getString(R.string.bags_lbl),model.Bags))
         var pcaLowerLimit = ""
         var pcaUpperLimit = ""
         if (model.LowerLimit.toDouble()>0.0 && model.UpperLimit.toDouble()>0.0)
@@ -148,8 +148,8 @@ class BuyerAuctionPopupAdapter(
             pcaLowerLimit = model.PCALowerLimit
             pcaUpperLimit = model.PCAUpperLimit
         }
-        holder.binding.tvLowerLimitBuyerAuctionItemAdapter.setText(pcaLowerLimit)
-        holder.binding.tvUpperLimitBuyerAuctionItemAdapter.setText(pcaUpperLimit)
+        holder.binding.tvLowerLimitBuyerAuctionPreviewAdapter.setText(pcaLowerLimit)
+        holder.binding.tvUpperLimitBuyerAuctionPreviewAdapter.setText(pcaUpperLimit)
 
         model.Basic = "0.0"
         holder.calcutateData(model)
@@ -163,24 +163,24 @@ class BuyerAuctionPopupAdapter(
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (holder.binding.tvBagsBuyerAuctionItemAdapter.text.toString().isNullOrBlank()) {
-                    holder.binding.tvBagsBuyerAuctionItemAdapter.setText("0")
-                    holder.binding.tvBagsBuyerAuctionItemAdapter.setSelection(1)
+                if (holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.text.toString().isNullOrBlank()) {
+                    holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.setText("0")
+//                    holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.setSelection(1)
                 }
-                if (holder.binding.tvBagsBuyerAuctionItemAdapter.text.toString().length >= 2 && holder.binding.tvBagsBuyerAuctionItemAdapter.text.toString()
+                if (holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.text.toString().length >= 2 && holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.text.toString()
                         .startsWith("0")
                 ) {
                     val subStr =
-                        holder.binding.tvBagsBuyerAuctionItemAdapter.text.toString().substring(1)
-                    holder.binding.tvBagsBuyerAuctionItemAdapter.setText(subStr)
-                    holder.binding.tvBagsBuyerAuctionItemAdapter.setSelection(1)
+                        holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.text.toString().substring(1)
+                    holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.setText(subStr)
+//                    holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.setSelection(1)
                 }
                 holder.calcutateData(model)
             }
         }
-        holder.binding.tvUpperLimitBuyerAuctionItemAdapter.addTextChangedListener(calculationTextWatcher)
-        holder.binding.tvBagsBuyerAuctionItemAdapter.addTextChangedListener(calculationTextWatcher)
-        holder.binding.tvLowerLimitBuyerAuctionItemAdapter.addTextChangedListener(object :
+        holder.binding.tvUpperLimitBuyerAuctionPreviewAdapter.addTextChangedListener(calculationTextWatcher)
+        holder.binding.tvPCABagsBuyerAuctionPreviewAdapter.addTextChangedListener(calculationTextWatcher)
+        holder.binding.tvLowerLimitBuyerAuctionPreviewAdapter.addTextChangedListener(object :
             TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -191,7 +191,7 @@ class BuyerAuctionPopupAdapter(
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                holder.binding.tvUpperLimitBuyerAuctionItemAdapter.setText("")
+                holder.binding.tvUpperLimitBuyerAuctionPreviewAdapter.setText("")
             }
         })
     }

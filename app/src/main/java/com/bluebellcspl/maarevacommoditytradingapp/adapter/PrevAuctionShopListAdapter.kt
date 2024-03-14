@@ -32,6 +32,7 @@ class PrevAuctionShopListAdapter(var context: Context, var dataList: ArrayList<P
         val model = dataList[holder.adapterPosition]
 
         holder.binding.ShopName.setText(model.ShopName)
+
         val currentNf = NumberFormat.getCurrencyInstance().format(model.CurrentPrice.toDouble())
         val totalAmountNf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
         holder.binding.shopRate.setText(currentNf)

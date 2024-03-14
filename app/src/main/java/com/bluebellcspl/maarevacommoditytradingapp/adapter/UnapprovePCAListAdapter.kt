@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaListItemAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
@@ -43,5 +44,19 @@ class UnapprovePCAListAdapter(var context: Context, var dataList:ArrayList<PCALi
         holder.binding.tvApprovedStatusPCAListItem.gravity = Gravity.CENTER
         holder.binding.tvApprovedStatusPCAListItem.setText(context.getString(R.string.unapproved))
         holder.binding.tvApprovedStatusPCAListItem.setBackgroundResource(R.drawable.unapproved_pca_tile_bg)
+        if (PrefUtil.getSystemLanguage().equals("gu")) {
+
+            model.GujaratiPCAName?.let {
+                if (it.isNotEmpty())
+                {
+                    holder.binding.tvPCANamePCAListItem.setText(model.GujaratiPCAName)
+                }else
+                {
+                    holder.binding.tvPCANamePCAListItem.setText(model.PCAName)
+                }
+            }
+        } else {
+            holder.binding.tvPCANamePCAListItem.setText(model.PCAName)
+        }
     }
 }

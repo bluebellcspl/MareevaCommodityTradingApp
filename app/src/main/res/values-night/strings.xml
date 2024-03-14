@@ -83,7 +83,7 @@
     <string name="status">Status</string>
     <string name="approved_pca_list">Approved PCA List</string>
     <string name="approved">Approved</string>
-    <string name="unapproved">Unapproved</string>
+    <string name="unapproved">Not Approved</string>
     <string name="budget_amount">Budget Amount</string>
     <string name="total_bags">Total Bags</string>
     <string name="other_commission">Other Commission (₹)</string>

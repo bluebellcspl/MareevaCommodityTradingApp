@@ -156,9 +156,14 @@ class LiveAuctionListAdapter(
         val expanable = expandableList[holder.adapterPosition]
         holder.binding.tvPCAName.setText(model.PCAName)
         if (PrefUtil.getSystemLanguage().equals("gu")) {
-            holder.binding.tvPCAName.setText(DatabaseManager.ExecuteScalar(Query.getGujaratiPCANameByPCAId(model.PCAId)))
+            if (model.GujaratiPCAShortName.isNotEmpty()){
+                holder.binding.tvPCAName.setText(model.GujaratiPCAShortName)
+            }else
+            {
+                holder.binding.tvPCAName.setText(model.PCAShortName)
+            }
         } else {
-            holder.binding.tvPCAName.setText(model.PCAName)
+            holder.binding.tvPCAName.setText(model.PCAShortName)
         }
         holder.bindShopList(model.ShopList)
 

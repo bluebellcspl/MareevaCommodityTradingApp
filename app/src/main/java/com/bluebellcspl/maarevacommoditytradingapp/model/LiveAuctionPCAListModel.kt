@@ -21,6 +21,8 @@ data class LiveAuctionPCAListModel(
     var PCACommCharge: String,
     var PCAId: String,
     var PCAName: String,
+    var PCAShortName: String,
+    var GujaratiPCAShortName: String,
     var PCARegId: String,
     var ShopList: ArrayList<LiveAuctionShopListModel>,
     var TotalPurchasedBags: String,

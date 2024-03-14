@@ -45,6 +45,7 @@ class FetchNotificationAPI(var context:Context,var fragment:Fragment) {
             JO.addProperty("CompanyCode", PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString())
             JO.addProperty("RegId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
             JO.addProperty("Typeofuser", typeOfUser)
+            JO.addProperty("Language", PrefUtil.getSystemLanguage())
             Log.d(TAG, "getNotification: JSON : ${JO.toString()}")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
@@ -53,7 +54,7 @@ class FetchNotificationAPI(var context:Context,var fragment:Fragment) {
                 if (result.isSuccessful)
                 {
                     val notificationModel = result.body()!!
-
+                    DatabaseManager.deleteData(Constants.TBL_NotificationMaster)
                     val list = ContentValues()
                     for (model in notificationModel)
                     {
@@ -67,7 +68,7 @@ class FetchNotificationAPI(var context:Context,var fragment:Fragment) {
                         list.put("Name",model.Name)
                         list.put("Link",model.Link)
                         list.put("ISRead",model.ISRead)
-                        list.put("ISSeen","false")
+//                        list.put("ISSeen",model.ISSeen)
                         list.put("CreateUser",model.CreateUser)
                         list.put("Cdate",model.Cdate)
 

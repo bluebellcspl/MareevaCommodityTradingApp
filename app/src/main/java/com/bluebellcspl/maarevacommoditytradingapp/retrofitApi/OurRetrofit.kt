@@ -16,6 +16,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.StateMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.TransportationMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.UserMasterModel
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.http.Body
@@ -148,5 +150,9 @@ interface OurRetrofit {
     @Headers("Content-Type:application/json")
     @POST("/API/MaarevaApi/MaarevaApi/Logout")
     suspend fun Logout(@Body body: JsonObject): Response<String>
+
+    @Headers("Content-Type:application/json")
+    @POST("/API/MaarevaApi/MaarevaApi/NotificationListInsUpd")
+    suspend fun postUnseenNotificationSync(@Body body: JsonArray): Response<JsonArray>
 
 }

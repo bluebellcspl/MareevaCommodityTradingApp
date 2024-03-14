@@ -75,6 +75,9 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                                 if (fragment is PCAAuctionFragment)
                                 {
                                     (fragment as PCAAuctionFragment).noAuctionPopup()
+                                }else if (fragment is PCADashboardFragment)
+                                {
+                                    (fragment as PCADashboardFragment).bindBuyerAllocatedData(pcaAuctionDetailModel)
                                 }
                             }
                         }

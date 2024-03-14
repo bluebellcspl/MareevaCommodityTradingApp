@@ -158,6 +158,7 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
             dialogBinding.tvPCANameProfilePCADialog.setText(model.PCAName)
             dialogBinding.tvPCAEmailProfilePCADialog.setText(model.EmailId)
             dialogBinding.tvPCAAPMCProfilePCADialog.setText(model.APMCName)
+            dialogBinding.tvPCAPhoneNoProfilePCADialog.setText(model.PCAPhoneNumber)
             dialogBinding.tvPCAAadharCardProfilePCADialog.setText(model.AdharNo)
             dialogBinding.tvPCAPANCardProfilePCADialog.setText(model.PanCardNo)
             dialogBinding.tvPCAGSTNoProfilePCADialog.setText(model.GSTNo)

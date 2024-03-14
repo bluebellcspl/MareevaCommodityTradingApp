@@ -99,6 +99,9 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
     }
 
     fun onMessageReceived(dataList: LiveAuctionMasterModel) {
+
+        if (!isAdded) return
+
         if (dataList.PCAList.isNotEmpty()) {
 
             if (dataList.PCAList != lastPCAList) {
@@ -109,7 +112,6 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 adapter =
                     LiveAuctionListAdapter(requireContext(), dataList.PCAList, expandableList, this)
                 binding.rcViewLiveAuctionFragment.adapter = adapter
-//                binding.rcViewLiveAuctionFragment.invalidate()
                 adapter.submitList(dataList.PCAList)
                 lastPCAList = dataList.PCAList
                 newAuctionData = dataList

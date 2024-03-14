@@ -131,9 +131,15 @@ class BuyerAuctionListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
         if (PrefUtil.getSystemLanguage().equals("gu")) {
-            holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(DatabaseManager.ExecuteScalar(Query.getGujaratiPCANameByPCAId(model.PCAId)))
+            if (model.GujaratiPCAShortName.isNotEmpty())
+            {
+                holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(model.GujaratiPCAShortName)
+            }else
+            {
+                holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(model.PCAShortName)
+            }
         } else {
-            holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(model.PCAName)
+            holder.binding.tvPCANameBuyerAuctionItemAdapter.setText(model.PCAShortName)
         }
         val nf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
         holder.binding.tvAmountBuyerAuctionItemAdapter.setText(nf.toString())
