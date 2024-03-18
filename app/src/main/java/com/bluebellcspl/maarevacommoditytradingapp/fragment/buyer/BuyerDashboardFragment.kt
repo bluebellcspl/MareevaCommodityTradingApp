@@ -139,6 +139,10 @@ class BuyerDashboardFragment : Fragment() {
                 menuInflater.inflate(R.menu.ds_menu, menu)
 
                 val notificationMenuItem = menu.findItem(R.id.nav_Notification)
+//                val chatMenuItem = menu.findItem(R.id.btn_Chat)
+//                chatMenuItem.setVisible(false)
+                val invoiceMenuItem = menu.findItem(R.id.btn_Invoice)
+                invoiceMenuItem.setVisible(false)
                 if (NOTIFICATION_COUNT > 0) {
                     notificationMenuItem.setActionView(R.layout.notification_badge)
                     val view = notificationMenuItem.actionView

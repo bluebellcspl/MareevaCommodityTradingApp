@@ -184,6 +184,7 @@
     <string name="please_enter_valid_input_alert_msg">Please Enter Valid Input!</string>
     <string name="do_you_want_to_delete_pca_data_alert_msg">Do you want to Delete PCA Data?</string>
     <string name="delete">Delete</string>
+    <string name="chat">Chat</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>
