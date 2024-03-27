@@ -285,6 +285,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                 "",
                 "",
                 "",
+                "",
                 shopId,
                 model.ShopNo,
                 model.Bags,

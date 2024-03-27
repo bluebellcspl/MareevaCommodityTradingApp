@@ -236,6 +236,14 @@
         <action
             android:id="@+id/action_PCADashboardFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_PCADashboardFragment_to_PCAInvoiceFragment"
+            app:destination="@id/PCAInvoiceFragment"
+            app:popUpTo="@id/PCADashboardFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/buyerPreviousAuctionFragment"
@@ -260,4 +268,9 @@
         android:id="@+id/notificationFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.NotificationFragment"
         android:label="@string/notifications" />
+    <fragment
+        android:id="@+id/PCAInvoiceFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAInvoiceFragment"
+        android:label="@string/invoice"
+        tools:layout="@layout/fragment_p_c_a_invoice"/>
 </navigation>

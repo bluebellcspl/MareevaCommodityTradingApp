@@ -60,6 +60,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
     var commodityId = ""
     var companyCode = ""
     var buyerRegId = ""
+    var WEB_SOCKET_ID = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -122,7 +123,10 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
 
     fun calculateExpenses(dataList: LiveAuctionMasterModel) {
         try {
-
+            if (dataList.TotalTransportationCharge.isEmpty())
+            {
+                dataList.TotalTransportationCharge = "0"
+            }
             //            //Buyer Calculations
             binding.edtBuyerAllocatedBagsLiveAuctionFragment.setText(dataList.AllocatedBag)
 
@@ -130,6 +134,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             val BuyerTotalAmountNF =
                 NumberFormat.getCurrencyInstance().format(dataList.TotalCost.toDouble()).substring(1)
             binding.edtBuyerTotalAmountLiveAuctionFragment.setText(BuyerTotalAmountNF)
+
             var totalBuyerExpense =
                 dataList.TotalGCAComm.toDouble() + dataList.TotalPCAComm.toDouble() + dataList.TotalMarketCess.toDouble() + dataList.TotalLabourCharge.toDouble() + dataList.TotalTransportationCharge.toDouble()
 //            binding.tvBuyerExpensesLiveAuctionFragment.setText(String.format("%.2f",totalBuyerExpense))
@@ -240,57 +245,18 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             Log.d(TAG, "calculateExpenses: TOTAL_EXPENSE_PCA : $TOTAL_pcaExpense")
             Log.d(TAG, "calculateExpenses: TOTAL_PCA_BASIC   : $TOTAL_pcaBasic")
 
-            binding.edtPCAPurchasedBagsLiveAuctionFragment.setText(
-                "%s".format(
-                    TOTAL_AuctionBags.toString()
-                )
-            )
+            binding.edtPCAPurchasedBagsLiveAuctionFragment.setText("%s".format(TOTAL_AuctionBags.toString()))
 
             val PCATotalAmountNF =
                 NumberFormat.getCurrencyInstance().format(TOTAL_AuctionCost).substring(1)
-            binding.edtPCATotalAmountLiveAuctionFragment.setText(
-                "%s".format(
-                    PCATotalAmountNF
-                )
-            )
+            binding.edtPCATotalAmountLiveAuctionFragment.setText("%s".format(PCATotalAmountNF))
             var rate =
                 TOTAL_AuctionCost / ((TOTAL_AuctionBags * COMMODITY_BHARTI.toDouble()) / 20.0)
             val RateNF = NumberFormat.getCurrencyInstance().format(rate).substring(1)
-            binding.tvPCAAvgRateLiveAuctionFragment.setText(
-                "%s".format(
-                    RateNF
-                )
-            )
-
+            binding.tvPCAAvgRateLiveAuctionFragment.setText("%s".format(RateNF))
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "calculateExpenses: ${e.message}")
-        }
-    }
-
-    fun showBuyerExpensesPopup(dataList: LiveAuctionMasterModel) {
-        try {
-            val alertDailogBuilder = AlertDialog.Builder(requireContext())
-            val dialogBinding = BuyerExpenseDialogLayoutBinding.inflate(layoutInflater)
-            val dialogView = dialogBinding.root
-            alertDailogBuilder.setView(dialogView)
-            val alertDialog = alertDailogBuilder.create()
-            alertDialog.setCanceledOnTouchOutside(true)
-            alertDialog.setCancelable(true)
-            alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-            alertDialog.show()
-
-            dialogBinding.tvlabelHeader.setText("Buyer's Expenses")
-            dialogBinding.tvTotalBasicAmountBuyerExpenseDialog.setText(dataList.Basic)
-            dialogBinding.tvTotalLabourChargeBuyerExpenseDialog.setText(dataList.TotalLabourCharge)
-            dialogBinding.tvTotalGCACommissionBuyerExpenseDialog.setText(dataList.TotalGCAComm)
-            dialogBinding.tvTotalPCACommissionBuyerExpenseDialog.setText(dataList.TotalPCAComm)
-            dialogBinding.tvTotalTransportChargeBuyerExpenseDialog.setText(dataList.TotalTransportationCharge)
-            dialogBinding.tvTotalMarketCessBuyerExpenseDialog.setText(dataList.TotalMarketCess)
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e(TAG, "showBuyerExpenesePopup: ${e.message}")
         }
     }
 
@@ -646,13 +612,17 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
 //                    webSocketClient.connect()
                     lifecycleScope.launch(Dispatchers.IO)
                     {
+                        val LIVE_SOCKET_API = URLHelper.TESTING_LIVE_AUCTION_SOCKET_URL.replace(
+                            "<COMMODITY_ID>",
+                            commodityId.toString()
+                        ).replace("<DATE>", DateUtility().getCompletionDate())
+                            .replace("<COMPANY_CODE>", companyCode.toString())
+                            .replace("<BUYER_REG_ID>", buyerRegId.toString())
+
+                        Log.d(TAG, "onResume: LIVE_AUCTION_SOCKET_API : $LIVE_SOCKET_API")
+                        
                         webSocket = SocketHandler.getWebSocket(
-                            URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
-                                "<COMMODITY_ID>",
-                                commodityId.toString()
-                            ).replace("<DATE>", DateUtility().getCompletionDate())
-                                .replace("<COMPANY_CODE>", companyCode.toString())
-                                .replace("<BUYER_REG_ID>", buyerRegId.toString()),
+                        LIVE_SOCKET_API,
                             MyWebSocketListener()
                         )
                     }
@@ -677,13 +647,16 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                 if (ConnectionCheck.isConnected(requireContext())) {
                     lifecycleScope.launch(Dispatchers.IO)
                     {
+
+                        val LIVE_SOCKET_API = URLHelper.TESTING_LIVE_AUCTION_SOCKET_URL.replace(
+                            "<COMMODITY_ID>",
+                            commodityId.toString()
+                        ).replace("<DATE>", DateUtility().getCompletionDate())
+                            .replace("<COMPANY_CODE>", companyCode.toString())
+                            .replace("<BUYER_REG_ID>", buyerRegId.toString())
+                        Log.d(TAG, "onStart: LIVE_AUCTION_SOCKET_API : $LIVE_SOCKET_API")
                         webSocket = SocketHandler.getWebSocket(
-                            URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
-                                "<COMMODITY_ID>",
-                                commodityId.toString()
-                            ).replace("<DATE>", DateUtility().getCompletionDate())
-                                .replace("<COMPANY_CODE>", companyCode.toString())
-                                .replace("<BUYER_REG_ID>", buyerRegId.toString()),
+                            LIVE_SOCKET_API,
                             MyWebSocketListener()
                         )
                     }
@@ -752,6 +725,8 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
 
         override fun onOpen(webSocket: WebSocket, response: Response) {
             this@LiveAuctionFragment.webSocket = webSocket
+            WEB_SOCKET_ID = webSocket.toString()
+            Log.d(TAG, "onOpen: WEB_SOCKET_ID : $WEB_SOCKET_ID")
             Log.d(TAG, "onOpen: SOCKET_CONNECTED")
         }
 

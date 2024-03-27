@@ -333,7 +333,6 @@ class BuyerDashboardFragment : Fragment() {
             var TOTAL_AuctionCost = 0.0
             var TOTAL_AuctionBags = 0f
 
-
             for (PCAData in dataList.PCAList) {
                 var currentPCABasic = 0.0
                 var CURRENT_pcaMarketCess = 0.0
@@ -501,15 +500,18 @@ class BuyerDashboardFragment : Fragment() {
             Handler(Looper.getMainLooper()).postDelayed({
                 if (ConnectionCheck.isConnected(requireContext())) {
 //                    webSocketClient.connect()
+                    val LIVE_SOCKET_API = URLHelper.TESTING_LIVE_AUCTION_SOCKET_URL.replace(
+                        "<COMMODITY_ID>",
+                        commodityId.toString()
+                    ).replace("<DATE>", DateUtility().getCompletionDate())
+                        .replace("<COMPANY_CODE>", companyCode.toString())
+                        .replace("<BUYER_REG_ID>", buyerRegId.toString())
+                    Log.d(TAG, "onResume: BUYER_LIVE_AUCTION_SOCKET_API : $LIVE_SOCKET_API")
+
                     lifecycleScope.launch(Dispatchers.IO)
                     {
                         webSocket = SocketHandler.getWebSocket(
-                            URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
-                                "<COMMODITY_ID>",
-                                commodityId.toString()
-                            ).replace("<DATE>", DateUtility().getCompletionDate())
-                                .replace("<COMPANY_CODE>", companyCode.toString())
-                                .replace("<BUYER_REG_ID>", buyerRegId.toString()),
+                            LIVE_SOCKET_API,
                             MyWebSocketListener()
                         )
                     }
@@ -539,15 +541,18 @@ class BuyerDashboardFragment : Fragment() {
             Handler(Looper.getMainLooper()).postDelayed({
                 if (ConnectionCheck.isConnected(requireContext())) {
 //                    webSocketClient.connect()
+                    val LIVE_SOCKET_API = URLHelper.TESTING_LIVE_AUCTION_SOCKET_URL.replace(
+                        "<COMMODITY_ID>",
+                        commodityId.toString()
+                    ).replace("<DATE>", DateUtility().getCompletionDate())
+                        .replace("<COMPANY_CODE>", companyCode.toString())
+                        .replace("<BUYER_REG_ID>", buyerRegId.toString())
+                    Log.d(TAG, "onStart: BUYER_LIVE_AUCTION_SOCKET_API : $LIVE_SOCKET_API")
+
                     lifecycleScope.launch(Dispatchers.IO)
                     {
                         webSocket = SocketHandler.getWebSocket(
-                            URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
-                                "<COMMODITY_ID>",
-                                commodityId.toString()
-                            ).replace("<DATE>", DateUtility().getCompletionDate())
-                                .replace("<COMPANY_CODE>", companyCode.toString())
-                                .replace("<BUYER_REG_ID>", buyerRegId.toString()),
+                            LIVE_SOCKET_API,
                             MyWebSocketListener()
                         )
                     }

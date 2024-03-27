@@ -55,6 +55,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
             JO.addProperty("CommodityId",model.CommodityId)
             JO.addProperty("CommodityBhartiPrice",model.CommodityBhartiPrice)
             JO.addProperty("APMCId",model.APMCId)
+            JO.addProperty("BuyerAuctionMasterId",model.BuyerAuctionMasterId)
             JO.addProperty("BuyerBori",model.BuyerBori)
             JO.addProperty("BuyerLowerPrice",model.BuyerLowerPrice)
             JO.addProperty("BuyerUpperPrice",model.BuyerUpperPrice)

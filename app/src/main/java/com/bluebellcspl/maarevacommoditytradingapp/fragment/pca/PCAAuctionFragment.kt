@@ -88,31 +88,10 @@ class PCAAuctionFragment : Fragment() {
         shopNameList = getShopNameFromDB()
         shopNoList = getShopNoFromDb()
 
-        //OnFocusChangeListener
-//        binding.edtBagsPCAAuctionFragment.onFocusChangeListener =
-//            View.OnFocusChangeListener { view: View?, b: Boolean ->
-//                if (b) {
-//                    if (binding.actShopNoPCAAuctionFragment.text.toString().isNotEmpty()) {
-//                        bindShopName(binding.actShopNoPCAAuctionFragment.text.toString().trim())
-//                    } else {
-//                        bindShopNo(binding.actShopNamePCAAuctionFragment.text.toString().trim())
-//                    }
-//                }
-//            }
         binding.actShopNoPCAAuctionFragment.threshold = 100
         binding.edtBagsPCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
         binding.edtCurrentPricePCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(7, 2))
-//        binding.actShopNoPCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
-//            var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
-//            shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
-//            binding.actShopNamePCAAuctionFragment.setText(shopName)
-//        }
-//        binding.actShopNamePCAAuctionFragment.threshold = 100
-//        binding.actShopNamePCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
-//            var shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
-//            shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopName(binding.actShopNamePCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
-//            binding.actShopNoPCAAuctionFragment.setText(shopNo)
-//        }
+
 
         binding.actShopNoPCAAuctionFragment.setOnItemClickListener { adapterView, view, i, l ->
             shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(binding.actShopNoPCAAuctionFragment.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
@@ -211,7 +190,7 @@ class PCAAuctionFragment : Fragment() {
                     }
                     if (bags.toFloat() > 0) {
                         post_PurchasedBags = PURCHASED_BAG.toFloat() + bags.toFloat()
-                        post_RemainingBags = BUYER_BORI.toInt() - post_PurchasedBags
+                        post_RemainingBags = BUYER_BORI.toFloat() - post_PurchasedBags
                         binding.tvRemainingBagsPCAAuctionFragment.setText(post_RemainingBags.toString())
                         binding.tvPurchasedBagsPCAAuctionFragment.setText(post_PurchasedBags.toString())
                     } else {
@@ -522,6 +501,7 @@ class PCAAuctionFragment : Fragment() {
                 PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString(),
                 commodityBhartiRate,
                 PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString(),
+                apiDataforPost.AuctionMasterId,
                 apiDataforPost.BuyerBori,
                 apiDataforPost.BuyerLowerPrice,
                 apiDataforPost.BuyerUpperPrice,

@@ -12,6 +12,7 @@ data class POSTPCAAuctionData(
     var CommodityId:String,
     var CommodityBhartiPrice:String,
     var APMCId:String,
+    var BuyerAuctionMasterId:String,
     var BuyerBori:String,
     var BuyerLowerPrice:String,
     var BuyerUpperPrice:String,

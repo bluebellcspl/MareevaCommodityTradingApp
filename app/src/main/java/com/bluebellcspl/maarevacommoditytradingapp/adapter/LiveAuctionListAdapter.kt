@@ -166,8 +166,13 @@ class LiveAuctionListAdapter(
             holder.binding.tvPCAName.setText(model.PCAShortName)
         }
         holder.bindShopList(model.ShopList)
-
-        holder.binding.tvPCATotalBags.setText(model.TotalPurchasedBags)
+        if (model.TotalPurchasedBags.split(".")[1].startsWith("5"))
+        {
+            holder.binding.tvPCATotalBags.setText(model.TotalPurchasedBags)
+        }else
+        {
+            holder.binding.tvPCATotalBags.setText(model.TotalPurchasedBags.split(".")[0])
+        }
         holder.calcutionTotalPCAAmount(model)
 
         if (model.IsAuctionStop.equals("False", true)) {

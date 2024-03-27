@@ -9,11 +9,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitHelper {
-
-//    val BASE_URL = "https://maarevaapi.bbcspldev.in/"
-    val BASE_URL = "https://maareva.com/"
-//    val IMG_BASE_URL = "https://maareva.bbcspldev.in/UploadImages/"
-    val IMG_BASE_URL = "https://maareva.com/UploadImages/"
+    val BASE_URL = "http://maarevaapi.bbcspldev.in/"
+//    val BASE_URL = "https://maareva.com/"
+    val IMG_BASE_URL = "http://maareva.bbcspldev.in/UploadImages/"
+//    val IMG_BASE_URL = "https://maareva.com/UploadImages/"
 
     fun getInstance(): Retrofit {
         val gson = GsonBuilder().setLenient().serializeNulls().create()

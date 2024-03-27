@@ -112,6 +112,9 @@ class PCADashboardFragment : Fragment() {
                     R.id.nav_Notification->{
                         navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToNotificationFragment())
                     }
+                    R.id.btn_Invoice->{
+                        navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToPCAInvoiceFragment())
+                    }
                 }
                 return true
             }

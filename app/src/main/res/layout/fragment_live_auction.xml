@@ -28,8 +28,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|end"
                     android:padding="@dimen/_3sdp"
@@ -42,7 +41,6 @@
                     android:id="@+id/edt_PCAPurchasedBags_LiveAuctionFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:gravity="start"
                     android:padding="@dimen/_4ssp"
                     android:text=""
@@ -57,8 +55,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|end"
                     android:padding="@dimen/_3sdp"
@@ -70,7 +67,6 @@
                     android:id="@+id/tv_PCAAvgRate_LiveAuctionFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="start"
                     android:padding="@dimen/_4ssp"
                     android:text=""
@@ -85,8 +81,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|end"
                 android:padding="@dimen/_3sdp"
@@ -99,7 +94,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="start"
-                android:layout_weight="1"
                 android:padding="@dimen/_3sdp"
                 android:text=""
                 android:textColor="#452b90"
@@ -132,7 +126,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="1.4"
                         android:gravity="center"
                         android:text="@string/allocated_bags"
                         android:textColor="@color/black"
@@ -142,7 +136,7 @@
                         android:id="@+id/edt_BuyerAllocatedBags_LiveAuctionFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.8"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:textStyle="bold"
                         android:textColor="@color/black"
@@ -157,8 +151,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
-                        android:layout_weight="1"
+                        android:layout_weight="1.2"
                         android:gravity="center_vertical"
                         android:text="@string/total_amount"
                         android:textColor="@color/black"

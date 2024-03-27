@@ -8,6 +8,7 @@ data class PCAAuctionDetailModel(
     var APMCId: String,
     var Action: String,
     var ApiPCAAuctionDetail: ArrayList<ApiPCAAuctionDetail>,
+    var AuctionMasterId:String,
     var AvgPrice: String,
     var BuyerBori: String,
     var BuyerId: String,

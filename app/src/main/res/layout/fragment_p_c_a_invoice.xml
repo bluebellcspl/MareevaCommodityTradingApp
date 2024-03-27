@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.pca.PCAInvoiceFragment">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/header_RelativeLayout_PCAInvoiceFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorSecondaryLight"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_3sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edt_FromDateContainer_PCAInvoiceFragment"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:hint="@string/from_date"
+                        app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                        app:hintTextColor="@color/black"
+                        app:startIconDrawable="@drawable/baseline_calendar_today_24"
+                        app:startIconTint="@color/colorPrimaryDark">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_FromDate_PCAInvoiceFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none"
+                            android:padding="@dimen/_5sdp"
+                            android:text="15-03-2024"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edt_ToDateContainer_PCAInvoiceFragment"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:hint="@string/to_date"
+                        app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                        app:hintTextColor="@color/black"
+                        app:startIconDrawable="@drawable/baseline_calendar_today_24"
+                        app:startIconTint="@color/colorPrimaryDark">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_ToDate_PCAInvoiceFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none"
+                            android:padding="@dimen/_5sdp"
+                            android:text="15-03-2024"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edt_TotalBagsContainer_PCAInvoiceFragment"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/total_bags"
+                        app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                        app:hintTextColor="@color/black">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_TotalBags_PCAInvoiceFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:enabled="false"
+                            android:padding="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_ShowData_PCAInvoiceFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Show Data"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/_13ssp"
+                        app:cornerRadius="@dimen/_5sdp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_View_PCAInvoiceFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_PCAInvoiceFragment"
+            app:layout_constraintTop_toBottomOf="@id/header_RelativeLayout_PCAInvoiceFragment"
+            tools:listitem="@layout/pca_invoice_adapter_layout" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/linearLayout_PCAInvoiceFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorSecondaryLight"
+            app:cardElevation="@dimen/_3sdp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edt_VehicleNoContainer_PCAInvoiceFragment"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/vehicle_no"
+                    app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+                    app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+                    app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+                    app:boxCornerRadiusTopStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:hintTextColor="@color/black">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_VehicleNo_PCAInvoiceFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:text="GJ 23 BG 2024"
+                        android:padding="@dimen/_8sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13ssp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/mRb_Gst_PCAInvoiceFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/colorPrimaryDark"
+                        android:text="GST" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/mRb_NoGst_PCAInvoiceFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/colorPrimaryDark"
+                        android:text="No GST" />
+
+                </RadioGroup>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSubmit_PCAInvoiceFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/show_invoice"
+                    android:textSize="@dimen/_13ssp"
+                    app:cornerRadius="@dimen/_8sdp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

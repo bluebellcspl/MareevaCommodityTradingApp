@@ -1,20 +1,19 @@
 package com.bluebellcspl.maarevacommoditytradingapp.constants
 
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
+import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 
 class URLHelper {
     companion object{
-        val BASE_URL_PROJECT = "https://maareva.com/"
-        val BASE_URL_API = "https://maarevaapi.bbcspldev.in/"
+        val BUYER_AUCTION_DETAIL_REPORT = RetrofitHelper.BASE_URL+ "/Report/BuyerDashPCADetailsExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&BuyerRegId=<BUYER_REG_ID>"
 
-        val BUYER_AUCTION_DETAIL_REPORT = "https://maareva.com/Report/BuyerDashPCADetailsExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&BuyerRegId=<BUYER_REG_ID>"
-
-        val BUYER_AUCTION_REPORT = "https://maareva.com/Report/BuyerDashPCAHeaderExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&BuyerRegId=<BUYER_REG_ID>"
+        val BUYER_AUCTION_REPORT = RetrofitHelper.BASE_URL+ "/Report/BuyerDashPCAHeaderExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&BuyerRegId=<BUYER_REG_ID>"
 
         val LIVE_AUCTION_SOCKET_URL = "wss://maareva.com/API/MaarevaApi/MaarevaApi/BuyersLiveAuctionRtr?CommodityId=<COMMODITY_ID>&Date=<DATE>&CompanyCode=<COMPANY_CODE>&BuyerRegId=<BUYER_REG_ID>"
+        val TESTING_LIVE_AUCTION_SOCKET_URL = "wss://maarevaapi.bbcspldev.in/MaarevaApi/MaarevaApi/BuyersLiveAuctionRtr?CommodityId=<COMMODITY_ID>&Date=<DATE>&CompanyCode=<COMPANY_CODE>&BuyerRegId=<BUYER_REG_ID>"
 
-        val PCA_AUCTION_REPORT = "https://maareva.com/Report/PCADashPCAHeaderExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
+        val PCA_AUCTION_REPORT = RetrofitHelper.BASE_URL+ "/Report/PCADashPCAHeaderExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
 
-        val PCA_AUCTION_DETAIL_REPORT = "https://maareva.com/Report/PCADashPCADetailsExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
+        val PCA_AUCTION_DETAIL_REPORT = RetrofitHelper.BASE_URL+ "/Report/PCADashPCADetailsExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
     }
 }

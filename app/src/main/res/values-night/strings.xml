@@ -177,4 +177,11 @@
     <string name="do_you_want_to_delete_pca_data_alert_msg">Do you want to Delete PCA Data?</string>
     <string name="delete">Delete</string>
     <string name="chat">Chat</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="weight_after_auction_in_kg">Weight After Auction in KG</string>
+    <string name="kg">Kg</string>
+    <string name="invoice">Invoice</string>
+    <string name="vehicle_no">Vehicle No.</string>
+    <string name="show_invoice">Show Invoice</string>
 </resources>

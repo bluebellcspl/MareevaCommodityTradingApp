@@ -48,12 +48,14 @@ class FetchApprovedPCAListAPI(
             JO.addProperty("Action", "All")
             var CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME, "").toString()
             var Buyer_Reg_Id = ""
+            var PCA_Id = ""
             if (CURRENT_USER.equals("pca", true)) {
                 Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_BUYER_ID, "").toString()
-                JO.addProperty("PCAId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString())
+                PCA_Id =PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
             } else {
                 Buyer_Reg_Id = PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
             }
+            JO.addProperty("PCAId", PCA_Id)
             JO.addProperty("BuyerId", Buyer_Reg_Id)
             Log.d(TAG, "getPCAList: JSON : ${JO.toString()}")
 
