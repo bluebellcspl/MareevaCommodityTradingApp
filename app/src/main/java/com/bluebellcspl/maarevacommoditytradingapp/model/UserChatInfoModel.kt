@@ -1,5 +1,9 @@
 package com.bluebellcspl.maarevacommoditytradingapp.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class UserChatInfoModel(
     var SenderId:String,
     var ReceiverId:String,
@@ -11,4 +15,4 @@ data class UserChatInfoModel(
     var GujaratiShortName:String,
     var AppoveStatus:String,
     var IsActive:String
-)
+):Parcelable

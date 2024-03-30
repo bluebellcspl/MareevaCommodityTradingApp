@@ -247,6 +247,14 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_PCADashboardFragment_to_PCAChatListFragment"
+            app:destination="@id/PCAChatListFragment"
+            app:popUpTo="@id/PCADashboardFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/buyerPreviousAuctionFragment"
@@ -280,5 +288,35 @@
         android:id="@+id/buyerChatListFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerChatListFragment"
         android:label="@string/chat"
-        tools:layout="@layout/fragment_buyer_chat_list"/>
+        tools:layout="@layout/fragment_buyer_chat_list">
+        <action
+            android:id="@+id/action_buyerChatListFragment_to_chatBoxFragment"
+            app:destination="@id/chatBoxFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/chatBoxFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.ChatBoxFragment"
+        android:label="fragment_chat_box"
+        tools:layout="@layout/fragment_chat_box" >
+        <argument
+            android:name="userChatInfoModel"
+            app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.UserChatInfoModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/PCAChatListFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAChatListFragment"
+        android:label="@string/chat"
+        tools:layout="@layout/fragment_p_c_a_chat_list">
+        <action
+            android:id="@+id/action_PCAChatListFragment_to_chatBoxFragment"
+            app:destination="@id/chatBoxFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
 </navigation>

@@ -15,5 +15,7 @@ class URLHelper {
         val PCA_AUCTION_REPORT = RetrofitHelper.BASE_URL+ "/Report/PCADashPCAHeaderExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
 
         val PCA_AUCTION_DETAIL_REPORT = RetrofitHelper.BASE_URL+ "/Report/PCADashPCADetailsExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
+
+        val TESTING_CHAT_SOCKET = "wss://maarevaapi.bbcspldev.in/MaarevaApi/MaarevaApi/ConnectWebSocket"
     }
 }

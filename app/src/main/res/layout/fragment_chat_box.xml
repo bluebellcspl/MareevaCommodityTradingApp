@@ -1,112 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.ChatBoxFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rc_View_Chat"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/ll_ChatBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <LinearLayout
-        android:id="@+id/ll_ChatBox"
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".fragment.ChatBoxFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_View_Chat"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/ll_ChatBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/ll_Message_chatBox"
+            android:id="@+id/ll_ChatBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="horizontal">
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <com.devlomi.record_view.RecordView
-                android:id="@+id/record_view"
+            <LinearLayout
+                android:id="@+id/ll_Message_chatBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:visibility="gone"
-                app:counter_time_color="#ff0000"
-                app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
-                app:slide_to_cancel_arrow_color="#000000"
-                app:slide_to_cancel_bounds="8dp"
-                app:slide_to_cancel_margin_right="10dp"
-                app:slide_to_cancel_text="Slide To Cancel" />
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/edtChatMessage"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                <com.devlomi.record_view.RecordView
+                    android:id="@+id/record_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone"
+                    app:counter_time_color="#ff0000"
+                    app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
+                    app:slide_to_cancel_arrow_color="#000000"
+                    app:slide_to_cancel_bounds="8dp"
+                    app:slide_to_cancel_margin_right="10dp"
+                    app:slide_to_cancel_text="Slide To Cancel" />
+
+                <EditText
+                    android:id="@+id/edtChatMessage"
+                    style="@style/Widget.AppCompat.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:hint="Enter Message"
+                    android:inputType="textMultiLine|textShortMessage"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
+                    android:backgroundTint="@color/white"
+                    android:shadowColor="@null"
+                    android:src="@drawable/baseline_attachment_24"
+                    app:tint="@color/black"
+                    android:text="Send"
+                    app:borderWidth="0dp"
+                    app:fabCustomSize="50dp" />
+            </LinearLayout>
+
+            <com.devlomi.record_view.RecordButton
+                android:id="@+id/btnVoiceRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:hint="Enter Message"
-                android:inputType="textMultiLine|textShortMessage"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:background="@drawable/recv_bg_mic"
+                android:backgroundTint="@color/colorSecondaryDark"
+                android:scaleType="centerInside"
+                app:mic_icon="@drawable/baseline_mic_24" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="2dp"
-                android:backgroundTint="@color/white"
-                android:shadowColor="@null"
-                android:src="@drawable/baseline_attachment_24"
-                app:tint="@color/black"
+                android:backgroundTint="@color/colorSecondaryDark"
+                android:src="@drawable/baseline_mic_24"
+                android:text="Send"
+                android:visibility="gone"
+                app:borderWidth="0dp"
+                app:fabCustomSize="50dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="2dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:src="@drawable/baseline_send_24"
                 android:text="Send"
                 app:borderWidth="0dp"
                 app:fabCustomSize="50dp" />
         </LinearLayout>
-
-        <com.devlomi.record_view.RecordButton
-            android:id="@+id/btnVoiceRecord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:background="@drawable/recv_bg_mic"
-            android:backgroundTint="@color/colorSecondaryDark"
-            android:scaleType="centerInside"
-            app:mic_icon="@drawable/baseline_mic_24" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="2dp"
-            android:backgroundTint="@color/colorSecondaryDark"
-            android:src="@drawable/baseline_mic_24"
-            android:text="Send"
-            android:visibility="gone"
-            app:borderWidth="0dp"
-            app:fabCustomSize="50dp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="2dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:src="@drawable/baseline_send_24"
-            android:text="Send"
-            app:borderWidth="0dp"
-            app:fabCustomSize="50dp" />
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <RelativeLayout
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvMessage_ReceiveItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/receiver_drawble"
+                android:padding="10dp"
+                android:text="hello"
+                android:layout_alignParentStart="true"
+                android:gravity="end"
+                android:textColor="@color/black"
+                android:layout_margin="3dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvDate_ReceiveItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="21-03-2024 05:33 PM"
+                android:layout_below="@id/tvMessage_ReceiveItem"
+                android:textAlignment="textStart"
+                android:layout_marginStart="3dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

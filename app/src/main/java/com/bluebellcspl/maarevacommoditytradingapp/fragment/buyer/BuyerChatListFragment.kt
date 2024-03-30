@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerChatListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
@@ -24,6 +25,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerVi
 class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
     lateinit var binding:FragmentBuyerChatListBinding
     private val commonUIUtility by lazy { CommonUIUtility(requireContext())}
+    private val navController by lazy { findNavController() }
     val TAG="BuyerChatListFragment"
     lateinit var adapter:BuyerChatListAdapter
     lateinit var pcaList:PCAListModel
@@ -48,7 +50,7 @@ class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
             pcaList = dataList as PCAListModel
             if (dataList.isNotEmpty())
             {
-                adapter = BuyerChatListAdapter(requireContext(),dataList)
+                adapter = BuyerChatListAdapter(requireContext(),dataList,this)
                 binding.rcViewBuyerChatList.adapter = adapter
                 binding.rcViewBuyerChatList.invalidate()
             }else
@@ -69,12 +71,14 @@ class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
             PrefUtil.getString(PrefUtil.KEY_ROLE_ID,"").toString(),
             model.RoleId,
             model.PCAName,
-            model.PCAShortName!!,
-            model.GujaratiPCAName!!,
-            model.GujaratiShortPCAName!!,
+            model.PCAShortName.toString(),
+            model.GujaratiPCAName.toString(),
+            model.GujaratiShortPCAName.toString(),
             model.ApprStatus,
             model.IsActive
         )
+        Log.d(TAG, "onItemClick: CHAT_USER_MODEL : $userChatInfoModel")
+        navController.navigate(BuyerChatListFragmentDirections.actionBuyerChatListFragmentToChatBoxFragment(userChatInfoModel))
     }
 
     override fun onBuyerAuctionPCAItemClick(postion: Int, model: AuctionDetailsModel) {

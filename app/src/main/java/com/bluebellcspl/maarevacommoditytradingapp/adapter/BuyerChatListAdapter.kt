@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ChatlistItemAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
+import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
-class BuyerChatListAdapter(var context: Context, var chatlist: ArrayList<PCAListModelItem>) :
+class BuyerChatListAdapter(var context: Context, var chatlist: ArrayList<PCAListModelItem>,var recyclerViewHelper: RecyclerViewHelper) :
     RecyclerView.Adapter<BuyerChatListAdapter.MyViewHolder>() {
     inner class MyViewHolder(var binding: ChatlistItemAdapterBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -31,6 +32,10 @@ class BuyerChatListAdapter(var context: Context, var chatlist: ArrayList<PCAList
         val model = chatlist[holder.adapterPosition]
         holder.binding.tvPCANameChatListAdapter.setText(model.PCAShortName)
         holder.binding.iconPCATextChatListAdapter.setText(getInitialLetter(model.PCAShortName!!).toString())
+
+        holder.binding.cvPCAChatListAdapter.setOnClickListener {
+            recyclerViewHelper.onItemClick(holder.adapterPosition,"")
+        }
     }
 
     fun getInitialLetter(inputString: String): Char? {

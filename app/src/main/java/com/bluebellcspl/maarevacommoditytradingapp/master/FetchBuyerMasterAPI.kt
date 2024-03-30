@@ -8,6 +8,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAChatListFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerMasterModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
@@ -56,6 +57,11 @@ class FetchBuyerMasterAPI(var context: Context, var activity: Activity, var frag
                             }
                             commonUIUtility.dismissProgress()
                             (fragment as ProfileFragment).bindBuyerData(model)
+                        }
+                    }else if (fragment is PCAChatListFragment){
+                        withContext(Dispatchers.Main){
+                            commonUIUtility.dismissProgress()
+                            (fragment as PCAChatListFragment).bindBuyerData(buyerMasterModel[0])
                         }
                     }
                 } else {

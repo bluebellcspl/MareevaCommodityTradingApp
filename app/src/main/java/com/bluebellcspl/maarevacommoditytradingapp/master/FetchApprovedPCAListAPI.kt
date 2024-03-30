@@ -194,10 +194,8 @@ class FetchApprovedPCAListAPI(
                     (fragment as ProfileFragment).bindPCAData(data)
                 }
                 is BuyerChatListFragment->{
-                    val sortedPCAList = ArrayList(pcaList.sortedWith(compareBy {
-                        it.PCAName
-                    }))
-                    (fragment as BuyerChatListFragment).bindChatListView(sortedPCAList)
+                    pcaList.sortBy { it.PCAName }
+                    (fragment as BuyerChatListFragment).bindChatListView(pcaList)
                 }
             }
         }
