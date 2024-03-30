@@ -205,6 +205,9 @@
         <action
             android:id="@+id/action_buyerDashboardFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_buyerDashboardFragment_to_buyerChatListFragment"
+            app:destination="@id/buyerChatListFragment" />
     </fragment>
     <fragment
         android:id="@+id/PCADashboardFragment"
@@ -273,4 +276,9 @@
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAInvoiceFragment"
         android:label="@string/invoice"
         tools:layout="@layout/fragment_p_c_a_invoice"/>
+    <fragment
+        android:id="@+id/buyerChatListFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerChatListFragment"
+        android:label="@string/chat"
+        tools:layout="@layout/fragment_buyer_chat_list"/>
 </navigation>

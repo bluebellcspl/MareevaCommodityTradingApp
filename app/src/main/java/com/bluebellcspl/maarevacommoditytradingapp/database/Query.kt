@@ -218,6 +218,12 @@ class Query {
             return qry
         }
 
+        fun getApprovedPCAs():String{
+            qry = "SELECT * FROM ShopMaster"
+            Log.d(TAG, "getShopNoByGujShortShopName: $qry")
+            return qry
+        }
+
         fun getCityName():String{
             qry = "SELECT CityName FROM APMCMaster"
             Log.d(TAG, "getCityName: $qry")

@@ -10,20 +10,19 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerChatListFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.PCAListFragment
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
 
 class FetchApprovedPCAListAPI(
     var context: Context,
@@ -156,7 +155,7 @@ class FetchApprovedPCAListAPI(
 //                            (fragment as ProfileFragment).bindPCAData(data)
 //                        }
 //                    }
-                    handleResultInFragment(approvedPCAList,unapprovedPCAList,data)
+                    handleResultInFragment(approvedPCAList,unapprovedPCAList,data,pcaList)
                 } else {
                     activity.runOnUiThread {
                         commonUIUtility.dismissProgress()
@@ -177,7 +176,8 @@ class FetchApprovedPCAListAPI(
     private suspend fun handleResultInFragment(
         approvedPCAList: ArrayList<PCAListModelItem>,
         unapprovedPCAList: ArrayList<PCAListModelItem>,
-        data: PCAListModelItem?
+        data: PCAListModelItem?,
+        pcaList: PCAListModel
     ) {
         withContext(Dispatchers.Main) {
             commonUIUtility.dismissProgress()
@@ -192,6 +192,12 @@ class FetchApprovedPCAListAPI(
                 is ProfileFragment -> {
                     Log.d(TAG, "handleResultInFragment: PCA_DATA : $data")
                     (fragment as ProfileFragment).bindPCAData(data)
+                }
+                is BuyerChatListFragment->{
+                    val sortedPCAList = ArrayList(pcaList.sortedWith(compareBy {
+                        it.PCAName
+                    }))
+                    (fragment as BuyerChatListFragment).bindChatListView(sortedPCAList)
                 }
             }
         }

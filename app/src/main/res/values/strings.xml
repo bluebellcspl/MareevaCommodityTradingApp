@@ -192,6 +192,7 @@
     <string name="invoice">Invoice</string>
     <string name="vehicle_no">Vehicle No.</string>
     <string name="show_invoice">Show Invoice</string>
+    <string name="admin">Admin</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

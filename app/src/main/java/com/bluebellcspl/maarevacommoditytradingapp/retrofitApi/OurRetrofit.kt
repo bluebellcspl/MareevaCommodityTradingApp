@@ -23,6 +23,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 
 interface OurRetrofit {
@@ -186,5 +187,12 @@ interface OurRetrofit {
 //    @POST("/API/MaarevaApi/MaarevaApi/NotificationListInsUpd")
     @POST("/MaarevaApi/MaarevaApi/NotificationListInsUpd")
     suspend fun postUnseenNotificationSync(@Body body: JsonArray): Response<JsonArray>
+
+    @POST("MaarevaApi/MaarevaApi/NotificationListGet")
+    suspend fun getNotificationListPageWise(
+        @Body body: JsonObject,
+        @Query("Page") page: Int,
+        @Query("ItemsPerPage") itemsPerPage: Int
+    ):Response<NotificationRTRMasterModel>
 
 }

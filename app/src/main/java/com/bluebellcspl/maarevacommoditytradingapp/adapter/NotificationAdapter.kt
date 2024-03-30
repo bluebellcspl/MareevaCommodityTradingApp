@@ -38,7 +38,7 @@ class NotificationAdapter(
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldNotificationList[oldItemPosition]
             val newItem = newNotificationList[newItemPosition]
-            return oldItem.NotificationId == newItem.NotificationId && oldItem.Cdate == newItem.Cdate && oldItem.FullMsg == newItem.FullMsg && oldItem.ISSeen == newItem.ISSeen
+            return oldItem.NotificationId == newItem.NotificationId && oldItem.Cdate == newItem.Cdate && oldItem.FullMsg == newItem.FullMsg && oldItem.ISRead == newItem.ISRead
         }
 
     }
