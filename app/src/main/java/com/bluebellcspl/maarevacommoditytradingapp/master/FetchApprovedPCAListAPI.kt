@@ -193,10 +193,6 @@ class FetchApprovedPCAListAPI(
                     Log.d(TAG, "handleResultInFragment: PCA_DATA : $data")
                     (fragment as ProfileFragment).bindPCAData(data)
                 }
-                is BuyerChatListFragment->{
-                    pcaList.sortBy { it.PCAName }
-                    (fragment as BuyerChatListFragment).bindChatListView(pcaList)
-                }
             }
         }
     }

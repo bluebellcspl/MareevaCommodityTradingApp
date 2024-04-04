@@ -63,11 +63,6 @@ class FetchBuyerMasterAPI(var context: Context, var activity: Activity, var frag
                             commonUIUtility.dismissProgress()
                             (fragment as ProfileFragment).bindBuyerData(model)
                         }
-                    }else if (fragment is PCAChatListFragment){
-                        withContext(Dispatchers.Main){
-                            commonUIUtility.dismissProgress()
-                            (fragment as PCAChatListFragment).bindBuyerData(buyerMasterModel[0])
-                        }
                     }
                 } else {
                     withContext(Dispatchers.Main)

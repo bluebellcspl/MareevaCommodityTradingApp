@@ -33,7 +33,7 @@ class FetchNotificationPageWiseAPI(var context:Context, var fragment:Fragment,va
 
     private fun getNotification() {
         try {
-//            commonUIUtility.showProgress()
+            commonUIUtility.showProgress()
             var typeOfUser = ""
             if (PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString().equals("PCA",true))
             {
@@ -78,9 +78,9 @@ class FetchNotificationPageWiseAPI(var context:Context, var fragment:Fragment,va
                     if (fragment is NotificationFragment){
                         withContext(Dispatchers.Main)
                         {
-//                            commonUIUtility.dismissProgress()
-//                            (fragment as NotificationFragment).binding.progressBarNotificationFragment.visibility = View.GONE
-//                            (fragment as NotificationFragment).newBindNotificationList(notificationModel)
+                            commonUIUtility.dismissProgress()
+//                            (fragment as NotificationFragment).binding.progressNotification.visibility = View.GONE
+                            (fragment as NotificationFragment).newBindNotificationList(notificationModel)
                         }
                     }else if (fragment is PCADashboardFragment){
                         withContext(Dispatchers.Main)

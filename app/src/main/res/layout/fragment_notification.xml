@@ -12,11 +12,33 @@
         android:layout_height="match_parent"
         tools:context=".fragment.NotificationFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rc_View_NotificationFragment"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView_NotificationFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/notification_adapter"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_View_NotificationFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/notification_adapter"
+                    android:layout_weight="1"/>
+                <ProgressBar
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progressTint="@color/colorSecondaryDark"
+                    android:id="@+id/progress_Notification"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

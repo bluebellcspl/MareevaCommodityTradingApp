@@ -12,16 +12,29 @@
         android:layout_height="match_parent"
         tools:context=".fragment.ChatBoxFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rc_View_Chat"
+        <LinearLayout
+            android:id="@+id/ll_rcView_ChatBox"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/ll_ChatBox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent">
+            <ProgressBar
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progressTint="@color/colorPrimaryDark"
+                android:id="@+id/progressBar_ChatBox"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rc_View_Chat"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_ChatBox"
             android:layout_width="match_parent"
@@ -78,7 +91,12 @@
                     app:tint="@color/black"
                     android:text="Send"
                     app:borderWidth="0dp"
-                    app:fabCustomSize="50dp" />
+                    app:fabCustomSize="50dp"
+                    app:elevation="2dp"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_Message_chatBox"
+                    app:layout_constraintBottom_toTopOf="@+id/ll_ChatBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
             </LinearLayout>
 
             <com.devlomi.record_view.RecordButton
@@ -89,19 +107,20 @@
                 android:background="@drawable/recv_bg_mic"
                 android:backgroundTint="@color/colorSecondaryDark"
                 android:scaleType="centerInside"
-                app:mic_icon="@drawable/baseline_mic_24" />
+                app:mic_icon="@drawable/baseline_mic_24"
+                app:layout_constraintBottom_toTopOf="@+id/ll_ChatBox" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="2dp"
-                android:backgroundTint="@color/colorSecondaryDark"
-                android:src="@drawable/baseline_mic_24"
-                android:text="Send"
-                android:visibility="gone"
-                app:borderWidth="0dp"
-                app:fabCustomSize="50dp" />
+<!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                android:id="@+id/btnSend"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_margin="2dp"-->
+<!--                android:backgroundTint="@color/colorPrimary"-->
+<!--                android:src="@drawable/baseline_send_24"-->
+<!--                android:text="Send"-->
+<!--                app:borderWidth="0dp"-->
+<!--                app:fabCustomSize="50dp" />-->
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnSend"
@@ -113,7 +132,11 @@
                 android:src="@drawable/baseline_send_24"
                 android:text="Send"
                 app:borderWidth="0dp"
-                app:fabCustomSize="50dp" />
+                app:fabCustomSize="50dp"
+                app:elevation="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/ll_Message_chatBox"
+                app:layout_constraintBottom_toTopOf="@+id/ll_ChatBox"
+                app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

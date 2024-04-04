@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,7 +22,9 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentNotificationBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchNotificationAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchNotificationPageWiseAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTSeenNotificationAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTSeenNotificationModel
 
@@ -32,6 +35,11 @@ class NotificationFragment : Fragment() {
     private val navController by lazy { findNavController() }
     val TAG = "NotificationFragment"
     lateinit var filter: IntentFilter
+    var PAGE=1
+    var ITEM_COUNT = 10
+    private var isLoading = false
+    private var isLastPage = false
+    lateinit var adapter: NotificationAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,13 +49,33 @@ class NotificationFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
         filter = IntentFilter("ACTION_NOTIFICATION_RECEIVED")
         clearNotification()
+        adapter = NotificationAdapter(requireContext())
+        binding.nestedScrollViewNotificationFragment.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (!isLoading && !isLastPage) {
+                if (scrollY == binding.nestedScrollViewNotificationFragment.getChildAt(0).measuredHeight - binding.nestedScrollViewNotificationFragment.measuredHeight) {
+//                    binding.progressNotification.visibility = View.VISIBLE
+                    PAGE++
+                    // Load more data
+                    if (ConnectionCheck.isConnected(requireContext()))
+                    {
+                        FetchNotificationPageWiseAPI(requireContext(),this@NotificationFragment,PAGE,ITEM_COUNT)
+                    }
+                }
+            }
+        })
         if (ConnectionCheck.isConnected(requireContext()))
         {
-            FetchNotificationAPI(requireContext(),this@NotificationFragment)
-        }else
-        {
-            bindNotificationList()
+//            FetchNotificationAPI(requireContext(),this@NotificationFragment)
+            FetchNotificationPageWiseAPI(requireContext(),this@NotificationFragment,PAGE,ITEM_COUNT)
         }
+//        else
+//        {
+//            bindNotificationList()
+//        }
+
+
+        // Load initial data
+
         return binding.root
     }
 
@@ -93,7 +121,7 @@ class NotificationFragment : Fragment() {
             val notificationList = getNotificationFromDB()
             if (notificationList.size>0)
             {
-                val adapter = NotificationAdapter(requireContext(),notificationList)
+//                val adapter = NotificationAdapter(requireContext(),notificationList)
                 binding.rcViewNotificationFragment.adapter = adapter
                 adapter.submitList(notificationList)
             }else
@@ -160,6 +188,17 @@ class NotificationFragment : Fragment() {
             Log.e(TAG, "getUnseenNotification: ${e.message}")
         }
         return dataList
+    }
+
+    fun newBindNotificationList(notificationModel: NotificationRTRMasterModel) {
+        try {
+            binding.rcViewNotificationFragment.adapter = adapter
+            adapter.addNewData(notificationModel)
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "newBindNotificationList: ${e.message}")
+        }
     }
 
 }

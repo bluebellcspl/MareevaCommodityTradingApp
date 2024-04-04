@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 
+import ConnectionCheck
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,8 +13,9 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAChatListBinding
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerMasterModelItem
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchChatRecipientAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.UserChatInfoModel
 
 class PCAChatListFragment : Fragment() {
@@ -21,14 +23,20 @@ class PCAChatListFragment : Fragment() {
     lateinit var binding:FragmentPCAChatListBinding
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController by lazy { findNavController() }
-    private lateinit var buyerData:BuyerMasterModelItem
+    private lateinit var buyerData:ChatRecipientModelItem
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_p_c_a_chat_list, container, false)
-        FetchBuyerMasterAPI(requireContext(),requireActivity(),this@PCAChatListFragment)
+        if (ConnectionCheck.isConnected(requireContext()))
+        {
+            FetchChatRecipientAPI(
+                requireContext(),
+                this@PCAChatListFragment
+            )
+        }
         setOnClickListeners()
         return binding.root
     }
@@ -38,7 +46,7 @@ class PCAChatListFragment : Fragment() {
         binding.cvBuyerPCAChatListFragement.setOnClickListener {
             val userChatInfoModel = UserChatInfoModel(
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
-                buyerData.BuyerRegId,
+                buyerData.RegisterId,
                 PrefUtil.getString(PrefUtil.KEY_ROLE_ID,"").toString(),
                 buyerData.RoleId,
                 "",
@@ -46,22 +54,43 @@ class PCAChatListFragment : Fragment() {
                 "",
                 "",
                 "",
-                buyerData.IsActive
+                ""
             )
 
             navController.navigate(PCAChatListFragmentDirections.actionPCAChatListFragmentToChatBoxFragment(userChatInfoModel))
         }
+
+            binding.cvAdminPCAChatListFragement.setOnClickListener {
+                val userChatInfoModel = UserChatInfoModel(
+                    PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+                    "1",
+                    PrefUtil.getString(PrefUtil.KEY_ROLE_ID,"").toString(),
+                    "1",
+                    "",
+                    "Admin",
+                    "",
+                    "",
+                    "",
+                    ""
+                )
+
+                navController.navigate(PCAChatListFragmentDirections.actionPCAChatListFragmentToChatBoxFragment(userChatInfoModel))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "setOnClickListeners: ${e.message}", )
         }
     }
 
-    fun bindBuyerData(data: BuyerMasterModelItem?) {
+    fun bindBuyerData(data: ChatRecipientModel) {
         try {
-        buyerData = data!!
-            binding.tvBuyerNamePCAChatListFragement.setText(data.Name)
-            binding.iconBuyerText.setText(getInitialLetter(data.Name).toString())
+            buyerData = data[0]
+            if (data.isNotEmpty())
+            {
+                binding.cvBuyerPCAChatListFragement.visibility = View.VISIBLE
+                binding.tvBuyerNamePCAChatListFragement.setText(data[0].Name)
+                binding.iconBuyerText.setText(getInitialLetter(data[0].Name).toString())
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "bindBuyerData: ${e.message}")

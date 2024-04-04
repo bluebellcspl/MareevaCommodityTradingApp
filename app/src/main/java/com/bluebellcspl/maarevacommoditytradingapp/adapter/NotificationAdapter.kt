@@ -12,11 +12,11 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterMo
 
 class NotificationAdapter(
     var context: Context,
-    var notificationList: ArrayList<NotificationRTRMasterModelItem>
+//    var notificationList: ArrayList<NotificationRTRMasterModelItem>
 ) : RecyclerView.Adapter<NotificationAdapter.MyViewHolder>() {
 
     private var oldNotificationList = ArrayList<NotificationRTRMasterModelItem>()
-    private var newNotificationList = notificationList
+    private var newNotificationList = ArrayList<NotificationRTRMasterModelItem>()
 
     private val diffCallBack = object : DiffUtil.Callback() {
 
@@ -50,6 +50,11 @@ class NotificationAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
+    fun addNewData(dataList:ArrayList<NotificationRTRMasterModelItem>){
+        newNotificationList.addAll(dataList)
+        notifyDataSetChanged()
+    }
+
     inner class MyViewHolder(var binding: NotificationAdapterBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -70,7 +75,7 @@ class NotificationAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val model = notificationList[holder.adapterPosition]
+        val model = newNotificationList[holder.adapterPosition]
 
         holder.binding.tvNotificationDateTimeNotificationAdapter.setText(model.Cdate)
         holder.binding.tvNotificationLblNotificationAdapter.setText(model.FullMsg)

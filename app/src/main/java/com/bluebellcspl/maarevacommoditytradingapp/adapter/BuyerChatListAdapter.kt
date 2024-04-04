@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ChatlistItemAdapterBinding
+import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
-class BuyerChatListAdapter(var context: Context, var chatlist: ArrayList<PCAListModelItem>,var recyclerViewHelper: RecyclerViewHelper) :
+class BuyerChatListAdapter(var context: Context, var chatlist: ArrayList<ChatRecipientModelItem>,var recyclerViewHelper: RecyclerViewHelper) :
     RecyclerView.Adapter<BuyerChatListAdapter.MyViewHolder>() {
     inner class MyViewHolder(var binding: ChatlistItemAdapterBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -30,8 +31,8 @@ class BuyerChatListAdapter(var context: Context, var chatlist: ArrayList<PCAList
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = chatlist[holder.adapterPosition]
-        holder.binding.tvPCANameChatListAdapter.setText(model.PCAShortName)
-        holder.binding.iconPCATextChatListAdapter.setText(getInitialLetter(model.PCAShortName!!).toString())
+        holder.binding.tvPCANameChatListAdapter.setText(model.ShortName)
+        holder.binding.iconPCATextChatListAdapter.setText(getInitialLetter(model.ShortName!!).toString())
 
         holder.binding.cvPCAChatListAdapter.setOnClickListener {
             recyclerViewHelper.onItemClick(holder.adapterPosition,"")

@@ -3,22 +3,25 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 import ConnectionCheck
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerChatListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentBuyerChatListBinding
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAChatListFragmentDirections
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchChatRecipientAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
-import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.UserChatInfoModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
@@ -28,7 +31,7 @@ class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
     private val navController by lazy { findNavController() }
     val TAG="BuyerChatListFragment"
     lateinit var adapter:BuyerChatListAdapter
-    lateinit var pcaList:PCAListModel
+    lateinit var pcaList:ArrayList<ChatRecipientModelItem>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,17 +40,33 @@ class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_buyer_chat_list, container, false)
         if (ConnectionCheck.isConnected(requireContext()))
         {
-            FetchApprovedPCAListAPI(
+            FetchChatRecipientAPI(
                 requireContext(),
-                requireActivity(),
                 this@BuyerChatListFragment
             )
         }
+
+        binding.cvAdminBuyerChatList.setOnClickListener {
+            val userChatInfoModel = UserChatInfoModel(
+                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+                "1",
+                PrefUtil.getString(PrefUtil.KEY_ROLE_ID,"").toString(),
+                "1",
+                "",
+                "Admin",
+                "",
+                "",
+                "",
+                ""
+            )
+
+            navController.navigate(BuyerChatListFragmentDirections.actionBuyerChatListFragmentToChatBoxFragment(userChatInfoModel))
+        }
         return binding.root
     }
-    fun bindChatListView(dataList:ArrayList<PCAListModelItem>){
+    fun bindChatListView(dataList:ChatRecipientModel){
         try {
-            pcaList = dataList as PCAListModel
+            pcaList = dataList
             if (dataList.isNotEmpty())
             {
                 adapter = BuyerChatListAdapter(requireContext(),dataList,this)
@@ -67,15 +86,15 @@ class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
         val model = pcaList[postion]
         val userChatInfoModel = UserChatInfoModel(
             PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
-            model.PCARegId,
+            model.RegisterId,
             PrefUtil.getString(PrefUtil.KEY_ROLE_ID,"").toString(),
             model.RoleId,
-            model.PCAName,
-            model.PCAShortName.toString(),
-            model.GujaratiPCAName.toString(),
-            model.GujaratiShortPCAName.toString(),
-            model.ApprStatus,
-            model.IsActive
+            model.Name,
+            model.ShortName.toString(),
+            model.GujName.toString(),
+            model.GujShortName.toString(),
+            "",
+            ""
         )
         Log.d(TAG, "onItemClick: CHAT_USER_MODEL : $userChatInfoModel")
         navController.navigate(BuyerChatListFragmentDirections.actionBuyerChatListFragmentToChatBoxFragment(userChatInfoModel))
