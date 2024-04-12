@@ -26,21 +26,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                app:cardElevation="@dimen/_5sdp"
-                app:cardCornerRadius="@dimen/_5sdp">
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_5sdp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
-                        android:layout_alignParentStart="true"
                         android:id="@+id/icon_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
                         android:padding="@dimen/_5sdp">
 
                         <ImageView
@@ -50,47 +50,55 @@
 
                         <TextView
                             android:id="@+id/icon_text"
-                            android:text="A"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:text="A"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/_14ssp" />
                     </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tvAdmin_PCAChatListFragement"
+                    <FrameLayout
+                        android:id="@+id/frame_tvAdmin_PCAChatListFragement"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/admin"
-                        android:textSize="@dimen/_14ssp"
-                        android:layout_toRightOf="@id/icon_container" />
+                        android:layout_toEndOf="@id/icon_container"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            android:id="@+id/tvAdmin_PCAChatListFragement"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/admin"
+                            android:textSize="@dimen/_14ssp" />
+                    </FrameLayout>
+
                 </RelativeLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
                 android:id="@+id/cv_Buyer_PCAChatListFragement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                app:cardElevation="@dimen/_5sdp"
-                app:cardCornerRadius="@dimen/_5sdp">
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_5sdp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
-                        android:layout_alignParentStart="true"
                         android:id="@+id/buyer_icon_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
                         android:padding="@dimen/_5sdp">
 
                         <ImageView
@@ -101,10 +109,10 @@
 
                         <TextView
                             android:id="@+id/icon_Buyer_text"
-                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:text=""
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/_14ssp" />
                     </RelativeLayout>
@@ -114,9 +122,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/buyer_icon_container"
                         android:text=""
-                        android:textSize="@dimen/_14ssp"
-                        android:layout_toRightOf="@id/buyer_icon_container" />
+                        android:textSize="@dimen/_14ssp" />
                 </RelativeLayout>
 
             </com.google.android.material.card.MaterialCardView>

@@ -18,12 +18,14 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.SentChatItemBindi
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.SentImageItemBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.SentVoiceItemBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.ChatResponseModel
+import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.ChatRecyclerViewHelper
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.bumptech.glide.Glide
 
 class ChatBoxMessageAdapter(
     var context: Context,
-    var SenderId: String
+    var SenderId: String,
+    var recyclerViewHelper: ChatRecyclerViewHelper
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var ITEM_SENT = 1
     var ITEM_RECEIVE = 2
@@ -79,7 +81,7 @@ class ChatBoxMessageAdapter(
     fun loadPreviousChat(previousChatList: ArrayList<ChatResponseModel>) {
         chatList.addAll(0, previousChatList)
         if (isInitialDataLoaded) {
-            notifyItemRangeInserted(0, previousChatList.size)
+            notifyDataSetChanged()
         } else {
             isInitialDataLoaded = true
         }
@@ -135,29 +137,33 @@ class ChatBoxMessageAdapter(
             var viewHolder = holder as SentViewHolder
             viewHolder.binding.tvMessageSentItem.setText(chatMessage.message)
             viewHolder.binding.tvDateSentItem.setText(chatMessage.Date)
-        } else if (holder.itemViewType == ITEM_RECEIVE) {
+        }
+        else if (holder.itemViewType == ITEM_RECEIVE) {
             var viewHolder = holder as ReceiveViewHolder
             viewHolder.binding.tvMessageReceiveItem.setText(chatMessage.message)
             viewHolder.binding.tvDateReceiveItem.setText(chatMessage.Date)
-        } else if (holder.itemViewType == IMAGE_ITEM_SENT) {
+        }
+        else if (holder.itemViewType == IMAGE_ITEM_SENT) {
             var viewHolder = holder as SentImageViewHolder
             Glide.with(context)
                 .load(chatMessage.FileMedia)
                 .into(viewHolder.binding.ImgViewSentItem)
             viewHolder.binding.tvDateSentItem.setText(chatMessage.Date)
             viewHolder.binding.ImgViewSentItem.setOnClickListener {
-//                recyclerViewHelper.onImageItemClicked(chatMessage)
+                recyclerViewHelper.onImageItemClick(chatMessage)
             }
-        } else if (holder.itemViewType == IMAGE_ITEM_RECEIVE) {
+        }
+        else if (holder.itemViewType == IMAGE_ITEM_RECEIVE) {
             var viewHolder = holder as ReceiveImageViewHolder
             Glide.with(context)
                 .load(chatMessage.FileMedia)
                 .into(viewHolder.binding.ImgViewReceiveItem)
             viewHolder.binding.tvDateReceiveItem.setText(chatMessage.Date)
             viewHolder.binding.ImgViewReceiveItem.setOnClickListener {
-//                recyclerViewHelper.onImageItemClicked(chatMessage)
+                recyclerViewHelper.onImageItemClick(chatMessage)
             }
-        } else if (holder.itemViewType == AUDIO_ITEM_SENT) {
+        }
+        else if (holder.itemViewType == AUDIO_ITEM_SENT) {
             var viewHolder = holder as SentAudioViewHolder
             val mediaPlayer = MediaPlayer()
 
@@ -224,75 +230,8 @@ class ChatBoxMessageAdapter(
                 e.printStackTrace()
                 Log.e(TAG, "onBindViewHolder: ${e.message}")
             }
-        } else if (holder.itemViewType == AUDIO_ITEM_RECEIVE) {
-            var viewHolder = holder as ReceiveAudioViewHolder
-            val mediaPlayer = MediaPlayer()
-            handler = Handler(Looper.getMainLooper())
-            try {
-
-                mediaPlayer.setDataSource(chatMessage.FileMedia)
-                mediaPlayer.prepare()
-                viewHolder.binding.voicePlayerSeekBarPlayerReceiveItem.max = mediaPlayer.duration
-
-                viewHolder.binding.voicePlayerSeekBarPlayerReceiveItem.setOnSeekBarChangeListener(
-                    object : SeekBar.OnSeekBarChangeListener {
-                        override fun onProgressChanged(
-                            seekBar: SeekBar?,
-                            progress: Int,
-                            fromUser: Boolean
-                        ) {
-                            if (fromUser) {
-                                mediaPlayer.seekTo(progress)
-                            }
-                        }
-
-                        override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                            // No implementation needed
-                        }
-
-                        override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                            // No implementation needed
-                        }
-                    })
-                viewHolder.binding.btnPlayVoicePlayerReceiveItem.setOnClickListener {
-                    if (!mediaPlayer.isPlaying) {
-                        mediaPlayer.start()
-
-                        // Update seek bar progress continuously
-                        handler.postDelayed(object : Runnable {
-                            override fun run() {
-                                if (mediaPlayer.isPlaying) {
-                                    viewHolder.binding.voicePlayerSeekBarPlayerReceiveItem.progress =
-                                        mediaPlayer.currentPosition
-                                    handler.postDelayed(this, 200) // Update every second
-                                }
-                            }
-                        }, 0)
-                        viewHolder.binding.btnPauseVoicePlayerReceiveItem.visibility = View.VISIBLE
-                        viewHolder.binding.btnPlayVoicePlayerReceiveItem.visibility = View.GONE
-                    }
-                }
-
-                viewHolder.binding.btnPauseVoicePlayerReceiveItem.setOnClickListener {
-                    if (mediaPlayer.isPlaying) {
-                        mediaPlayer.pause()
-                        handler.removeCallbacksAndMessages(null)
-                        viewHolder.binding.btnPauseVoicePlayerReceiveItem.visibility = View.GONE
-                        viewHolder.binding.btnPlayVoicePlayerReceiveItem.visibility = View.VISIBLE
-                    }
-                }
-
-                mediaPlayer.setOnCompletionListener {
-                    viewHolder.binding.btnPauseVoicePlayerReceiveItem.visibility = View.GONE
-                    viewHolder.binding.btnPlayVoicePlayerReceiveItem.visibility = View.VISIBLE
-                    viewHolder.binding.voicePlayerSeekBarPlayerReceiveItem.progress = 0
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e(TAG, "onBindViewHolder: ${e.message}")
-            }
-        } else if (holder.itemViewType == AUDIO_ITEM_RECEIVE) {
+        }
+        else if (holder.itemViewType == AUDIO_ITEM_RECEIVE) {
             var viewHolder = holder as ReceiveAudioViewHolder
             val mediaPlayer = MediaPlayer()
             handler = Handler(Looper.getMainLooper())

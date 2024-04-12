@@ -32,6 +32,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCADashboardBinding
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragmentDirections
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
@@ -57,6 +58,7 @@ class PCADashboardFragment : Fragment() {
     var COMMODITY_BHARTI = ""
     var PREV_AUCTION_SELECTED_DATE = ""
     var NOTIFICATION_COUNT = 0
+    var CHAT_NOTIFICATION_COUNT=0
     lateinit var filter: IntentFilter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,6 +102,18 @@ class PCADashboardFragment : Fragment() {
                 }else
                 {
                     notificationMenuItem.setActionView(null)
+                }
+
+                if (CHAT_NOTIFICATION_COUNT > 0) {
+                    chatMenuItem.setActionView(R.layout.message_badge)
+                    val view = chatMenuItem.actionView
+                    val badgeCounter = view?.findViewById<TextView>(R.id.tv_Message_Badge)
+                    badgeCounter?.setText(CHAT_NOTIFICATION_COUNT.toString())
+                    chatMenuItem.actionView?.setOnClickListener {
+                        navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToPCAChatListFragment())
+                    }
+                } else {
+                    chatMenuItem.setActionView(null)
                 }
 
             }
@@ -365,6 +379,8 @@ class PCADashboardFragment : Fragment() {
 
             NOTIFICATION_COUNT = DatabaseManager.ExecuteScalar(Query.getTMPTUnseenNotification())!!.toInt()
             Log.d(TAG, "updateNotificationCount: NOTIFICATION_COUNT : $NOTIFICATION_COUNT")
+            CHAT_NOTIFICATION_COUNT =DatabaseManager.ExecuteScalar(Query.getTMPTUnseenChatNotification())!!.toInt()
+            Log.d(TAG, "updateNotificationCount: CHAT_NOTIFICATION_COUNT : $CHAT_NOTIFICATION_COUNT")
             requireActivity().runOnUiThread {
                 menuHost.invalidateMenu()
             }

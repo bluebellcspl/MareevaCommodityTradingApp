@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment
 
+import ConnectionCheck
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
@@ -24,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.ChatImageActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.ChatBoxMessageAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
@@ -33,8 +35,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentChatBoxBi
 import com.bluebellcspl.maarevacommoditytradingapp.master.PostChatMediaAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.PreviousChatAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.ChatHistoryModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.ChatImageInfoModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ChatResponseModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTChatMediaModel
+import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.ChatRecyclerViewHelper
 import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.SocketHandler
 import com.devlomi.record_view.OnRecordListener
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -60,7 +64,7 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 
-class ChatBoxFragment : Fragment() {
+class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     lateinit var binding: FragmentChatBoxBinding
     private val navController by lazy { findNavController() }
@@ -74,7 +78,7 @@ class ChatBoxFragment : Fragment() {
     val TAG = "ChatBoxFragment"
     var selectedImgURI: Uri? = null
     private lateinit var mediaRecord: MediaRecorder
-    private var audioRecordedPath:String = ""
+    private var audioRecordedPath: String = ""
     var PAGE = 1
     var ItemPerPage = 10
     var isLoading = false
@@ -105,10 +109,9 @@ class ChatBoxFragment : Fragment() {
         binding.btnVoiceRecord.isListenForRecord = false
         SENDER_ID = args.userChatInfoModel.SenderId
         RECEIVER_ID = args.userChatInfoModel.ReceiverId
-        chatBoxMessageAdapter = ChatBoxMessageAdapter(requireContext(), SENDER_ID)
+        chatBoxMessageAdapter = ChatBoxMessageAdapter(requireContext(), SENDER_ID, this)
         binding.rcViewChat.adapter = chatBoxMessageAdapter
-        if (args.userChatInfoModel.ReceiverRollId.equals("1"))
-        {
+        if (args.userChatInfoModel.ReceiverRollId.equals("1")) {
             binding.llChatBox.visibility = View.GONE
         }
         setOnClickListeners()
@@ -124,14 +127,20 @@ class ChatBoxFragment : Fragment() {
                             PAGE++
                             isLoading = true
                             binding.progressBarChatBox.visibility = View.VISIBLE
-                            PreviousChatAPI(requireContext(), this@ChatBoxFragment,args.userChatInfoModel, PAGE, ItemPerPage)
+                            PreviousChatAPI(
+                                requireContext(),
+                                this@ChatBoxFragment,
+                                args.userChatInfoModel,
+                                PAGE,
+                                ItemPerPage
+                            )
                         }
                     }
                 }
             }
         })
 
-        PreviousChatAPI(requireContext(), this@ChatBoxFragment,args.userChatInfoModel, PAGE, ItemPerPage)
+
         return binding.root
     }
 
@@ -204,7 +213,7 @@ class ChatBoxFragment : Fragment() {
                     override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
                         if (p0!!.areAllPermissionsGranted()) {
                             ImagePicker.with(requireActivity())
-                                .compress(2048)
+                                .compress(1024)
                                 .galleryOnly()
                                 .createIntent { intent ->
                                     getImageContent.launch(intent)
@@ -230,7 +239,7 @@ class ChatBoxFragment : Fragment() {
             val file = prepareFilePart(requireContext(), "FileMedia", selectedImgURI!!)
             val chatResponseModel = POSTChatMediaModel(
                 Date = DateUtility().getyyyyMMdd(),
-                FileExt = getFileExtension(requireContext(),selectedImgURI!!),
+                FileExt = getFileExtension(requireContext(), selectedImgURI!!),
                 FileMedia = file,
                 FromUser = SENDER_ID,
                 MessageType = "file",
@@ -238,7 +247,7 @@ class ChatBoxFragment : Fragment() {
                 message = "",
                 messageId = ""
             )
-            PostChatMediaAPI(requireContext(),this@ChatBoxFragment,chatResponseModel)
+            PostChatMediaAPI(requireContext(), this@ChatBoxFragment, chatResponseModel)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "sendImageToServer: ${e.message}")
@@ -316,10 +325,11 @@ class ChatBoxFragment : Fragment() {
                         if (p0!!.areAllPermissionsGranted()) {
                             bindVoiceRecorder()
                         }
-                        if (p0!!.isAnyPermissionPermanentlyDenied)
-                        {
-                            Toast.makeText(requireActivity(),"Please Grant Recording Permission!",
-                                Toast.LENGTH_SHORT).show()
+                        if (p0!!.isAnyPermissionPermanentlyDenied) {
+                            Toast.makeText(
+                                requireActivity(), "Please Grant Recording Permission!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
@@ -348,8 +358,7 @@ class ChatBoxFragment : Fragment() {
                     try {
                         mediaRecord.prepare()
                         mediaRecord.start()
-                    }catch (e:Exception)
-                    {
+                    } catch (e: Exception) {
                         e.printStackTrace()
                         Log.e(TAG, "onStart: ${e.message}")
                     }
@@ -365,8 +374,7 @@ class ChatBoxFragment : Fragment() {
                     mediaRecord.reset()
                     mediaRecord.release()
                     val deleteRecordingFile = File(audioRecordedPath)
-                    if (deleteRecordingFile.exists())
-                    {
+                    if (deleteRecordingFile.exists()) {
                         deleteRecordingFile.delete()
                         binding.recordView.visibility = View.GONE
                         binding.edtChatMessage.visibility = View.VISIBLE
@@ -395,8 +403,7 @@ class ChatBoxFragment : Fragment() {
                     mediaRecord.reset()
                     mediaRecord.release()
                     val deleteRecordingFile = File(audioRecordedPath)
-                    if (deleteRecordingFile.exists())
-                    {
+                    if (deleteRecordingFile.exists()) {
                         deleteRecordingFile.delete()
                         binding.recordView.visibility = View.GONE
                         binding.edtChatMessage.visibility = View.VISIBLE
@@ -419,8 +426,15 @@ class ChatBoxFragment : Fragment() {
     private fun sendRecordingMessage(audioRecordedPath: String) {
         try {
             Log.d(TAG, "sendRecordingMessage: RECORDED_AUDIO : $audioRecordedPath")
-            Log.d(TAG, "sendRecordingMessage: RECORDED_AUDIO_URI : ${Uri.fromFile(File(audioRecordedPath))}")
-            val file = prepareFilePart(requireActivity(), "FileMedia", Uri.fromFile(File(audioRecordedPath)))
+            Log.d(
+                TAG,
+                "sendRecordingMessage: RECORDED_AUDIO_URI : ${Uri.fromFile(File(audioRecordedPath))}"
+            )
+            val file = prepareFilePart(
+                requireActivity(),
+                "FileMedia",
+                Uri.fromFile(File(audioRecordedPath))
+            )
             val chatResponseModel = POSTChatMediaModel(
                 Date = DateUtility().getyyyyMMdd(),
                 FileExt = ".mp3",
@@ -431,45 +445,44 @@ class ChatBoxFragment : Fragment() {
                 message = "",
                 messageId = ""
             )
-            PostChatMediaAPI(requireContext(),this@ChatBoxFragment,chatResponseModel)
+            PostChatMediaAPI(requireContext(), this@ChatBoxFragment, chatResponseModel)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "sendRecordingMessage: ${e.message}")
         }
     }
 
-    private fun setupRecording(context: Context){
+    private fun setupRecording(context: Context) {
         mediaRecord = MediaRecorder()
 //        val file = File("${context.cacheDir}/ChatMedia/Recording")
         mediaRecord.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecord.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         mediaRecord.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
 
-        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).path+"/ChatMedia/Recording")
+        val file =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).path + "/ChatMedia/Recording")
 
-        if (!file.exists())
-        {
+        if (!file.exists()) {
             file.mkdirs()
         }
-        val fileName = "REC_"+System.currentTimeMillis().toString()+".mp3"
-        val filePath = File(file.absolutePath+File.separator+fileName)
+        val fileName = "REC_" + System.currentTimeMillis().toString() + ".mp3"
+        val filePath = File(file.absolutePath + File.separator + fileName)
         audioRecordedPath = filePath.absolutePath
         mediaRecord.setOutputFile(audioRecordedPath)
     }
 
-    fun loadChatHistory(previousChats: ChatHistoryModel){
+    fun loadChatHistory(previousChats: ChatHistoryModel) {
         try {
-            val linearLayoutManager:LinearLayoutManager=binding.rcViewChat.layoutManager as LinearLayoutManager
+            val linearLayoutManager: LinearLayoutManager =
+                binding.rcViewChat.layoutManager as LinearLayoutManager
             chatBoxMessageAdapter.loadPreviousChat(previousChats)
-            if (!isInitialDataLoaded){
+            if (!isInitialDataLoaded) {
                 binding.rcViewChat.scrollToPosition(chatBoxMessageAdapter.itemCount)
                 isInitialDataLoaded = true
-            }else
-            {
+            } else {
                 binding.rcViewChat.recycledViewPool.clear()
             }
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -514,6 +527,15 @@ class ChatBoxFragment : Fragment() {
 
         override fun onOpen(webSocket: WebSocket, response: Response) {
             this@ChatBoxFragment.webSocket = webSocket
+            requireActivity().runOnUiThread {
+                PreviousChatAPI(
+                    requireContext(),
+                    this@ChatBoxFragment,
+                    args.userChatInfoModel,
+                    PAGE,
+                    ItemPerPage
+                )
+            }
             Log.d(TAG, "onOpen: WEB_SOCKET_ID : ${webSocket.toString()}")
             Log.d(TAG, "onOpen: SOCKET_CONNECTED")
         }
@@ -540,10 +562,12 @@ class ChatBoxFragment : Fragment() {
 
             lifecycleScope.launch(Dispatchers.IO) {
                 Log.d(TAG, "onStart: CONNCECTING_SOCKET : onStart")
-                webSocket = SocketHandler.getWebSocket(
-                    URLHelper.LIVE_CHAT_SOCKET,
-                    this@ChatBoxFragment.ChatSocketListener()
-                )
+                if (ConnectionCheck.isConnected(requireContext())) {
+                    webSocket = SocketHandler.getWebSocket(
+                        URLHelper.LIVE_CHAT_SOCKET,
+                        this@ChatBoxFragment.ChatSocketListener()
+                    )
+                }
             }
             isWebSocketConnected = true
 
@@ -562,10 +586,12 @@ class ChatBoxFragment : Fragment() {
 
             lifecycleScope.launch(Dispatchers.IO) {
                 Log.d(TAG, "onResume: CONNCECTING_SOCKET : onResume")
-                webSocket = SocketHandler.getWebSocket(
-                    URLHelper.LIVE_CHAT_SOCKET,
-                    this@ChatBoxFragment.ChatSocketListener()
-                )
+                if (ConnectionCheck.isConnected(requireContext())) {
+                    webSocket = SocketHandler.getWebSocket(
+                        URLHelper.LIVE_CHAT_SOCKET,
+                        this@ChatBoxFragment.ChatSocketListener()
+                    )
+                }
                 // Set the flag to indicate that the socket is now connected
                 isWebSocketConnected = true
                 // Reset the flag after the connection attempt
@@ -582,5 +608,22 @@ class ChatBoxFragment : Fragment() {
             disconnectSocket()
             isWebSocketConnected = false
         }
+    }
+
+    override fun onImageItemClick(chatMessage: ChatResponseModel) {
+        val chatImageInfoModel = ChatImageInfoModel(
+            chatMessage.FromUser,
+            chatMessage.ToUser,
+            chatMessage.FileMedia
+        )
+
+//        navController.navigate(
+//            ChatBoxFragmentDirections.actionChatBoxFragmentToChatImageViewFragment(
+//                chatImageInfoModel
+//            )
+//        )
+        val intent = Intent(requireActivity(),ChatImageActivity::class.java)
+        intent.putExtra("ChatMessage",chatMessage)
+        requireActivity().startActivity(intent)
     }
 }

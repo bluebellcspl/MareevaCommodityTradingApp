@@ -19,6 +19,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "MAAREVA.db",
         db?.execSQL("CREATE table TransportationMaster (TransportId TEXT,City1 TEXT,CityName TEXT,City2 TEXT,CityName2 TEXT,PerBoriRate TEXT,CompanyCode TEXT,IsActive TEXT,CreateUser TEXT,Cdate TEXT)")
         db?.execSQL("CREATE table NotificationMaster (NotificationId INTEGER primary key,ShortMsg TEXT,FullMsg TEXT,FromRoleId TEXT,RoleName TEXT,ToRoleId TEXT,ToUserId TEXT,Name TEXT,Link TEXT,ISRead TEXT,CreateUser TEXT,Cdate TEXT)")
         db?.execSQL("CREATE table TempNotificationMaster (TmpNotificationId INTEGER ,Title TEXT,FullMsg TEXT,Cdate TEXT,ISRead TEXT)")
+        db?.execSQL("CREATE table TempChatNotification (TmpChatNotificationId INTEGER ,RegisterId TEXT,Cdate TEXT,IsRead TEXT)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

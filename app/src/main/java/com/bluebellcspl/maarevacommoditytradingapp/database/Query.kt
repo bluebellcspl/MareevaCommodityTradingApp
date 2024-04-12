@@ -154,6 +154,12 @@ class Query {
             return qry
         }
 
+        fun getTMPTUnseenChatNotification():String{
+            qry = "SELECT COUNT(IsRead) FROM TempChatNotification WHERE IsRead='false'"
+            Log.d(TAG, "getTMPTUnseenChatNotification: $qry")
+            return qry
+        }
+
         fun updateNotificationSeenStatus():String{
             qry = "UPDATE NotificationMaster SET ISRead='true'"
             Log.d(TAG, "updateNotificationSeenStatus: $qry")
@@ -162,6 +168,11 @@ class Query {
         fun updateTMPNotificationSeenStatus():String{
             qry = "UPDATE TempNotificationMaster SET ISRead='true'"
             Log.d(TAG, "updateNotificationSeenStatus: $qry")
+            return qry
+        }
+        fun updateTMPChatNotificationStatus():String{
+            qry = "UPDATE TempChatNotification SET IsRead='true'"
+            Log.d(TAG, "updateTMPChatNotificationStatus: $qry")
             return qry
         }
 

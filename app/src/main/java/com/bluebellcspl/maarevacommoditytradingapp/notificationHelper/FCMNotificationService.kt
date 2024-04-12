@@ -9,7 +9,10 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bluebellcspl.maarevacommoditytradingapp.HomeActivity
@@ -26,6 +29,7 @@ class FCMNotificationService : FirebaseMessagingService() {
     private var NotificationId = 123
     var data: Map<String, String>? = null
     val TAG = "FCMNotificationService???"
+    var notificationManager:NotificationManager?=null
     override fun onNewToken(token: String) {
         super.onNewToken(token)
     }
@@ -37,9 +41,15 @@ class FCMNotificationService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         Log.d(TAG, "onMessageReceived FROM : ${message.from}")
-
-        val data = message.data
-        Log.d(TAG, "onMessageReceived: DATA : $data")
+        if (message.data.isNotEmpty())
+        {
+            val dataPayload = message.data
+            Log.d(TAG, "onMessageReceived: NOTIFICATION_DATA : $dataPayload")
+            if (dataPayload["NotificationType"].equals("Chat"))
+            {
+                insertTempChatNotification(message)
+            }
+        }
         if (message.notification != null) {
 //            showNotification(message.notification!!)
             sendNotification(message.notification!!)
@@ -56,7 +66,7 @@ class FCMNotificationService : FirebaseMessagingService() {
             getIntentFromNotification(""),
             PendingIntent.FLAG_IMMUTABLE
         )
-        val channelId = "My channel ID"
+        val channelId = "com.bluebellcspl.maarevacommoditytradingapp"
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder: NotificationCompat.Builder =
             NotificationCompat.Builder(this, channelId)
@@ -67,7 +77,7 @@ class FCMNotificationService : FirebaseMessagingService() {
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -76,9 +86,9 @@ class FCMNotificationService : FirebaseMessagingService() {
                 "Channel human readable title",
                 NotificationManager.IMPORTANCE_HIGH
             )
-            notificationManager.createNotificationChannel(channel)
+            notificationManager?.createNotificationChannel(channel)
         }
-        notificationManager.notify(NotificationId, notificationBuilder.build())
+        notificationManager?.notify(NotificationId, notificationBuilder.build())
         NotificationId++
     }
 
@@ -107,6 +117,21 @@ class FCMNotificationService : FirebaseMessagingService() {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "insertTempNotification: ${e.message}")
+        }
+    }
+
+    private fun insertTempChatNotification(message: RemoteMessage){
+        try {
+            val list = ContentValues()
+            list.put("TmpChatNotificationId",NotificationId)
+            list.put("RegisterId",message.data["RegisterId"])
+            list.put("Cdate",DateUtility().getyyyyMMdd())
+            list.put("IsRead","false")
+
+            DatabaseManager.commonInsert(list,Constants.TBL_TempChatNotification)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "insertTempChatNotification: ${e.message}")
         }
     }
 

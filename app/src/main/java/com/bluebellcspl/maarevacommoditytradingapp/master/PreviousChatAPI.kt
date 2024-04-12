@@ -51,7 +51,9 @@ class PreviousChatAPI(
                         withContext(Dispatchers.Main){
                             (fragment as ChatBoxFragment).binding.progressBarChatBox.visibility = View.GONE
                             (fragment as ChatBoxFragment).hasNextPage = result.headers()["hasnextpage"].toBoolean()
-                            (fragment as ChatBoxFragment).loadChatHistory(previousChatList)
+                            fragment.requireActivity().runOnUiThread {
+                                (fragment as ChatBoxFragment).loadChatHistory(previousChatList)
+                            }
                         }
                     }
                 }else

@@ -1,6 +1,8 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer
 
 import ConnectionCheck
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,10 +15,13 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.BuyerChatListAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentBuyerChatListBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAChatListFragmentDirections
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchChatRecipientAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.POSTSeenNotificationAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModelItem
@@ -38,6 +43,7 @@ class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_buyer_chat_list, container, false)
+        clearNotification()
         if (ConnectionCheck.isConnected(requireContext()))
         {
             FetchChatRecipientAPI(
@@ -112,4 +118,22 @@ class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
         TODO("Not yet implemented")
     }
 
+    //Clear Notifications from Notification Shade
+    private fun clearNotification(){
+        try {
+            val notificationManager = requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.cancelAll()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "clearNotification: ${e.message}", )
+        }
+    }
+
+    //Chat Notification Badge from Dashboard
+
+    override fun onStop() {
+        super.onStop()
+        DatabaseManager.ExecuteQuery(Query.updateTMPChatNotificationStatus())
+
+    }
 }

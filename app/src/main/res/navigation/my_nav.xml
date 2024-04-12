@@ -305,6 +305,13 @@
         <argument
             android:name="userChatInfoModel"
             app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.UserChatInfoModel" />
+        <action
+            android:id="@+id/action_chatBoxFragment_to_chatImageViewFragment"
+            app:destination="@id/chatImageViewFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/PCAChatListFragment"
@@ -318,5 +325,14 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/chatImageViewFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.ChatImageViewFragment"
+        android:label="ChatImageViewFragment"
+        tools:layout="@layout/fragment_chat_image_view">
+        <argument
+            android:name="chatImageInfo"
+            app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.ChatImageInfoModel" />
     </fragment>
 </navigation>

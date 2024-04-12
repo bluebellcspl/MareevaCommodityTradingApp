@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.res.Configuration
 import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -26,7 +25,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
@@ -38,14 +36,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.constants.URLHelper
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentBuyerDashboardBinding
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerPreviousAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchNotificationAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchTransportationMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerPrevAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionMasterModel
@@ -53,7 +47,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.SocketHandler
 import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.WebSocketClient
-import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -62,7 +55,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.Response
 import okhttp3.WebSocket
@@ -88,6 +80,7 @@ class BuyerDashboardFragment : Fragment() {
     var companyCode = ""
     var buyerRegId = ""
     var NOTIFICATION_COUNT = 0
+    var CHAT_NOTIFICATION_COUNT = 0
     lateinit var filter: IntentFilter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -153,6 +146,18 @@ class BuyerDashboardFragment : Fragment() {
                     }
                 } else {
                     notificationMenuItem.setActionView(null)
+                }
+
+                if (CHAT_NOTIFICATION_COUNT > 0) {
+                    chatMenuItem.setActionView(R.layout.message_badge)
+                    val view = chatMenuItem.actionView
+                    val badgeCounter = view?.findViewById<TextView>(R.id.tv_Message_Badge)
+                    badgeCounter?.setText(CHAT_NOTIFICATION_COUNT.toString())
+                    chatMenuItem.actionView?.setOnClickListener {
+                        navController.navigate(BuyerDashboardFragmentDirections.actionBuyerDashboardFragmentToBuyerChatListFragment())
+                    }
+                } else {
+                    chatMenuItem.setActionView(null)
                 }
 
             }
@@ -503,7 +508,7 @@ class BuyerDashboardFragment : Fragment() {
             Handler(Looper.getMainLooper()).postDelayed({
                 if (ConnectionCheck.isConnected(requireContext())) {
 //                    webSocketClient.connect()
-                    val LIVE_SOCKET_API = URLHelper.TESTING_LIVE_AUCTION_SOCKET_URL.replace(
+                    val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
                         "<COMMODITY_ID>",
                         commodityId.toString()
                     ).replace("<DATE>", DateUtility().getCompletionDate())
@@ -544,7 +549,7 @@ class BuyerDashboardFragment : Fragment() {
             Handler(Looper.getMainLooper()).postDelayed({
                 if (ConnectionCheck.isConnected(requireContext())) {
 //                    webSocketClient.connect()
-                    val LIVE_SOCKET_API = URLHelper.TESTING_LIVE_AUCTION_SOCKET_URL.replace(
+                    val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
                         "<COMMODITY_ID>",
                         commodityId.toString()
                     ).replace("<DATE>", DateUtility().getCompletionDate())
@@ -646,9 +651,10 @@ class BuyerDashboardFragment : Fragment() {
     fun updateNotificationCount() {
         try {
 
-            NOTIFICATION_COUNT =
-                DatabaseManager.ExecuteScalar(Query.getTMPTUnseenNotification())!!.toInt()
+            NOTIFICATION_COUNT =DatabaseManager.ExecuteScalar(Query.getTMPTUnseenNotification())!!.toInt()
             Log.d(TAG, "updateNotificationCount: NOTIFICATION_COUNT : $NOTIFICATION_COUNT")
+            CHAT_NOTIFICATION_COUNT =DatabaseManager.ExecuteScalar(Query.getTMPTUnseenChatNotification())!!.toInt()
+            Log.d(TAG, "updateNotificationCount: CHAT_NOTIFICATION_COUNT : $CHAT_NOTIFICATION_COUNT")
             requireActivity().runOnUiThread {
                 menuHost.invalidateMenu()
             }

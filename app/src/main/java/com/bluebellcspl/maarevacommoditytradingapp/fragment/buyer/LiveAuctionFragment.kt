@@ -4,8 +4,6 @@ import ConnectionCheck
 import android.app.AlertDialog
 import android.icu.text.NumberFormat
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +37,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.Response
 import okhttp3.WebSocket
@@ -612,7 +609,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
 //                    webSocketClient.connect()
                     lifecycleScope.launch(Dispatchers.IO)
                     {
-                        val LIVE_SOCKET_API = URLHelper.TESTING_LIVE_AUCTION_SOCKET_URL.replace(
+                        val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
                             "<COMMODITY_ID>",
                             commodityId.toString()
                         ).replace("<DATE>", DateUtility().getCompletionDate())
@@ -648,7 +645,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
                     lifecycleScope.launch(Dispatchers.IO)
                     {
 
-                        val LIVE_SOCKET_API = URLHelper.TESTING_LIVE_AUCTION_SOCKET_URL.replace(
+                        val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
                             "<COMMODITY_ID>",
                             commodityId.toString()
                         ).replace("<DATE>", DateUtility().getCompletionDate())

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:background="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ChatImageActivity">
+        <include
+            layout="@layout/toolbar"
+            android:id="@+id/toolbar_chatImage"/>
+        <LinearLayout
+            android:layout_below="@id/toolbar_chatImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <com.jsibbold.zoomage.ZoomageView
+                android:id="@+id/myZoomageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:zoomage_restrictBounds="true"
+                android:scaleType="centerInside"
+                app:zoomage_animateOnReset="true"
+                app:zoomage_autoResetMode="UNDER"
+                app:zoomage_autoCenter="true"
+                app:zoomage_zoomable="true"
+                app:zoomage_translatable="true"
+                app:zoomage_minScale="0.6"
+                app:zoomage_maxScale="5" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

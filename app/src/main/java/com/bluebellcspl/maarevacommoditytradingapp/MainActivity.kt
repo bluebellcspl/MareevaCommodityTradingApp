@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
     val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        setContentView(R.layout.activity_main)
         PrefUtil.getInstance(this)
         PrefUtil.getLanguageInstance(this)
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
