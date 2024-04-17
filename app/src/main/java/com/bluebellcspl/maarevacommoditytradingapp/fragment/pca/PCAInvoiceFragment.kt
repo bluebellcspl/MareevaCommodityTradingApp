@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -18,6 +19,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.adapter.PCAInvoiceAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAInvoiceBinding
+import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -42,19 +44,36 @@ class PCAInvoiceFragment : Fragment() {
         setOnClickListeners()
 //        bindInvoiceRCView()
 
+        val stringArray = arrayListOf("Ite 1 ","Ite 2","Ite 3","Ite 4","Itm 5","Ite 6","Itm 7")
+        binding.mactTotalBagsPCAInvoiceFragment.setAdapter(commonUIUtility.getCustomArrayAdapter(stringArray))
+        binding.mactTotalBagsPCAInvoiceFragment.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                addChip(selectedItem)
+                binding.mactTotalBagsPCAInvoiceFragment.setText("") // Clear text after selection
+            }
+
+        binding.btnShowDataPCAInvoiceFragment.setOnClickListener {
+            val selectedName = ArrayList<String>()
+
+        }
         return binding.root
+    }
+
+    private fun addChip(text: String) {
+        val chip = Chip(requireContext())
+        chip.text = text
+        chip.isCloseIconVisible = true
+        chip.setOnCloseIconClickListener {
+            binding.ChipGroupPCAInvoiceFragment.removeView(it)
+        }
+        binding.ChipGroupPCAInvoiceFragment.addView(chip)
     }
 
     private fun setOnClickListeners() {
         try {
             binding.edtFromDatePCAInvoiceFragment.inputType = InputType.TYPE_NULL
             binding.edtToDatePCAInvoiceFragment.inputType = InputType.TYPE_NULL
-            binding.btnShowDataPCAInvoiceFragment.setOnClickListener {
-                binding.edtTotalBagsContainerPCAInvoiceFragment.visibility = View.VISIBLE
-                bindInvoiceRCView()
-            }
-
-
 
             binding.edtFromDatePCAInvoiceFragment.setOnClickListener {
                 showFromDatePickerDialog(binding.edtFromDatePCAInvoiceFragment)
@@ -68,7 +87,7 @@ class PCAInvoiceFragment : Fragment() {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e(TAG, "setOnClickListeners: ${e.message}", )
+            Log.e(TAG, "setOnClickListeners: ${e.message}")
         }
     }
 

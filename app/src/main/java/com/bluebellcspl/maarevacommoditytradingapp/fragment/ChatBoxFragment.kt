@@ -75,15 +75,16 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
     lateinit var RECEIVER_ID: String
     lateinit var SENDER_ID: String
     lateinit var chatBoxMessageAdapter: ChatBoxMessageAdapter
+    var hasResumed =false
     val TAG = "ChatBoxFragment"
     var selectedImgURI: Uri? = null
     private lateinit var mediaRecord: MediaRecorder
     private var audioRecordedPath: String = ""
     var PAGE = 1
-    var ItemPerPage = 10
+    var ItemPerPage = 20
     var isLoading = false
     var isInitialDataLoaded = false
-    var hasNextPage = true
+    var hasNextPage = false
     private val getImageContent =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -110,6 +111,7 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
         SENDER_ID = args.userChatInfoModel.SenderId
         RECEIVER_ID = args.userChatInfoModel.ReceiverId
         chatBoxMessageAdapter = ChatBoxMessageAdapter(requireContext(), SENDER_ID, this)
+        binding.rcViewChat.setHasFixedSize(true)
         binding.rcViewChat.adapter = chatBoxMessageAdapter
         if (args.userChatInfoModel.ReceiverRollId.equals("1")) {
             binding.llChatBox.visibility = View.GONE
@@ -132,7 +134,7 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
                                 this@ChatBoxFragment,
                                 args.userChatInfoModel,
                                 PAGE,
-                                ItemPerPage
+                                ItemPerPage,false
                             )
                         }
                     }
@@ -473,15 +475,17 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
 
     fun loadChatHistory(previousChats: ChatHistoryModel) {
         try {
-            val linearLayoutManager: LinearLayoutManager =
-                binding.rcViewChat.layoutManager as LinearLayoutManager
             chatBoxMessageAdapter.loadPreviousChat(previousChats)
-            if (!isInitialDataLoaded) {
-                binding.rcViewChat.scrollToPosition(chatBoxMessageAdapter.itemCount)
-                isInitialDataLoaded = true
-            } else {
-                binding.rcViewChat.recycledViewPool.clear()
-            }
+            binding.rcViewChat.recycledViewPool.clear()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun loadInitialChatHistory(previousChats: ChatHistoryModel) {
+        try {
+            chatBoxMessageAdapter.loadInitialChat(previousChats)
+            binding.rcViewChat.scrollToPosition(previousChats.size-1)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -528,13 +532,14 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
         override fun onOpen(webSocket: WebSocket, response: Response) {
             this@ChatBoxFragment.webSocket = webSocket
             requireActivity().runOnUiThread {
-                PreviousChatAPI(
-                    requireContext(),
-                    this@ChatBoxFragment,
-                    args.userChatInfoModel,
-                    PAGE,
-                    ItemPerPage
-                )
+                    PreviousChatAPI(
+                        requireContext(),
+                        this@ChatBoxFragment,
+                        args.userChatInfoModel,
+                        PAGE,
+                        ItemPerPage,
+                        true
+                    )
             }
             Log.d(TAG, "onOpen: WEB_SOCKET_ID : ${webSocket.toString()}")
             Log.d(TAG, "onOpen: SOCKET_CONNECTED")
@@ -553,7 +558,6 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
 
     override fun onStart() {
         super.onStart()
-
         if (!isWebSocketConnected && !isConnectingWebSocket) {
             Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
 
@@ -578,6 +582,7 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
 
     override fun onResume() {
         super.onResume()
+        hasResumed = true
         if (!isWebSocketConnected && !isConnectingWebSocket && webSocket == null) {
             Log.d(TAG, "onResume: WEB_SOCKET_CONNECT onResume")
 

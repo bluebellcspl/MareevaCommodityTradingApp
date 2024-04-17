@@ -18,10 +18,11 @@ import kotlinx.coroutines.withContext
 
 class PreviousChatAPI(
     var context: Context,
-    var fragment:Fragment,
+    var fragment: Fragment,
     var userChatInfoModel: UserChatInfoModel,
     var Pages: Int,
-    var ItemPerPage: Int
+    var ItemPerPage: Int,
+    var isInitialLoading: Boolean
 ) {
     val job = Job()
     val scope = CoroutineScope(job)
@@ -43,25 +44,34 @@ class PreviousChatAPI(
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
             scope.launch(Dispatchers.IO)
             {
-                val result = APICall.getPreviousChat(JO,Pages,ItemPerPage)
-                if (result.isSuccessful)
-                {
+                val result = APICall.getPreviousChat(JO, Pages, ItemPerPage)
+                if (result.isSuccessful) {
                     val previousChatList = result.body()!!
-                    if (fragment is ChatBoxFragment){
-                        withContext(Dispatchers.Main){
-                            (fragment as ChatBoxFragment).binding.progressBarChatBox.visibility = View.GONE
-                            (fragment as ChatBoxFragment).hasNextPage = result.headers()["hasnextpage"].toBoolean()
+                    if (fragment is ChatBoxFragment) {
+                        withContext(Dispatchers.Main) {
+                            (fragment as ChatBoxFragment).binding.progressBarChatBox.visibility =
+                                View.GONE
+                            (fragment as ChatBoxFragment).hasNextPage =result.headers()["hasnextpage"].toString().toLowerCase().toBoolean()
+                            Log.d(TAG, "loadPreviousChat: HAS_NEXT_PAGE :_${result.headers()["hasnextpage"].toString()}")
+                            (fragment as ChatBoxFragment).isLoading =false
                             fragment.requireActivity().runOnUiThread {
-                                (fragment as ChatBoxFragment).loadChatHistory(previousChatList)
+                                if (isInitialLoading) {
+                                    (fragment as ChatBoxFragment).loadInitialChatHistory(previousChatList)
+                                } else {
+                                    (fragment as ChatBoxFragment).loadChatHistory(previousChatList)
+                                }
                             }
                         }
                     }
-                }else
-                {
-                    Log.e(TAG, "loadPreviousChat: ERROR_RESPONSE : ${result.errorBody()!!.string()}", )
-                    if (fragment is ChatBoxFragment){
-                        withContext(Dispatchers.Main){
-                            (fragment as ChatBoxFragment).binding.progressBarChatBox.visibility = View.GONE
+                } else {
+                    Log.e(
+                        TAG,
+                        "loadPreviousChat: ERROR_RESPONSE : ${result.errorBody()!!.string()}",
+                    )
+                    if (fragment is ChatBoxFragment) {
+                        withContext(Dispatchers.Main) {
+                            (fragment as ChatBoxFragment).binding.progressBarChatBox.visibility =
+                                View.GONE
                             commonUIUtility.showToast("No More Chat Found!")
                         }
                     }

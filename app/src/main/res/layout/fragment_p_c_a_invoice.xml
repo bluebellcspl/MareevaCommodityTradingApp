@@ -43,6 +43,7 @@
                         android:layout_margin="@dimen/_3sdp"
                         android:layout_weight="1"
                         android:hint="@string/from_date"
+                        android:padding="0dp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
@@ -57,7 +58,7 @@
                             android:layout_height="match_parent"
                             android:focusableInTouchMode="false"
                             android:inputType="none"
-                            android:padding="@dimen/_5sdp"
+                            android:padding="0dp"
                             android:text="15-03-2024"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_13ssp" />
@@ -71,6 +72,7 @@
                         android:layout_margin="@dimen/_3sdp"
                         android:layout_weight="1"
                         android:hint="@string/to_date"
+                        android:padding="0dp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
@@ -85,7 +87,7 @@
                             android:layout_height="match_parent"
                             android:focusableInTouchMode="false"
                             android:inputType="none"
-                            android:padding="@dimen/_5sdp"
+                            android:padding="0dp"
                             android:text="15-03-2024"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_13ssp" />
@@ -95,51 +97,63 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginBottom="@dimen/_2sdp"
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/edt_TotalBagsContainer_PCAInvoiceFragment"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="@string/total_bags"
+                        android:hint="Shop"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
                         app:boxCornerRadiusTopStart="@dimen/_5sdp"
                         app:hintTextColor="@color/black">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edt_TotalBags_PCAInvoiceFragment"
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/mact_TotalBags_PCAInvoiceFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="@dimen/_2sdp"
-                            android:enabled="false"
                             android:padding="@dimen/_5sdp"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp" />
+                            android:textSize="@dimen/_13ssp"
+                            tools:ignore="LabelFor" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_ShowData_PCAInvoiceFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/_2sdp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/_2sdp"
-                        android:text="Show Data"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:layout_weight="0.3"
+                        android:padding="@dimen/_5sdp"
+                        android:text="show"
                         android:gravity="center"
                         android:textAlignment="center"
-                        android:textSize="@dimen/_13ssp"
-                        app:cornerRadius="@dimen/_5sdp" />
+                        android:textSize="@dimen/_11ssp"
+                         />
                 </LinearLayout>
 
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/nestedScrollView_PCAInvoiceFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp">
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ChipGroup_PCAInvoiceFragment"/>
+                </androidx.core.widget.NestedScrollView>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/rc_View_PCAInvoiceFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -149,6 +163,7 @@
             tools:listitem="@layout/pca_invoice_adapter_layout" />
 
         <com.google.android.material.card.MaterialCardView
+            android:visibility="gone"
             android:id="@+id/linearLayout_PCAInvoiceFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

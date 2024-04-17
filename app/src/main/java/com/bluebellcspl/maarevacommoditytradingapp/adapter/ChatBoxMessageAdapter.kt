@@ -19,7 +19,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.SentImageItemBind
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.SentVoiceItemBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.ChatResponseModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.ChatRecyclerViewHelper
-import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.bumptech.glide.Glide
 
 class ChatBoxMessageAdapter(
@@ -65,31 +64,23 @@ class ChatBoxMessageAdapter(
         var binding = ReceiveVoiceItemBinding.bind(view)
     }
 
-    //    fun loadPreviousChat(previousChatList: List<ChatResponseModel>) {
-//        val previousSize = chatList.size
-//        chatList.addAll(0, previousChatList)
-//        if (isInitialDataLoaded) {
-//            notifyItemRangeInserted(0, previousChatList.size)
-//        } else {
-//            isInitialDataLoaded = true
-//        }
-//        // Scroll to the previous position
-//        if (previousSize > 0) {
-//            notifyItemRangeChanged(0, previousSize)
-//        }
-//    }
     fun loadPreviousChat(previousChatList: ArrayList<ChatResponseModel>) {
         chatList.addAll(0, previousChatList)
-        if (isInitialDataLoaded) {
-            notifyDataSetChanged()
-        } else {
-            isInitialDataLoaded = true
+        notifyItemRangeInserted(0, previousChatList.size)
+    }
+
+    fun loadInitialChat(previousChatList: ArrayList<ChatResponseModel>) {
+        if (!chatList.containsAll(previousChatList))
+        {
+            chatList.addAll(0, previousChatList)
         }
+        notifyDataSetChanged()
     }
 
     fun addMessage(message: ChatResponseModel) {
         chatList.add(message)
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
+        notifyItemInserted(chatList.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -166,7 +157,7 @@ class ChatBoxMessageAdapter(
         else if (holder.itemViewType == AUDIO_ITEM_SENT) {
             var viewHolder = holder as SentAudioViewHolder
             val mediaPlayer = MediaPlayer()
-
+            viewHolder.binding.tvDateSentItem.setText(chatMessage.Date)
             handler = Handler(Looper.getMainLooper())
             try {
 
@@ -234,6 +225,7 @@ class ChatBoxMessageAdapter(
         else if (holder.itemViewType == AUDIO_ITEM_RECEIVE) {
             var viewHolder = holder as ReceiveAudioViewHolder
             val mediaPlayer = MediaPlayer()
+            viewHolder.binding.tvDateReceiveItem.setText(chatMessage.Date)
             handler = Handler(Looper.getMainLooper())
             try {
 
@@ -304,6 +296,7 @@ class ChatBoxMessageAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val messageModel = chatList[position]
+            ?: return -1 // Return an invalid view type if the messageModel object is null
         return if (messageModel.FromUser == SenderId) {
             when (messageModel.MessageType) {
                 "text" -> ITEM_SENT
