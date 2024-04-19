@@ -143,6 +143,11 @@ class BuyerAuctionListAdapter(
         }
         val nf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
         holder.binding.tvAmountBuyerAuctionItemAdapter.setText(nf.toString())
+        if (model.Bags.contains("."))
+        {
+            val newBags = model.Bags.split(".")[0]
+            model.Bags = newBags
+        }
         holder.binding.tvBagsBuyerAuctionItemAdapter.setText(model.Bags)
         var pcaLowerLimit = ""
         var pcaUpperLimit = ""
@@ -155,14 +160,21 @@ class BuyerAuctionListAdapter(
             pcaLowerLimit = model.PCALowerLimit
             pcaUpperLimit = model.PCAUpperLimit
         }
+        if (pcaLowerLimit.contains("."))
+        {
+            val newll = pcaLowerLimit.split(".")[0]
+            pcaLowerLimit = newll
+        }
         holder.binding.tvLowerLimitBuyerAuctionItemAdapter.setText(pcaLowerLimit)
+
+        if (pcaUpperLimit.contains("."))
+        {
+            val newUl = pcaUpperLimit.split(".")[0]
+            pcaUpperLimit = newUl
+        }
         holder.binding.tvUpperLimitBuyerAuctionItemAdapter.setText(pcaUpperLimit)
-//        holder.binding.tvLastDayPriceBuyerAuctionItemAdapter.setText(model.LastDayPrice)
         model.Basic = "0.0"
-//        if (model.Bags.isEmpty() || model.Bags.equals("") || model.Bags.toInt() < 1) {
-//            holder.binding.cvAuctionDetailsBuyerAuctionItemAdapter.visibility = View.GONE
-//            holder.binding.cvBagCountBuyerAuctionItemAdapter.visibility = View.GONE
-//        }
+
         holder.calcutateData(model)
         holder.binding.cvAuctionDetailsBuyerAuctionItemAdapter.setOnClickListener {
             recyclerViewHelper.onItemClick(holder.adapterPosition,"")

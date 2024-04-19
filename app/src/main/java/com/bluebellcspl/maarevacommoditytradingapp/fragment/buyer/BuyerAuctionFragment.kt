@@ -184,12 +184,28 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 dataFromAPI.BudgetAmount = "0.0"
             }
             dataFromAPI.CommodityBhartiPrice = commodityBharti
-            binding.edtTotalBagsBuyerAuctionFragment.setText(dataFromAPI.TotalBags)
+            if (dataFromAPI.TotalBags.contains("."))
+            {
+                val newTotalBag = dataFromAPI.TotalBags.split(".")[0]
+                dataFromAPI.TotalBags = newTotalBag
+                binding.edtTotalBagsBuyerAuctionFragment.setText(dataFromAPI.TotalBags)
+            }else
+            {
+                binding.edtTotalBagsBuyerAuctionFragment.setText(dataFromAPI.TotalBags)
+            }
             binding.tvTotalAmountBuyerAuctionFragment.setText(dataFromAPI.BudgetAmount)
 //            val expense = dataFromAPI.TotalBasic.toDouble() + dataFromAPI.TotalGCAComm.toDouble()+dataFromAPI.TotalPCAComm.toDouble()+dataFromAPI.TotalMarketCess.toDouble()+dataFromAPI.TotalTransportationCharge.toDouble()+dataFromAPI.TotalLabourCharge.toDouble()
 //            binding.edtOtherCommissionBuyerAuctionFragment.setText("%.f".format(expense))
             binding.tvBasicAmountBuyerAuctionFragment.setText(dataFromAPI.TotalBasic)
-            binding.tvLeftBagsBuyerAuctionFragment.setText(dataFromAPI.LeftBags)
+            if (dataFromAPI.LeftBags.contains("."))
+            {
+                val newLeftBag = dataFromAPI.LeftBags.split(".")[0]
+                dataFromAPI.LeftBags = newLeftBag
+                binding.tvLeftBagsBuyerAuctionFragment.setText(dataFromAPI.LeftBags)
+            }else
+            {
+                binding.tvLeftBagsBuyerAuctionFragment.setText(dataFromAPI.LeftBags)
+            }
             auctionDetailList = dataFromAPI.AuctionDetailsModel
             postAuction = dataFromAPI
             bindRecyclerView(auctionDetailList)
@@ -290,7 +306,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 gcaCommission += model.GCACommCharge.toDouble()
                 marketCess += model.MarketCessCharge.toDouble()
                 transportCharge += model.TransportationCharge.toDouble()
-                leftBags = (binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim()
+                leftBags = (binding.edtTotalBagsBuyerAuctionFragment.text.toString().trim().split(".")[0]
                     .toInt() - ab).toString()
                 if (model.LabourCharge == null)
                 {
