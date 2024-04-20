@@ -9,6 +9,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceDataModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
@@ -227,5 +228,11 @@ interface OurRetrofit {
     suspend fun getChatRecipient(
         @Body body: JsonObject,
     ):Response<ChatRecipientModel>
+
+    @POST("/API/MaarevaApi/MaarevaApi/ShopListGet")
+//    @POST("/MaarevaApi/MaarevaApi/UserChatListGet")
+    suspend fun getInvoiceData(
+        @Body body: JsonObject,
+    ):Response<JsonObject>
 
 }

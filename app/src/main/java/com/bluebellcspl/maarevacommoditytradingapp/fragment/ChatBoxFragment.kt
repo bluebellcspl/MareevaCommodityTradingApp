@@ -203,7 +203,7 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
             Log.d(TAG, "checkPermissions: ${Build.VERSION.CODENAME} - READ_MEDIA_IMAGES")
             permissionList.add(android.Manifest.permission.READ_MEDIA_IMAGES)
             permissionList.add(android.Manifest.permission.READ_MEDIA_AUDIO)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
             Log.d(TAG, "checkPermissions: ${Build.VERSION.CODENAME} - READ_EXTERNAL_STORAGE")
             permissionList.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
             permissionList.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -315,7 +315,7 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Log.d(TAG, "checkPermissions: ${Build.VERSION.CODENAME} - RECORD_AUDIO")
             permissionList.add(android.Manifest.permission.RECORD_AUDIO)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
             Log.d(TAG, "checkPermissions: ${Build.VERSION.CODENAME} - RECORD_AUDIO")
             permissionList.add(android.Manifest.permission.RECORD_AUDIO)
         }
