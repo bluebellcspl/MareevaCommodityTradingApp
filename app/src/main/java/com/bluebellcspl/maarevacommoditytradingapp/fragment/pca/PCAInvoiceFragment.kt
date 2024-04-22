@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.InvoiceAdapter
+import com.bluebellcspl.maarevacommoditytradingapp.adapter.OnParentCheckedChangeListener
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAInvoiceBinding
@@ -125,7 +126,12 @@ class PCAInvoiceFragment : Fragment(),RecyclerViewHelper {
     private fun bindInvoiceRCView(datalist:ArrayList<Shopwise>) {
         try {
             binding.rcViewPCAInvoiceFragment.visibility = View.VISIBLE
-            adapter = InvoiceAdapter(requireContext(), datalist)
+            adapter = InvoiceAdapter(requireContext(), datalist,object : OnParentCheckedChangeListener {
+                override fun onParentCheckedChange(position: Int, isChecked: Boolean) {
+                    datalist[position].isSelected = isChecked
+                    adapter.notifyItemChanged(position)
+                }
+            })
             binding.rcViewPCAInvoiceFragment.adapter = adapter
             binding.rcViewPCAInvoiceFragment.invalidate()
         } catch (e: Exception) {

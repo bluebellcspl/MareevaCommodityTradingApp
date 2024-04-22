@@ -11,7 +11,7 @@ data class Shopwise(
     var ShopNo: String,
     var ShopShortName: String,
     var isExpandable:Boolean = false,
-    var isSelected:Boolean = false
+    var isSelected:Boolean = true
 ){
     fun getExpandable ():Boolean{
         return isExpandable

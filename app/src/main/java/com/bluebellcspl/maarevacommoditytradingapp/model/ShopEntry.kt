@@ -30,7 +30,7 @@ data class ShopEntry(
     var TransportationCharge:String,
     var Udate:String,
     var UpdateUser:String,
-    var isSelected:Boolean = false
+    var isSelected:Boolean = true
 ){
     fun getSelected():Boolean{
         return isSelected

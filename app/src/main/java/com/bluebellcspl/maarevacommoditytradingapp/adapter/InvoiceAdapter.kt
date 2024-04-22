@@ -11,24 +11,24 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.ShopEntriesAdapte
 import com.bluebellcspl.maarevacommoditytradingapp.model.ShopEntry
 import com.bluebellcspl.maarevacommoditytradingapp.model.Shopwise
 
-class InvoiceAdapter(var context: Context, datalist: ArrayList<Shopwise>) :
-    RecyclerView.Adapter<InvoiceAdapter.MyViewHolder>() {
+class InvoiceAdapter(
+    var context: Context,
+    datalist: ArrayList<Shopwise>,
+    val parentCheckedChangeListener: OnParentCheckedChangeListener
+) :
+    RecyclerView.Adapter<InvoiceAdapter.MyViewHolder>(), OnChildCheckedChangeListener {
     var shopList: ArrayList<Shopwise> = datalist
-    lateinit var shopEntryAdapter:ShopEntriesAdapter
+    lateinit var shopEntryAdapter: ShopEntriesAdapter
     val TAG = "InvoiceAdapter"
-
 
     inner class MyViewHolder(var binding: InvoiceDataAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bindShopEntriesList(shopEntryList: ArrayList<ShopEntry>) {
-            shopEntryAdapter = ShopEntriesAdapter(context, shopEntryList,object : ShopEntriesListener {
-                override fun onItemCheckedStateChanged(position: Int) {
-                    TODO("Not yet implemented")
-                }
-            })
+            shopEntryAdapter = ShopEntriesAdapter(context, shopEntryList,adapterPosition,this@InvoiceAdapter)
             binding.rcViewShopEntries.adapter = shopEntryAdapter
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -46,7 +46,7 @@ class InvoiceAdapter(var context: Context, datalist: ArrayList<Shopwise>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val model = shopList[holder.adapterPosition]
+        val model = shopList[position]
         val shopEntriesList = model.ShopEntries
 
         holder.binding.tvDateInvoiceAdapter.text = model.Date
@@ -59,30 +59,77 @@ class InvoiceAdapter(var context: Context, datalist: ArrayList<Shopwise>) :
 
         holder.binding.rlShopHeaderInvoiceAdapter.setOnClickListener {
             model.isExpandable = !model.isExpandable
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(position)
         }
 
-        //Recycler for ShopEntries
+        // Recycler for ShopEntries
         holder.bindShopEntriesList(shopEntriesList)
 
         holder.binding.mChbShopInvoiceAdapter.setOnCheckedChangeListener(null)
         holder.binding.mChbShopInvoiceAdapter.isChecked = model.isSelected
 
-
         holder.binding.mChbShopInvoiceAdapter.setOnCheckedChangeListener { _, isChecked ->
             model.isSelected = isChecked
-            shopList[holder.adapterPosition].ShopEntries.forEach { it.isSelected = isChecked }
-            notifyItemChanged(holder.adapterPosition)
+            shopList[position].ShopEntries.forEach { it.isSelected = isChecked }
+            notifyItemChanged(position)
         }
 
         val isExpandable: Boolean = model.isExpandable
         holder.binding.llExpandableInvoiceAdapter.visibility =
             if (isExpandable) View.VISIBLE else View.GONE
+
+        calculateItemSum(holder)
+    }
+
+    override fun onChildCheckedChange(parentPosition: Int, childPosition: Int, isChecked: Boolean) {
+        try {
+            shopList[parentPosition].ShopEntries[childPosition].isSelected = isChecked
+            var allChecked = true
+            for (entry in shopList[parentPosition].ShopEntries) {
+                if (!entry.isSelected) {
+                    allChecked = false
+                    break
+                }
+            }
+            shopList[parentPosition].isSelected = allChecked
+            notifyItemChanged(parentPosition)
+            parentCheckedChangeListener.onParentCheckedChange(parentPosition, allChecked)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "onChildCheckedChange: ${e.message}", )
+        }
+    }
+
+    private fun calculateItemSum(holder: MyViewHolder) {
+        var sum = 0.0
+        var shop_bags = 0.0
+        var shop_avg_rate = 0.0
+        var shop_total_amount = 0.0
+//        for (shop in shopList) {
+            for (entry in shopList[holder.adapterPosition].ShopEntries) {
+                if (entry.isSelected) {
+                    shop_bags += entry.Bags.toDouble()
+                    // shop_avg_rate
+                    shop_total_amount  += entry.Amount.toDouble()
+                }
+//            }
+        }
+        holder.binding.tvBagAmountTotalPriceInvoiceAdapter.text = "%s/%s/%s".format(
+            shop_bags,
+            shop_avg_rate,
+            shop_total_amount
+        )
+        Log.d("TotalSum", "Total Sum: $sum")
     }
 
 }
 
-class ShopEntriesAdapter(var context: Context, var shopEntriesList: ArrayList<ShopEntry>,var shopEntriesListener: ShopEntriesListener) :
+class ShopEntriesAdapter(
+    var context: Context,
+    var shopEntriesList: ArrayList<ShopEntry>,
+    var parentPosition:Int,
+    var childCheckedChangeListener: OnChildCheckedChangeListener
+) :
     RecyclerView.Adapter<ShopEntriesAdapter.MyViewHolder>() {
     val TAG = "ShopEntriesAdapter"
 
@@ -102,8 +149,9 @@ class ShopEntriesAdapter(var context: Context, var shopEntriesList: ArrayList<Sh
     override fun getItemCount(): Int {
         return shopEntriesList.size
     }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val model = shopEntriesList[holder.adapterPosition]
+        val model = shopEntriesList[position]
         holder.binding.tvBagShopEntriesAdapter.text = model.Bags
         holder.binding.tvPriceShopEntriesAdapter.text = model.CurrentPrice
         holder.binding.tvTotalPriceShopEntriesAdapter.text = model.Amount
@@ -113,20 +161,16 @@ class ShopEntriesAdapter(var context: Context, var shopEntriesList: ArrayList<Sh
 
         holder.binding.mChbShopEntriesAdapter.setOnCheckedChangeListener { _, isChecked ->
             model.isSelected = isChecked
-            shopEntriesListener.onItemCheckedStateChanged(holder.adapterPosition)
+//            shopEntriesListener.onItemCheckedStateChanged(holder.adapterPosition, isChecked)
+            childCheckedChangeListener.onChildCheckedChange(parentPosition, holder.adapterPosition, isChecked)
         }
     }
-//    fun checkAllSelected(): Boolean {
-//        for (entry in shopEntriesList) {
-//            if (!entry.isSelected) {
-//                return false
-//            }
-//        }
-//        return true
-//    }
-
 }
 
-interface ShopEntriesListener {
-    fun onItemCheckedStateChanged(position: Int)
+interface OnParentCheckedChangeListener {
+    fun onParentCheckedChange(position: Int, isChecked: Boolean)
+}
+
+interface OnChildCheckedChangeListener {
+    fun onChildCheckedChange(parentPosition: Int, childPosition: Int, isChecked: Boolean)
 }
