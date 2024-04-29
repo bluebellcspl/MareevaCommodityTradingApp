@@ -1,5 +1,9 @@
 package com.bluebellcspl.maarevacommoditytradingapp.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ShopEntry(
     var Amount:String,
     var Bags:String,
@@ -30,8 +34,8 @@ data class ShopEntry(
     var TransportationCharge:String,
     var Udate:String,
     var UpdateUser:String,
-    var isSelected:Boolean = true
-){
+    var isSelected:Boolean = false
+):Parcelable{
     fun getSelected():Boolean{
         return isSelected
     }

@@ -283,7 +283,12 @@
         android:id="@+id/PCAInvoiceFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAInvoiceFragment"
         android:label="@string/invoice"
-        tools:layout="@layout/fragment_p_c_a_invoice"/>
+        tools:layout="@layout/fragment_p_c_a_invoice">
+        <action
+            android:id="@+id/action_PCAInvoiceFragment_to_PCAInvoiceDetailFragment"
+            app:destination="@id/PCAInvoiceDetailFragment"
+            app:popUpTo="@id/PCAInvoiceFragment" />
+    </fragment>
     <fragment
         android:id="@+id/buyerChatListFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerChatListFragment"
@@ -335,4 +340,9 @@
             android:name="chatImageInfo"
             app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.ChatImageInfoModel" />
     </fragment>
+    <fragment
+        android:id="@+id/PCAInvoiceDetailFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAInvoiceDetailFragment"
+        android:label="fragment_p_c_a_invoice_detail"
+        tools:layout="@layout/fragment_p_c_a_invoice_detail" />
 </navigation>

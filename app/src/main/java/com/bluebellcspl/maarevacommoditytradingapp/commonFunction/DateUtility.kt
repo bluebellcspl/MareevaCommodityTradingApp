@@ -43,44 +43,11 @@ class DateUtility {
         return date
     }
 
-    fun getUserCode() : String{
-        val cal = Calendar.getInstance()
-        val sdf = SimpleDateFormat(codeGenrateFormate, Locale.US)
-        val current = sdf.format(cal.time)
-        val date : String = "USER"+current.toString()
-        return date
-    }
-
-    fun getSurveyId() : String{
-        val cal = Calendar.getInstance()
-        val sdf = SimpleDateFormat(codeGenrateFormate, Locale.US)
-        val current = sdf.format(cal.time)
-        val date : String = "SUR"+current.toString()
-        return date
-    }
-
-    fun getMenberCode() : String{
-        val cal = Calendar.getInstance()
-        val sdf = SimpleDateFormat(codeGenrateFormate, Locale.US)
-        val current = sdf.format(cal.time)
-        val date : String = "MEM"+current.toString()
-        return date
-    }
-
-    fun getAnimalCode() : String{
-        val cal = Calendar.getInstance()
-        val sdf = SimpleDateFormat(codeGenrateFormate, Locale.US)
-        val current = sdf.format(cal.time)
-        val date : String = "ANIMAL"+current.toString()
-        return date
-    }
-
-    fun get12HourTime() : String{
-        val cal = Calendar.getInstance()
-        val sdf = SimpleDateFormat(timeFormat12Hr, Locale.US)
-        val current = sdf.format(cal.time)
-        val date : String = current.toString()
-        return date
+    fun formatToddMMyyyy(inputDate: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val date = inputFormat.parse(inputDate)
+        return outputFormat.format(date)
     }
 
 }

@@ -12,12 +12,13 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_Main_InvoiceAdapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/colorSecondaryLight"
-            app:cardUseCompatPadding="true"
             app:cardCornerRadius="@dimen/_5sdp"
-            app:cardElevation="@dimen/_5sdp">
+            app:cardElevation="@dimen/_5sdp"
+            app:cardUseCompatPadding="true">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -29,74 +30,130 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/tvShopName_InvoiceAdapter"
+                    <LinearLayout
+                        android:id="@+id/ll1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/mChb_Shop_InvoiceAdapter"
-                        android:gravity="center_vertical"
-                        android:padding="3dp"
-                        android:text="14 - Somnath T."
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        android:layout_toStartOf="@id/mChb_Shop_InvoiceAdapter"
+                        android:divider="@color/colorPrimary"
+                        android:padding="@dimen/_2sdp"
+                        android:orientation="horizontal"
+                        android:dividerPadding="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:showDividers="middle">
+
+                        <TextView
+                            android:id="@+id/tvDate_InvoiceAdapter"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.3"
+                            android:gravity="center"
+                            android:text="17-04-2024"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvShopName_InvoiceAdapter"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:gravity="center_vertical"
+                            android:paddingStart="@dimen/_3sdp"
+                            android:paddingEnd="@dimen/_3sdp"
+                            android:text="14 - Somnath T."
+                            android:textSize="@dimen/_13ssp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tvShopName_InvoiceAdapter"
-                        android:layout_toLeftOf="@id/mChb_Shop_InvoiceAdapter"
-                        android:orientation="horizontal">
+                        android:layout_below="@id/ll1"
+                        android:layout_toStartOf="@id/mChb_Shop_InvoiceAdapter"
+                        android:divider="@color/colorPrimary"
+                        android:orientation="horizontal"
+                        android:dividerPadding="@dimen/_2sdp"
+                        android:showDividers="middle">
 
                         <TextView
-                            android:id="@+id/tvDate_InvoiceAdapter"
+                            android:id="@+id/tvBag__InvoiceAdapter"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:gravity="center_vertical"
-                            android:text="17-04-2024"
+                            android:layout_weight="0.55"
+                            android:gravity="center"
+                            android:text="10001.05"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/_13ssp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvBag_Amount_TotalPrice_InvoiceAdapter"
+                            android:id="@+id/tvPrice_InvoiceAdapter"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.65"
+                            android:gravity="center"
+                            android:text="131110.00"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvAmount_InvoiceAdapter"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text="1000/131110/1234567890"
+                            android:gravity="center"
+                            android:text="12345678901.00"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/_13ssp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <com.google.android.material.checkbox.MaterialCheckBox
-                        android:buttonTint="@color/colorPrimary"
                         android:id="@+id/mChb_Shop_InvoiceAdapter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
+                        android:buttonTint="@color/colorPrimary"
                         android:scaleX="1.1"
                         android:scaleY="1.1" />
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_below="@id/rl_ShopHeader_InvoiceAdapter"
                     android:id="@+id/ll_Expandable_InvoiceAdapter"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_ShopHeader_InvoiceAdapter">
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rcView_ShopEntries"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:padding="5dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/shop_entries_adapter" />
                 </LinearLayout>
             </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
+            android:layout_below="@id/cv_Main_InvoiceAdapter"
+            android:id="@+id/btn_Save_PCAInvoiceFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:text="@string/save"
+            app:cornerRadius="@dimen/_6sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
     </RelativeLayout>
 </layout>
