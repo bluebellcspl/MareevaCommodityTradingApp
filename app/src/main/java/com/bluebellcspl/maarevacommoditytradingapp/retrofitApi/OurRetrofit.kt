@@ -9,7 +9,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
-import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceDataModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceEntryMergedModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModel
@@ -20,6 +20,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.StateMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.TransportationMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.UserMasterModel
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -230,9 +231,21 @@ interface OurRetrofit {
     ):Response<ChatRecipientModel>
 
     @POST("/API/MaarevaApi/MaarevaApi/ShopListGet")
-//    @POST("/MaarevaApi/MaarevaApi/UserChatListGet")
+//    @POST("/MaarevaApi/MaarevaApi/ShopListGet")
     suspend fun getInvoiceData(
         @Body body: JsonObject,
     ):Response<JsonObject>
+
+    @POST("/API/MaarevaApi/MaarevaApi/GCAInvoiceInsUpd")
+//    @POST("/MaarevaApi/MaarevaApi/GCAInvoiceInsUpd")
+    suspend fun postSelectedInvoiceData(
+        @Body body: JsonObject,
+    ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/InvoiceGCAGet")
+//    @POST("/MaarevaApi/MaarevaApi/InvoiceGCAGet")
+  suspend fun getMergedInvoiceData(
+    @Body body: JsonObject,
+  ):Response<JsonElement>
 
 }

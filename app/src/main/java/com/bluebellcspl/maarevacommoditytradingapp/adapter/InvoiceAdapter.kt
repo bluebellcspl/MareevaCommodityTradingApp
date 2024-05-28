@@ -142,6 +142,7 @@ class InvoiceAdapter(
         var shop_avg_rate = 0.0
         var shop_total_amount = 0.0
         var commodityBhartiPrice = shopList[holder.adapterPosition].CommodityBhartiPrice.toDouble()
+        var model = shopList[holder.adapterPosition]
             for (entry in shopList[holder.adapterPosition].ShopEntries) {
                 if (entry.isSelected) {
                     shop_bags += entry.Bags.toDouble()
@@ -191,10 +192,13 @@ class InvoiceAdapter(
             }
         }
 
+        model.Amount = fr_shop_total_amount
+        model.CurrentPrice = fr_shop_avg_rate
+        model.PurchasedBag = fr_shop_bags
         holder.binding.tvBagInvoiceAdapter.text = "%s".format(fr_shop_bags)
         holder.binding.tvPriceInvoiceAdapter.text = "%s".format(formattedCurrentPrice)
         holder.binding.tvAmountInvoiceAdapter.text = "%s".format(formattedAmount)
-        Log.d("TotalSum", "Total Sum: $sum")
+//        Log.d("TotalSum", "Total Sum: $sum")
     }
 
 }

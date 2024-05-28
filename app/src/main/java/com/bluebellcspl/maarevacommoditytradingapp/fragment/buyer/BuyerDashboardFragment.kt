@@ -46,7 +46,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.SocketHandler
-import com.bluebellcspl.maarevacommoditytradingapp.webSocketHelper.WebSocketClient
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -64,13 +63,13 @@ import java.util.Locale
 
 class BuyerDashboardFragment : Fragment() {
     private var isConnectingWebSocket = false
-    lateinit var binding: FragmentBuyerDashboardBinding
-    private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
+    var _binding: FragmentBuyerDashboardBinding? = null
+    val binding get() = _binding!!
+    private val commonUIUtility by lazy { CommonUIUtility(requireContext().applicationContext) }
     private val navController by lazy { findNavController() }
     val TAG = "BuyerDashboardFragment"
     var newAuctionData: LiveAuctionMasterModel? = null
     var lastPCAList: ArrayList<LiveAuctionPCAListModel> = ArrayList()
-    private lateinit var webSocketClient: WebSocketClient
     private var isWebSocketConnected = false
     lateinit var menuHost: MenuHost
     var COMMODITY_BHARTI = ""
@@ -87,11 +86,11 @@ class BuyerDashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_buyer_dashboard, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         Log.d(TAG, "onCreateView: CURRENT_SYSTEM_LANGUAGE : ${PrefUtil.getSystemLanguage().toString()}")
-        if (PrefUtil.getSystemLanguage().toString().isNullOrEmpty())
+        if (PrefUtil.getSystemLanguage().toString().isEmpty())
         {
             PrefUtil.setSystemLanguage("en")
         }
@@ -184,20 +183,20 @@ class BuyerDashboardFragment : Fragment() {
 
     private fun fetchDataFromAPI() {
         try {
-            if (ConnectionCheck.isConnected(requireContext())) {
+            if (ConnectionCheck.isConnected(requireContext().applicationContext)) {
                 FetchApprovedPCAListAPI(
-                    requireContext(),
+                    requireContext().applicationContext,
                     requireActivity(),
                     this@BuyerDashboardFragment
                 )
-                FetchCityMasterAPI(requireContext(), requireActivity())
+                FetchCityMasterAPI(requireContext().applicationContext, requireActivity())
                 FetchBuyerAuctionDetailAPI(
-                    requireContext(),
+                    requireContext().applicationContext,
                     requireActivity(),
                     this@BuyerDashboardFragment
                 )
                 FetchBuyerPreviousAuctionAPI(
-                    requireContext(),
+                    requireContext().applicationContext,
                     this@BuyerDashboardFragment,
                     PREV_AUCTION_SELECTED_DATE
                 )
@@ -251,13 +250,11 @@ class BuyerDashboardFragment : Fragment() {
     fun bindingApprovedPCACount(dataList: ArrayList<PCAListModelItem>) {
         try {
 //                binding.buyerDashboard.tvPCACountBuyer.setText(dataList.size.toString())
-            binding.tvPCACountNewBuyerDashboardFragment.setText(
-                String.format(
-                    "%s %d",
-                    requireContext().getString(R.string.total_pcas_lbl_new),
-                    dataList.size
-                )
-            )
+            val tvPCACountStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.total_pcas_lbl_new))
+                append(" "+dataList.size)
+            }
+            binding.tvPCACountNewBuyerDashboardFragment.setText(tvPCACountStringBuilder.toString())
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "bindingApprovedPCACount: ${e.message}")
@@ -272,33 +269,30 @@ class BuyerDashboardFragment : Fragment() {
                     "invalid"
                 )
             ) {
-                binding.tvAllocatedBagsNewBuyerDashboardFragment.setText(
-                    "%s %s".format(
-                        requireContext().getString(
-                            R.string.bags_lbl
-                        ), buyerData.AllocatedBags
-                    )
-                )
+                val tvAllocatedBagStringBuilder = StringBuilder().apply {
+                    append(requireContext().applicationContext.getString(R.string.bags_lbl))
+                    append(" ${buyerData.AllocatedBags}")
+                }
+                binding.tvAllocatedBagsNewBuyerDashboardFragment.setText(tvAllocatedBagStringBuilder.toString())
                 var rate =
                     buyerData.TotalCost.toDouble() / ((buyerData.AllocatedBags.toDouble() * COMMODITY_BHARTI.toDouble()) / 20.0)
                 val BuyerRateNF = NumberFormat.getCurrencyInstance().format(rate).substring(1)
                 Log.d(TAG, "bindBuyerAllocatedData: ALLOCATED_RATE : $BuyerRateNF")
-                binding.tvAllocatedRateNewBuyerDashboardFragment.setText(
-                    "%s %s".format(
-                        requireContext().getString(
-                            R.string.rate_lbl
-                        ), BuyerRateNF
-                    )
-                )
+
+                val tvAllocatedRateStringBuilder = StringBuilder().apply {
+                    append(requireContext().applicationContext.getString(R.string.rate_lbl))
+                    append(" $BuyerRateNF")
+                }
+                binding.tvAllocatedRateNewBuyerDashboardFragment.setText(tvAllocatedRateStringBuilder.toString())
+
                 val BuyerTotalAmountNF =
                     NumberFormat.getCurrencyInstance().format(buyerData.TotalCost.toDouble())
                         .substring(1)
-                binding.tvAllocatedTotalCostNewBuyerDashboardFragment.setText(
-                    "%s %s".format(
-                        requireContext().getString(R.string.cost_lbl),
-                        BuyerTotalAmountNF
-                    )
-                )
+                val tvAllocatedTotalStringBuilder = StringBuilder().apply {
+                    append(requireContext().applicationContext.getString(R.string.cost_lbl))
+                    append(" $BuyerTotalAmountNF")
+                }
+                binding.tvAllocatedTotalCostNewBuyerDashboardFragment.setText(tvAllocatedTotalStringBuilder.toString())
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -401,31 +395,28 @@ class BuyerDashboardFragment : Fragment() {
 
             if (dataList.TotalCost.isNotEmpty() && !COMMODITY_BHARTI.contains("invalid") && COMMODITY_BHARTI.isNotEmpty()) {
 
-                binding.tvPurchasedBagsNewBuyerDashboardFragment.setText(
-                    "%s %s".format(
-                        requireContext().getString(
-                            R.string.bags_lbl
-                        ), TOTAL_AuctionBags.toString()
-                    )
-                )
+                val tvPurchasedBagsStringBuilder = StringBuilder().apply {
+                    append(requireContext().applicationContext.getString(R.string.bags_lbl))
+                    append(" $TOTAL_AuctionBags")
+                }
+                binding.tvPurchasedBagsNewBuyerDashboardFragment.setText(tvPurchasedBagsStringBuilder.toString())
 
                 val PCATotalAmountNF =
                     NumberFormat.getCurrencyInstance().format(TOTAL_AuctionCost).substring(1)
-                binding.tvPurchasedTotalCostNewBuyerDashboardFragment.setText(
-                    "%s %s".format(
-                        requireContext().getString(R.string.cost_lbl),
-                        PCATotalAmountNF
-                    )
-                )
+
+                val tvPurchasedTotalStringBuilder = StringBuilder().apply {
+                    append(requireContext().applicationContext.getString(R.string.cost_lbl))
+                    append(" $PCATotalAmountNF")
+                }
+                binding.tvPurchasedTotalCostNewBuyerDashboardFragment.setText(tvPurchasedTotalStringBuilder.toString())
                 var rate =
                     TOTAL_AuctionCost / ((TOTAL_AuctionBags * COMMODITY_BHARTI.toDouble()) / 20.0)
                 val RateNF = NumberFormat.getCurrencyInstance().format(rate).substring(1)
-                binding.tvPurchasedAvgRateNewBuyerDashboardFragment.setText(
-                    "%s %s".format(
-                        requireContext().getString(R.string.rate_lbl),
-                        RateNF
-                    )
-                )
+                val tvPurchasedRateStringBuilder = StringBuilder().apply {
+                    append(requireContext().applicationContext.getString(R.string.rate_lbl))
+                    append(" $RateNF")
+                }
+                binding.tvPurchasedAvgRateNewBuyerDashboardFragment.setText(tvPurchasedRateStringBuilder.toString())
 
             }
 
@@ -450,7 +441,7 @@ class BuyerDashboardFragment : Fragment() {
             val date = dateFormat.format(selectedDateInMillis)
             PREV_AUCTION_SELECTED_DATE = date
             FetchBuyerPreviousAuctionAPI(
-                requireContext(),
+                requireContext().applicationContext,
                 this@BuyerDashboardFragment,
                 PREV_AUCTION_SELECTED_DATE
             )
@@ -463,31 +454,28 @@ class BuyerDashboardFragment : Fragment() {
     fun bindPreviousAuctionData(modelData: BuyerPrevAuctionMasterModel) {
         try {
             PREV_AUCTION_SELECTED_DATE = modelData.Date
-            binding.tvPreviousAuctionDateNewBuyerDashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(
-                        R.string.date_lbl
-                    ), modelData.Date
-                )
-            )
-            binding.tvPreviousAuctionAvgRateNewBuyerDashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(R.string.avg_rate_lbl),
-                    modelData.LastPCATotalAvgRate
-                )
-            )
-            binding.tvPreviousAuctionPurchasedBagsNewBuyerDashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(R.string.bags_lbl),
-                    modelData.LastTotalPurchasedBags
-                )
-            )
-            binding.tvPreviousAuctionTotalCostNewBuyerDashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(R.string.total_cost_lbl),
-                    modelData.LastPCATotalCost
-                )
-            )
+
+            val tvPreviousDateStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.date_lbl))
+                append(modelData.Date)
+            }
+
+            val tvPreviousRateStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.avg_rate_lbl))
+                append(modelData.LastPCATotalAvgRate)
+            }
+            val tvPreviousBagsStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.bags_lbl))
+                append(modelData.LastTotalPurchasedBags)
+            }
+            val tvPreviousTotalStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.total_cost_lbl))
+                append(modelData.LastPCATotalCost)
+            }
+            binding.tvPreviousAuctionDateNewBuyerDashboardFragment.setText(tvPreviousDateStringBuilder.toString())
+            binding.tvPreviousAuctionAvgRateNewBuyerDashboardFragment.setText(tvPreviousRateStringBuilder.toString())
+            binding.tvPreviousAuctionPurchasedBagsNewBuyerDashboardFragment.setText(tvPreviousBagsStringBuilder.toString())
+            binding.tvPreviousAuctionTotalCostNewBuyerDashboardFragment.setText(tvPreviousTotalStringBuilder.toString())
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "bindPreviousAuctionData: ${e.message}")
@@ -506,7 +494,7 @@ class BuyerDashboardFragment : Fragment() {
 
             // Delay WebSocket connection by 3 seconds
             Handler(Looper.getMainLooper()).postDelayed({
-                if (ConnectionCheck.isConnected(requireContext())) {
+                if (ConnectionCheck.isConnected(requireContext().applicationContext)) {
 //                    webSocketClient.connect()
                     val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
                         "<COMMODITY_ID>",
@@ -538,7 +526,7 @@ class BuyerDashboardFragment : Fragment() {
         super.onStart()
 
 //        commonUIUtility.dismissProgress()
-        requireContext().registerReceiver(notificationReceiver, filter)
+        requireContext().applicationContext.registerReceiver(notificationReceiver, filter)
         if (!isWebSocketConnected && !isConnectingWebSocket) {
             Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
 
@@ -547,7 +535,7 @@ class BuyerDashboardFragment : Fragment() {
 
             // Delay WebSocket connection by 3 seconds
             Handler(Looper.getMainLooper()).postDelayed({
-                if (ConnectionCheck.isConnected(requireContext())) {
+                if (ConnectionCheck.isConnected(requireContext().applicationContext)) {
 //                    webSocketClient.connect()
                     val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
                         "<COMMODITY_ID>",
@@ -577,7 +565,7 @@ class BuyerDashboardFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        requireContext().unregisterReceiver(notificationReceiver)
+        requireContext().applicationContext.unregisterReceiver(notificationReceiver)
         if (isWebSocketConnected) {
             Log.d(TAG, "onStop: WEB_SOCKET_DISCONNECT onStop")
 //            webSocketClient.disconnect()
@@ -602,6 +590,7 @@ class BuyerDashboardFragment : Fragment() {
         lastPCAList = ArrayList()
         Log.d(TAG, "onDestroyView: WEB_SOCKET_DISCONNECT onDestroyView")
         disconnect()
+        _binding = null
     }
 
     private inner class MyWebSocketListener : WebSocketListener() {

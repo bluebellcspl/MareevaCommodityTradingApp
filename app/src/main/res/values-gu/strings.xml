@@ -187,4 +187,8 @@
     <string name="vehicle_no">Vehicle No.</string>
     <string name="show_invoice">Show Invoice</string>
     <string name="admin">Admin</string>
+    <string name="weight">Weight</string>
+    <string name="invoice_detail">Invoice Detail</string>
+    <string name="no_data_found">No Data Found!</string>
+    <string name="forward">Forward</string>
 </resources>

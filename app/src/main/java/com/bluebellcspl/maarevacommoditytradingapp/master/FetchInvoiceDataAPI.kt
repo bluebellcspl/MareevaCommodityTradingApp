@@ -9,6 +9,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAInvoiceFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceDataModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.RegErrorReponse
+import com.bluebellcspl.maarevacommoditytradingapp.model.Shopwise
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.Gson
@@ -35,11 +36,8 @@ class FetchInvoiceDataAPI(var context: Context, var fragment: PCAInvoiceFragment
             val JO =JsonObject().apply {
                 addProperty("CompanyCode",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
                 addProperty("FromDate",startDate)
-//                addProperty("FromDate","2024-03-23")
                 addProperty("ToDate",endDate)
-//                addProperty("ToDate","2024-04-23")
-//                addProperty("PCARegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
-                addProperty("PCARegId","104")
+                addProperty("PCARegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
                 addProperty("Language",PrefUtil.getSystemLanguage())
             }
             Log.d(TAG, "getInvoiceData: INVOICE_DATA_JSON : $JO")
@@ -55,6 +53,10 @@ class FetchInvoiceDataAPI(var context: Context, var fragment: PCAInvoiceFragment
                         {
                             commonUIUtility.dismissProgress()
                             commonUIUtility.showToast("No Data Found!")
+                            fragment.bindFilterForRecyclerview(
+                                InvoiceDataModel("","","","","","",
+                                    arrayListOf<Shopwise>(),"","",""))
+                            fragment.resetUI()
                         }
                     }else
                     {
@@ -68,6 +70,10 @@ class FetchInvoiceDataAPI(var context: Context, var fragment: PCAInvoiceFragment
                     }
                 }else
                 {
+                    withContext(Dispatchers.Main) {
+                        commonUIUtility.dismissProgress()
+                        commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
+                    }
                     Log.e(TAG, "getInvoiceData: ${result.errorBody()?.string()}", )
                     val errorResult = Gson().fromJson(result.errorBody()!!.string(),
                         RegErrorReponse::class.java)

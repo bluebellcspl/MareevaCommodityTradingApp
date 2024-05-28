@@ -50,7 +50,8 @@ import java.util.Locale
 
 
 class PCADashboardFragment : Fragment() {
-    lateinit var binding: FragmentPCADashboardBinding
+    var _binding: FragmentPCADashboardBinding?=null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController by lazy { findNavController() }
     val TAG = "PCADashboardFragment"
@@ -65,7 +66,7 @@ class PCADashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_dashboard, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         filter = IntentFilter("ACTION_NOTIFICATION_RECEIVED")
@@ -214,13 +215,11 @@ class PCADashboardFragment : Fragment() {
             if (modelData.PerLabourCharge.isEmpty()) {
                 modelData.PerLabourCharge = "0"
             }
-            binding.tvAllocatedBagsNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(
-                        R.string.bags_lbl
-                    ), modelData.BuyerBori
-                )
-            )
+            val tvAllocationBagsStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.bags_lbl))
+                append(" ${modelData.BuyerBori}")
+            }
+            binding.tvAllocatedBagsNewPCADashboardFragment.setText(tvAllocationBagsStringBuilder.toString())
             var pcaAllocatedBags = modelData.BuyerBori.toFloat()
             var commodityBhartiPrice = modelData.CommodityBhartiPrice.toDouble()
             var buyerUpperLimit = modelData.BuyerUpperPrice.toDouble()
@@ -241,33 +240,30 @@ class PCADashboardFragment : Fragment() {
 
             val AllocatedBuyerCost =
                 NumberFormat.getCurrencyInstance().format(totalPCABudget).substring(1)
-            binding.tvAllocatedTotalCostNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(
-                        R.string.cost_lbl
-                    ), AllocatedBuyerCost
-                )
-            )
+
+            val tvAllocationBuyerCostStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.cost_lbl))
+                append(" $AllocatedBuyerCost")
+            }
+
+            binding.tvAllocatedTotalCostNewPCADashboardFragment.setText(tvAllocationBuyerCostStringBuilder.toString())
             var rate = totalPCABudget / ((pcaAllocatedBags * COMMODITY_BHARTI.toDouble()) / 20.0)
             val AllocatedBuyerAvgRate = NumberFormat.getCurrencyInstance().format(rate).substring(1)
-            binding.tvAllocatedRateNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(
-                        R.string.rate_lbl
-                    ), AllocatedBuyerAvgRate
-                )
-            )
+
+            val tvAllocationRateStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.rate_lbl))
+                append(" $AllocatedBuyerAvgRate")
+            }
+            binding.tvAllocatedRateNewPCADashboardFragment.setText(tvAllocationRateStringBuilder.toString())
 
             //Purchased Calculation
 
             var pcaTotalPurchasedBag = modelData.TotalPurchasedBags.toFloat()
-            binding.tvPurchasedBagsNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(
-                        R.string.bags_lbl
-                    ), pcaTotalPurchasedBag
-                )
-            )
+            val tvPurchasedBagsStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.bags_lbl))
+                append(" $pcaTotalPurchasedBag")
+            }
+            binding.tvPurchasedBagsNewPCADashboardFragment.setText(tvPurchasedBagsStringBuilder.toString())
 
             var purchased_pcaMarketCess =
                 (((pcaTotalPurchasedBag * COMMODITY_BHARTI.toDouble()) / 20) * ((buyerUpperLimit + buyerLowerLimit) / 2) * modelData.MCessRate.toDouble()) / 100.00
@@ -286,13 +282,11 @@ class PCADashboardFragment : Fragment() {
 
             val PurchasedPCACost =
                 NumberFormat.getCurrencyInstance().format(PCAtotalPurchasedCost).substring(1)
-            binding.tvPurchasedTotalCostNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(
-                        R.string.cost_lbl
-                    ), PurchasedPCACost
-                )
-            )
+            val tvPurchasedCostStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.cost_lbl))
+                append(" $PurchasedPCACost")
+            }
+            binding.tvPurchasedTotalCostNewPCADashboardFragment.setText(tvPurchasedCostStringBuilder.toString())
             var purchased_Avgrate = 0.0
             if (pcaTotalPurchasedBag> 0 && PCAtotalPurchasedCost > 0.0) {
                 purchased_Avgrate =
@@ -300,13 +294,12 @@ class PCADashboardFragment : Fragment() {
             }
             val PcaPurchasedAvgRate =
                 NumberFormat.getCurrencyInstance().format(purchased_Avgrate).substring(1)
-            binding.tvPurchasedAvgRateNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(
-                        R.string.rate_lbl
-                    ), PcaPurchasedAvgRate
-                )
-            )
+
+            val tvPurchasedAvgRateStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.rate_lbl))
+                append(" $PcaPurchasedAvgRate")
+            }
+            binding.tvPurchasedAvgRateNewPCADashboardFragment.setText(tvPurchasedAvgRateStringBuilder.toString())
 
 
         } catch (e: Exception) {
@@ -318,31 +311,26 @@ class PCADashboardFragment : Fragment() {
     fun bindPreviousAuctionData(modelData: PCAPrevAuctionMasterModel) {
         try {
             PREV_AUCTION_SELECTED_DATE = modelData.Date
-            binding.tvPreviousAuctionDateNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(
-                        R.string.date_lbl
-                    ), modelData.Date
-                )
-            )
-            binding.tvPreviousAuctionAvgRateNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(R.string.avg_rate_lbl),
-                    modelData.LastPCATotalAvgRate
-                )
-            )
-            binding.tvPreviousAuctionPurchasedBagsNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(R.string.bags_lbl),
-                    modelData.LastTotalPurchasedBags
-                )
-            )
-            binding.tvPreviousAuctionTotalCostNewPCADashboardFragment.setText(
-                "%s %s".format(
-                    resources.getString(R.string.total_cost_lbl),
-                    modelData.LastPCATotalCost
-                )
-            )
+            val tvPreviousDateStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.date_lbl))
+                append(" ${modelData.Date}")
+            }
+            val tvPreviousBagsStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.bags_lbl))
+                append(" ${modelData.LastTotalPurchasedBags}")
+            }
+            val tvPreviousTotalStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.cost_lbl))
+                append(" ${modelData.LastPCATotalCost}")
+            }
+            val tvPreviousAvgRateStringBuilder = StringBuilder().apply {
+                append(requireContext().applicationContext.getString(R.string.avg_rate_lbl))
+                append(" ${modelData.LastPCATotalAvgRate}")
+            }
+            binding.tvPreviousAuctionDateNewPCADashboardFragment.setText(tvPreviousDateStringBuilder.toString())
+            binding.tvPreviousAuctionAvgRateNewPCADashboardFragment.setText(tvPreviousAvgRateStringBuilder.toString())
+            binding.tvPreviousAuctionPurchasedBagsNewPCADashboardFragment.setText(tvPreviousBagsStringBuilder.toString())
+            binding.tvPreviousAuctionTotalCostNewPCADashboardFragment.setText(tvPreviousTotalStringBuilder.toString())
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "bindPreviousAuctionData: ${e.message}")
@@ -419,5 +407,10 @@ class PCADashboardFragment : Fragment() {
         super.onStop()
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         requireContext().unregisterReceiver(notificationReceiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

@@ -1,0 +1,30 @@
+package com.bluebellcspl.maarevacommoditytradingapp.model
+
+data class GCAData(
+    var action: String,
+    var AmountT: String,
+    var BagsT: String,
+    var Bharti: String,
+    var BuyerInvoiceNo: String,
+    var CommodityId: String,
+    var CompanyCode: String,
+    var CreateDate: String,
+    var CreateUser: String,
+    var CurrentPriceT: String,
+    var Date: String,
+    var GCAInvoiceId: String,
+    var GCAInvoiceNo: String,
+    var InvoiceAmount: String,
+    var InvoiceApproxKg: String,
+    var InvoiceKg: String,
+    var InvoiceRate: String,
+    var InvoiceStatus: String,
+    var PCAAuctionDetailId: String,
+    var PCAId: String,
+    var PCAregId: String,
+    var ShopId: String,
+    var StockId: String,
+    var UpdateDate: String,
+    var UpdateUser: String,
+    var WeightAfterAuctionInKg: String
+)

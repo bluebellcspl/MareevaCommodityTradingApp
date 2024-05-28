@@ -18,7 +18,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityHomeBindi
 import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var binding: ActivityHomeBinding
+    var _binding: ActivityHomeBinding?=null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(this) }
     lateinit var navController: NavController
     val TAG = "HomeActivity"
@@ -41,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
             enterTransition.duration = 700
             exitTransition.duration = 1000
         }
-        binding = DataBindingUtil.setContentView(this@HomeActivity,R.layout.activity_home)
+        _binding = DataBindingUtil.setContentView(this@HomeActivity,R.layout.activity_home)
         DatabaseManager.initializeInstance(this)
         setSupportActionBar(binding.toolbarHome.toolbar)
         val navHostFragment =
@@ -83,5 +84,10 @@ class HomeActivity : AppCompatActivity() {
             e.printStackTrace()
             Log.e(TAG, "setHomeDestination: ${e.message}")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

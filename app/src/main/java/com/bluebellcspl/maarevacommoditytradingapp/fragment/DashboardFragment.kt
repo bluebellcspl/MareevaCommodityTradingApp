@@ -33,7 +33,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.FetchTransportationMas
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
 
 class DashboardFragment : Fragment() {
-    lateinit var binding:FragmentDashboardBinding
+    var _binding:FragmentDashboardBinding?=null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "DashboardFragment"
     lateinit var navController: NavController
@@ -44,14 +45,11 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_dashboard, container, false)
+        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_dashboard, container, false)
         Log.d(TAG, "onCreateView: CURRENT_USER_ROLE : ${PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"")}")
         CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString()
         navController = findNavController()
-//        FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
-//        FetchCityMasterAPI(requireContext(),requireActivity())
-//        FetchTransportationMasterAPI(requireContext(),requireActivity())
-//        FetchCommodityMasterAPI(requireContext(), requireActivity())
+
         if (CURRENT_USER.equals("Buyer",true))
         {
             binding.buyerDashboard.root.visibility = View.VISIBLE
@@ -96,6 +94,11 @@ class DashboardFragment : Fragment() {
             e.printStackTrace()
             Log.e(TAG, "bindingApprovedPCACount: ${e.message}", )
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }

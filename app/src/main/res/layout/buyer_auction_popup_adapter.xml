@@ -118,7 +118,7 @@
                     android:layout_marginTop="@dimen/_3sdp"
                     android:id="@+id/rc_View_BuyerAuctionPopup"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_350sdp"
+                    android:layout_height="@dimen/_320sdp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/buyer_auction_popup_preview_adapter" />
 

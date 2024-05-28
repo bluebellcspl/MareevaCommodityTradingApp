@@ -287,6 +287,10 @@
         <action
             android:id="@+id/action_PCAInvoiceFragment_to_PCAInvoiceDetailFragment"
             app:destination="@id/PCAInvoiceDetailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/PCAInvoiceFragment" />
     </fragment>
     <fragment
@@ -343,6 +347,16 @@
     <fragment
         android:id="@+id/PCAInvoiceDetailFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAInvoiceDetailFragment"
-        android:label="fragment_p_c_a_invoice_detail"
-        tools:layout="@layout/fragment_p_c_a_invoice_detail" />
+        android:label="@string/invoice_detail"
+        tools:layout="@layout/fragment_p_c_a_invoice_detail" >
+        <argument
+            android:name="startDate"
+            app:argType="string" />
+        <argument
+            android:name="endDate"
+            app:argType="string" />
+        <argument
+            android:name="commodityId"
+            app:argType="string" />
+    </fragment>
 </navigation>

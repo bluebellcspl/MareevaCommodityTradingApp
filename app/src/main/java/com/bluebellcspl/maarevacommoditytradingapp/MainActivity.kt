@@ -45,15 +45,17 @@ class MainActivity : AppCompatActivity() {
 
             val intent = Intent(this@MainActivity, HomeActivity::class.java)
             startActivity(
-                Intent(intent),
-                ActivityOptions.makeSceneTransitionAnimation(this@MainActivity).toBundle()
+                Intent(intent)
+//                Intent(intent),
+//                ActivityOptions.makeSceneTransitionAnimation(this@MainActivity).toBundle()
             )
             finish()
         } else {
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(
-                Intent(intent),
-                ActivityOptions.makeSceneTransitionAnimation(this@MainActivity).toBundle()
+                Intent(intent)
+//                Intent(intent),
+//                ActivityOptions.makeSceneTransitionAnimation(this@MainActivity).toBundle()
             )
             finish()
         }

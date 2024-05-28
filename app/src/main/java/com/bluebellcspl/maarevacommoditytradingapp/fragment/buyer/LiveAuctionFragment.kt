@@ -44,7 +44,7 @@ import okhttp3.WebSocketListener
 
 class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
     lateinit var binding: FragmentLiveAuctionBinding
-    private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
+    private val commonUIUtility by lazy { CommonUIUtility(requireContext().applicationContext) }
     private val TAG = "LiveAuctionFragment"
     private lateinit var webSocketClient: WebSocketClient
     private var isWebSocketConnected = false
@@ -605,7 +605,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
             // Set the flag to indicate that a connection attempt is in progress
             isConnectingWebSocket = true
 
-                if (ConnectionCheck.isConnected(requireContext())) {
+                if (ConnectionCheck.isConnected(requireContext().applicationContext)) {
 //                    webSocketClient.connect()
                     lifecycleScope.launch(Dispatchers.IO)
                     {

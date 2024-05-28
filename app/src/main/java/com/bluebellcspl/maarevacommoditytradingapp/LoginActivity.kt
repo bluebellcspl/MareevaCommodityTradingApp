@@ -36,12 +36,13 @@ import com.google.firebase.messaging.FirebaseMessaging
 import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var binding: ActivityLoginBinding
+    var _binding: ActivityLoginBinding? = null
+     val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(this) }
-    var isInitial = true
+//    var isInitial = true
     val TAG = "LoginActivity"
-    lateinit var commodityList: ArrayList<String>
-    lateinit var apmcList: ArrayList<String>
+//    lateinit var commodityList: ArrayList<String>
+//    lateinit var apmcList: ArrayList<String>
     lateinit var APMCId: String
     var isAgreed = false
     var TOKEN_ID=""
@@ -64,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
             enterTransition.duration = 1000
             exitTransition.duration = 1000
         }
-        binding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
+        _binding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
         if (ConnectionCheck.isConnected(this))
         {
             FetchAPMCMasterAPI(this,this@LoginActivity)
@@ -147,9 +148,10 @@ class LoginActivity : AppCompatActivity() {
 
     fun redirectToHome() {
         startActivity(
-            Intent(this@LoginActivity, HomeActivity::class.java),
-            ActivityOptions.makeSceneTransitionAnimation(this@LoginActivity)
-                .toBundle()
+            Intent(this@LoginActivity, HomeActivity::class.java)
+//            Intent(this@LoginActivity, HomeActivity::class.java),
+//            ActivityOptions.makeSceneTransitionAnimation(this@LoginActivity)
+//                .toBundle()
         )
         finish()
     }
@@ -287,5 +289,10 @@ class LoginActivity : AppCompatActivity() {
             Log.e(TAG, "showTaskAllocationDialog: ${e.message}")
             e.printStackTrace()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
