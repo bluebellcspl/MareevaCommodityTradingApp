@@ -197,6 +197,9 @@
     <string name="invoice_detail">Invoice Detail</string>
     <string name="no_data_found">No Data Found!</string>
     <string name="forward">Forward</string>
+    <string name="next">Next</string>
+    <string name="pre_invoice_generate">Pre Invoice Generate</string>
+    <string name="invoice_generate">Invoice Generate</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

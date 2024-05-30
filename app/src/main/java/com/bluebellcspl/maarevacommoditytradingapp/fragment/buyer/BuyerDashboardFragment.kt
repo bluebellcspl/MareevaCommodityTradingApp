@@ -135,6 +135,8 @@ class BuyerDashboardFragment : Fragment() {
                 chatMenuItem.setVisible(true)
                 val invoiceMenuItem = menu.findItem(R.id.btn_Invoice)
                 invoiceMenuItem.setVisible(false)
+                val invoiceStockMenuItem = menu.findItem(R.id.btn_InvoiceStock)
+                invoiceStockMenuItem.setVisible(false)
                 if (NOTIFICATION_COUNT > 0) {
                     notificationMenuItem.setActionView(R.layout.notification_badge)
                     val view = notificationMenuItem.actionView

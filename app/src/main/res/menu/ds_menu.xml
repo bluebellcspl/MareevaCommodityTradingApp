@@ -22,6 +22,11 @@
     <item
         android:id="@+id/btn_Invoice"
         android:icon="@drawable/baseline_person_24"
-        android:title="Invoice"
+        android:title="@string/pre_invoice_generate"
+        />
+    <item
+        android:id="@+id/btn_InvoiceStock"
+        android:icon="@drawable/baseline_person_24"
+        android:title="@string/invoice_generate"
         />
 </menu>
