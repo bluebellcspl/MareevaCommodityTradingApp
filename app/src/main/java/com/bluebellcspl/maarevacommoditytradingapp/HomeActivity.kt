@@ -18,7 +18,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityHomeBindi
 import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
-    var _binding: ActivityHomeBinding?=null
+    var _binding: ActivityHomeBinding? = null
     val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(this) }
     lateinit var navController: NavController
@@ -33,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
             activityConf,
             baseContext.resources.displayMetrics
         )
-        PrefUtil.setBoolean(PrefUtil.KEY_HAS_LOGGEDIN_PREVIOUSLY,true)
+        PrefUtil.setBoolean(PrefUtil.KEY_HAS_LOGGEDIN_PREVIOUSLY, true)
         super.onCreate(savedInstanceState)
         with(window) {
             requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
@@ -42,45 +42,44 @@ class HomeActivity : AppCompatActivity() {
             enterTransition.duration = 700
             exitTransition.duration = 1000
         }
-        _binding = DataBindingUtil.setContentView(this@HomeActivity,R.layout.activity_home)
+        _binding = DataBindingUtil.setContentView(this@HomeActivity, R.layout.activity_home)
         DatabaseManager.initializeInstance(this)
         setSupportActionBar(binding.toolbarHome.toolbar)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
+        var CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME, "").toString()
+        setHomeDestination(CURRENT_USER)
         setupActionBarWithNavController(navController)
         binding.toolbarHome.toolbar.setupWithNavController(navController)
-        var CURRENT_USER = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString()
-        setHomeDestination(CURRENT_USER)
         Log.d(TAG, "onCreate: Current_DESTINATION : ${navController.currentDestination}")
     }
 
     override fun onBackPressed() {
-        if (navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/dashboardFragment")||navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/buyerDashboardFragment")||navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/PCADashboardFragment")) {
+        if (navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/dashboardFragment") || navController.currentDestination!!.displayName.equals(
+                "com.bluebellcspl.maarevacommoditytradingapp:id/buyerDashboardFragment"
+            ) || navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/PCADashboardFragment")
+        ) {
             finishAffinity()
         } else {
             navController.navigateUp()
         }
     }
 
-    fun setHomeDestination(usertype:String)
-    {
+    fun setHomeDestination(usertype: String) {
         try {
-            var startDestinationId = when (usertype) {
-                "Buyer"-> R.id.buyerDashboardFragment
-                "PCA" -> R.id.PCADashboardFragment
-                else -> R.id.dashboardFragment  // Provide a default fragment if needed
+            when (usertype) {
+                "Buyer" -> {
+                    navController.setGraph(R.navigation.my_nav)
+                    Log.d(TAG, "setHomeDestination: BUYER_NAV_GRAPH")
+                }
+
+                "PCA" -> {
+                    navController.setGraph(R.navigation.pca_nav)
+                    Log.d(TAG, "setHomeDestination: PCA_NAV_GRAPH")
+                }
             }
-
-            // Get the current navigation graph
-            val navInflater = navController.navInflater
-            val graph = navInflater.inflate(R.navigation.my_nav)
-
-            graph.setStartDestination(startDestinationId)
-
-            navController.graph = graph
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "setHomeDestination: ${e.message}")
         }

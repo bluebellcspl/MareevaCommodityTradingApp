@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.InvoiceMergedListAdapter
@@ -31,6 +32,7 @@ class PCAInvoiceDetailFragment : Fragment(),InvoiceDetailHelper{
     var postDataList= ArrayList<InvoiceEntryMergedModelItem>()
     private val TAG = "PCAInvoiceDetailFragment"
     lateinit var adapter:InvoiceMergedListAdapter
+    private val navController by lazy { findNavController() }
     var COMMODITY_ID = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -218,10 +220,7 @@ class PCAInvoiceDetailFragment : Fragment(),InvoiceDetailHelper{
 
     fun refreshData()
     {
-        if (ConnectionCheck.isConnected(requireContext()))
-        {
-            FetchMergedInvoiceDataAPI(requireContext(),this,args.startDate,args.endDate)
-        }
+        navController.navigate(PCAInvoiceDetailFragmentDirections.actionPCAInvoiceDetailFragmentToInvoiceStockFragment())
     }
 }
 

@@ -34,6 +34,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.POSTPCAAuctionDetailAP
 import com.bluebellcspl.maarevacommoditytradingapp.model.ApiPCAAuctionDetail
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTPCAAuctionData
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.SwipeToDeleteCallback
@@ -49,6 +50,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
     lateinit var adapter: PCAAuctionListAdapter
     lateinit var pcaAuctionList: ArrayList<ApiPCAAuctionDetail>
     lateinit var commodityBhartiRate: String
+    private  val  pcaAuctionDataModel by lazy { args.pcaAuctionDetailModel }
     var shopId = "0.0"
     var post_CurrentTotal = 0.0
     var post_CurrentPrice = 0.0
@@ -108,11 +110,12 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
         val itemTouchHelper = ItemTouchHelper(swipeToDelete)
         itemTouchHelper.attachToRecyclerView(binding.rcViewPCAAuctionListFrament)
         pcaAuctionList = args.pcaAuctionDetailModel.ApiPCAAuctionDetail
-        bindAuctionList(pcaAuctionList)
+        bindAuctionList(args.pcaAuctionDetailModel)
         return binding.root
     }
 
-     fun bindAuctionList(dataList: ArrayList<ApiPCAAuctionDetail>) {
+     fun bindAuctionList(model: PCAAuctionDetailModel) {
+         val dataList = model.ApiPCAAuctionDetail
         if (dataList.isNotEmpty()) {
             adapter = PCAAuctionListAdapter(requireContext(), dataList, this)
             binding.rcViewPCAAuctionListFrament.adapter = adapter
@@ -270,15 +273,15 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                 "",
                 model.PCAAuctionDetailId,
                 model.PCAAuctionMasterId,
+                DateUtility().getyyyyMMdd(),
                 "",
                 "",
+                pcaAuctionDataModel.PCARegId,
                 "",
-                "",
-                "",
-                "",
-                commodityBhartiRate,
-                "",
-                "",
+                pcaAuctionDataModel.CommodityId,
+                pcaAuctionDataModel.CommodityBhartiPrice,
+                pcaAuctionDataModel.APMCId,
+                pcaAuctionDataModel.AuctionMasterId,
                 "",
                 "",
                 "",

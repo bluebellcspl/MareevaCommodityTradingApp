@@ -32,15 +32,9 @@ import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCADashboardBinding
-import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerDashboardFragmentDirections
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchNotificationAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchPCAAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchPCAPreviousAuctionAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchShopMasterAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchTransportationMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAPrevAuctionMasterModel
 import com.google.android.material.datepicker.CalendarConstraints
@@ -129,6 +123,10 @@ class PCADashboardFragment : Fragment() {
                     }
                     R.id.btn_Invoice->{
                         navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToPCAInvoiceFragment())
+                    }
+
+                    R.id.btn_InvoiceStock->{
+                        navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToInvoiceStockFragment())
                     }
 
                     R.id.btn_Chat->{

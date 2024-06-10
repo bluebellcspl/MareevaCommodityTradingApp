@@ -87,6 +87,8 @@ class InvoiceMergedListAdapter(
         holder.binding.tvDateInvoiceDetailAdapter.setText(model.InvoiceDate)
         holder.binding.tvBagsInvoiceDetailAdapter.setText(model.BagsT)
         holder.binding.tvPCANameInvoiceDetailAdapter.setText("%s-%s".format(model.ShopNo,model.ShortShopName))
+        holder.binding.tvAmountInvoiceDetailAdapter.setText(model.AmountT)
+        holder.binding.tvWeightInvoiceDetailAdapter.setText(model.Previousweight)
         model.AmountT = "0"
         model.CurrentPriceT = "0"
         holder.calculateData(model)
@@ -124,11 +126,11 @@ class InvoiceMergedListAdapter(
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (holder.binding.tvWeightInvoiceDetailAdapter.text.toString().isNullOrBlank()) {
+                if (holder.binding.tvWeightInvoiceDetailAdapter.text.toString().isEmpty()) {
                     holder.binding.tvWeightInvoiceDetailAdapter.setText("0")
                     holder.binding.tvWeightInvoiceDetailAdapter.setSelection(1)
                 }
-                if (holder.binding.tvWeightInvoiceDetailAdapter.text.toString().length >= 2 && holder.binding.tvAmountInvoiceDetailAdapter.text.toString()
+                if (holder.binding.tvWeightInvoiceDetailAdapter.text.toString().length >= 2 && holder.binding.tvWeightInvoiceDetailAdapter.text.toString()
                         .startsWith("0")
                 ) {
                     val subStr =
@@ -137,6 +139,7 @@ class InvoiceMergedListAdapter(
                     holder.binding.tvWeightInvoiceDetailAdapter.setSelection(1)
                 }
                 holder.calculateData(model)
+
             }
         })
     }

@@ -187,18 +187,18 @@ class BuyerDashboardFragment : Fragment() {
         try {
             if (ConnectionCheck.isConnected(requireContext().applicationContext)) {
                 FetchApprovedPCAListAPI(
-                    requireContext().applicationContext,
+                    requireActivity(),
                     requireActivity(),
                     this@BuyerDashboardFragment
                 )
-                FetchCityMasterAPI(requireContext().applicationContext, requireActivity())
+                FetchCityMasterAPI(requireContext(), requireActivity())
                 FetchBuyerAuctionDetailAPI(
-                    requireContext().applicationContext,
+                    requireContext(),
                     requireActivity(),
                     this@BuyerDashboardFragment
                 )
                 FetchBuyerPreviousAuctionAPI(
-                    requireContext().applicationContext,
+                    requireContext(),
                     this@BuyerDashboardFragment,
                     PREV_AUCTION_SELECTED_DATE
                 )

@@ -6,7 +6,7 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -14,56 +14,69 @@
             android:id="@+id/cv_InvoiceStockAdapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorSecondaryLight"
             app:cardCornerRadius="@dimen/_5sdp"
             app:cardElevation="@dimen/_4sdp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:cardUseCompatPadding="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="match_parent"
+                android:background="@drawable/outline_bg">
                 <LinearLayout
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/mChb_InvoiceStockAdapter"
                     android:id="@+id/llStockDetail_InvoiceStockAdapter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@id/mChb_InvoiceStockAdapter"
                     android:orientation="vertical"
                     android:padding="@dimen/_5sdp">
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="@dimen/_2sdp">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.25"
-                            android:gravity="center_vertical"
-                            android:text="@string/date"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_15ssp" />
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_weight="0.25"-->
+<!--                            android:gravity="center_vertical"-->
+<!--                            android:text="@string/date"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/_15ssp" />-->
 
-                        <TextView
-                            android:id="@+id/tvDate_InvoiceStockAdapter"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5"
-                            android:text=""
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_15ssp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/tvDate_InvoiceStockAdapter"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_weight="0.5"-->
+<!--                            android:text=""-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/_15ssp"-->
+<!--                            android:textStyle="bold" />-->
+<!--                        <com.google.android.material.textfield.TextInputLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                            app:boxStrokeColor="@color/colorPrimary"-->
+<!--                            android:hint="@string/date">-->
+<!--                            <com.google.android.material.textfield.TextInputEditText-->
+<!--                                android:enabled="false"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:padding="@dimen/_11sdp"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:id="@+id/tvDate_InvoiceStockAdapter"/>-->
+<!--                        </com.google.android.material.textfield.TextInputLayout>-->
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:orientation="horizontal"
                         android:padding="@dimen/_2sdp">
 
@@ -76,12 +89,18 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/_13ssp" />
 
-                        <TextView
-                            android:id="@+id/tvBags_InvoiceStockAdapter"
+                        <EditText
+                            style="@style/EditTextNoUnderline"
+                            android:id="@+id/edtBags_InvoiceStockAdapter"
+                            android:textCursorDrawable="@drawable/custom_cursor"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.5"
                             android:text=""
+                            android:enabled="false"
+                            android:selectAllOnFocus="true"
+                            android:inputType="numberDecimal"
+                            android:padding="@dimen/_5sdp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_13ssp"
                             android:textStyle="bold" />
@@ -165,7 +184,6 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
-
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/mChb_InvoiceStockAdapter"
                     android:layout_width="wrap_content"
@@ -177,5 +195,26 @@
                     android:scaleY="1.2" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/_6sdp"
+            app:cardElevation="@dimen/_4sdp"
+            app:cardUseCompatPadding="true"
+            app:layout_anchor="@id/cv_InvoiceStockAdapter"
+            app:layout_anchorGravity="top|left"
+            android:layout_marginStart="@dimen/_8sdp"
+            app:cardBackgroundColor="@color/colorSecondaryLight"
+            android:layout_marginTop="@dimen/_minus8sdp">
+            <TextView
+                android:id="@+id/tvDate_InvoiceStockAdapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:padding="@dimen/_3sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

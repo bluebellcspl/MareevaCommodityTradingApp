@@ -62,7 +62,7 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                                 (fragment as PCAAuctionFragment).updateUIFromAPIData(pcaAuctionDetailModel)
                             }else if (fragment is PCAAuctionListFragment)
                             {
-                                (fragment as PCAAuctionListFragment).bindAuctionList(pcaAuctionDetailModel.ApiPCAAuctionDetail)
+                                (fragment as PCAAuctionListFragment).bindAuctionList(pcaAuctionDetailModel)
                             }else if (fragment is PCADashboardFragment)
                             {
                                 (fragment as PCADashboardFragment).bindBuyerAllocatedData(pcaAuctionDetailModel)

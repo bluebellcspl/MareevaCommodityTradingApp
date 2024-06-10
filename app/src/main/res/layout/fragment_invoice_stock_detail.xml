@@ -10,18 +10,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.pca.InvoiceStockFragment"
-        android:padding="@dimen/_3sdp">
+        android:padding="@dimen/_3sdp"
+        tools:context=".fragment.pca.InvoiceStockDetailFragment">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/llStockDetail_InvoiceStockFragment"
+            android:id="@+id/llStockDetail_InvoiceStockDetailFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_5sdp"
             app:cardCornerRadius="@dimen/_5sdp"
             android:layout_alignParentTop="true"
-            android:visibility="gone"
-            app:cardBackgroundColor="@color/subtotalBG"
+            app:cardBackgroundColor="@color/totalBG"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
@@ -56,7 +55,7 @@
                         android:textSize="@dimen/_13ssp" />
 
                     <EditText
-                        android:id="@+id/edtBags_InvoiceStockFragment"
+                        android:id="@+id/edtBags_InvoiceStockDetailFragment"
                         style="@style/EditTextNoUnderline"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -86,7 +85,7 @@
                         android:textSize="@dimen/_13ssp" />
 
                     <TextView
-                        android:id="@+id/tvWeight_InvoiceStockFragment"
+                        android:id="@+id/tvWeight_InvoiceStockDetailFragment"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
@@ -112,7 +111,7 @@
                         android:textSize="@dimen/_13ssp" />
 
                     <TextView
-                        android:id="@+id/tvRate_InvoiceStockFragment"
+                        android:id="@+id/tvRate_InvoiceStockDetailFragment"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
@@ -138,7 +137,7 @@
                         android:textSize="@dimen/_13ssp" />
 
                     <TextView
-                        android:id="@+id/tvAmount_InvoiceStockFragment"
+                        android:id="@+id/tvAmount_InvoiceStockDetailFragment"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
@@ -148,36 +147,11 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_2sdp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.25"
-                        android:gravity="center_vertical"
-                        android:text="@string/remiaing_kgs"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_13ssp" />
-
-                    <TextView
-                        android:id="@+id/tvRemainingKG_InvoiceStockFragment"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_13ssp"
-                        android:textStyle="bold" />
-                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.core.widget.NestedScrollView
-            android:layout_below="@id/llStockDetail_InvoiceStockFragment"
+            android:layout_below="@id/llStockDetail_InvoiceStockDetailFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -186,18 +160,17 @@
                 android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rc_View_InvoiceStockFragment"
+                    android:id="@+id/rc_View_InvoiceStockDetailFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/invoice_stock_adapter"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNext_InvoiceStockFragment"
+                    android:id="@+id/btnNext_InvoiceStockDetailFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/rc_View_InvoiceStockFragment"
+                    android:layout_below="@id/rc_View_InvoiceStockDetailFragment"
                     android:layout_margin="@dimen/_5sdp"
                     android:text="@string/next"
                     android:textSize="@dimen/_16ssp" />

@@ -5,14 +5,12 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
@@ -22,8 +20,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.master.FetchChatRecipientAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.UserChatInfoModel
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
 
 

@@ -29,6 +29,7 @@ class FetchInvoiceStockAPI(var context: Context,var fragment:InvoiceStockFragmen
     }
 
     private fun getInvoiceStock() {
+        commonUIUtility.showProgress()
         try {
             val JO = JsonObject().apply {
                 addProperty("CurrentDate",DateUtility().getyyyyMMdd())
@@ -48,6 +49,12 @@ class FetchInvoiceStockAPI(var context: Context,var fragment:InvoiceStockFragmen
                     if (result.body()!!.isJsonArray)
                     {
                         val invoiceStockList = Gson().fromJson(result.body()!!,InvoiceStockModel::class.java)
+                        withContext(Dispatchers.Main)
+                        {
+                            commonUIUtility.dismissProgress()
+                            fragment.bindInvoiceList(invoiceStockList)
+                        }
+                        job.cancel()
                     }
                     else if (result.body()!!.isJsonObject)
                     {
@@ -59,6 +66,7 @@ class FetchInvoiceStockAPI(var context: Context,var fragment:InvoiceStockFragmen
                                 commonUIUtility.dismissProgress()
 //                                commonUIUtility.showToast(responseJO.get())
                             }
+                            job.cancel()
                         }
                     }
                 }else
@@ -69,9 +77,9 @@ class FetchInvoiceStockAPI(var context: Context,var fragment:InvoiceStockFragmen
                         commonUIUtility.dismissProgress()
                         commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
                     }
+                    job.cancel()
                 }
             }
-            job.cancel()
         }catch (e:Exception)
         {
             job.cancel()

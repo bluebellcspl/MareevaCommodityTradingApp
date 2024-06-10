@@ -40,6 +40,7 @@ class NotificationFragment : Fragment() {
     private var isLoading = false
     private var isLastPage = false
     lateinit var adapter: NotificationAdapter
+    lateinit var notificationMasterModel:NotificationRTRMasterModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -172,16 +173,24 @@ class NotificationFragment : Fragment() {
     private fun getUnseenNotification():ArrayList<POSTSeenNotificationModel>{
         val dataList = ArrayList<POSTSeenNotificationModel>()
         try {
-            val cursor = DatabaseManager.ExecuteRawSql(Query.getUnseenNotification())
-            if (cursor!= null && cursor.count>0)
+//            val cursor = DatabaseManager.ExecuteRawSql(Query.getUnseenNotification())
+//            if (cursor!= null && cursor.count>0)
+//            {
+//                while (cursor.moveToNext())
+//                {
+//                    val model = POSTSeenNotificationModel(cursor.getString(cursor.getColumnIndexOrThrow("NotificationId")))
+//                    dataList.add(model)
+//                }
+//                Log.d(TAG, "getUnseenNotification: UNSEEN_NOTIFICATION_LIST_COUNT : ${dataList.size}")
+//            }
+            for (model in notificationMasterModel)
             {
-                while (cursor.moveToNext())
+                if (model.ISRead.equals("false"))
                 {
-                    val model = POSTSeenNotificationModel(cursor.getString(cursor.getColumnIndexOrThrow("NotificationId")))
-                    dataList.add(model)
+                    dataList.add(POSTSeenNotificationModel(model.NotificationId.toString()))
                 }
-                Log.d(TAG, "getUnseenNotification: UNSEEN_NOTIFICATION_LIST_COUNT : ${dataList.size}")
             }
+            Log.d(TAG, "getUnseenNotification: UNREAD_NOTIFICATION_LIST : $dataList")
         } catch (e: Exception) {
             dataList.clear()
             e.printStackTrace()
@@ -192,6 +201,7 @@ class NotificationFragment : Fragment() {
 
     fun newBindNotificationList(notificationModel: NotificationRTRMasterModel) {
         try {
+            notificationMasterModel = notificationModel
             binding.rcViewNotificationFragment.adapter = adapter
             adapter.addNewData(notificationModel)
         }catch (e:Exception)

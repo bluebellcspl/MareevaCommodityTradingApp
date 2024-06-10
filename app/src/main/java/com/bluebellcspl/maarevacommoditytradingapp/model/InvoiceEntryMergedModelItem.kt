@@ -19,6 +19,8 @@ data class InvoiceEntryMergedModelItem(
     var InvoiceStatus: String,
     var PCAAuctionDetailId: String,
     var PCAregId: String,
+    var Previousrate: String,
+    var Previousweight: String,
     var ShopAddress: String,
     var ShopId: String,
     var ShopNo: String,

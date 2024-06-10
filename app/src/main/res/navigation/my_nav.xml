@@ -3,40 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/dashboardFragment">
+    app:startDestination="@id/buyerDashboardFragment">
 
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment"
         android:label="@string/dashboard"
         tools:layout="@layout/fragment_dashboard" />
-    <fragment
-        android:id="@+id/PCAAuctionFragment"
-        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionFragment"
-        android:label="@string/pca_auction"
-        tools:layout="@layout/fragment_p_c_a_auction" >
-        <argument
-            android:name="userType"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_PCAAuctionFragment_to_dashboardFragment"
-            app:destination="@id/PCADashboardFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/PCADashboardFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_PCAAuctionFragment_to_PCAAuctionListFragment"
-            app:destination="@id/PCAAuctionListFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/PCAAuctionFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-    </fragment>
     <fragment
         android:id="@+id/addPCAFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.AddPCAFragment"
@@ -89,15 +62,6 @@
         <argument
             android:name="pcaListModel"
             app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem" />
-    </fragment>
-    <fragment
-        android:id="@+id/PCAAuctionListFragment"
-        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionListFragment"
-        android:label="Shop List"
-        tools:layout="@layout/fragment_p_c_a_auction_list">
-        <argument
-            android:name="pcaAuctionDetailModel"
-            app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel" />
     </fragment>
     <fragment
         android:id="@+id/liveAuctionFragment"
@@ -210,53 +174,6 @@
             app:destination="@id/buyerChatListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/PCADashboardFragment"
-        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragment"
-        android:label="@string/dashboard"
-        tools:layout="@layout/fragment_p_c_a_dashboard" >
-        <action
-            android:id="@+id/action_PCADashboardFragment_to_PCAAuctionFragment"
-            app:destination="@id/PCAAuctionFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_PCADashboardFragment_to_profileOptionFragment"
-            app:destination="@id/profileOptionFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_PCADashboardFragment_to_PCAPreviousAuctionFragment"
-            app:destination="@id/PCAPreviousAuctionFragment"
-            app:popUpTo="@id/PCADashboardFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_PCADashboardFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
-        <action
-            android:id="@+id/action_PCADashboardFragment_to_PCAInvoiceFragment"
-            app:destination="@id/PCAInvoiceFragment"
-            app:popUpTo="@id/PCADashboardFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_PCADashboardFragment_to_PCAChatListFragment"
-            app:destination="@id/PCAChatListFragment"
-            app:popUpTo="@id/PCADashboardFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-    </fragment>
-    <fragment
         android:id="@+id/buyerPreviousAuctionFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerPreviousAuctionFragment"
         android:label="@string/buyer_previous_auction"
@@ -279,20 +196,6 @@
         android:id="@+id/notificationFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.NotificationFragment"
         android:label="@string/notifications" />
-    <fragment
-        android:id="@+id/PCAInvoiceFragment"
-        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAInvoiceFragment"
-        android:label="@string/invoice"
-        tools:layout="@layout/fragment_p_c_a_invoice">
-        <action
-            android:id="@+id/action_PCAInvoiceFragment_to_PCAInvoiceDetailFragment"
-            app:destination="@id/PCAInvoiceDetailFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/PCAInvoiceFragment" />
-    </fragment>
     <fragment
         android:id="@+id/buyerChatListFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerChatListFragment"
@@ -323,19 +226,6 @@
             app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
-        android:id="@+id/PCAChatListFragment"
-        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAChatListFragment"
-        android:label="@string/chat"
-        tools:layout="@layout/fragment_p_c_a_chat_list">
-        <action
-            android:id="@+id/action_PCAChatListFragment_to_chatBoxFragment"
-            app:destination="@id/chatBoxFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
-    </fragment>
-    <fragment
         android:id="@+id/chatImageViewFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.ChatImageViewFragment"
         android:label="ChatImageViewFragment"
@@ -343,20 +233,5 @@
         <argument
             android:name="chatImageInfo"
             app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.ChatImageInfoModel" />
-    </fragment>
-    <fragment
-        android:id="@+id/PCAInvoiceDetailFragment"
-        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAInvoiceDetailFragment"
-        android:label="@string/invoice_detail"
-        tools:layout="@layout/fragment_p_c_a_invoice_detail" >
-        <argument
-            android:name="startDate"
-            app:argType="string" />
-        <argument
-            android:name="endDate"
-            app:argType="string" />
-        <argument
-            android:name="commodityId"
-            app:argType="string" />
     </fragment>
 </navigation>

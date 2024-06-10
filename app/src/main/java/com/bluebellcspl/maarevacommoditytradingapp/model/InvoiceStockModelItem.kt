@@ -1,5 +1,9 @@
 package com.bluebellcspl.maarevacommoditytradingapp.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class InvoiceStockModelItem(
     var AvailableBag1: String,
     var AvailableBags: String,
@@ -30,5 +34,6 @@ data class InvoiceStockModelItem(
     var UsedBagWeightKg: String,
     var UsedBags: String,
     var UsedInvoiceApproxKg: String,
-    var UsedInvoiceKg: String
-)
+    var UsedInvoiceKg: String,
+    var isSelected:Boolean = false
+):Parcelable

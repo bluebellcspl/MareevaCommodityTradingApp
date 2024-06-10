@@ -1,6 +1,7 @@
 package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 
 import ConnectionCheck
+import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.icu.text.NumberFormat
 import android.icu.text.SimpleDateFormat
@@ -20,6 +21,7 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.core.view.isEmpty
+import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -61,6 +63,7 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
     var fromSelectedDate = 0L
     var toSelectedDate = 0L
     var COMMODITY_ID = ""
+    var isExpanded = false
     lateinit var menuHost: MenuHost
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,6 +89,15 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
                 return true
             }
         },viewLifecycleOwner,Lifecycle.State.STARTED)
+
+        binding.nestedScrollViewPCAInvoiceFragment.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, _, _, _ ->
+            Log.d(TAG, "onCreateView: HEIGHT_NESTVIEW : ${binding.nestedScrollViewPCAInvoiceFragment.height}")
+            if (!isExpanded) {
+                animateHeight(binding.nestedScrollViewPCAInvoiceFragment, resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._200sdp))
+                isExpanded = true
+            }
+        })
+
         setOnClickListeners()
 
 
@@ -109,6 +121,24 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
 
         }
         return binding.root
+    }
+
+    private fun animateHeight(view: View, targetHeightPx: Int) {
+        try {
+            val initialHeight = view.height
+            val animator = ValueAnimator.ofInt(initialHeight, targetHeightPx)
+            animator.addUpdateListener { valueAnimator ->
+                val animatedValue = valueAnimator.animatedValue as Int
+                val layoutParams = view.layoutParams
+                layoutParams.height = animatedValue
+                view.layoutParams = layoutParams
+            }
+            animator.duration = 300
+            animator.start()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "animateHeight: ${e.message}", )
+        }
     }
 
     override fun onDestroy() {
@@ -450,6 +480,13 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
                     NumberFormat.getCurrencyInstance().format(fr_shop_total_amount.toDouble())
                         .substring(1).split(".")[0]
             }
+        }
+
+        if (isExpanded)
+        {
+            animateHeight(binding.nestedScrollViewPCAInvoiceFragment, resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._50sdp))
+            Log.d(TAG, "getSelectedInvoiceData: HEIGHT_NESTVIEW : ${binding.nestedScrollViewPCAInvoiceFragment.height}")
+            isExpanded = false
         }
 
         if (shop_bags > 0) {

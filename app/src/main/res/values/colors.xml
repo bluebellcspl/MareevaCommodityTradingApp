@@ -20,4 +20,6 @@
     <color name="amber">#ffb600</color>
     <color name="disableText">#6B6868</color>
     <color name="unReadChatBadge">#B10E0E</color>
+    <color name="totalBG">#FDD5AF</color>
+    <color name="subtotalBG">#A3D3F1</color>
 </resources>
