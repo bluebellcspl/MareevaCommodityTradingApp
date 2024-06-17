@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.pca.InvoicePreviewFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvPCATitle_InvoicePreviewFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/_10sdp"
+                    android:text="PCA Title"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/_22ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_Card1_InvoicePreviewFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/colorSecondary"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPCATitle_InvoicePreviewFragment">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/outline_bg"
+                        android:padding="@dimen/_5sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_2sdp">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.2"
+                                    android:gravity="center_vertical"
+                                    android:text="@string/pan_no"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+
+                                <TextView
+                                    android:id="@+id/tvPANNo_InvoicePreviewFragment"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.5"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_5sdp"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_2sdp">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.2"
+                                    android:gravity="center_vertical"
+                                    android:text="@string/gstin"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+
+                                <TextView
+                                    android:id="@+id/tvGSTIN_InvoicePreviewFragment"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.5"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_5sdp"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_2sdp">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.2"
+                                    android:gravity="center_vertical"
+                                    android:text="@string/state"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+
+                                <TextView
+                                    android:id="@+id/tvState_InvoicePreviewFragment"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.5"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_5sdp"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_2sdp">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.2"
+                                    android:gravity="center_vertical"
+                                    android:text="@string/mobile_no"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+
+                                <TextView
+                                    android:id="@+id/tvMobileNo_InvoicePreviewFragment"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.5"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_5sdp"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_Card2_InvoicePreviewFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/colorSecondary"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_Card1_InvoicePreviewFragment">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/outline_bg"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/edt_InvoiceNoContainer_InvoicePreviewFragment"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/invoice_no"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary"
+                                app:endIconMode="clear_text">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_InvoiceNo_InvoicePreviewFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_8sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_14ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/edt_InvoiceDateContainer_InvoicePreviewFragment"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/invoice_date"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary"
+                                app:endIconMode="clear_text">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_InvoiceDate_InvoicePreviewFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_8sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_14ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/buyer_name"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_BuyerName_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_8sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/buyer_address"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_BuyerAddress_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_8sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+
+                            android:hint="@string/buyer_city"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_BuyerCity_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_8sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/buyer_pan_no"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_BuyerPAN_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_8sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/buyer_gstin"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_BuyerGSTIN_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_8sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/vehicle_no"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_TransportVehicle_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:enabled="false"
+                                android:padding="@dimen/_8sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_View_InvoicePreviewFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_Card2_InvoicePreviewFragment"
+                    tools:listitem="@layout/invoice_preview_item_adapter" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_TotalCalculation_InvoicePreviewFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/colorSecondary"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rc_View_InvoicePreviewFragment">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/outline_bg"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_5sdp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total"
+                            android:padding="@dimen/_3sdp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/_15ssp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/bags"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_Bags_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:enabled="false"
+                                android:padding="@dimen/_5sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/amount_before_exp"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_BasicAmount_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:enabled="false"
+                                android:padding="@dimen/_5sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/expense"
+                            android:padding="@dimen/_3sdp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/_15ssp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/gca_comm_short"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary"
+                                app:endIconMode="clear_text">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_GCAComm_InvoicePreviewFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_5sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/pca_comm_short"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary"
+                                app:endIconMode="clear_text">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_PCAComm_InvoicePreviewFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_5sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/edt_MarketFeesContainer_InvoicePreviewFragment"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/market_fees"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary"
+                                app:endIconMode="clear_text">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_MarketFees_InvoicePreviewFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_5sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/transport"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary"
+                                app:endIconMode="clear_text">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_Transport_InvoicePreviewFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_5sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/labour"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary"
+                                app:endIconMode="clear_text">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_Labour_InvoicePreviewFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:enabled="false"
+                                    android:padding="@dimen/_5sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/grand_total"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:padding="@dimen/_3sdp"
+                            android:textSize="@dimen/_15ssp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/total_gst"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_GST_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:enabled="false"
+                                android:padding="@dimen/_5sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/total_amount"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:endIconMode="clear_text">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_TotalAmount_InvoicePreviewFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:enabled="false"
+                                android:padding="@dimen/_5sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_14ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_SubmitNDownload_InvoicePreviewFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/submit_download"
+                            app:cornerRadius="@dimen/_5sdp"
+                            android:layout_margin="@dimen/_5sdp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

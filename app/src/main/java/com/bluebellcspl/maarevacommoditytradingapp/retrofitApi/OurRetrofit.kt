@@ -214,4 +214,9 @@ interface OurRetrofit {
     @Body body: JsonObject,
   ):Response<JsonElement>
 
+  @POST("/API/MaarevaApi/MaarevaApi/InvoicePreviewGet")
+  suspend fun getInvoicePreview(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
+
 }

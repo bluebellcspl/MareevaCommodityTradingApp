@@ -223,7 +223,11 @@
             android:id="@+id/action_PCAInvoiceDetailFragment_to_invoiceStockFragment"
             app:destination="@id/invoiceStockFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/PCAInvoiceDetailFragment" />
+            app:popUpTo="@id/PCAInvoiceDetailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:label="@string/invoice_stock"
@@ -234,7 +238,11 @@
             android:id="@+id/action_invoiceStockFragment_to_invoiceStockDetailFragment"
             app:destination="@id/invoiceStockDetailFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/invoiceStockFragment" />
+            app:popUpTo="@id/invoiceStockFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/invoiceStockDetailFragment"
@@ -244,5 +252,29 @@
         <argument
             android:name="invoiceStocKList"
             app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceStockModelItem[]" />
+        <action
+            android:id="@+id/action_invoiceStockDetailFragment_to_invoicePreviewFragment"
+            app:destination="@id/invoicePreviewFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/invoiceStockDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/invoicePreviewFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.InvoicePreviewFragment"
+        android:label="@string/invoice_preview"
+        tools:layout="@layout/fragment_invoice_preview">
+        <argument
+            android:name="invoiceStocKList"
+            app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceStockModelItem[]" />
+        <argument
+            android:name="gstStatus"
+            app:argType="boolean" />
+        <argument
+            android:name="vehicleNo"
+            app:argType="string" />
     </fragment>
 </navigation>

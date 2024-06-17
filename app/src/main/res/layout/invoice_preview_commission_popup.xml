@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_450sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_8sdp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/colorSecondaryLight">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_8sdp">
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/nestedScrollView_InvoicePreviewPopup"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/btnSave_InvoicePreviewPopup"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:scrollbars="vertical"
+                    tools:layout_editor_absoluteX="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/expenses"
+                            android:textSize="@dimen/_16ssp"
+                            android:textColor="@color/colorPrimaryDark" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/basic_amount"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_BasicAmount_InvoicePreviewPopup"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:inputType="numberDecimal"
+                                android:selectAllOnFocus="true"
+                                android:padding="@dimen/_8sdp"
+                                android:enabled="false"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/gca_comm_short"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_GCAComm_InvoicePreviewPopup"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:inputType="numberDecimal"
+                                    android:selectAllOnFocus="true"
+                                    android:padding="@dimen/_8sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tv_GCACommAmount_InvoicePreviewPopup"
+                                android:layout_gravity="center_vertical"
+                                android:textSize="@dimen/_14ssp"
+                                android:textColor="@color/black"
+                                android:gravity="center_vertical|center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/pca_comm_short"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_PCAComm_InvoicePreviewPopup"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:inputType="numberDecimal"
+                                    android:selectAllOnFocus="true"
+                                    android:padding="@dimen/_8sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tv_PCACommAmount_InvoicePreviewPopup"
+                                android:layout_gravity="center_vertical"
+                                android:textSize="@dimen/_14ssp"
+                                android:textColor="@color/black"
+                                android:gravity="center_vertical|center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/market_fees"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_MarketFees_InvoicePreviewPopup"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:inputType="numberDecimal"
+                                    android:selectAllOnFocus="true"
+                                    android:padding="@dimen/_8sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tv_MarketFeesAmount_InvoicePreviewPopup"
+                                android:layout_gravity="center_vertical"
+                                android:textSize="@dimen/_14ssp"
+                                android:textColor="@color/black"
+                                android:gravity="center_vertical|center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/transport"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_Transport_InvoicePreviewPopup"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:inputType="numberDecimal"
+                                    android:selectAllOnFocus="true"
+                                    android:padding="@dimen/_8sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tv_TransportAmount_InvoicePreviewPopup"
+                                android:layout_gravity="center_vertical"
+                                android:textSize="@dimen/_14ssp"
+                                android:textColor="@color/black"
+                                android:gravity="center_vertical|center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/labour"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_Labour_InvoicePreviewPopup"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:inputType="numberDecimal"
+                                    android:selectAllOnFocus="true"
+                                    android:padding="@dimen/_8sdp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tv_LabourAmount_InvoicePreviewPopup"
+                                android:layout_gravity="center_vertical"
+                                android:textSize="@dimen/_14ssp"
+                                android:textColor="@color/black"
+                                android:gravity="center_vertical|center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:hint="@string/total_gst"
+                                app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                                app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                                app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                                app:boxStrokeColor="@color/colorPrimary">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edt_GSTAmount_InvoicePreviewPopup"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:inputType="numberDecimal"
+                                    android:selectAllOnFocus="true"
+                                    android:padding="@dimen/_8sdp"
+                                    android:enabled="false"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_13ssp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/tv_GSTTotal_Percentage_InvoicePreviewPopup"
+                                android:layout_gravity="center_vertical"
+                                android:textSize="@dimen/_14ssp"
+                                android:textColor="@color/black"
+                                android:gravity="center_vertical|center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:hint="@string/total_amount"
+                            app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                            app:boxStrokeColor="@color/colorPrimary">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edt_TotalAmount_InvoicePreviewPopup"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:inputType="numberDecimal"
+                                android:selectAllOnFocus="true"
+                                android:enabled="false"
+                                android:padding="@dimen/_8sdp"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSave_InvoicePreviewPopup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save"
+                    android:textSize="@dimen/_14sdp"
+                    app:cornerRadius="@dimen/_8sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

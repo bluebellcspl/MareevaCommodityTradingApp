@@ -208,6 +208,27 @@
     <string name="stock_details">Stock Details</string>
     <string name="select_tax">Select Tax</string>
     <string name="total_stock">Total Stock</string>
+    <string name="pan_no">PAN No.</string>
+    <string name="gstin">GSTIN</string>
+    <string name="mobile_no">Mobile No.</string>
+    <string name="invoice_no">Invoice No.</string>
+    <string name="invoice_date">Invoice Date</string>
+    <string name="buyer_name">Buyer Name</string>
+    <string name="buyer_address">Buyer Address</string>
+    <string name="buyer_city">Buyer City</string>
+    <string name="buyer_pan_no">Buyer PAN No.</string>
+    <string name="buyer_gstin">Buyer GSTIN</string>
+    <string name="hsn_code">HSN Code</string>
+    <string name="total">Total</string>
+    <string name="amount_before_exp">Amount Before Exp.</string>
+    <string name="gca_comm_short">GCA Comm.</string>
+    <string name="pca_comm_short">PCA Comm.</string>
+    <string name="market_fees">Market Fees</string>
+    <string name="transport">Transport</string>
+    <string name="labour">Labour</string>
+    <string name="total_gst">Total GST</string>
+    <string name="submit_download"><![CDATA[Submit & Download]]></string>
+    <string name="invoice_preview">Invoice Preview</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

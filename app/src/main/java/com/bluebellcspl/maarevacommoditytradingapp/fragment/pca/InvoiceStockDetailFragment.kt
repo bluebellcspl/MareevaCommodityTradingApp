@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
@@ -17,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.InvoiceStockDetailAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.RtoNumberInputFilter
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentInvoiceStockDetailBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.InvoiceStockPopupFinalBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceStockModelItem
@@ -152,17 +154,20 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
 
             dialogBinding.edtVehicleNoInvoiceStockPopup.addTextChangedListener(object : TextWatcher {
                 private var isFormatting: Boolean = false
-                private var cursorPosition: Int = 0
                 private var beforeLength: Int = 0
+                private var cursorPosition: Int = 0
+                private var deleting: Boolean = false
 
                 override fun afterTextChanged(s: Editable?) {
-                    if (isFormatting) return
+                    Log.d(TAG, "afterTextChanged: =================================== START")
+                    Log.d(TAG, "afterTextChanged: BEFORE_LEN : $beforeLength")
+                    Log.d(TAG, "afterTextChanged: CURSOR_POS : $cursorPosition")
+                    if (isFormatting || s == null) return
 
                     isFormatting = true
 
                     // Remove all spaces
                     val originalString = s.toString().replace(" ", "")
-
                     val formattedString = StringBuilder()
 
                     for (i in originalString.indices) {
@@ -173,10 +178,24 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
                         }
                     }
 
-                    cursorPosition += formattedString.length - s!!.length
+                    val newString = formattedString.toString().toUpperCase()
 
-                    dialogBinding.edtVehicleNoInvoiceStockPopup.setText(formattedString.toString().toUpperCase())
-                    dialogBinding.edtVehicleNoInvoiceStockPopup.setSelection(cursorPosition)
+                    // Calculate the new cursor position
+                    var newCursorPosition = cursorPosition
+                    if (deleting && cursorPosition > 0 && newCursorPosition > 0 && newString[cursorPosition - 1] == ' ') {
+                        newCursorPosition--
+                    }
+
+                    dialogBinding.edtVehicleNoInvoiceStockPopup.setText(newString)
+                    if (newCursorPosition > newString.length) newCursorPosition = newString.length
+                    if (beforeLength == cursorPosition) newCursorPosition = newString.length
+                    if (newCursorPosition < 0) newCursorPosition = 0
+                    dialogBinding.edtVehicleNoInvoiceStockPopup.setSelection(newCursorPosition)
+
+                    Log.d(TAG, "afterTextChanged: =================================== END")
+                    Log.d(TAG, "afterTextChanged: BEFORE_LEN : $beforeLength")
+                    Log.d(TAG, "afterTextChanged: CURSOR_POS : $cursorPosition")
+                    Log.d(TAG, "afterTextChanged: NEW_STR : $newString")
 
                     isFormatting = false
 
@@ -188,6 +207,7 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
                         dialogBinding.edtVehicleNoContainerInvoiceStockPopup.boxStrokeColor = requireContext().getColor(R.color.unReadChatBadge)
                         isValidRTO = false
                     }
+
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -195,6 +215,7 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
 
                     beforeLength = s?.length ?: 0
                     cursorPosition = start
+                    deleting = count > after
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -204,7 +225,32 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
                 }
             })
 
+
             dialogBinding.btnNextInvoiceStockPopup.setOnClickListener {
+
+                 if (dialogBinding.actGSTInvoiceStockPopup.text.toString().isEmpty()){
+                    commonUIUtility.showToast("Please Select GST")
+                    return@setOnClickListener
+                }else
+                {
+                    if (dialogBinding.edtVehicleNoInvoiceStockPopup.text.toString().isNotEmpty()){
+                        if (!isValidRTO){
+                            commonUIUtility.showToast("Please Enter Valid RTO Number")
+                            return@setOnClickListener
+                        }
+                    }
+                    val gst = dialogBinding.actGSTInvoiceStockPopup.text.toString()
+                    val rtoNumber = dialogBinding.edtVehicleNoInvoiceStockPopup.text.toString()
+                    var gstStatus:Boolean
+                    if (gst.contains("without",true)){
+                        gstStatus = false
+                    }else
+                    {
+                        gstStatus = true
+                    }
+                    Log.d(TAG, "shopFinalPopup: GST_STATUS : $gstStatus")
+                    navController.navigate(InvoiceStockDetailFragmentDirections.actionInvoiceStockDetailFragmentToInvoicePreviewFragment(_InvoiceStockList!!.toTypedArray(),gstStatus,rtoNumber))
+                }
                 alertDialog.dismiss()
             }
         } catch (e: Exception) {
@@ -217,6 +263,8 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
         val rtoPattern = "^[A-Z]{2} [0-9]{2} [A-Z]{2} [0-9]{4}$"
         return Pattern.compile(rtoPattern).matcher(rtoNumber).matches()
     }
+
+
 
 }
 

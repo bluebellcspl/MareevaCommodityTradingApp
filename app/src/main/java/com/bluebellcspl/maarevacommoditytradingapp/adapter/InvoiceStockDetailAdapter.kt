@@ -127,27 +127,29 @@ class InvoiceStockDetailAdapter(
                 if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().isEmpty()) {
                     holder.binding.edtBagsInvoiceStockAdapter.setText("0")
                     holder.binding.edtBagsInvoiceStockAdapter.setSelection(1)
+                    Log.d(TAG, "afterTextChanged: ZERO_CONDITION")
                 }
-                if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().endsWith(".")) {
-                    val stringBuilder =
-                        StringBuilder(holder.binding.edtBagsInvoiceStockAdapter.text.toString())
-                    stringBuilder.append("50")
-                    holder.binding.edtBagsInvoiceStockAdapter.setText(stringBuilder.toString())
-                    holder.binding.edtBagsInvoiceStockAdapter.setSelection(stringBuilder.length)
-                }
-                if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().length >= 2 && holder.binding.edtBagsInvoiceStockAdapter.text.toString()
+                else if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().length >= 2 && holder.binding.edtBagsInvoiceStockAdapter.text.toString()
                         .startsWith("0")
                 ) {
                     val subStr =
                         holder.binding.edtBagsInvoiceStockAdapter.text.toString().substring(1)
                     holder.binding.edtBagsInvoiceStockAdapter.setText(subStr)
                     holder.binding.edtBagsInvoiceStockAdapter.setSelection(holder.binding.edtBagsInvoiceStockAdapter.text.toString().length)
+                    Log.d(TAG, "afterTextChanged: REMOVE_ZERO_CONDITION")
 //                    val stringBuilder =
 //                        StringBuilder(holder.binding.edtBagsInvoiceStockAdapter.text.toString())
 //                    stringBuilder.deleteCharAt(0)
 //                    holder.binding.edtBagsInvoiceStockAdapter.setText(stringBuilder)
                 }
-                if (holder.binding.edtBagsInvoiceStockAdapter.text.toString()
+                else if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().endsWith(".")) {
+                    val stringBuilder =
+                        StringBuilder(holder.binding.edtBagsInvoiceStockAdapter.text.toString())
+                    stringBuilder.append("50")
+                    holder.binding.edtBagsInvoiceStockAdapter.setText(stringBuilder.toString())
+                    holder.binding.edtBagsInvoiceStockAdapter.setSelection(stringBuilder.length)
+                }
+                else if (holder.binding.edtBagsInvoiceStockAdapter.text.toString()
                         .toDouble() > model.AvailableBags.toDouble()
                 ) {
                     holder.binding.edtBagsInvoiceStockAdapter.setText(model.AvailableBags)

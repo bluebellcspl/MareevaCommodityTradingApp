@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/previewCardColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/outline_bg"
+                android:padding="@dimen/_5sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edt_CommodityContainer_InvoicePreviewItemAdapter"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:hint="@string/commodity"
+                        app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_CommodityName_InvoicePreviewItemAdapter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:padding="@dimen/_8sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edt_HSNCodeContainer_InvoicePreviewItemAdapter"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:hint="@string/hsn_code"
+                        app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_HSNCode_InvoicePreviewItemAdapter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/_8sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:hint="@string/bags"
+                        app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_Bags_InvoicePreviewItemAdapter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:padding="@dimen/_8sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:hint="@string/weight"
+                        app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_Weight_InvoicePreviewItemAdapter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:padding="@dimen/_8sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:hint="@string/rate"
+                        app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_Rate_InvoicePreviewItemAdapter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:padding="@dimen/_8sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:hint="@string/amount"
+                        app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusBottomStart="@dimen/_3sdp"
+                        app:boxCornerRadiusTopEnd="@dimen/_3sdp"
+                        app:boxCornerRadiusTopStart="@dimen/_3sdp"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt_Amount_InvoicePreviewItemAdapter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:padding="@dimen/_8sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -18,6 +18,7 @@ data class InvoiceStockModelItem(
     var CompanyCode: String,
     var CreateUser: String,
     var Date: String,
+    var HSNCode: String,
     var PCAId: String,
     var PCARegId: String,
     var StockId: String,
