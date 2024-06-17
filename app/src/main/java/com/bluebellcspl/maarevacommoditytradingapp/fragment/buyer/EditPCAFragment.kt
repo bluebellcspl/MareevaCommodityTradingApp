@@ -32,7 +32,8 @@ class EditPCAFragment : Fragment() {
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "EditPCAFragment"
     private val navController by lazy { findNavController() }
-    lateinit var binding: FragmentEditPCABinding
+    var _binding: FragmentEditPCABinding? = null
+    val binding get() = _binding!!
     private val args by navArgs<EditPCAFragmentArgs>()
     lateinit var apmcList: ArrayList<String>
     var marketCess = ""
@@ -46,7 +47,7 @@ class EditPCAFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_p_c_a, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_p_c_a, container, false)
         val model = args.pcaListModel
         binding.actAPMCEditPCAFragment.setText(model.APMCName)
         binding.edtStateEditPCAFragment.setText(model.StateName)
@@ -305,5 +306,8 @@ class EditPCAFragment : Fragment() {
         }
         return dataList
     }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -54,6 +54,7 @@ class LogoutAPI(var context: Context,var activity: Activity,var fragment: Fragme
                             DatabaseManager.deleteData(Constants.TBL_TempNotificationMaster)
                             DatabaseManager.deleteData(Constants.TBL_NotificationMaster)
                         }
+                        job.cancel()
 
                     }
                 }else
@@ -64,9 +65,11 @@ class LogoutAPI(var context: Context,var activity: Activity,var fragment: Fragme
 //                        commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
                         Log.e(TAG, "logoutUser: ERROR : ${result.errorBody().toString()}", )
                     }
+                    job.cancel()
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             Log.d(TAG, "logoutUser: PROGRESS_END")
             Log.e(TAG, "logoutUser: ${e.message}")

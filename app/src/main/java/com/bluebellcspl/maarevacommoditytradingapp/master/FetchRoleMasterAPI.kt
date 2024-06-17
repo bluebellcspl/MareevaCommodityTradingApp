@@ -66,16 +66,19 @@ class FetchRoleMasterAPI(var context:Context, var activity: Activity) {
 //                            (activity as LoginActivity).bindRoleDropDown()
                         }
                     }
+                    job.cancel()
                 }else
                 {
                     withContext(Main){
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                     Log.e(TAG, "getRoleMaster: ${result.errorBody().toString()}", )
                 }
             }
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getRoleMaster: ${e.message}")

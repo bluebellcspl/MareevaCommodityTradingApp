@@ -58,6 +58,7 @@ class FetchInvoiceDataAPI(var context: Context, var fragment: PCAInvoiceFragment
                                     arrayListOf<Shopwise>(),"","",""))
                             fragment.resetUI()
                         }
+                        job.cancel()
                     }else
                     {
                         val invoiceData= Gson().fromJson(invoiceJO,InvoiceDataModel::class.java)
@@ -66,6 +67,7 @@ class FetchInvoiceDataAPI(var context: Context, var fragment: PCAInvoiceFragment
                             commonUIUtility.dismissProgress()
                             fragment.bindFilterForRecyclerview(invoiceData)
                         }
+                        job.cancel()
 
                     }
                 }else
@@ -84,12 +86,14 @@ class FetchInvoiceDataAPI(var context: Context, var fragment: PCAInvoiceFragment
                                 commonUIUtility.dismissProgress()
                                 commonUIUtility.showToast(errorMessage)
                             }
+                            job.cancel()
                         }else
                         {
                             withContext(Dispatchers.Main) {
                                 commonUIUtility.dismissProgress()
                                 commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
                             }
+                            job.cancel()
                         }
                     }
                     Log.e(TAG, "getLoginForAdmin: ${result.errorBody().toString()}")
@@ -97,6 +101,7 @@ class FetchInvoiceDataAPI(var context: Context, var fragment: PCAInvoiceFragment
             }
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
             e.printStackTrace()

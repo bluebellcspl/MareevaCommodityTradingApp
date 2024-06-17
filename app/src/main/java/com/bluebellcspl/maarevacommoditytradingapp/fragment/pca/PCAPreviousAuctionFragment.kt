@@ -29,7 +29,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.PCAPrevAuctionMasterMod
 
 
 class PCAPreviousAuctionFragment : Fragment() {
-    lateinit var binding:FragmentPCAPreviousAuctionBinding
+    var _binding:FragmentPCAPreviousAuctionBinding? = null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController by lazy { findNavController() }
     val TAG = "PCAPreviousAuctionFragment"
@@ -42,7 +43,7 @@ class PCAPreviousAuctionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_p_c_a_previous_auction, container, false)
+        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_p_c_a_previous_auction, container, false)
         PREV_AUCTION_SELECTED_DATE = args.selectPreviousAuctionDate
 
         if (PREV_AUCTION_SELECTED_DATE.isBlank() || PREV_AUCTION_SELECTED_DATE.equals(""))
@@ -123,5 +124,10 @@ class PCAPreviousAuctionFragment : Fragment() {
             e.printStackTrace()
             Log.e(TAG, "downloadAuctionDetailReport: ${e.message}")
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

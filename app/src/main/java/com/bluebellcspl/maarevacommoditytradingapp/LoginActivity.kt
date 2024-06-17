@@ -39,10 +39,7 @@ class LoginActivity : AppCompatActivity() {
     var _binding: ActivityLoginBinding? = null
      val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(this) }
-//    var isInitial = true
     val TAG = "LoginActivity"
-//    lateinit var commodityList: ArrayList<String>
-//    lateinit var apmcList: ArrayList<String>
     lateinit var APMCId: String
     var isAgreed = false
     var TOKEN_ID=""
@@ -66,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
             exitTransition.duration = 1000
         }
         _binding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
+        DatabaseManager.initializeInstance(this.applicationContext)
         if (ConnectionCheck.isConnected(this))
         {
             FetchAPMCMasterAPI(this,this@LoginActivity)
@@ -81,7 +79,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         getToken()
-        DatabaseManager.initializeInstance(this)
 
         binding.tvVersionLogin.setText(Constants.version)
         setOnClickListeners()

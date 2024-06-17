@@ -75,17 +75,20 @@ class FetchShopMasterAPI(var context: Context, var activity: Activity) {
                         commonUIUtility.dismissProgress()
                         Log.d(TAG, "getShopMaster: PROGRESS_END")
                     }
+                    job.cancel()
                 }else
                 {
                     withContext(Dispatchers.Main) {
                         commonUIUtility.dismissProgress()
                         Log.d(TAG, "getShopMaster: PROGRESS_END")
                     }
+                    job.cancel()
                     Log.e(TAG, "getShopMaster: ${result.errorBody()}")
                 }
             }
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             Log.d(TAG, "getShopMaster: PROGRESS_END")
             e.printStackTrace()

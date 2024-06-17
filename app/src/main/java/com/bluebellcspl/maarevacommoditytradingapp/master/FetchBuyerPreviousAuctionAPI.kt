@@ -71,6 +71,7 @@ class FetchBuyerPreviousAuctionAPI(
                             commonUIUtility.dismissProgress()
                             Log.e(TAG, "getBuyerPreviousAuction ERROR : ${result.errorBody()}")
                         }
+                        job.cancel()
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
@@ -79,10 +80,12 @@ class FetchBuyerPreviousAuctionAPI(
                         Log.e(TAG, "getBuyerPreviousAuction: ${e.message}")
                         e.printStackTrace()
                     }
+                    job.cancel()
                 }
             }
 
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
             e.printStackTrace()
@@ -104,5 +107,6 @@ class FetchBuyerPreviousAuctionAPI(
                 }
             }
         }
+        job.cancel()
     }
 }

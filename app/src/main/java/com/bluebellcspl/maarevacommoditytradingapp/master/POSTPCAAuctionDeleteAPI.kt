@@ -66,6 +66,7 @@ class POSTPCAAuctionDeleteAPI(
                             pcaAuctionList.removeAt(position)
                             (fragment as PCAAuctionListFragment).binding.rcViewPCAAuctionListFrament.invalidate()
                         }
+                        job.cancel()
                     } else {
                         withContext(Dispatchers.Main)
                         {
@@ -74,6 +75,7 @@ class POSTPCAAuctionDeleteAPI(
                             adapter.notifyDataSetChanged()
                             (fragment as PCAAuctionListFragment).binding.rcViewPCAAuctionListFrament.invalidate()
                         }
+                        job.cancel()
                     }
                 } else {
                     Log.e(TAG, "deletePCAData: ${result.errorBody()}")
@@ -84,9 +86,11 @@ class POSTPCAAuctionDeleteAPI(
                             (fragment as PCAAuctionListFragment).binding.rcViewPCAAuctionListFrament.invalidate()
                         }
                     }
+                    job.cancel()
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast("Please Try Again Later!")
             e.printStackTrace()

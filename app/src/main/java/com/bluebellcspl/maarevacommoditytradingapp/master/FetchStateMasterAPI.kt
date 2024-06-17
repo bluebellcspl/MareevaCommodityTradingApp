@@ -60,14 +60,17 @@ class FetchStateMasterAPI(var context: Context, var activity: Activity) {
                     withContext(Main) {
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                 } else {
                     withContext(Main) {
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                     Log.e(TAG, "getStateMaster: ${result.errorBody()}")
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getStateMaster: ${e.message}")

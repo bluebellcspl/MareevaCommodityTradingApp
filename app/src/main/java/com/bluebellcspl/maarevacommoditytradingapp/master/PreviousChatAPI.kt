@@ -62,6 +62,7 @@ class PreviousChatAPI(
                                 }
                             }
                         }
+                        job.cancel()
                     }
                 } else {
                     Log.e(
@@ -74,10 +75,12 @@ class PreviousChatAPI(
                                 View.GONE
                             commonUIUtility.showToast("No More Chat Found!")
                         }
+                        job.cancel()
                     }
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             e.printStackTrace()
             Log.e(TAG, "loadPreviousChat: ${e.message}")
         }

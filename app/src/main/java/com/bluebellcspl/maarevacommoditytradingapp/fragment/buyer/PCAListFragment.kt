@@ -29,7 +29,8 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "PCAListFragment"
     private val navController by lazy { findNavController() }
-    lateinit var binding: FragmentPCAListBinding
+    var _binding: FragmentPCAListBinding? = null
+    val binding get() = _binding!!
     lateinit var approvedListAdapter : ApprovedPCAListAdapter
     lateinit var unapprovedListAdapter : UnapprovePCAListAdapter
     lateinit var approvedPCAList : ArrayList<PCAListModelItem>
@@ -39,7 +40,7 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_list, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_list, container, false)
         if (ConnectionCheck.isConnected(requireContext()))
         {
             FetchApprovedPCAListAPI(requireContext(),requireActivity(),this)
@@ -186,5 +187,10 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
             e.printStackTrace()
             Log.e(TAG, "showPCAProfileDialogPopup: ${e.message}")
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

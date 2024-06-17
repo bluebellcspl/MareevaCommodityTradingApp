@@ -117,18 +117,21 @@ class LoginCheckAPI(
                                 commonUIUtility.dismissProgress()
                                 commonUIUtility.showToast(errorMessage)
                             }
+                            job.cancel()
                         }else
                         {
                             withContext(Dispatchers.Main) {
                                 commonUIUtility.dismissProgress()
                                 commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
                             }
+                            job.cancel()
                         }
                     }
                     Log.e(TAG, "getLoginForAdmin: ${result.errorBody().toString()}", )
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getLoginOTP: ${e.message}")

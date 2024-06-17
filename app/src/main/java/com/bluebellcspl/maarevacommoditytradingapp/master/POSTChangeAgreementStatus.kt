@@ -53,21 +53,25 @@ class POSTChangeAgreementStatus(var context: Context,var activity:Activity,var s
                             commonUIUtility.dismissProgress()
                             (activity as LoginActivity).redirectToHome()
                         }
+                        job.cancel()
                     }else
                     {
                         withContext(Dispatchers.Main){
                             commonUIUtility.dismissProgress()
                             commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
                         }
+                        job.cancel()
                     }
 
                 }else
                 {
+                    job.cancel()
                     commonUIUtility.dismissProgress()
                     Log.e(TAG, "setChangeAgreementStatus: ${result.errorBody()}", )
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
             e.printStackTrace()

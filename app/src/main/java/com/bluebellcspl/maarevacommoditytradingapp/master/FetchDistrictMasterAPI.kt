@@ -63,17 +63,20 @@ class FetchDistrictMasterAPI(var context: Context, var activity: Activity) {
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                 }else
                 {
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                     Log.e(TAG, "getDistrictMaster: ${result.errorBody().toString()}")
                 }
             }
 
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getDistrictMaster: ${e.message}", )

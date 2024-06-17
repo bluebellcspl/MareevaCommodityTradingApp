@@ -77,17 +77,20 @@ class FetchAPMCMasterAPI(var context: Context, var activity: Activity) {
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                 }else
                 {
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                     Log.e(TAG, "getAPMCMaster: ${result.errorBody().toString()}")
                 }
             }
 
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getAPMCMaster: ${e.message}")

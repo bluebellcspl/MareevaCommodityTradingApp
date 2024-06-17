@@ -65,8 +65,9 @@ import java.io.InputStream
 import java.io.OutputStream
 
 class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
+    var _binding: FragmentChatBoxBinding?=null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
-    lateinit var binding: FragmentChatBoxBinding
     private val navController by lazy { findNavController() }
     private val args by navArgs<ChatBoxFragmentArgs>()
     private var webSocket: WebSocket? = null
@@ -104,7 +105,7 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat_box, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat_box, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setTitle(args.userChatInfoModel.ShortName)
         binding.btnVoiceRecord.setRecordView(binding.recordView)
         binding.btnVoiceRecord.isListenForRecord = false
@@ -630,5 +631,10 @@ class ChatBoxFragment : Fragment(), ChatRecyclerViewHelper {
         val intent = Intent(requireActivity(),ChatImageActivity::class.java)
         intent.putExtra("ChatMessage",chatMessage)
         requireActivity().startActivity(intent)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

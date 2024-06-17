@@ -25,7 +25,8 @@ import com.google.android.material.badge.ExperimentalBadgeUtils
 
 @ExperimentalBadgeUtils class PCAChatListFragment : Fragment() {
     val TAG = "PCAChatListFragment"
-    lateinit var binding: FragmentPCAChatListBinding
+    var _binding: FragmentPCAChatListBinding?=null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController by lazy { findNavController() }
     private lateinit var buyerData: ChatRecipientModelItem
@@ -34,7 +35,7 @@ import com.google.android.material.badge.ExperimentalBadgeUtils
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(
+        _binding = DataBindingUtil.inflate(
             inflater,
             com.bluebellcspl.maarevacommoditytradingapp.R.layout.fragment_p_c_a_chat_list,
             container,
@@ -143,5 +144,10 @@ import com.google.android.material.badge.ExperimentalBadgeUtils
     override fun onStop() {
         super.onStop()
         DatabaseManager.ExecuteQuery(Query.updateTMPChatNotificationStatus())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

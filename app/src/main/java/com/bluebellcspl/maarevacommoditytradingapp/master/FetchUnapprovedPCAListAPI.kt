@@ -51,17 +51,20 @@ class FetchUnapprovedPCAListAPI(var context: Context, var activity: Activity, va
                             commonUIUtility.dismissProgress()
                             (fragment as PCAListFragment).bindUnapprovedPCAListRecyclerView(approvedPCAList)
                         }
+                        job.cancel()
                     }
                 }else
                 {
                     activity.runOnUiThread {
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                     Log.e(TAG, "getUnapprovedPCAList: ${result.errorBody()}", )
                 }
             }
 
         }catch (e:Exception){
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getUnapprovedPCAList: ${e.message}")

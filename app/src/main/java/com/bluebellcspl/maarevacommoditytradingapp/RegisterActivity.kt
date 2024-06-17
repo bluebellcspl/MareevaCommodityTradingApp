@@ -32,7 +32,8 @@ import kotlinx.coroutines.withContext
 import java.util.Locale
 
 class RegisterActivity : AppCompatActivity() {
-    lateinit var binding: ActivityRegisterBinding
+    var _binding: ActivityRegisterBinding?=null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(this) }
     var isInitial = true
     val TAG = "RegisterActivity"
@@ -55,7 +56,7 @@ class RegisterActivity : AppCompatActivity() {
             enterTransition.duration = 1000
             exitTransition.duration = 1000
         }
-        binding = DataBindingUtil.setContentView(this@RegisterActivity, R.layout.activity_register)
+        _binding = DataBindingUtil.setContentView(this@RegisterActivity, R.layout.activity_register)
         DatabaseManager.initializeInstance(this)
         setLanguage()
         binding.mchbTermsConditionsRegisiter.addOnCheckedStateChangedListener { checkBox, state ->
@@ -396,5 +397,11 @@ class RegisterActivity : AppCompatActivity() {
         )
         finish()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        alertDialog.dismiss()
+    }
+
 
 }

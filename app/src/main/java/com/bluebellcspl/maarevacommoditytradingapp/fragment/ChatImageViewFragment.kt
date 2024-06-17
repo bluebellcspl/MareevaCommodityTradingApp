@@ -20,7 +20,8 @@ import com.bumptech.glide.request.target.Target
 
 
 class ChatImageViewFragment : Fragment() {
-    lateinit var binding:FragmentChatImageViewBinding
+     var _binding:FragmentChatImageViewBinding? = null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "ChatImageViewFragment"
     private val fileDownloader by lazy { FileDownloader.getInstance(requireContext()) }
@@ -30,7 +31,7 @@ class ChatImageViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_chat_image_view, container, false)
+        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_chat_image_view, container, false)
         commonUIUtility.showProgress()
         Glide.with(requireContext())
             .load(args.chatImageInfo.ImageUrl)
@@ -61,4 +62,8 @@ class ChatImageViewFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -44,7 +44,8 @@ import java.util.Locale
 
 
 class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
-    lateinit var binding: FragmentBuyerAuctionBinding
+    var _binding: FragmentBuyerAuctionBinding?=null
+    private val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "BuyerAuctionFragment"
     private val navController by lazy { findNavController() }
@@ -71,7 +72,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_buyer_auction, container, false)
         commodityBharti = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
         Log.d(TAG, "onCreateView: COMMODITY_BHARTI : $commodityBharti")
@@ -676,5 +677,10 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             e.printStackTrace()
             Log.e(TAG, "redirectToLogin: ${e.message}", )
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -50,7 +50,8 @@ import java.text.DecimalFormat
 import java.util.Locale
 
 class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
-    lateinit var binding: FragmentPCAInvoiceBinding
+    var _binding: FragmentPCAInvoiceBinding?=null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "PCAInvoiceFragment"
     private val navController: NavController by lazy { findNavController() }
@@ -70,7 +71,7 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_invoice, container, false)
 //        setRetainInstance(true)
         menuHost = requireActivity()
@@ -205,6 +206,7 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
     override fun onDestroyView() {
         super.onDestroyView()
         Log.d(TAG, "PCAInvoiceFragment?? onDestroyView: DESTROYED_VIEW")
+        _binding = null
     }
 
     private fun addChip(text: String) {
@@ -298,7 +300,6 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
             .setValidator(DateValidatorPointBackward.before(System.currentTimeMillis()))
             .build()
         val builder = MaterialDatePicker.Builder.datePicker().setCalendarConstraints(calendarConstraints)
-
             if (fromSelectedDate>0L)
             {
                 builder.setSelection(fromSelectedDate)
@@ -611,7 +612,6 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
             Log.e(TAG, "redirectToInvoiceDetailFragment: ${e.message}", )
         }
     }
-
 }
 
 interface InvoiceSelectedDataCallBack {

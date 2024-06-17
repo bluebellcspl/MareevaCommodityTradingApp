@@ -30,7 +30,8 @@ class BuyerPreviousAuctionFragment : Fragment() {
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController by lazy { findNavController() }
     val TAG = "BuyerPreviousAuctionFragment"
-    lateinit var binding: FragmentBuyerPreviousAuctionBinding
+    var _binding: FragmentBuyerPreviousAuctionBinding?=null
+    val binding get() = _binding!!
     private val navArgs by navArgs<BuyerPreviousAuctionFragmentArgs>()
     private val fileDownloader by lazy { FileDownloader.getInstance(requireContext()) }
     lateinit var menuHost: MenuHost
@@ -40,7 +41,7 @@ class BuyerPreviousAuctionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(
+        _binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_buyer_previous_auction,
             container,
@@ -81,10 +82,18 @@ class BuyerPreviousAuctionFragment : Fragment() {
 
     fun bindDataOfPrevAuction(modelData: BuyerPrevAuctionMasterModel) {
         try {
-            binding.tvPreviousAuctionDateBuyerPrevAuctionFragment.setText("%s %s".format(resources.getString(R.string.date_lbl),modelData.Date))
-            binding.tvPreviousAuctionAvgRateBuyerPrevAuctionFragment.setText("%s %s".format(resources.getString(R.string.avg_rate_lbl),modelData.LastPCATotalAvgRate))
-            binding.tvPreviousAuctionPurchasedBagsBuyerPrevAuctionFragment.setText("%s %s".format(resources.getString(R.string.bags_lbl),modelData.LastTotalPurchasedBags))
-            binding.tvPreviousAuctionTotalCostBuyerPrevAuctionFragment.setText("%s %s".format(resources.getString(R.string.total_cost_lbl),modelData.LastPCATotalCost))
+            val stringBuilder = StringBuilder()
+            stringBuilder.append(requireContext().getString(R.string.date_lbl)+" ${modelData.Date}")
+            binding.tvPreviousAuctionDateBuyerPrevAuctionFragment.setText(stringBuilder.toString())
+            stringBuilder.clear()
+            stringBuilder.append(requireContext().getString(R.string.avg_rate_lbl)+" ${modelData.LastPCATotalAvgRate}")
+            binding.tvPreviousAuctionAvgRateBuyerPrevAuctionFragment.setText(stringBuilder.toString())
+            stringBuilder.clear()
+            stringBuilder.append(requireContext().getString(R.string.bags_lbl)+" ${modelData.LastTotalPurchasedBags}")
+            binding.tvPreviousAuctionPurchasedBagsBuyerPrevAuctionFragment.setText(stringBuilder.toString())
+            stringBuilder.clear()
+            stringBuilder.append(requireContext().getString(R.string.total_cost_lbl)+" ${modelData.LastPCATotalCost}")
+            binding.tvPreviousAuctionTotalCostBuyerPrevAuctionFragment.setText(stringBuilder.toString())
             var adapter = BuyerPrevAuctionAdapter(requireContext(),modelData.PCAHeaderModel)
             binding.rcViewBuyerPrevAuctionFragment.adapter = adapter
         } catch (e: Exception) {
@@ -117,5 +126,10 @@ class BuyerPreviousAuctionFragment : Fragment() {
             e.printStackTrace()
             Log.e(TAG, "downloadAuctionDetailReport: ${e.message}")
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

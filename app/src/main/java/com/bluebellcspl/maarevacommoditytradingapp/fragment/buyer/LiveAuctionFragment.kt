@@ -43,7 +43,8 @@ import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 
 class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
-    lateinit var binding: FragmentLiveAuctionBinding
+    var _binding: FragmentLiveAuctionBinding?=null
+    private val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext().applicationContext) }
     private val TAG = "LiveAuctionFragment"
     private lateinit var webSocketClient: WebSocketClient
@@ -63,7 +64,7 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_live_auction, container, false)
          commodityId = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "").toString()
          companyCode = PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "").toString()
@@ -729,4 +730,8 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

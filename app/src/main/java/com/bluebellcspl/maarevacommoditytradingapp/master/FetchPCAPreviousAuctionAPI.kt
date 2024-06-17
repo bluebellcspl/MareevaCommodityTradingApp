@@ -62,6 +62,7 @@ class FetchPCAPreviousAuctionAPI(
                             commonUIUtility.dismissProgress()
                             Log.e(TAG, "getPCAPreviousAuction ERROR : ${result.errorBody()}")
                         }
+                        job.cancel()
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
@@ -70,10 +71,12 @@ class FetchPCAPreviousAuctionAPI(
                         Log.e(TAG, "getPCAPreviousAuction: ${e.message}")
                         e.printStackTrace()
                     }
+                    job.cancel()
                 }
             }
 
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
             e.printStackTrace()
@@ -97,5 +100,6 @@ class FetchPCAPreviousAuctionAPI(
                 }
             }
         }
+        job.cancel()
     }
 }

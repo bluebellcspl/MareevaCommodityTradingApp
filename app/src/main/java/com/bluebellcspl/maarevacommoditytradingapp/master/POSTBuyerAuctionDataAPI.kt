@@ -80,12 +80,14 @@ class POSTBuyerAuctionDataAPI(var context: Context,var activity: Activity,var fr
                                 (fragment as BuyerAuctionFragment).redirectToBuyerDashboard()
                             }
                         }
+                        job.cancel()
                     }else
                     {
                         withContext(Dispatchers.Main){
                             commonUIUtility.dismissProgress()
                             commonUIUtility.showToast(responseJO.get("Message").asString)
                         }
+                        job.cancel()
                     }
                 }else
                 {
@@ -94,11 +96,13 @@ class POSTBuyerAuctionDataAPI(var context: Context,var activity: Activity,var fr
                         commonUIUtility.dismissProgress()
                         commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
                     }
+                    job.cancel()
                 }
             }
 
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
             e.printStackTrace()

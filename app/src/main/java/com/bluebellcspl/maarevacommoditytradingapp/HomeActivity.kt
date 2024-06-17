@@ -43,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
             exitTransition.duration = 1000
         }
         _binding = DataBindingUtil.setContentView(this@HomeActivity, R.layout.activity_home)
-        DatabaseManager.initializeInstance(this)
+        DatabaseManager.initializeInstance(applicationContext)
         setSupportActionBar(binding.toolbarHome.toolbar)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment

@@ -36,7 +36,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.POSTPCAAuctionData
 
 
 class PCAAuctionFragment : Fragment() {
-    lateinit var binding: FragmentPCAAuctionBinding
+    var _binding: FragmentPCAAuctionBinding? = null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "PCAAuctionFragment"
     private val navController: NavController by lazy { findNavController() }
@@ -65,7 +66,7 @@ class PCAAuctionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_p_c_a_auction, container, false)
         binding.tvHeaderCommodityNDate.setText(
             "${
@@ -542,5 +543,10 @@ class PCAAuctionFragment : Fragment() {
             e.printStackTrace()
             Log.e(TAG, "redirectToLogin: ${e.message}")
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

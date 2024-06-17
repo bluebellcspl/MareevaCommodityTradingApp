@@ -36,7 +36,8 @@ class AddPCAFragment : Fragment() {
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val TAG = "AddPCAFragment"
     private val navController by lazy { findNavController() }
-    lateinit var binding: FragmentAddPCABinding
+    var _binding: FragmentAddPCABinding? = null
+    val binding get() = _binding!!
     lateinit var apmcList: ArrayList<String>
     lateinit var apmcId: String
     lateinit var stateId: String
@@ -48,7 +49,7 @@ class AddPCAFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_p_c_a, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_p_c_a, container, false)
 
         binding.edtCommodityAddPCAFragment.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,"").toString())
         apmcList = bindAPMCDropDown()
@@ -253,5 +254,10 @@ class AddPCAFragment : Fragment() {
             Log.e(TAG, "bindAPMCDropDown: ${e.message}")
         }
         return dataList
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

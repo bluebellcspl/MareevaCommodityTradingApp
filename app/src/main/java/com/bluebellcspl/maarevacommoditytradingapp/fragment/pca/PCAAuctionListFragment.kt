@@ -42,7 +42,8 @@ import com.google.android.material.textfield.TextInputEditText
 import java.text.DecimalFormat
 
 class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
-    lateinit var binding: FragmentPCAAuctionListBinding
+    var _binding: FragmentPCAAuctionListBinding? = null
+    val binding get() = _binding!!
     private val commonUIUtility: CommonUIUtility by lazy { CommonUIUtility(requireContext()) }
     val TAG = "PCAAuctionListFragment"
     private val navController by lazy { findNavController() }
@@ -61,7 +62,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(
+        _binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_p_c_a_auction_list,
             container,
@@ -437,5 +438,10 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
 
     override fun getLiveAuctionPCAData(postion: Int, model: LiveAuctionPCAListModel) {
         TODO("Not yet implemented")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

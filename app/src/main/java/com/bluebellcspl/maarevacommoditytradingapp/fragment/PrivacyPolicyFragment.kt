@@ -11,7 +11,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPrivacyPolicyBinding
 
 class PrivacyPolicyFragment : Fragment() {
-    lateinit var binding: FragmentPrivacyPolicyBinding
+    var _binding: FragmentPrivacyPolicyBinding?=null
+    val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -21,7 +22,7 @@ class PrivacyPolicyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_privacy_policy, container, false)
         binding.tvPrivacyPolicyContentPrivacyPolicyFragment.setText(
             Html.fromHtml("    <p><strong>Privacy Policy Effective Date: 01-11-2023</strong></p>\n" +
@@ -101,5 +102,10 @@ class PrivacyPolicyFragment : Fragment() {
                     "    <p><strong>Last Updated: 01-12-2023</strong></p>\n")
         )
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

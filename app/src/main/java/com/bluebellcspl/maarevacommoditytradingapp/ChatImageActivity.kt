@@ -20,14 +20,15 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
 class ChatImageActivity : AppCompatActivity() {
-    lateinit var binding:ActivityChatImageBinding
+    var _binding:ActivityChatImageBinding? = null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(this) }
     private val fileDownloader by lazy { FileDownloader.getInstance(this@ChatImageActivity) }
     val TAG = "ChatImageActivity"
     lateinit var model:ChatResponseModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_chat_image)
+        _binding = DataBindingUtil.setContentView(this,R.layout.activity_chat_image)
         setSupportActionBar(binding.toolbarChatImage.toolbar)
         supportActionBar!!.title = "Image View"
         model = intent.getParcelableExtra<ChatResponseModel>("ChatMessage")!!
@@ -70,5 +71,10 @@ class ChatImageActivity : AppCompatActivity() {
             R.id.btnDownloadImage->fileDownloader.downloadImage(model.FileMedia,"IMG_"+System.currentTimeMillis().toString()+".jpg")
         }
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

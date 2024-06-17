@@ -27,7 +27,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.UserChatInfoModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 
 class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
-    lateinit var binding:FragmentBuyerChatListBinding
+    var _binding:FragmentBuyerChatListBinding?=null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext())}
     private val navController by lazy { findNavController() }
     val TAG="BuyerChatListFragment"
@@ -38,7 +39,7 @@ class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_buyer_chat_list, container, false)
+        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_buyer_chat_list, container, false)
         clearNotification()
         if (ConnectionCheck.isConnected(requireContext()))
         {
@@ -130,6 +131,10 @@ class BuyerChatListFragment : Fragment(),RecyclerViewHelper {
     override fun onStop() {
         super.onStop()
         DatabaseManager.ExecuteQuery(Query.updateTMPChatNotificationStatus())
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

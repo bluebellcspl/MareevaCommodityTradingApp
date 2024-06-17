@@ -160,12 +160,14 @@ class FetchApprovedPCAListAPI(
                     activity.runOnUiThread {
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                     Log.e(TAG, "getApprovedPCAList: ${result.errorBody()}")
                 }
 
             }
 
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getApprovedPCAList: ${e.message}")
@@ -195,6 +197,7 @@ class FetchApprovedPCAListAPI(
                 }
             }
         }
+        job.cancel()
     }
 
 }

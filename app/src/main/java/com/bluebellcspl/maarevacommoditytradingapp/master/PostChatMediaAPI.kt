@@ -45,11 +45,14 @@ class PostChatMediaAPI(
                 )
                 if (result.isSuccessful) {
                     Log.d(TAG, "sendMultiPartData: ${result.body()}")
+                    job.cancel()
                 } else {
                     Log.e(TAG, "sendMultiPartData: ERROR_RESPONSE ${result.errorBody()?.string()}")
+                    job.cancel()
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast(
                 context.getString(

@@ -80,9 +80,11 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                                     (fragment as PCADashboardFragment).bindBuyerAllocatedData(pcaAuctionDetailModel)
                                 }
                             }
+                            job.cancel()
                         }
 
                     }
+                    job.cancel()
                 }else
                 {
 //                    Log.e(TAG, "getPCAAuction_Error: $errorbody")
@@ -108,6 +110,7 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                                 (fragment as PCADashboardFragment).redirectToLogin()
                             }
                         }
+                        job.cancel()
                     } else if (!errorResult.Message.isNullOrEmpty() && errorResult.Message.contains("No Auction")) {
                         withContext(Dispatchers.Main) {
                             commonUIUtility.dismissProgress()
@@ -115,6 +118,7 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                                 (fragment as PCAAuctionFragment).noAuctionPopup()
                             }
                         }
+                        job.cancel()
                     } else if (errorResult.Result.contains("False")) {
                         withContext(Dispatchers.Main) {
                             commonUIUtility.dismissProgress()
@@ -122,13 +126,13 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                                 (fragment as PCAAuctionFragment).noAuctionPopup()
                             }
                         }
+                        job.cancel()
                     }
-
-
                 }
             }
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.showToast("Please Try Again Later!")
             e.printStackTrace()
             Log.e(TAG, "getPCAAuction: ${e.message}")

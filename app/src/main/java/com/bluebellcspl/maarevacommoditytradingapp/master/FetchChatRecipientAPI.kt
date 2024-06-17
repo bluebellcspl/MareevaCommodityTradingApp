@@ -48,6 +48,7 @@ class FetchChatRecipientAPI(var context: Context, var fragment: Fragment) {
                             commonUIUtility.dismissProgress()
                             (fragment as PCAChatListFragment).bindBuyerData(recipientData)
                         }
+                        job.cancel()
                     }
                     else if (fragment is BuyerChatListFragment)
                     {
@@ -55,6 +56,7 @@ class FetchChatRecipientAPI(var context: Context, var fragment: Fragment) {
                             commonUIUtility.dismissProgress()
                             (fragment as BuyerChatListFragment).bindChatListView(recipientData)
                         }
+                        job.cancel()
                     }
                 }else
                 {
@@ -62,10 +64,12 @@ class FetchChatRecipientAPI(var context: Context, var fragment: Fragment) {
                         commonUIUtility.dismissProgress()
                         commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
                     }
+                    job.cancel()
                     Log.e(TAG, "getChatRecipients: ${result.errorBody()!!.string()}", )
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
             e.printStackTrace()

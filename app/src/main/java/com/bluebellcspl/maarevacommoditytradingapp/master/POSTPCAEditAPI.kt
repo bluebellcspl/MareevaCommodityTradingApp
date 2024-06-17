@@ -100,6 +100,7 @@ class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment:
                             commonUIUtility.showToast(responseJo.get("Message").asString)
                             (fragment as EditPCAFragment).successRedirect()
                         }
+                        job.cancel()
                     }
                 }else
                 {
@@ -111,11 +112,13 @@ class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment:
                             commonUIUtility.showToast(errorResponseJO.Message)
                             Log.e(TAG, "postPCAData: ERROR_RESPONSE : ${errorResponseJO.Message}")
                         }
+                        job.cancel()
                     }
                 }
             }
         }catch (e:Exception)
         {
+            job.cancel()
             e.printStackTrace()
             Log.e(TAG, "postPCAUpdatedData: ${e.message}")
             commonUIUtility.dismissProgress()

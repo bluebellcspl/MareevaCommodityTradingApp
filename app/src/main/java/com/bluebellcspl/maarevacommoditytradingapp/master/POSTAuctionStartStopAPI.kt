@@ -56,6 +56,7 @@ class POSTAuctionStartStopAPI(
                             commonUIUtility.dismissProgress()
                             commonUIUtility.showToast("Auction Status Updated Successfully!")
                         }
+                        job.cancel()
 
                     }
                 } else {
@@ -64,9 +65,11 @@ class POSTAuctionStartStopAPI(
                         commonUIUtility.dismissProgress()
                         commonUIUtility.showToast("Auction Status NOT Updated!")
                     }
+                    job.cancel()
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             Log.e(TAG, "postAuctionStartStop: ${e.message}")
             e.printStackTrace()
             commonUIUtility.showToast("Please Try Again Later!")

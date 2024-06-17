@@ -46,9 +46,11 @@ class POSTSeenNotificationAPI(var context:Context,var fragment:Fragment,var noti
                         commonUIUtility.dismissProgress()
                         commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
                     }
+                    job.cancel()
                 }
             }
         }catch (e:Exception){
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
             e.printStackTrace()

@@ -71,9 +71,6 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                     }
                 }
                 if (isHSNCode) {
-//                    _InvoiceStockList!!.forEach { model ->
-//                        Log.d(TAG, "_InvoiceStockList: HSN_CODE : ${model.HSNCode}")
-//                    }
                     if (ConnectionCheck.isConnected(requireContext()))
                     {
                         POSTInvoiceStockList(requireContext(), this@InvoicePreviewFragment,_InvoiceStockList!!)

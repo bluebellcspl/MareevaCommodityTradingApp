@@ -82,12 +82,14 @@ class FetchNotificationPageWiseAPI(var context:Context, var fragment:Fragment,va
 //                            (fragment as NotificationFragment).binding.progressNotification.visibility = View.GONE
                             (fragment as NotificationFragment).newBindNotificationList(notificationModel)
                         }
+                        job.cancel()
                     }else if (fragment is PCADashboardFragment){
                         withContext(Dispatchers.Main)
                         {
                             commonUIUtility.dismissProgress()
                             (fragment as PCADashboardFragment).updateNotificationCount()
                         }
+                        job.cancel()
                     }
                 }else
                 {
@@ -95,10 +97,12 @@ class FetchNotificationPageWiseAPI(var context:Context, var fragment:Fragment,va
                         Log.e(TAG, "getNotification: ERROR : ${result.errorBody()}", )
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                 }
             }
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getNotification ERROR : ${e.message}", )

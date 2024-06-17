@@ -89,6 +89,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
                                     commonUIUtility.showToast(context.getString(R.string.pca_created_successfully_alert_msg))
                                     (fragment as AddPCAFragment).clearData()
                                 }
+                                job.cancel()
                             }
                         }else if (resultJO.get("Message").asString.contains("Already",true)){
                             if (fragment is AddPCAFragment)
@@ -97,6 +98,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
                                     commonUIUtility.dismissProgress()
                                     commonUIUtility.showToast(context.getString(R.string.phone_no_already_exist_alert_msg))
                                 }
+                                job.cancel()
                             }
                         }
                     }
@@ -111,6 +113,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
                                 commonUIUtility.showToast(errorResponse.Message)
                                 Log.e(TAG, "postPCAData: ERROR_RESPONSE : ${errorResponse.Message}", )
                             }
+                            job.cancel()
                         }
                     }
                     Log.e(TAG, "postPCAData: ${result.errorBody()!!.string()}", )
@@ -119,6 +122,7 @@ class POSTPCAInsertAPI(var context: Context, var activity: Activity, var fragmen
 
         }catch (e:Exception)
         {
+            job.cancel()
             e.printStackTrace()
             Log.e(TAG, "postPCAData: ${e.message}")
             commonUIUtility.dismissProgress()

@@ -70,14 +70,17 @@ class FetchCityMasterAPI(var context: Context, var activity: Activity) {
                     {
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                 }else
                 {
+                    job.cancel()
                     commonUIUtility.dismissProgress()
                     Log.e(TAG, "getCityMaster: ${result.errorBody()}")
                 }
             }
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getCityMaster: ${e.message}")

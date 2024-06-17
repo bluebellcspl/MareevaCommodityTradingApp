@@ -24,7 +24,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentProfileOp
 import java.util.Locale
 
 class ProfileOptionFragment : Fragment() {
-    lateinit var binding:FragmentProfileOptionBinding
+    var _binding:FragmentProfileOptionBinding? = null
+    val binding get() = _binding!!
     private val navController by lazy { findNavController() }
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     var isInitial = true
@@ -42,7 +43,7 @@ class ProfileOptionFragment : Fragment() {
 //            activityConf,
 //            requireContext().resources.displayMetrics
 //        )
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile_option, container, false)
+        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile_option, container, false)
         setLanguage()
         binding.tvVersionProfileOptionFragment.setText("v${Constants.version}")
         binding.cvMyProfileProfileOptionFragment.setOnClickListener {
@@ -127,6 +128,11 @@ class ProfileOptionFragment : Fragment() {
             requireActivity().finish()
             startActivity(requireActivity().getIntent())
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

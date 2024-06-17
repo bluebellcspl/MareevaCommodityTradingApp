@@ -18,7 +18,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.bumptech.glide.Glide
 
 class ProfileFragment : Fragment() {
-    lateinit var binding: FragmentProfileBinding
+    var _binding: FragmentProfileBinding?=null
+    val binding get() = _binding!!
     private val args by navArgs<ProfileFragmentArgs>()
     val TAG = "ProfileFragment"
     override fun onCreateView(
@@ -26,7 +27,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         if (args.userType.equals("pca", true)) {
             FetchApprovedPCAListAPI(requireContext(),requireActivity(),this@ProfileFragment)
             binding.llBuyerViewProfileFragment.visibility = View.GONE
@@ -86,5 +87,10 @@ class ProfileFragment : Fragment() {
             e.printStackTrace()
             Log.e(TAG, "bindBuyerData: ${e.message}")
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

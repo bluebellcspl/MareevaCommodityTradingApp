@@ -52,17 +52,20 @@ class FetchUserMasterAPI(var context: Context, var activity: Activity, var fragm
                     {
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                 }else
                 {
                     withContext(Dispatchers.Main)
                     {
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                     Log.e(TAG, "getFetchUserMaster: ${result.errorBody()}")
                 }
             }
         }catch (e:Exception)
         {
+            job.cancel()
             e.printStackTrace()
             Log.e(TAG, "getFetchUserMaster: ${e.message}")
             commonUIUtility.dismissProgress()

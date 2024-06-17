@@ -25,7 +25,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.POSTSelectedInvoiceList
 import java.text.DecimalFormat
 
 class PCAInvoiceDetailFragment : Fragment(),InvoiceDetailHelper{
-    lateinit var binding: FragmentPCAInvoiceDetailBinding
+    var _binding: FragmentPCAInvoiceDetailBinding?=null
+    val binding get() = _binding!!
     private val args by navArgs<PCAInvoiceDetailFragmentArgs>()
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     lateinit var mergedList: ArrayList<InvoiceEntryMergedModelItem>
@@ -39,7 +40,7 @@ class PCAInvoiceDetailFragment : Fragment(),InvoiceDetailHelper{
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(
+        _binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_p_c_a_invoice_detail,
             container,
@@ -221,6 +222,11 @@ class PCAInvoiceDetailFragment : Fragment(),InvoiceDetailHelper{
     fun refreshData()
     {
         navController.navigate(PCAInvoiceDetailFragmentDirections.actionPCAInvoiceDetailFragmentToInvoiceStockFragment())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 

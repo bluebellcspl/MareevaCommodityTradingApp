@@ -69,14 +69,17 @@ class FetchCommodityMasterAPI(var context: Context, var activity: Activity) {
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                 }else{
                     withContext(Dispatchers.Main) {
                         commonUIUtility.dismissProgress()
                         Log.e(TAG, "getCommodityMaster: ${result.errorBody().toString()}", )
                     }
+                    job.cancel()
                 }
             }
         }catch (e:Exception){
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getCommodityMaster: ${e.message}")

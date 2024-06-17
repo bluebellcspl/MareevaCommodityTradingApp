@@ -11,13 +11,14 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentAgreementBinding
 
 class AgreementFragment : Fragment() {
-    lateinit var binding:FragmentAgreementBinding
+    var _binding:FragmentAgreementBinding?=null
+    val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_agreement, container, false)
+        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_agreement, container, false)
         binding.tvAgreementContent.setText(
             Html.fromHtml(" <h5>1.\tIntroduction</h5>\n" +
                 "    <p>Welcome to MaaReva, an online platform designed to facilitate agricultural produce trading and connect buyers with Pakka Commission Agents (PCAs) and Agricultural Produce Market Committees (APMCs). By accessing and using the MaaReva Platform, you agree to comply with the following terms and conditions. Please read them carefully before using our services.</p>\n" +
@@ -111,5 +112,10 @@ class AgreementFragment : Fragment() {
                 "        By using the MaaReva Platform, you acknowledge that you have read, understood, and agreed to these terms and conditions. Failure to comply with these terms may result in the termination of your access to the platform.\n" +
                 "    </p>"))
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

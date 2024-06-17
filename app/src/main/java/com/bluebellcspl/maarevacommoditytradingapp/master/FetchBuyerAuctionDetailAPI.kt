@@ -40,18 +40,10 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
             commonUIUtility.showProgress()
             val JO = JsonObject()
             JO.addProperty("CommodityId",PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,""))
-//            JO.addProperty("APMCId",PrefUtil.getString(PrefUtil.KEY_APMC_ID,""))
-//            JO.addProperty("DistrictId",PrefUtil.getString(PrefUtil.KEY_DISTRICT_ID,""))
-//            JO.addProperty("StateId",PrefUtil.getString(PrefUtil.KEY_STATE_ID,""))
             JO.addProperty("BuyerRegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
             JO.addProperty("CompanyCode",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
             JO.addProperty("Date",DateUtility().getyyyyMMdd())
-//            JO.addProperty("Date","2024-03-02")
             JO.addProperty("Action","All")
-//            JO.addProperty("AuctionMasterId","")
-//            JO.addProperty("UserName","")
-//            JO.addProperty("RegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
-//            JO.addProperty("MobileNo",PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,""))
 
             Log.d(TAG, "getFetchBuyerAuctionDetail: FETCH_BUYER_AUCTION_DETAIL_JSON : ${JO.toString()}")
 
@@ -70,6 +62,7 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
                         commonUIUtility.dismissProgress()
                         commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
                     }
+                    job.cancel()
                 }
             }
         }catch (e:Exception)
@@ -94,6 +87,7 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
                     }
                 }
             }
+            job.cancel()
         }else
         {
             withContext(Dispatchers.Main) {
@@ -112,6 +106,7 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
                     }
                 }
             }
+            job.cancel()
         }
     }
 

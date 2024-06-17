@@ -48,9 +48,9 @@ class BuyerPrevAuctionAdapter(var context: Context, var dataList: ArrayList<PCAH
         holder.binding.tvPCAName.setText(modeldata.PCAName)
         holder.binding.tvPCATotalBags.setText(modeldata.TotalPurchasedBags)
         val PCATotalAmountNF =
-            NumberFormat.getCurrencyInstance().format(modeldata.TotalCost.toDouble())
+            NumberFormat.getCurrencyInstance().format(modeldata.TotalCost.toDouble()).substring(1)
         holder.binding.tvPCATotalAmount.setText(PCATotalAmountNF)
-        val PCAAvgRateNF = NumberFormat.getCurrencyInstance().format(modeldata.AvgPrice.toDouble())
+        val PCAAvgRateNF = NumberFormat.getCurrencyInstance().format(modeldata.AvgPrice.toDouble()).substring(1)
         holder.binding.fabPauseAuctionLiveAucionFragment.visibility = View.GONE
         holder.binding.fabStartAuctionLiveAucionFragment.visibility = View.GONE
         holder.binding.tvPCAAvgRate.setText(PCAAvgRateNF)

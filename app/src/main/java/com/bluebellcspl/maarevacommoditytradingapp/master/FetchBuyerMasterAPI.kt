@@ -63,6 +63,7 @@ class FetchBuyerMasterAPI(var context: Context, var activity: Activity, var frag
                             commonUIUtility.dismissProgress()
                             (fragment as ProfileFragment).bindBuyerData(model)
                         }
+                        job.cancel()
                     }
                 } else {
                     withContext(Dispatchers.Main)
@@ -71,9 +72,11 @@ class FetchBuyerMasterAPI(var context: Context, var activity: Activity, var frag
                         commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
                         Log.e(TAG, "getBuyerMaster: ${result.errorBody()}")
                     }
+                    job.cancel()
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getBuyerMaster: ${e.message}")

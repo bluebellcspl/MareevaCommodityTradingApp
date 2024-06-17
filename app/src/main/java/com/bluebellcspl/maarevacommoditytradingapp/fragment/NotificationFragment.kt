@@ -30,7 +30,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.POSTSeenNotificationMod
 
 
 class NotificationFragment : Fragment() {
-    lateinit var binding: FragmentNotificationBinding
+    var _binding: FragmentNotificationBinding?=null
+    val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController by lazy { findNavController() }
     val TAG = "NotificationFragment"
@@ -46,7 +47,7 @@ class NotificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
         filter = IntentFilter("ACTION_NOTIFICATION_RECEIVED")
         clearNotification()
@@ -209,6 +210,11 @@ class NotificationFragment : Fragment() {
             e.printStackTrace()
             Log.e(TAG, "newBindNotificationList: ${e.message}")
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

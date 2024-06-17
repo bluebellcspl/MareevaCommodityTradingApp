@@ -80,12 +80,14 @@ class FetchNotificationAPI(var context:Context,var fragment:Fragment) {
                             commonUIUtility.dismissProgress()
                             (fragment as NotificationFragment).bindNotificationList()
                         }
+                        job.cancel()
                     }else if (fragment is PCADashboardFragment){
                         withContext(Dispatchers.Main)
                         {
                             commonUIUtility.dismissProgress()
                             (fragment as PCADashboardFragment).updateNotificationCount()
                         }
+                        job.cancel()
                     }
                 }else
                 {
@@ -93,10 +95,12 @@ class FetchNotificationAPI(var context:Context,var fragment:Fragment) {
                         Log.e(TAG, "getNotification: ERROR : ${result.errorBody()}", )
                         commonUIUtility.dismissProgress()
                     }
+                    job.cancel()
                 }
             }
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getNotification ERROR : ${e.message}", )

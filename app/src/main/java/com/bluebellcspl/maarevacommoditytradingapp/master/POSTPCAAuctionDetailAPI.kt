@@ -92,6 +92,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                                 (fragment as PCAAuctionFragment).redirectToLogin()
                             }
                         }
+                        job.cancel()
                     }else if (status.equals("false",true))
                     {
                         val result = APICall.postPCAAuctionDataInsUpd(JO)
@@ -110,6 +111,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                                         commonUIUtility.dismissProgress()
                                         FetchPCAAuctionDetailAPI(context, activity, fragment)
                                     }
+                                    job.cancel()
                                 }
                             }else if(responseJO.get("Message").asString.contains("Updated Successfully",true)){
                                 withContext(Dispatchers.Main)
@@ -118,12 +120,14 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                                     commonUIUtility.dismissProgress()
                                     FetchPCAAuctionDetailAPI(context, activity, fragment)
                                 }
+                                job.cancel()
                             }else{
                                 withContext(Dispatchers.Main)
                                 {
                                     commonUIUtility.showToast("Bags NOT Updated!")
                                     commonUIUtility.dismissProgress()
                                 }
+                                job.cancel()
                             }
                         }else
                         {
@@ -133,6 +137,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                                 commonUIUtility.showToast("Bags NOT Inserted!")
                                 commonUIUtility.dismissProgress()
                             }
+                            job.cancel()
                         }
                     }else
                     {
@@ -143,6 +148,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                                 (fragment as PCAAuctionFragment).noAuctionPopup()
                             }
                         }
+                        job.cancel()
                     }
                 }else
                 {
@@ -158,6 +164,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                                 (fragment as PCADashboardFragment).redirectToLogin()
                             }
                         }
+                        job.cancel()
                     } else if (!errorResult.Message.isNullOrEmpty() && errorResult.Message.contains("No Auction")) {
                         withContext(Dispatchers.Main) {
                             commonUIUtility.dismissProgress()
@@ -165,6 +172,7 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                                 (fragment as PCAAuctionFragment).noAuctionPopup()
                             }
                         }
+                        job.cancel()
                     } else if (errorResult.Result.contains("False")) {
                         withContext(Dispatchers.Main) {
                             commonUIUtility.dismissProgress()
@@ -172,12 +180,14 @@ class POSTPCAAuctionDetailAPI(var context: Context,var activity: Activity,var fr
                                 (fragment as PCAAuctionFragment).noAuctionPopup()
                             }
                         }
+                        job.cancel()
                     }
                 }
             }
 
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             commonUIUtility.showToast("Please Try Again Later!")
             Log.e(TAG, "postPCAData: ${e.message}")

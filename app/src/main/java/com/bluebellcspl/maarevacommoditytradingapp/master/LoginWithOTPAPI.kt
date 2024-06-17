@@ -49,12 +49,14 @@ class LoginWithOTPAPI(var context: Context, var activity: Activity,var phoneNo:S
                             commonUIUtility.showToast(context.getString(R.string.otp_sent_successfully_alert_msg))
                             (activity as LoginActivity).binding.edtOTPLogin.requestFocus()
                         }
+                        job.cancel()
                     }else
                     {
                         withContext(Main){
                             commonUIUtility.dismissProgress()
                             commonUIUtility.showToast(context.getString(R.string.user_approval_is_pending_alert_msg))
-                        }    
+                        }
+                        job.cancel()
                     }
                 }else
                 {
@@ -62,11 +64,13 @@ class LoginWithOTPAPI(var context: Context, var activity: Activity,var phoneNo:S
                         commonUIUtility.dismissProgress()
                         commonUIUtility.showToast(context.getString(R.string.error_sending_otp))
                     }
+                    job.cancel()
                     Log.e(TAG, "getLoginOTP: ${result.errorBody().toString()}", )
                 }
             }
         }catch (e:Exception)
         {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "getLoginOTP: ${e.message}")

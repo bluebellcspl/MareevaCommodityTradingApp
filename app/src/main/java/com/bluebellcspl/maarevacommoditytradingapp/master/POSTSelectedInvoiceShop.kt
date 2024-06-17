@@ -60,6 +60,7 @@ class POSTSelectedInvoiceShop(
                                 commonUIUtility.dismissProgress()
                                 (fragment as PCAInvoiceFragment).redirectToInvoiceDetailFragment()
                             }
+                            job.cancel()
                         }
 
                         if (fragment is PCAInvoiceDetailFragment)
@@ -70,6 +71,7 @@ class POSTSelectedInvoiceShop(
                                 commonUIUtility.showToast("Data Added Successfully!")
                                 (fragment as PCAInvoiceDetailFragment).refreshData()
                             }
+                            job.cancel()
                         }
                     }
                 } else {
@@ -78,9 +80,11 @@ class POSTSelectedInvoiceShop(
                         commonUIUtility.dismissProgress()
                         commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
                     }
+                    job.cancel()
                 }
             }
         } catch (e: Exception) {
+            job.cancel()
             commonUIUtility.dismissProgress()
             e.printStackTrace()
             Log.e(TAG, "sendSelectedData: ${e.message}")
