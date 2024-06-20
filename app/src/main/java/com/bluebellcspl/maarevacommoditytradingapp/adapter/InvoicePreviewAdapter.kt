@@ -38,27 +38,28 @@ class InvoicePreviewAdapter(var context: Context,var dataList:ArrayList<InvoiceS
 
         var formattedAmount = NumberFormat.getCurrencyInstance().format(model.UsedBagAmount.toDouble()).substring(1)
         holder.binding.edtAmountInvoicePreviewItemAdapter.setText(formattedAmount)
+        holder.binding.edtHSNCodeInvoicePreviewItemAdapter.setText(model.HsnAsc)
 
-        if (holder.binding.edtHSNCodeInvoicePreviewItemAdapter.text.toString().isEmpty()){
-            model.HSNCode = ""
-        }
-        holder.binding.edtHSNCodeInvoicePreviewItemAdapter.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (s.toString().isNotEmpty())
-                {
-                    model.HSNCode = s.toString()
-                    invoiceDetailHelper.processData(dataList)
-                }
-            }
-        })
+//        if (holder.binding.edtHSNCodeInvoicePreviewItemAdapter.text.toString().isEmpty()){
+//            model.HsnAsc = ""
+//        }
+//        holder.binding.edtHSNCodeInvoicePreviewItemAdapter.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                if (s.toString().isNotEmpty())
+//                {
+//                    model.HsnAsc = s.toString()
+//                    invoiceDetailHelper.processData(dataList)
+//                }
+//            }
+//        })
     }
 
 }

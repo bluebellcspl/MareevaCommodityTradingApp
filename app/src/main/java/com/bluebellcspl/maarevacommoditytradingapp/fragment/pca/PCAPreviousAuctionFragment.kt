@@ -103,7 +103,7 @@ class PCAPreviousAuctionFragment : Fragment() {
                 PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()).replace("<PCA_REG_ID>",
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
 
-            fileDownloader.downloadFile(fileURL,"PCA_Auction_Report_$PREV_AUCTION_SELECTED_DATE.xlsx")
+            fileDownloader.downloadFile(fileURL,"PCA_Auction_Report_$PREV_AUCTION_SELECTED_DATE.xlsx","Downloading Report")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "downloadAuctionReport: ${e.message}")
@@ -119,7 +119,7 @@ class PCAPreviousAuctionFragment : Fragment() {
                 PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()).replace("<PCA_REG_ID>",
                 PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
 
-            fileDownloader.downloadFile(fileUrl,"PCA_Auction_Detail_Report_$PREV_AUCTION_SELECTED_DATE.xlsx")
+            fileDownloader.downloadFile(fileUrl,"PCA_Auction_Detail_Report_$PREV_AUCTION_SELECTED_DATE.xlsx", "Downloading Report")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "downloadAuctionDetailReport: ${e.message}")

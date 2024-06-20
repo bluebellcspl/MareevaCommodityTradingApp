@@ -673,6 +673,15 @@
                                 android:textSize="@dimen/_14ssp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_AmountInWords_InvoicePreviewFragment"
+                            android:text=""
+                            android:textColor="@color/colorPrimaryDark"
+                            android:padding="@dimen/_3sdp"
+                            android:textSize="@dimen/_15ssp" />
+
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_SubmitNDownload_InvoicePreviewFragment"
                             android:layout_width="match_parent"
@@ -680,6 +689,7 @@
                             android:text="@string/submit_download"
                             app:cornerRadius="@dimen/_5sdp"
                             android:layout_margin="@dimen/_5sdp" />
+
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 

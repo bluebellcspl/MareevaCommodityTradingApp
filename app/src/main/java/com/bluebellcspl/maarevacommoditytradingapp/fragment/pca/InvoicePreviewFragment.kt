@@ -2,6 +2,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 
 import ConnectionCheck
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
@@ -13,17 +14,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.InvoicePreviewAdapter
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.AmountNumberToWords
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.EditableDecimalInputFilter
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.FileDownloader
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.constants.URLHelper
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentInvoicePreviewBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.InvoicePreviewCommissionPopupBinding
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchInvoicePreviewAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.POSTInvoiceDataAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTInvoiceStockList
+import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.InvoicePreviewModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceStockModelItem
+import com.bluebellcspl.maarevacommoditytradingapp.model.PostInvoiceDataModel
+import java.text.DecimalFormat
+import kotlin.math.floor
 
 
 class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
@@ -42,6 +53,9 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
     private var TOTAL_GST: Double? = null
     private var VEHICLE_NO: String? = null
     private var _invoicePreviewModel: InvoicePreviewModel? = null
+    private lateinit var finalExpenses:FinalExpensePopupData
+    private val fileDownloader by lazy { FileDownloader.getInstance(requireContext()) }
+    private val navController by lazy { findNavController() }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,6 +70,25 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
             FetchInvoicePreviewAPI(requireContext(), this)
         }
         bindRcView(_InvoiceStockList!!)
+        binding.edtTotalAmountInvoicePreviewFragment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s!!.isNotEmpty()) {
+                    val amount = s.toString().replace(",", "")
+                    val numberAmount = amount.toDouble()
+                    Log.d(TAG, "afterTextChanged: NUMBER_AMOUNT : $numberAmount")
+                    val amountToWords = AmountNumberToWords.convert(numberAmount)
+                    binding.tvAmountInWordsInvoicePreviewFragment.setText(amountToWords)
+                }
+            }
+        })
         setOnClickListener()
         return binding.root
     }
@@ -63,21 +96,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
     private fun setOnClickListener() {
         try {
             binding.btnSubmitNDownloadInvoicePreviewFragment.setOnClickListener {
-                var isHSNCode = true
-                for (model in _InvoiceStockList!!) {
-                    if (model.HSNCode.isEmpty()) {
-                        isHSNCode = false
-                        break
-                    }
-                }
-                if (isHSNCode) {
-                    if (ConnectionCheck.isConnected(requireContext()))
-                    {
-                        POSTInvoiceStockList(requireContext(), this@InvoicePreviewFragment,_InvoiceStockList!!)
-                    }
-                } else {
-                    commonUIUtility.showToast("Please Enter HSN Code For All Items!")
-                }
+                showAlertDialog()
             }
 
             binding.cvTotalCalculationInvoicePreviewFragment.setOnClickListener {
@@ -154,6 +173,8 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
             var totalAmount =
                 basicAmount + PCACommission + GCACommission + MarketFees + TransportFees + LabourFees
             var GSTAmount = (totalAmount * TOTAL_GST!!) / 100.00
+            var cgstAmt = DecimalFormat("0.00").format(GSTAmount / 2.0)
+            var sgstAmt = DecimalFormat("0.00").format(GSTAmount / 2.0)
             var totalAmountWithGST = totalAmount + GSTAmount
 
             val formattedGSTAmount =
@@ -163,7 +184,25 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
             val formattedTotalAmount =
                 NumberFormat.getCurrencyInstance().format(totalAmountWithGST).substring(1)
             binding.edtTotalAmountInvoicePreviewFragment.setText(formattedTotalAmount)
-
+            finalExpenses = FinalExpensePopupData(
+                DecimalFormat("0.00").format(GCACommission),
+                invoicePreviewModel.PCAgcaCommissiom,
+                DecimalFormat("0.00").format(PCACommission),
+                invoicePreviewModel.PCApcaCommissiom,
+                DecimalFormat("0.00").format(MarketFees),
+                invoicePreviewModel.MarketCess,
+                DecimalFormat("0.00").format(LabourFees),
+                invoicePreviewModel.LabourCharges,
+                DecimalFormat("0.00").format(TransportFees),
+                invoicePreviewModel.PerBoriRate,
+                DecimalFormat("0.00").format(GSTAmount),
+                invoicePreviewModel.GSTTotalPct,
+                cgstAmt.toString(),
+                CGST_AMOUNT!!.toString(),
+                sgstAmt.toString(),
+                SGST_AMOUNT!!.toString(),
+                DecimalFormat("0.00").format(totalAmountWithGST)
+            )
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "populateData: ${e.message}")
@@ -173,7 +212,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
     fun bindRcView(dataList: ArrayList<InvoiceStockModelItem>) {
         try {
             dataList.forEach { model ->
-                Log.d(TAG, "bindRcView: HSN_CODE : ${model.HSNCode}")
+                Log.d(TAG, "bindRcView: HSN_CODE : ${model.HsnAsc}")
             }
             if (dataList.isNotEmpty()) {
                 adapter = InvoicePreviewAdapter(requireContext(), dataList, this)
@@ -185,6 +224,98 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "bindRcView: ${e.message}")
+        }
+    }
+
+    fun showAlertDialog() {
+        val alertDialog = AlertDialog.Builder(requireContext())
+        alertDialog.setTitle("Alert")
+        alertDialog.setMessage("Do you want to Save Invoice?")
+        alertDialog.setPositiveButton(
+            requireContext().getString(R.string.yes),
+            object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+//                postAuctionData()
+                    sendInvoiceData()
+                }
+            })
+        alertDialog.setNegativeButton(
+            requireContext().getString(R.string.no),
+            object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    p0!!.dismiss()
+                }
+            })
+        alertDialog.show()
+    }
+
+    private fun sendInvoiceData() {
+        try {
+            val postInvoiceStockList = ArrayList<InvoiceDetailsModel>()
+            _InvoiceStockList!!.forEach{model->
+                val currentQTL = DecimalFormat("0.00").format(floor(model.UsedBagWeightKg.toDouble() / 100.0))
+                val currentKG = model.UsedBagWeightKg.toDouble() - floor(model.UsedBagWeightKg.toDouble()/100.0)*100.0
+                val invoiceKG = DecimalFormat("0.00").format(currentKG)
+
+                val invoiceDetailsModel = InvoiceDetailsModel(
+                    model.CommodityId,
+                    model.UsedBags,
+                    model.HsnAsc,
+                    currentQTL,
+                    model.UsedBagRate,
+                    model.UsedBagAmount,
+                    invoiceKG,
+                    model.StockId
+                )
+                
+                postInvoiceStockList.add(invoiceDetailsModel)
+            }
+            val invoiceDataModel = PostInvoiceDataModel(
+                "Insert",
+                binding.edtBuyerAddressInvoicePreviewFragment.text.toString().trim(),
+                binding.edtBuyerCityInvoicePreviewFragment.text.toString().trim(),
+                binding.edtBuyerGSTINInvoicePreviewFragment.text.toString().trim(),
+                _invoicePreviewModel!!.BuyerId,
+                binding.edtBuyerNameInvoicePreviewFragment.text.toString().trim(),
+                binding.edtBuyerPANInvoicePreviewFragment.text.toString().trim(),
+                PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "").toString(),
+                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
+                _invoicePreviewModel!!.InvoiceDate,
+                finalExpenses.finalTotalAmount,
+                binding.tvAmountInWordsInvoicePreviewFragment.text.toString().trim(),
+                finalExpenses.finalCGSTAmount,
+                finalExpenses.finalCGSTPCT,
+                finalExpenses.finalGCACommAmount,
+                finalExpenses.finalGCACommPCT,
+                finalExpenses.finalGSTAmount,
+                TOTAL_GST.toString(),
+                finalExpenses.finalLabourAmount,
+                finalExpenses.finalLabourRate,
+                finalExpenses.finalMarketFeesAmount,
+                finalExpenses.finalMarketFeesPCT,
+                finalExpenses.finalPCACommAmount,
+                finalExpenses.finalPCACommPCT,
+                finalExpenses.finalSGSTAmount,
+                finalExpenses.finalSGSTPCT,
+                finalExpenses.finalTransportAmount,
+                finalExpenses.finalTransportRate,
+                _invoicePreviewModel!!.FinanceYear,
+                postInvoiceStockList,
+                _invoicePreviewModel!!.PCAId,
+                _invoicePreviewModel!!.PCARegId,
+                _invoicePreviewModel!!.PCARegId,
+                binding.edtTransportVehicleInvoicePreviewFragment.text.toString().trim()
+            )
+
+            Log.d(TAG, "sendInvoiceData: INVOICE_DATA_MODEL : $invoiceDataModel")
+
+            if (ConnectionCheck.isConnected(requireContext()))
+            {
+                POSTInvoiceDataAPI(requireContext(),this@InvoicePreviewFragment,_InvoiceStockList!!,invoiceDataModel)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "sendInvoiceData: ${e.message}")
         }
     }
 
@@ -212,13 +343,14 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
             dialogBinding.edtTransportInvoicePreviewPopup.filters =
                 arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
 
-            var pcaCommAmount =0.0
-            var gcaCommAmount =0.0
-            var marketFeesAmount =0.0
-            var labourAmount =0.0
-            var transportAmount =0.0
+            var pcaCommAmount = 0.0
+            var gcaCommAmount = 0.0
+            var marketFeesAmount = 0.0
+            var labourAmount = 0.0
+            var transportAmount = 0.0
 
-            dialogBinding.edtGCACommInvoicePreviewPopup.addTextChangedListener(object : TextWatcher {
+            dialogBinding.edtGCACommInvoicePreviewPopup.addTextChangedListener(object :
+                TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -241,7 +373,8 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.tvGCACommAmountInvoicePreviewPopup.setText("0")
                     }
                     if (dialogBinding.edtGCACommInvoicePreviewPopup.text.toString().length >= 2 && dialogBinding.edtGCACommInvoicePreviewPopup.text.toString()
-                            .startsWith("0") && !dialogBinding.edtGCACommInvoicePreviewPopup.text.toString().contains("0.")
+                            .startsWith("0") && !dialogBinding.edtGCACommInvoicePreviewPopup.text.toString()
+                            .contains("0.")
                     ) {
 
                         val subStr =
@@ -249,10 +382,9 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.edtGCACommInvoicePreviewPopup.setText(subStr)
                         dialogBinding.edtGCACommInvoicePreviewPopup.setSelection(subStr.length)
 
-                    }
-                else
-                    {
-                        var percentage = dialogBinding.edtGCACommInvoicePreviewPopup.text.toString().toDouble()
+                    } else {
+                        var percentage =
+                            dialogBinding.edtGCACommInvoicePreviewPopup.text.toString().toDouble()
                         Log.d(TAG, "afterTextChanged: EDT_PERCENT : $percentage")
                         if (percentage > 100) {
                             dialogBinding.edtGCACommInvoicePreviewPopup.setText("100")
@@ -263,7 +395,8 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                             NumberFormat.getCurrencyInstance().format(gcaCommAmount).substring(1)
                         dialogBinding.tvGCACommAmountInvoicePreviewPopup.setText(formattedAmount)
 
-                        var totalAmount = BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
+                        var totalAmount =
+                            BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
                         var GSTAmount = (totalAmount * TOTAL_GST!!) / 100.00
                         var totalAmountWithGST = totalAmount + GSTAmount
 
@@ -272,13 +405,15 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.edtGSTAmountInvoicePreviewPopup.setText(formattedGSTAmount)
 
                         val formattedTotalAmount =
-                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST).substring(1)
+                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST)
+                                .substring(1)
                         dialogBinding.edtTotalAmountInvoicePreviewPopup.setText(formattedTotalAmount)
                     }
 
                 }
             })
-            dialogBinding.edtPCACommInvoicePreviewPopup.addTextChangedListener(object : TextWatcher {
+            dialogBinding.edtPCACommInvoicePreviewPopup.addTextChangedListener(object :
+                TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -296,19 +431,20 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                     if (dialogBinding.edtPCACommInvoicePreviewPopup.text.toString().isEmpty()) {
                         dialogBinding.edtPCACommInvoicePreviewPopup.setText("0")
                         dialogBinding.edtPCACommInvoicePreviewPopup.setSelection(1)
-                        pcaCommAmount=0.0
+                        pcaCommAmount = 0.0
                         dialogBinding.tvPCACommAmountInvoicePreviewPopup.setText("0")
                     }
                     if (dialogBinding.edtPCACommInvoicePreviewPopup.text.toString().length >= 2 && dialogBinding.edtPCACommInvoicePreviewPopup.text.toString()
-                            .startsWith("0") && !dialogBinding.edtPCACommInvoicePreviewPopup.text.toString().contains("0.")
+                            .startsWith("0") && !dialogBinding.edtPCACommInvoicePreviewPopup.text.toString()
+                            .contains("0.")
                     ) {
                         val subStr =
                             dialogBinding.edtPCACommInvoicePreviewPopup.text.toString().substring(1)
                         dialogBinding.edtPCACommInvoicePreviewPopup.setText(subStr)
                         dialogBinding.edtPCACommInvoicePreviewPopup.setSelection(subStr.length)
-                    }else
-                    {
-                        var percentage = dialogBinding.edtPCACommInvoicePreviewPopup.text.toString().toDouble()
+                    } else {
+                        var percentage =
+                            dialogBinding.edtPCACommInvoicePreviewPopup.text.toString().toDouble()
                         if (percentage > 100) {
                             dialogBinding.edtPCACommInvoicePreviewPopup.setText("100")
                             dialogBinding.edtPCACommInvoicePreviewPopup.setSelection(s.toString().length)
@@ -318,7 +454,8 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                             NumberFormat.getCurrencyInstance().format(pcaCommAmount).substring(1)
                         dialogBinding.tvPCACommAmountInvoicePreviewPopup.setText(formattedAmount)
 
-                        var totalAmount = BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
+                        var totalAmount =
+                            BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
                         var GSTAmount = (totalAmount * TOTAL_GST!!) / 100.00
                         var totalAmountWithGST = totalAmount + GSTAmount
 
@@ -327,13 +464,15 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.edtGSTAmountInvoicePreviewPopup.setText(formattedGSTAmount)
 
                         val formattedTotalAmount =
-                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST).substring(1)
+                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST)
+                                .substring(1)
                         dialogBinding.edtTotalAmountInvoicePreviewPopup.setText(formattedTotalAmount)
                     }
 
                 }
             })
-            dialogBinding.edtMarketFeesInvoicePreviewPopup.addTextChangedListener(object : TextWatcher {
+            dialogBinding.edtMarketFeesInvoicePreviewPopup.addTextChangedListener(object :
+                TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -355,27 +494,32 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.tvMarketFeesAmountInvoicePreviewPopup.setText("0")
                     }
                     if (dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString().length >= 2 && dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString()
-                            .startsWith("0") && !dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString().contains("0.")
-                    )
-                    {
+                            .startsWith("0") && !dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString()
+                            .contains("0.")
+                    ) {
                         val subStr =
-                            dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString().substring(1)
+                            dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString()
+                                .substring(1)
                         dialogBinding.edtMarketFeesInvoicePreviewPopup.setText(subStr)
                         dialogBinding.edtMarketFeesInvoicePreviewPopup.setSelection(1)
-                    }else
-                    {
-                        var percentage = dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString().toDouble()
+                    } else {
+                        var percentage =
+                            dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString()
+                                .toDouble()
                         if (percentage > 100) {
 
                             dialogBinding.edtMarketFeesInvoicePreviewPopup.setText("100")
-                            dialogBinding.edtMarketFeesInvoicePreviewPopup.setSelection(dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString().length)
+                            dialogBinding.edtMarketFeesInvoicePreviewPopup.setSelection(
+                                dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString().length
+                            )
                         }
                         marketFeesAmount = BASIC_AMOUNT!! * percentage / 100.00
                         val formattedAmount =
                             NumberFormat.getCurrencyInstance().format(marketFeesAmount).substring(1)
                         dialogBinding.tvMarketFeesAmountInvoicePreviewPopup.setText(formattedAmount)
 
-                        var totalAmount = BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
+                        var totalAmount =
+                            BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
                         var GSTAmount = (totalAmount * TOTAL_GST!!) / 100.00
                         var totalAmountWithGST = totalAmount + GSTAmount
 
@@ -384,7 +528,8 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.edtGSTAmountInvoicePreviewPopup.setText(formattedGSTAmount)
 
                         val formattedTotalAmount =
-                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST).substring(1)
+                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST)
+                                .substring(1)
                         dialogBinding.edtTotalAmountInvoicePreviewPopup.setText(formattedTotalAmount)
                     }
 
@@ -419,21 +564,23 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.tvLabourAmountInvoicePreviewPopup.setText("0")
                     }
                     if (dialogBinding.edtLabourInvoicePreviewPopup.text.toString().length >= 2 && dialogBinding.edtLabourInvoicePreviewPopup.text.toString()
-                            .startsWith("0") && !dialogBinding.edtLabourInvoicePreviewPopup.text.toString().contains("0.")
+                            .startsWith("0") && !dialogBinding.edtLabourInvoicePreviewPopup.text.toString()
+                            .contains("0.")
                     ) {
                         val subStr =
                             dialogBinding.edtLabourInvoicePreviewPopup.text.toString().substring(1)
                         dialogBinding.edtLabourInvoicePreviewPopup.setText(subStr)
                         dialogBinding.edtLabourInvoicePreviewPopup.setSelection(1)
-                    }
-                    else{
-                        var percentage = dialogBinding.edtLabourInvoicePreviewPopup.text.toString().toDouble()
+                    } else {
+                        var percentage =
+                            dialogBinding.edtLabourInvoicePreviewPopup.text.toString().toDouble()
                         labourAmount = USED_BAGS!! * percentage
                         val formattedAmount =
                             NumberFormat.getCurrencyInstance().format(labourAmount).substring(1)
                         dialogBinding.tvLabourAmountInvoicePreviewPopup.setText(formattedAmount)
 
-                        var totalAmount = BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
+                        var totalAmount =
+                            BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
                         var GSTAmount = (totalAmount * TOTAL_GST!!) / 100.00
                         var totalAmountWithGST = totalAmount + GSTAmount
 
@@ -442,13 +589,15 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.edtGSTAmountInvoicePreviewPopup.setText(formattedGSTAmount)
 
                         val formattedTotalAmount =
-                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST).substring(1)
+                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST)
+                                .substring(1)
                         dialogBinding.edtTotalAmountInvoicePreviewPopup.setText(formattedTotalAmount)
                     }
 
                 }
             })
-            dialogBinding.edtTransportInvoicePreviewPopup.addTextChangedListener(object : TextWatcher {
+            dialogBinding.edtTransportInvoicePreviewPopup.addTextChangedListener(object :
+                TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -470,22 +619,24 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.tvTransportAmountInvoicePreviewPopup.setText("0")
                     }
                     if (dialogBinding.edtTransportInvoicePreviewPopup.text.toString().length >= 2 && dialogBinding.edtTransportInvoicePreviewPopup.text.toString()
-                            .startsWith("0") && !dialogBinding.edtTransportInvoicePreviewPopup.text.toString().contains("0.")
+                            .startsWith("0") && !dialogBinding.edtTransportInvoicePreviewPopup.text.toString()
+                            .contains("0.")
                     ) {
                         val subStr =
-                            dialogBinding.edtTransportInvoicePreviewPopup.text.toString().substring(1)
+                            dialogBinding.edtTransportInvoicePreviewPopup.text.toString()
+                                .substring(1)
                         dialogBinding.edtTransportInvoicePreviewPopup.setText(subStr)
                         dialogBinding.edtTransportInvoicePreviewPopup.setSelection(1)
-                    }
-                    else
-                    {
-                        var percentage = dialogBinding.edtTransportInvoicePreviewPopup.text.toString().toDouble()
+                    } else {
+                        var percentage =
+                            dialogBinding.edtTransportInvoicePreviewPopup.text.toString().toDouble()
                         transportAmount = USED_BAGS!! * percentage
                         val formattedAmount =
                             NumberFormat.getCurrencyInstance().format(transportAmount).substring(1)
                         dialogBinding.tvTransportAmountInvoicePreviewPopup.setText(formattedAmount)
 
-                        var totalAmount = BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
+                        var totalAmount =
+                            BASIC_AMOUNT!! + pcaCommAmount + gcaCommAmount + marketFeesAmount + labourAmount + transportAmount
                         var GSTAmount = (totalAmount * TOTAL_GST!!) / 100.00
                         var totalAmountWithGST = totalAmount + GSTAmount
 
@@ -494,7 +645,8 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                         dialogBinding.edtGSTAmountInvoicePreviewPopup.setText(formattedGSTAmount)
 
                         val formattedTotalAmount =
-                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST).substring(1)
+                            NumberFormat.getCurrencyInstance().format(totalAmountWithGST)
+                                .substring(1)
                         dialogBinding.edtTotalAmountInvoicePreviewPopup.setText(formattedTotalAmount)
                     }
                 }
@@ -506,7 +658,8 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
             dialogBinding.edtLabourInvoicePreviewPopup.setText(_invoicePreviewModel!!.LabourCharges)
             dialogBinding.edtTransportInvoicePreviewPopup.setText(_invoicePreviewModel!!.PerBoriRate)
 
-            var gstPCString = StringBuilder(dialogBinding.tvGSTTotalPercentageInvoicePreviewPopup.text.toString())
+            var gstPCString =
+                StringBuilder(dialogBinding.tvGSTTotalPercentageInvoicePreviewPopup.text.toString())
             gstPCString.append("$TOTAL_GST%")
             dialogBinding.tvGSTTotalPercentageInvoicePreviewPopup.setText(gstPCString.toString())
 
@@ -522,6 +675,30 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                 binding.edtTransportInvoicePreviewFragment.setText(dialogBinding.edtTransportInvoicePreviewPopup.text.toString())
                 binding.edtGSTInvoicePreviewFragment.setText(dialogBinding.edtGSTAmountInvoicePreviewPopup.text.toString())
                 binding.edtTotalAmountInvoicePreviewFragment.setText(dialogBinding.edtTotalAmountInvoicePreviewPopup.text.toString())
+                val totalGSTAmount = dialogBinding.edtGSTAmountInvoicePreviewPopup.text.toString().replace(",", "").toDouble()
+                val CGSTAmount = totalGSTAmount/2.0
+                val SGSTAmount = totalGSTAmount/2.0
+                val CGST_PCT = TOTAL_GST!!/2.0
+                val SGST_PCT = TOTAL_GST!!/2.0
+                finalExpenses = FinalExpensePopupData(
+                    dialogBinding.tvGCACommAmountInvoicePreviewPopup.text.toString().replace(",", "").trim(),
+                    dialogBinding.edtGCACommInvoicePreviewPopup.text.toString(),
+                    dialogBinding.tvPCACommAmountInvoicePreviewPopup.text.toString().replace(",", "").trim(),
+                    dialogBinding.edtPCACommInvoicePreviewPopup.text.toString(),
+                    dialogBinding.tvMarketFeesAmountInvoicePreviewPopup.text.toString().replace(",", "").trim(),
+                    dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString(),
+                    dialogBinding.tvLabourAmountInvoicePreviewPopup.text.toString().replace(",", "").trim(),
+                    dialogBinding.edtLabourInvoicePreviewPopup.text.toString(),
+                    dialogBinding.tvTransportAmountInvoicePreviewPopup.text.toString().replace(",", "").trim(),
+                    dialogBinding.edtTransportInvoicePreviewPopup.text.toString(),
+                    dialogBinding.edtGSTAmountInvoicePreviewPopup.text.toString().replace(",", "").trim(),
+                    dialogBinding.tvGSTTotalPercentageInvoicePreviewPopup.text.toString().replace("%","").trim(),
+                    CGSTAmount.toString(),
+                    CGST_PCT.toString(),
+                    SGSTAmount.toString(),
+                    SGST_PCT.toString(),
+                    dialogBinding.edtTotalAmountInvoicePreviewPopup.text.toString().replace(",", "")
+                )
                 alertDialog.dismiss()
             }
 
@@ -536,15 +713,57 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
         super.onDestroyView()
     }
 
+    data class FinalExpensePopupData(
+        var finalGCACommAmount: String,
+        var finalGCACommPCT: String,
+        var finalPCACommAmount: String,
+        var finalPCACommPCT: String,
+        var finalMarketFeesAmount: String,
+        var finalMarketFeesPCT: String,
+        var finalLabourAmount: String,
+        var finalLabourRate: String,
+        var finalTransportAmount: String,
+        var finalTransportRate: String,
+        var finalGSTAmount: String,
+        var finalGSTPCT: String,
+        var finalCGSTAmount:String,
+        var finalCGSTPCT:String,
+        var finalSGSTAmount:String,
+        var finalSGSTPCT: String,
+        var finalTotalAmount: String
+    )
+
     override fun processData(dataList: ArrayList<InvoiceStockModelItem>) {
         try {
             dataList.forEach { model ->
-                Log.d(TAG, "processData: HSN_CODE : ${model.HSNCode}")
+                Log.d(TAG, "processData: HSN_CODE : ${model.HsnAsc}")
             }
 
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "processData: ${e.message}")
+        }
+    }
+
+    fun downloadInvoice(invoiceId:String)
+    {
+        try {
+            val fileURL = URLHelper.INVOICE_DOC.replace("<INVOICE_NO>",invoiceId)
+            Log.d(TAG, "downloadInvoice: fileURL : $fileURL")
+            fileDownloader.downloadFile(fileURL,"InVoiceGenerating_Report_Book.doc", "Downloading Invoice")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "downloadAuctionDetailReport: ${e.message}")
+        }
+    }
+
+    fun successRedirect(){
+        try {
+            navController.navigate(InvoicePreviewFragmentDirections.actionInvoicePreviewFragmentToInvoiceStockFragment())
+        }catch (e:Exception)
+        {
+            e.printStackTrace()
+            Log.e(TAG, "successRedirect: ${e.message}")
         }
     }
 }

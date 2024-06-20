@@ -300,10 +300,10 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
             .setValidator(DateValidatorPointBackward.before(System.currentTimeMillis()))
             .build()
         val builder = MaterialDatePicker.Builder.datePicker().setCalendarConstraints(calendarConstraints)
-            if (fromSelectedDate>0L)
-            {
-                builder.setSelection(fromSelectedDate)
-            }
+        if (fromSelectedDate>0L)
+        {
+            builder.setSelection(fromSelectedDate)
+        }
         val datePicker = builder.setTitleText("Select From Date").build()
         datePicker.addOnPositiveButtonClickListener {
             // Handle the selected date
@@ -567,11 +567,7 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
             if (ConnectionCheck.isConnected(requireContext()))
             {
                 POSTSelectedInvoiceShop(requireContext(),this,postSelectedDataModel)
-//                redirectToInvoiceDetailFragment()
             }
-//            } else {
-//                commonUIUtility.showToast("Please Select at least 1 Entry!")
-//            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "onSaveButtonClick: ${e.message}")

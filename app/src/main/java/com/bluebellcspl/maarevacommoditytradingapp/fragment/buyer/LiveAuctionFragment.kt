@@ -47,7 +47,6 @@ class LiveAuctionFragment : Fragment(), RecyclerViewHelper {
     private val binding get() = _binding!!
     private val commonUIUtility by lazy { CommonUIUtility(requireContext().applicationContext) }
     private val TAG = "LiveAuctionFragment"
-    private lateinit var webSocketClient: WebSocketClient
     private var isWebSocketConnected = false
     lateinit var adapter: LiveAuctionListAdapter
     var lastPCAList: ArrayList<LiveAuctionPCAListModel> = ArrayList()

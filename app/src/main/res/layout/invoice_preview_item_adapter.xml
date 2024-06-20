@@ -79,6 +79,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_HSNCode_InvoicePreviewItemAdapter"
                             android:layout_width="match_parent"
+                            android:enabled="false"
                             android:layout_height="match_parent"
                             android:padding="@dimen/_8sdp"
                             android:textColor="@color/black"

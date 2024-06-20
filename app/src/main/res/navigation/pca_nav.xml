@@ -276,5 +276,10 @@
         <argument
             android:name="vehicleNo"
             app:argType="string" />
+        <action
+            android:id="@+id/action_invoicePreviewFragment_to_invoiceStockFragment"
+            app:destination="@id/invoiceStockFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/invoiceStockFragment" />
     </fragment>
 </navigation>

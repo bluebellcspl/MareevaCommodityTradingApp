@@ -29,6 +29,7 @@ class FetchInvoicePreviewAPI(var context: Context,var fragment: InvoicePreviewFr
 
     private fun getInvoicePreview() {
         try {
+            commonUIUtility.showProgress()
             val JO = JsonObject().apply {
                 addProperty("PCARegId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
                 addProperty("CompanyCode", PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))

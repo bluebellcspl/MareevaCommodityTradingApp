@@ -219,4 +219,14 @@ interface OurRetrofit {
     @Body body: JsonObject,
   ):Response<JsonObject>
 
+  @POST("/API/MaarevaApi/MaarevaApi/UpdateFinalInvoiceStock")
+  suspend fun postInvoiceStockList(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/APIInvoiceInsert")
+  suspend fun postInvoiceData(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
+
 }

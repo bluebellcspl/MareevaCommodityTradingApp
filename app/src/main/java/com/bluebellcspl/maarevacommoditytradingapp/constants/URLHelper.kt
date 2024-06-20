@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.constants
 
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 
 class URLHelper {
@@ -14,6 +15,10 @@ class URLHelper {
         val PCA_AUCTION_REPORT = RetrofitHelper.BASE_URL+ "/Report/PCADashPCAHeaderExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
 
         val PCA_AUCTION_DETAIL_REPORT = RetrofitHelper.BASE_URL+ "/Report/PCADashPCADetailsExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
+
+        val INVOICE_DOC = RetrofitHelper.BASE_URL+ "/RDLCReport/InVoiceGenerating.aspx?InvoiceNo=<INVOICE_NO>&PCARegId=${PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"")}"
+
+        val INVOICE_PDF = RetrofitHelper.BASE_URL+ "/RDLCReport/InVoiceGenerating.aspx?InvoiceNo=<INVOICE_NO>&PCARegId=${PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"")}&Action=PDF"
 
 //        val LIVE_CHAT_SOCKET = "wss://maareva.bbcspldev.in/API/MaarevaApi/MaarevaApi/ConnectWebSocket" //Testing Server URL
         val LIVE_CHAT_SOCKET = "wss://maareva.com/API/MaarevaApi/MaarevaApi/ConnectWebSocket"

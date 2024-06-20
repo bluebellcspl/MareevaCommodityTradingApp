@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
@@ -18,11 +17,9 @@ import androidx.navigation.fragment.navArgs
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.InvoiceStockDetailAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
-import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.RtoNumberInputFilter
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentInvoiceStockDetailBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.InvoiceStockPopupFinalBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceStockModelItem
-import java.text.DecimalFormat
 import java.util.regex.Pattern
 
 class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
@@ -151,7 +148,7 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
             var taxAdapter = commonUIUtility.setCustomArrayAdapter(requireActivity().resources.getStringArray(R.array.tax_Array))
             dialogBinding.actGSTInvoiceStockPopup.setAdapter(taxAdapter)
             var isValidRTO = false
-
+            var gstStatus:Boolean? = null
             dialogBinding.edtVehicleNoInvoiceStockPopup.addTextChangedListener(object : TextWatcher {
                 private var isFormatting: Boolean = false
                 private var beforeLength: Int = 0
@@ -225,6 +222,16 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
                 }
             })
 
+            dialogBinding.actGSTInvoiceStockPopup.setOnItemClickListener { adapter, view, position, id ->
+                if (position == 1)
+                {
+                    gstStatus = false
+                }else
+                {
+                    gstStatus = true
+                }
+            }
+
 
             dialogBinding.btnNextInvoiceStockPopup.setOnClickListener {
 
@@ -241,15 +248,8 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
                     }
                     val gst = dialogBinding.actGSTInvoiceStockPopup.text.toString()
                     val rtoNumber = dialogBinding.edtVehicleNoInvoiceStockPopup.text.toString()
-                    var gstStatus:Boolean
-                    if (gst.contains("without",true)){
-                        gstStatus = false
-                    }else
-                    {
-                        gstStatus = true
-                    }
-                    Log.d(TAG, "shopFinalPopup: GST_STATUS : $gstStatus")
-                    navController.navigate(InvoiceStockDetailFragmentDirections.actionInvoiceStockDetailFragmentToInvoicePreviewFragment(_InvoiceStockList!!.toTypedArray(),gstStatus,rtoNumber))
+
+                    navController.navigate(InvoiceStockDetailFragmentDirections.actionInvoiceStockDetailFragmentToInvoicePreviewFragment(_InvoiceStockList!!.toTypedArray(),gstStatus!!,rtoNumber))
                 }
                 alertDialog.dismiss()
             }

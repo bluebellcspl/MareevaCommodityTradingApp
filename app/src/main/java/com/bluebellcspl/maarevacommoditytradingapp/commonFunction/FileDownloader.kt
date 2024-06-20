@@ -13,12 +13,12 @@ import java.io.File
 
 class FileDownloader private constructor(private val context: Context) {
     val TAG = "FileDownloader"
-    fun downloadFile(fileUrl: String, fileName: String) {
+    fun downloadFile(fileUrl: String, fileName: String,description:String) {
         Log.d(TAG, "downloadFile: URL : $fileUrl")
         Log.d(TAG, "downloadFile: FILENAME : $fileName")
         val request = DownloadManager.Request(Uri.parse(fileUrl))
         request.setTitle("Downloading $fileName")
-        request.setDescription("Downloading Report")
+        request.setDescription(description)
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
         // Set the destination directory and file name
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
