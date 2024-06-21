@@ -46,5 +46,7 @@ data class PCAListModelItem(
     var StateId: String,
     var StateName: String,
     var UpdateDate: String,
-    var UpdateUser: String
+    var UpdateUser: String,
+    var RegId: String,
+    var Action: String,
 ):Parcelable

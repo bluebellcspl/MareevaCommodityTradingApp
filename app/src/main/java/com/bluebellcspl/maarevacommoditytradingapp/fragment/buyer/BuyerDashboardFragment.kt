@@ -181,7 +181,7 @@ class BuyerDashboardFragment : Fragment() {
                     requireActivity(),
                     this@BuyerDashboardFragment
                 )
-                FetchCityMasterAPI(requireContext(), requireActivity())
+//                FetchCityMasterAPI(requireContext(), requireActivity())
                 FetchBuyerAuctionDetailAPI(
                     requireContext(),
                     requireActivity(),

@@ -9,6 +9,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.LiveAuctionFra
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTAuctionStartStopAPIModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,21 +35,13 @@ class POSTAuctionStartStopAPI(
     private fun postAuctionStartStop() {
         try {
             commonUIUtility.showProgress()
-            val JO = JsonObject()
-            JO.addProperty("isAuctionStop", model.isAuctionStop)
-            JO.addProperty("BuyerRegId", model.BuyerRegId)
-            JO.addProperty("Date", model.Date)
-            JO.addProperty("UpdateDate", model.UpdateDate)
-            JO.addProperty("UpdateUser", model.UpdateUser)
-            JO.addProperty("CommodityId", model.CommodityId)
-            JO.addProperty("Typeofuser", model.Typeofuser)
-            JO.addProperty("PCARegId", model.PCARegId)
-            JO.addProperty("CompanyCode", model.CompanyCode)
 
+            val postAuctionStartStopJO = Gson().toJsonTree(model).asJsonObject
+            Log.d(TAG, "postAuctionStartStop: LIVE_AUCTION_PLAY_PAUSE_JSON : $postAuctionStartStopJO")
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
             scope.launch(Dispatchers.IO)
             {
-                val result = APICall.postAuctionStartStop(JO)
+                val result = APICall.postAuctionStartStop(postAuctionStartStopJO)
                 if (result.isSuccessful) {
                     val responseStr = result.body()!!
                     if (responseStr.contains("PCA Auction Status Updated Successfully", true)) {

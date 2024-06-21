@@ -251,7 +251,9 @@ class EditPCAFragment : Fragment() {
                 args.pcaListModel.StateId,
                 args.pcaListModel.StateName,
                 DateUtility().getyyyyMMdd(),
-                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
+                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+                PrefUtil.ACTION_UPDATE
             )
             if (ConnectionCheck.isConnected(requireContext()))
             {

@@ -7,8 +7,10 @@ import android.util.Log
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterAPICallModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +18,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FetchShopMasterAPI(var context: Context, var activity: Activity) {
+class FetchShopMasterAPI(var context: Context, var activity: Activity,var model: ShopMasterAPICallModel) {
     val job = Job()
     val scope = CoroutineScope(job)
     val commonUIUtility = CommonUIUtility(context)
@@ -31,15 +33,14 @@ class FetchShopMasterAPI(var context: Context, var activity: Activity) {
         try {
             commonUIUtility.showProgress()
             Log.d(TAG, "getShopMaster: PROGRESS_START")
-            val JO = JsonObject()
-            JO.addProperty("CompanyCode", "MAT189")
-            JO.addProperty("Action", "All")
-            Log.d(TAG, "getShopMaster: JSON : ${JO.toString()}")
+
+            var shopAPICallJO = Gson().toJsonTree(model).asJsonObject
+            Log.d(TAG, "getShopMaster: JSON : $shopAPICallJO")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
 
             scope.launch(Dispatchers.IO){
-                val result = APICall.getShopMaster(JO)
+                val result = APICall.getShopMaster(shopAPICallJO)
                 if (result.isSuccessful)
                 {
                     val shopMasterModel = result.body()!!

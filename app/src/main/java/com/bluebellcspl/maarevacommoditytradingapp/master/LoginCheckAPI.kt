@@ -40,20 +40,15 @@ class LoginCheckAPI(
     private fun getLoginForAdmin() {
         try {
             commonUIUtility.showProgress()
-            val JO = JsonObject()
-            JO.addProperty("MobileNo", model.MobileNo)
-            JO.addProperty("UserName", model.UserName)
-            JO.addProperty("UserPassword", model.UserPassword)
-            JO.addProperty("OTP", model.OTP)
-            JO.addProperty("CompanyCode", model.CompanyCode)
-            JO.addProperty("TokenId", model.TokenId)
 
-            Log.d(TAG, "getLoginForAdmin: JSON : ${JO.toString()}")
+            val loginCheckJO = Gson().toJsonTree(model).asJsonObject
+
+            Log.d(TAG, "getLoginForAdmin: JSON : $loginCheckJO")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
 
             scope.launch(Dispatchers.IO){
-                val result = APICall.getLoginCheck(JO)
+                val result = APICall.getLoginCheck(loginCheckJO)
                 if (result.isSuccessful)
                 {
                     val resultJO = result.body()!!

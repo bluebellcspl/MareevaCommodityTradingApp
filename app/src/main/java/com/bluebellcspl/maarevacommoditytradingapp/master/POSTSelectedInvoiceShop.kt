@@ -35,21 +35,16 @@ class POSTSelectedInvoiceShop(
     private fun sendSelectedData() {
         try {
             commonUIUtility.showProgress()
-            val JO = JsonObject().apply {
-                addProperty("FromDate", dataModel.FromDate)
-                addProperty("ToDate", dataModel.ToDate)
-                addProperty("PCARegId", dataModel.PCARegId)
-                addProperty("CompanyCode", dataModel.CompanyCode)
-                addProperty("Language", dataModel.Language)
-                add("InvoiceList", Gson().toJsonTree(dataModel.GCADataList).asJsonArray)
-            }
 
-            Log.d(TAG, "sendSelectedData: SELECTED_INVOICE_JSON : $JO")
+            val postSelectedInvoiceShopJO = Gson().toJsonTree(dataModel).asJsonObject
+            postSelectedInvoiceShopJO.remove("GCADataList")
+            postSelectedInvoiceShopJO.add("InvoiceList", Gson().toJsonTree(dataModel.GCADataList).asJsonArray)
+            Log.d(TAG, "sendSelectedData: SELECTED_INVOICE_JSON : $postSelectedInvoiceShopJO")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
             scope.launch(Dispatchers.IO)
             {
-                val result = APICall.postSelectedInvoiceData(JO)
+                val result = APICall.postSelectedInvoiceData(postSelectedInvoiceShopJO)
                 if (result.isSuccessful) {
                     val responseJO = result.body()!!
                     if (responseJO.get("Success").asBoolean) {

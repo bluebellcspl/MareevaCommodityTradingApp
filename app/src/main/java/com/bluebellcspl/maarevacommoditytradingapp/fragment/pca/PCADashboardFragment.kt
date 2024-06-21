@@ -35,8 +35,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCADashbo
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchPCAAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchPCAPreviousAuctionAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchShopMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAPrevAuctionMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterAPICallModel
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -164,7 +166,8 @@ class PCADashboardFragment : Fragment() {
     private fun fetchDataFromAPI() {
         try {
             if(ConnectionCheck.isConnected(requireContext())) {
-                FetchCityMasterAPI(requireContext(), requireActivity())
+//                FetchCityMasterAPI(requireContext(), requireActivity())
+                FetchShopMasterAPI(requireContext(), requireActivity(), ShopMasterAPICallModel(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString(), "GetAPMCwise",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()))
                 FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
                 FetchPCAPreviousAuctionAPI(requireContext(),this@PCADashboardFragment,PREV_AUCTION_SELECTED_DATE)
             }

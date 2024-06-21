@@ -67,9 +67,9 @@ class LoginActivity : AppCompatActivity() {
         if (ConnectionCheck.isConnected(this))
         {
             FetchAPMCMasterAPI(this,this@LoginActivity)
-            FetchTransportationMasterAPI(this,this@LoginActivity)
+//            FetchTransportationMasterAPI(this,this@LoginActivity)
             FetchCommodityMasterAPI(this,this@LoginActivity)
-            FetchShopMasterAPI(this,this@LoginActivity)
+//            FetchShopMasterAPI(this,this@LoginActivity)
 
             val isLoggedIn = PrefUtil.getBoolean(PrefUtil.KEY_LOGGEDIN,false)
             val hasLoggedInPreviously = PrefUtil.getBoolean(PrefUtil.KEY_HAS_LOGGEDIN_PREVIOUSLY,false)
