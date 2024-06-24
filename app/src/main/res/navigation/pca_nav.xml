@@ -110,6 +110,19 @@
             android:id="@+id/action_PCADashboardFragment_to_invoiceStockFragment"
             app:destination="@id/invoiceStockFragment"
             app:launchSingleTop="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/PCADashboardFragment" />
+        <action
+            android:id="@+id/action_PCADashboardFragment_to_invoiceReportFragment"
+            app:destination="@id/invoiceReportFragment"
+            app:launchSingleTop="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/PCADashboardFragment" />
     </fragment>
     <fragment
@@ -216,9 +229,6 @@
         <argument
             android:name="endDate"
             app:argType="string" />
-        <argument
-            android:name="commodityId"
-            app:argType="string" />
         <action
             android:id="@+id/action_PCAInvoiceDetailFragment_to_invoiceStockFragment"
             app:destination="@id/invoiceStockFragment"
@@ -280,6 +290,15 @@
             android:id="@+id/action_invoicePreviewFragment_to_invoiceStockFragment"
             app:destination="@id/invoiceStockFragment"
             app:launchSingleTop="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/invoiceStockFragment" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_invoice_report"
+        android:id="@+id/invoiceReportFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.InvoiceReportFragment"
+        android:label="@string/invoice_report" />
 </navigation>

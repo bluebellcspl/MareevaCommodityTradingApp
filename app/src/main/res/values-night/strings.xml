@@ -221,4 +221,5 @@
     <string name="total_gst">Total GST</string>
     <string name="submit_download"><![CDATA[Submit & Download]]></string>
     <string name="invoice_preview">Invoice Preview</string>
+    <string name="invoice_report">Invoice Report</string>
 </resources>

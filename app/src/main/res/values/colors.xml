@@ -23,4 +23,7 @@
     <color name="totalBG">#FDD5AF</color>
     <color name="subtotalBG">#A3D3F1</color>
     <color name="previewCardColor">#C4E1F3</color>
+    <color name="pearlWhite">#FBFCF8</color>
+    <color name="powderWhite">#FBFCFA</color>
+    <color name="floralWhite">#FFFAF0</color>
 </resources>

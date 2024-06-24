@@ -131,6 +131,10 @@ class PCADashboardFragment : Fragment() {
                         navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToInvoiceStockFragment())
                     }
 
+                    R.id.btn_InvoiceReport->{
+                        navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToInvoiceReportFragment())
+                    }
+
                     R.id.btn_Chat->{
                         navController.navigate(PCADashboardFragmentDirections.actionPCADashboardFragmentToPCAChatListFragment())
                     }

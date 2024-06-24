@@ -6,6 +6,7 @@ data class InvoiceEntryMergedModelItem(
     var BhartiPrice: String,
     var BuyerInvoiceNo: String,
     var Cdate: String,
+    var CommodityId: String,
     var CompanyCode: String,
     var CreateUser: String,
     var CurrentPriceT: String,

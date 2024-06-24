@@ -120,4 +120,37 @@ class CommonUIUtility(var context: Context) {
         }
         return userType
     }
+
+    fun sortAlphanumericList(list: ArrayList<String>): ArrayList<String> {
+        // Alphanumeric comparator
+        val alphanumericComparator = Comparator<String> { str1, str2 ->
+            val regex = "(\\d+)|(\\D+)".toRegex()
+            val parts1 = regex.findAll(str1).map { it.value }.toList()
+            val parts2 = regex.findAll(str2).map { it.value }.toList()
+
+            for (i in 0 until minOf(parts1.size, parts2.size)) {
+                val part1 = parts1[i]
+                val part2 = parts2[i]
+
+                val result = if (part1.isDigitsOnly() && part2.isDigitsOnly()) {
+                    part1.toInt().compareTo(part2.toInt())
+                } else {
+                    part1.compareTo(part2)
+                }
+
+                if (result != 0) return@Comparator result
+            }
+
+            parts1.size.compareTo(parts2.size)
+        }
+
+        val sortedList = list.sortedWith(alphanumericComparator)
+
+        return ArrayList(sortedList)
+    }
+
+    // Extension function to check if a string contains only digits
+    fun String.isDigitsOnly(): Boolean {
+        return all { it.isDigit() }
+    }
 }

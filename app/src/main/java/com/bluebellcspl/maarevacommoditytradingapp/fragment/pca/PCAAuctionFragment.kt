@@ -384,12 +384,13 @@ class PCAAuctionFragment : Fragment() {
                 while (cursor.moveToNext()) {
                     dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShopNo")))
                 }
-                dataList.sortWith(Comparator { str1, str2 ->
-                    val num1 = str1.toInt()
-                    val num2 = str2.toInt()
-                    num1.compareTo(num2)
-                })
-                val shopNoAdapter = commonUIUtility.getCustomArrayAdapter(dataList)
+//                dataList.sortWith(Comparator { str1, str2 ->
+//                    val num1 = str1.toInt()
+//                    val num2 = str2.toInt()
+//                    num1.compareTo(num2)
+//                })
+                val newDataList = commonUIUtility.sortAlphanumericList(dataList)
+                val shopNoAdapter = commonUIUtility.getCustomArrayAdapter(newDataList)
                 binding.actShopNoPCAAuctionFragment.setAdapter(shopNoAdapter)
             }
             cursor?.close()

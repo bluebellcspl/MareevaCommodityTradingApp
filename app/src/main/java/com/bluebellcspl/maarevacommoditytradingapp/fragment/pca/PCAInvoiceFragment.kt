@@ -289,13 +289,6 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
     }
 
     private fun showFromDatePickerDialog(editText: TextInputEditText) {
-//        var selectedDate = if (editText.text.toString().isEmpty())
-//        {
-//            System.currentTimeMillis()
-//        }else
-//        {
-//            DateUtility().getDateFromEditTextAsLong(editText,"yyyy-MM-dd")
-//        }
         val calendarConstraints = CalendarConstraints.Builder()
             .setValidator(DateValidatorPointBackward.before(System.currentTimeMillis()))
             .build()
@@ -333,13 +326,6 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
     }
 
     private fun showToDatePickerDialog(editText: TextInputEditText) {
-//        var selectedDate = if (editText.text.toString().isEmpty())
-//        {
-//            System.currentTimeMillis()
-//        }else
-//        {
-//            DateUtility().getDateFromEditTextAsLong(editText,"yyyy-MM-dd")
-//        }
 
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = dateFormat.parse(binding.edtFromDatePCAInvoiceFragment.text.toString().trim())
@@ -599,8 +585,7 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
             navController.navigate(
                 PCAInvoiceFragmentDirections.actionPCAInvoiceFragmentToPCAInvoiceDetailFragment(
                     binding.edtFromDatePCAInvoiceFragment.text.toString(),
-                    binding.edtToDatePCAInvoiceFragment.text.toString(),
-                    COMMODITY_ID
+                    binding.edtToDatePCAInvoiceFragment.text.toString()
                 )
             )
         } catch (e: Exception) {

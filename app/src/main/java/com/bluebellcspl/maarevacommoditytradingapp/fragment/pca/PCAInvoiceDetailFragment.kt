@@ -34,7 +34,7 @@ class PCAInvoiceDetailFragment : Fragment(),InvoiceDetailHelper{
     private val TAG = "PCAInvoiceDetailFragment"
     lateinit var adapter:InvoiceMergedListAdapter
     private val navController by lazy { findNavController() }
-    var COMMODITY_ID = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +48,6 @@ class PCAInvoiceDetailFragment : Fragment(),InvoiceDetailHelper{
         )
         binding.edtToDateInvoiceDetailFragment.setText(args.endDate)
         binding.edtFromDateInvoiceDetailFragment.setText(args.startDate)
-        COMMODITY_ID = args.commodityId
         if (ConnectionCheck.isConnected(requireContext()))
         {
             FetchMergedInvoiceDataAPI(requireContext(),this,args.startDate,args.endDate)
@@ -124,7 +123,7 @@ class PCAInvoiceDetailFragment : Fragment(),InvoiceDetailHelper{
                         "",
                         shop.BhartiPrice,
                         "",
-                        COMMODITY_ID,
+                        shop.CommodityId,
                         PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "").toString(),
                         DateUtility().getyyyyMMdd(),
                         PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
