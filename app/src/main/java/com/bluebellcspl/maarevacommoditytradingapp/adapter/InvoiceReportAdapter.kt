@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.InvoiceReportAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.InvoiceReportFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.InvoiceReportListHelper
@@ -35,7 +36,7 @@ class InvoiceReportAdapter(var context: Context, var dataList: ArrayList<Invoice
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = filteredList[holder.adapterPosition]
-        holder.binding.tvDateInvoiceReportAdapter.setText(model.Date)
+        holder.binding.tvDateInvoiceReportAdapter.setText(DateUtility().formatToddMMyyyy(model.Date))
         holder.binding.tvBagsInvoiceReportAdapter.setText(model.InvoiceBags)
         holder.binding.tvBuyerNameInvoiceReportAdapter.setText(model.BuyerName)
         holder.binding.tvVehicleNoInvoiceReportAdapter.setText(model.VechicalNo)

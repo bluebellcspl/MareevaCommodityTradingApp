@@ -7,7 +7,7 @@
 
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/_3sdp"
@@ -17,11 +17,14 @@
             android:id="@+id/llStockDetail_InvoiceStockDetailFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_5sdp"
-            app:cardCornerRadius="@dimen/_5sdp"
-            android:layout_alignParentTop="true"
             app:cardBackgroundColor="@color/totalBG"
-            app:cardUseCompatPadding="true">
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -151,9 +154,15 @@
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.core.widget.NestedScrollView
-            android:layout_below="@id/llStockDetail_InvoiceStockDetailFragment"
+            android:id="@+id/nestedScrollView_InvoiceStockDetailFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_below="@id/llStockDetail_InvoiceStockDetailFragment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llStockDetail_InvoiceStockDetailFragment">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -163,6 +172,7 @@
                     android:id="@+id/rc_View_InvoiceStockDetailFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    tools:listitem="@layout/invoice_stock_adapter"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -176,5 +186,5 @@
                     android:textSize="@dimen/_16ssp" />
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

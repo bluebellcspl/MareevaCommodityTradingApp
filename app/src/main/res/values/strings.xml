@@ -230,6 +230,11 @@
     <string name="submit_download"><![CDATA[Submit & Download]]></string>
     <string name="invoice_preview">Invoice Preview</string>
     <string name="invoice_report">Invoice Report</string>
+    <string name="please_enter_valid_pan_alert_msg">Please Enter Valid PAN</string>
+    <string name="please_enter_valid_gstin_alert_msg">Please Enter Valid GSTIN!</string>
+    <string name="please_enter_buyer_name_alert_msg">Please Enter Buyer Name</string>
+    <string name="enter_buyer_address_alert_msg">Enter Buyer Address!</string>
+    <string name="please_enter_buyer_city_alert_msg">Please Enter Buyer City!</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

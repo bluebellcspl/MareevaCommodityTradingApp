@@ -318,6 +318,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edt_BuyerPANContainer_InvoicePreviewFragment"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -340,6 +341,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edt_BuyerGSTINContainer_InvoicePreviewFragment"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -366,7 +368,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/_3sdp"
-                            android:hint="@string/vehicle_no"
+                            android:hint="Vehicle No."
                             app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
                             app:boxCornerRadiusBottomStart="@dimen/_3sdp"
                             app:boxCornerRadiusTopEnd="@dimen/_3sdp"
@@ -396,7 +398,7 @@
                     tools:listitem="@layout/invoice_preview_item_adapter" />
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cv_TotalCalculation_InvoicePreviewFragment"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@color/floralWhite"
@@ -407,6 +409,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/rc_View_InvoicePreviewFragment">
 
                     <LinearLayout
+                        android:id="@+id/cv_TotalCalculation_InvoicePreviewFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/outline_bg"
@@ -416,7 +419,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/total"
+                            android:text="Total"
                             android:padding="@dimen/_3sdp"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/_15ssp" />
@@ -426,7 +429,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="@dimen/_3sdp"
-                            android:hint="@string/bags"
+                            android:hint="Bags"
                             app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
                             app:boxCornerRadiusBottomStart="@dimen/_3sdp"
                             app:boxCornerRadiusTopEnd="@dimen/_3sdp"
@@ -470,7 +473,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/expense"
+                            android:text="Expense"
                             android:padding="@dimen/_3sdp"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/_15ssp" />
@@ -655,7 +658,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="@dimen/_3sdp"
-                            android:hint="@string/total_amount"
+                            android:hint="Total Amount"
                             app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
                             app:boxCornerRadiusBottomStart="@dimen/_3sdp"
                             app:boxCornerRadiusTopEnd="@dimen/_3sdp"

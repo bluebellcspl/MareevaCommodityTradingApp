@@ -128,7 +128,7 @@ class PCAInvoiceDetailFragment : Fragment(),InvoiceDetailHelper{
                         DateUtility().getyyyyMMdd(),
                         PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
                         "",
-                        ""+DateUtility().formatToyyyyMMdd(shop.InvoiceDate),
+                        DateUtility().formatToyyyyMMdd(shop.InvoiceDate),
                         ""+shop.GCAInvoiceId,
                         ""+shop.GCAInvoiceNo,
                         ""+shop.InvoiceAmount,

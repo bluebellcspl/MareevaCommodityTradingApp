@@ -15,7 +15,7 @@
             android:id="@+id/cv_Main_InvoiceAdapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/colorSecondaryLight"
+            app:cardBackgroundColor="@color/powderWhite"
             app:cardCornerRadius="@dimen/_5sdp"
             app:cardElevation="@dimen/_5sdp"
             app:cardUseCompatPadding="true">

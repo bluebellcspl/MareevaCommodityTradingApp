@@ -122,8 +122,14 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
 
             binding.edtBagsInvoiceStockDetailFragment.setText(formateTOTAL_BAGS.toString())
             binding.tvAmountInvoiceStockDetailFragment.setText(formateTOTAL_AMOUNT)
-            binding.tvRateInvoiceStockDetailFragment.setText(formatedTOT_RATE)
             binding.tvWeightInvoiceStockDetailFragment.setText(formateTOTAL_WEIGHT)
+            if (TOT_BAGS>0)
+            {
+                binding.tvRateInvoiceStockDetailFragment.setText(formatedTOT_RATE)
+            }else
+            {
+                binding.tvRateInvoiceStockDetailFragment.setText("0")
+            }
         }catch (e:Exception)
         {
             e.printStackTrace()
@@ -246,7 +252,6 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
                             return@setOnClickListener
                         }
                     }
-                    val gst = dialogBinding.actGSTInvoiceStockPopup.text.toString()
                     val rtoNumber = dialogBinding.edtVehicleNoInvoiceStockPopup.text.toString()
 
                     navController.navigate(InvoiceStockDetailFragmentDirections.actionInvoiceStockDetailFragmentToInvoicePreviewFragment(_InvoiceStockList!!.toTypedArray(),gstStatus!!,rtoNumber))

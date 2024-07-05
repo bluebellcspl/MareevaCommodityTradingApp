@@ -23,7 +23,7 @@
             app:cardCornerRadius="@dimen/_5sdp"
             app:cardElevation="@dimen/_8sdp"
             app:cardUseCompatPadding="true"
-            app:cardBackgroundColor="@color/colorSecondaryLight">
+            app:cardBackgroundColor="@color/pearlWhite">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/expenses"
+                            android:text="Expenses"
                             android:textSize="@dimen/_16ssp"
                             android:textColor="@color/colorPrimaryDark" />
 
@@ -56,7 +56,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/_3sdp"
-                            android:hint="@string/basic_amount"
+                            android:hint="Basic Amount"
                             app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
                             app:boxCornerRadiusBottomStart="@dimen/_3sdp"
                             app:boxCornerRadiusTopEnd="@dimen/_3sdp"
@@ -321,7 +321,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/_3sdp"
-                            android:hint="@string/total_amount"
+                            android:hint="Total Amount"
                             app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
                             app:boxCornerRadiusBottomStart="@dimen/_3sdp"
                             app:boxCornerRadiusTopEnd="@dimen/_3sdp"
@@ -348,7 +348,7 @@
                     android:id="@+id/btnSave_InvoicePreviewPopup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/save"
+                    android:text="Save"
                     android:textSize="@dimen/_14sdp"
                     app:cornerRadius="@dimen/_8sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
