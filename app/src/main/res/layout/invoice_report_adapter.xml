@@ -107,7 +107,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.30"
                             android:gravity="center_vertical"
-                            android:text="@string/buyer_name"
+                            android:text="@string/buyer_name_invrpt_lbl"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_13ssp" />
 

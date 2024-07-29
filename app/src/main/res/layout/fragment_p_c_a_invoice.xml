@@ -108,7 +108,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Shop"
+                        android:hint="@string/shop_invoice_label"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
@@ -135,7 +135,7 @@
                         android:layout_weight="0.3"
                         android:gravity="center"
                         android:padding="@dimen/_5sdp"
-                        android:text="show"
+                        android:text="@string/show_invoice_lbl"
                         android:textAlignment="center"
                         android:textSize="@dimen/_11ssp" />
                 </LinearLayout>
@@ -162,7 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/_5sdp"
-                        android:text="Grand Total"
+                        android:text="@string/grand_total_invoice_lbl"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/_14ssp" />
 

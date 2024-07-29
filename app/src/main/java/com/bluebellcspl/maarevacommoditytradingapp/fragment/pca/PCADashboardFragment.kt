@@ -221,7 +221,7 @@ class PCADashboardFragment : Fragment() {
                 modelData.PerLabourCharge = "0"
             }
             val tvAllocationBagsStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.bags_lbl))
+                append(requireContext().getString(R.string.bags_lbl))
                 append(" ${modelData.BuyerBori}")
             }
             binding.tvAllocatedBagsNewPCADashboardFragment.setText(tvAllocationBagsStringBuilder.toString())
@@ -247,7 +247,7 @@ class PCADashboardFragment : Fragment() {
                 NumberFormat.getCurrencyInstance().format(totalPCABudget).substring(1)
 
             val tvAllocationBuyerCostStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.cost_lbl))
+                append(requireContext().getString(R.string.cost_lbl))
                 append(" $AllocatedBuyerCost")
             }
 
@@ -256,7 +256,7 @@ class PCADashboardFragment : Fragment() {
             val AllocatedBuyerAvgRate = NumberFormat.getCurrencyInstance().format(rate).substring(1)
 
             val tvAllocationRateStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.rate_lbl))
+                append(requireContext().getString(R.string.rate_lbl))
                 append(" $AllocatedBuyerAvgRate")
             }
             binding.tvAllocatedRateNewPCADashboardFragment.setText(tvAllocationRateStringBuilder.toString())
@@ -265,7 +265,7 @@ class PCADashboardFragment : Fragment() {
 
             var pcaTotalPurchasedBag = modelData.TotalPurchasedBags.toFloat()
             val tvPurchasedBagsStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.bags_lbl))
+                append(requireContext().getString(R.string.bags_lbl))
                 append(" $pcaTotalPurchasedBag")
             }
             binding.tvPurchasedBagsNewPCADashboardFragment.setText(tvPurchasedBagsStringBuilder.toString())
@@ -288,7 +288,7 @@ class PCADashboardFragment : Fragment() {
             val PurchasedPCACost =
                 NumberFormat.getCurrencyInstance().format(PCAtotalPurchasedCost).substring(1)
             val tvPurchasedCostStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.cost_lbl))
+                append(requireContext().getString(R.string.cost_lbl))
                 append(" $PurchasedPCACost")
             }
             binding.tvPurchasedTotalCostNewPCADashboardFragment.setText(tvPurchasedCostStringBuilder.toString())
@@ -301,7 +301,7 @@ class PCADashboardFragment : Fragment() {
                 NumberFormat.getCurrencyInstance().format(purchased_Avgrate).substring(1)
 
             val tvPurchasedAvgRateStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.rate_lbl))
+                append(requireContext().getString(R.string.rate_lbl))
                 append(" $PcaPurchasedAvgRate")
             }
             binding.tvPurchasedAvgRateNewPCADashboardFragment.setText(tvPurchasedAvgRateStringBuilder.toString())
@@ -317,19 +317,19 @@ class PCADashboardFragment : Fragment() {
         try {
             PREV_AUCTION_SELECTED_DATE = modelData.Date
             val tvPreviousDateStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.date_lbl))
+                append(requireContext().getString(R.string.date_lbl))
                 append(" ${modelData.Date}")
             }
             val tvPreviousBagsStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.bags_lbl))
+                append(requireContext().getString(R.string.bags_lbl))
                 append(" ${modelData.LastTotalPurchasedBags}")
             }
             val tvPreviousTotalStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.cost_lbl))
+                append(requireContext().getString(R.string.cost_lbl))
                 append(" ${modelData.LastPCATotalCost}")
             }
             val tvPreviousAvgRateStringBuilder = StringBuilder().apply {
-                append(requireContext().applicationContext.getString(R.string.avg_rate_lbl))
+                append(requireContext().getString(R.string.avg_rate_lbl))
                 append(" ${modelData.LastPCATotalAvgRate}")
             }
             binding.tvPreviousAuctionDateNewPCADashboardFragment.setText(tvPreviousDateStringBuilder.toString())

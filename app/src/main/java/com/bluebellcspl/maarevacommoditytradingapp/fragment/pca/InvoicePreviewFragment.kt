@@ -419,11 +419,11 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                 alertDialog!!.show()
                 //Populating Data In Popup
                 dialogBinding.edtGCACommInvoicePreviewPopup.filters =
-                    arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
+                    arrayOf<InputFilter>(EditableDecimalInputFilter(3, 2))
                 dialogBinding.edtPCACommInvoicePreviewPopup.filters =
-                    arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
+                    arrayOf<InputFilter>(EditableDecimalInputFilter(3, 2))
                 dialogBinding.edtMarketFeesInvoicePreviewPopup.filters =
-                    arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
+                    arrayOf<InputFilter>(EditableDecimalInputFilter(3, 2))
                 dialogBinding.edtLabourInvoicePreviewPopup.filters =
                     arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
                 dialogBinding.edtTransportInvoicePreviewPopup.filters =
@@ -474,7 +474,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                             Log.d(TAG, "afterTextChanged: EDT_PERCENT : $percentage")
                             if (percentage > 100) {
                                 dialogBinding.edtGCACommInvoicePreviewPopup.setText("100")
-                                dialogBinding.edtGCACommInvoicePreviewPopup.setSelection(dialogBinding.edtGCACommInvoicePreviewPopup.text.toString().length)
+                                dialogBinding.edtGCACommInvoicePreviewPopup.setSelection(s.toString().length)
                             }
                             gcaCommAmount = BASIC_AMOUNT!! * percentage / 100.00
                             val formattedAmount =
@@ -595,9 +595,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                             if (percentage > 100) {
 
                                 dialogBinding.edtMarketFeesInvoicePreviewPopup.setText("100")
-                                dialogBinding.edtMarketFeesInvoicePreviewPopup.setSelection(
-                                    dialogBinding.edtMarketFeesInvoicePreviewPopup.text.toString().length
-                                )
+                                dialogBinding.edtMarketFeesInvoicePreviewPopup.setSelection(s.toString().length)
                             }
                             marketFeesAmount = BASIC_AMOUNT!! * percentage / 100.00
                             val formattedAmount =

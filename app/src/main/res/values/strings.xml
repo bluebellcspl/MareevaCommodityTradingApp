@@ -235,6 +235,11 @@
     <string name="please_enter_buyer_name_alert_msg">Please Enter Buyer Name</string>
     <string name="enter_buyer_address_alert_msg">Enter Buyer Address!</string>
     <string name="please_enter_buyer_city_alert_msg">Please Enter Buyer City!</string>
+    <string name="shop_invoice_label">Shop</string>
+    <string name="show_invoice_lbl">show</string>
+    <string name="grand_total_invoice_lbl">Grand Total</string>
+    <string name="proceed_to_invoice_invdetail_lbl">Proceed to Invoice</string>
+    <string name="buyer_name_invrpt_lbl">Buyer Name</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

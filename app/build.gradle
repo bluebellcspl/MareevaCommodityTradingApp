@@ -14,9 +14,9 @@ android {
     defaultConfig {
         applicationId "com.bluebellcspl.maarevacommoditytradingapp"
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode 1
-        versionName "1.0.42"
+        versionName "1.0.43"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
