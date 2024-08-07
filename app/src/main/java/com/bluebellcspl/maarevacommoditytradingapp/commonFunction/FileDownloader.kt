@@ -30,7 +30,7 @@ class FileDownloader private constructor(private val context: Context) {
         // Register a BroadcastReceiver to receive download complete notification
         val onCompleteReceiver = MyDownloadReceiver(downloadId)
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        context.registerReceiver(onCompleteReceiver, filter)
+        context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
 
         Toast.makeText(context, "Downloading $fileName", Toast.LENGTH_SHORT).show()
     }
@@ -63,7 +63,7 @@ class FileDownloader private constructor(private val context: Context) {
         // Register a BroadcastReceiver to receive download complete notification
         val onCompleteReceiver = MyDownloadReceiver(downloadId)
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        context.registerReceiver(onCompleteReceiver, filter)
+        context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
 
         Toast.makeText(context, "Downloading $fileName", Toast.LENGTH_SHORT).show()
     }

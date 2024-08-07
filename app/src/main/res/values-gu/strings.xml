@@ -35,7 +35,7 @@
     <string name="buyer_registered_successfully_alert_msg">ખરીદનાર સફળતાપૂર્વક નોંધાયેલ છે!</string>
     <string name="dashboard">ડેશબોર્ડ</string>
     <string name="commodity_name_lbl">જણસીનું નામ</string>
-    <string name="total_pcas_lbl">કુલ પાકા આડતતયા</string>
+    <string name="total_pcas_lbl">ખરીદાયેલ</string>
     <string name="notifications">નોતટતફકેશન</string>
     <string name="add_pca">PCA ઉમેરો</string>
     <string name="pca_list">આડતિયાની યાદી</string>
@@ -53,7 +53,7 @@
     <string name="bori">બોરી</string>
     <string name="auction_item_list">હરાજી આઇટમ યાદી</string>
     <string name="select_shop">દુકાનનું નામ પસંદ કરો</string>
-    <string name="shop_no">દુકાન નિં</string>
+    <string name="shop_no">દુકાન નંબર</string>
     <string name="current_time">Current Time</string>
     <string name="current_price">હાલ નો ભાવ</string>
     <string name="upper_limit">Upper Limit</string>
@@ -89,7 +89,7 @@
     <string name="total_bags">કુલ બોરી</string>
     <string name="other_commission">અન્ય કમિશન (₹)</string>
     <string name="left_bags">બાકી બોરી</string>
-    <string name="basic_amount">મૂળભૂત રકમ</string>
+    <string name="basic_amount">રકમ</string>
     <string name="gca_commission_rupee">GCA કમિશન (₹)</string>
     <string name="pca_commission_rupee">આડતિયાનુ કમિશન (₹)</string>
     <string name="mc_commission_rupee">MC Commission (₹)</string>
@@ -115,7 +115,7 @@
     <string name="market_cess_rupee">માર્કેટ સેસ (₹)</string>
     <string name="transportation_charge_rupee">પરિવહન શુલ્ક (₹)</string>
     <string name="labour_charge_rupee">મજૂરી શુલ્ક (₹)</string>
-    <string name="submit">સબતમટ</string>
+    <string name="submit">સબમિટ કરો</string>
     <string name="auction_inserted_successfully">હરાજી સફળતાપૂર્વક દાખલ થઈ!</string>
     <string name="allocated_bags">ફાળવેલ બોરી</string>
     <string name="total_cost">કુલ રકમ</string>
@@ -138,7 +138,7 @@
     <string name="city_lbl">શહેર:</string>
     <string name="commodity_lbl">જણસી :</string>
     <string name="total_pcas_lbl_new">કુલ પાકા આડતિયા  :</string>
-    <string name="allocated_lbl">ફાળવેલ</string>
+    <string name="allocated_lbl">ફાળવણી</string>
     <string name="bags_lbl">બોરી :</string>
     <string name="purchased_lbl">ખરીદાયેલ</string>
     <string name="rate_lbl">ભાવ :</string>
@@ -234,6 +234,10 @@
     <string name="grand_total_invoice_lbl">ગ્રાન્ડ ટોટલ</string>
     <string name="proceed_to_invoice_invdetail_lbl">આગળ વધો</string>
     <string name="buyer_name_invrpt_lbl">ખરીદનારનું નામ</string>
+    <string name="list">લીસ્ટ</string>
+    <string name="add">એડ કરો</string>
+    <string name="shop_list">"દુકાનનુ  લિસ્ટ "</string>
+    <string name="current_auction_is_stopped_lbl">હાલમાં હરાજી બંધ છે</string>
 
     <string-array name="tax_Array">
         <item>GST સાથે</item>

@@ -74,7 +74,7 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                                 commonUIUtility.dismissProgress()
                                 if (fragment is PCAAuctionFragment)
                                 {
-                                    (fragment as PCAAuctionFragment).noAuctionPopup()
+                                    (fragment as PCAAuctionFragment).noAuctionPopup(context.getString(R.string.current_auction_is_stopped_lbl))
                                 }else if (fragment is PCADashboardFragment)
                                 {
                                     (fragment as PCADashboardFragment).bindBuyerAllocatedData(pcaAuctionDetailModel)
@@ -115,7 +115,7 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                         withContext(Dispatchers.Main) {
                             commonUIUtility.dismissProgress()
                             if (fragment is PCAAuctionFragment) {
-                                (fragment as PCAAuctionFragment).noAuctionPopup()
+                                (fragment as PCAAuctionFragment).noAuctionPopup(context.getString(R.string.no_auction_for_today_contact_your_customer_alert_msg))
                             }
                         }
                         job.cancel()
@@ -123,7 +123,7 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                         withContext(Dispatchers.Main) {
                             commonUIUtility.dismissProgress()
                             if (fragment is PCAAuctionFragment) {
-                                (fragment as PCAAuctionFragment).noAuctionPopup()
+                                (fragment as PCAAuctionFragment).noAuctionPopup(context.getString(R.string.no_auction_for_today_contact_your_customer_alert_msg))
                             }
                         }
                         job.cancel()

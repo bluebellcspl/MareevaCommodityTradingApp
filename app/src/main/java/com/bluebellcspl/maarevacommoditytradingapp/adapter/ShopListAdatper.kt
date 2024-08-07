@@ -65,11 +65,33 @@ class ShopListAdatper(var context: Context,var dataList:ArrayList<LiveAuctionSho
         {
             holder.binding.ShopName.setText(model.ShortShopName)
         }
-        val currentNf = NumberFormat.getCurrencyInstance().format(model.CurrentPrice.toDouble()).substring(1)
-        val totalAmountNf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble()).substring(1)
+        val formatedCurrentPrice = formatAmount(model.CurrentPrice)
+        val formatedAmount = formatAmount(model.Amount)
+        val currentNf = NumberFormat.getCurrencyInstance().format(formatedCurrentPrice.toDouble()).substring(1)
+        val totalAmountNf = NumberFormat.getCurrencyInstance().format(formatedAmount.toDouble()).substring(1)
         holder.binding.shopRate.setText(currentNf)
         holder.binding.ShopNo.setText(model.ShopNo)
         holder.binding.tvBags.setText(model.Bags)
         holder.binding.tvTotalAmount.setText(totalAmountNf)
+    }
+
+    private fun formatAmount(amount: String): String {
+        // Use StringBuilder for manipulation
+        val stringBuilder = StringBuilder(amount)
+
+        // Check if the string contains a decimal point
+        val decimalIndex = stringBuilder.indexOf(".")
+
+        if (decimalIndex != -1) {
+            // Check the decimal part
+            val decimalPart = stringBuilder.substring(decimalIndex + 1)
+
+            if (decimalPart.toInt() == 0) {
+                // If the decimal part is zero, remove the decimal point and trailing zeroes
+                stringBuilder.setLength(decimalIndex)
+            }
+        }
+
+        return stringBuilder.toString()
     }
 }

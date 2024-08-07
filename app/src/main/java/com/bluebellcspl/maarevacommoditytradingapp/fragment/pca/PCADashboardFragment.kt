@@ -176,7 +176,7 @@ class PCADashboardFragment : Fragment() {
                 FetchPCAPreviousAuctionAPI(requireContext(),this@PCADashboardFragment,PREV_AUCTION_SELECTED_DATE)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "fetchDataFromAPI: ${e.message}", )
+            Log.e(TAG, "fetchDataFromAPI: ${e.message}")
             e.printStackTrace()
         }
     }
@@ -344,7 +344,7 @@ class PCADashboardFragment : Fragment() {
 
     private fun showDatePickerDialog() {
         val calendarConstraints = CalendarConstraints.Builder()
-            .setValidator(DateValidatorPointBackward.before(System.currentTimeMillis() - Constants.OneDayInMillies))
+            .setValidator(DateValidatorPointBackward.before(System.currentTimeMillis() + Constants.OneDayInMillies))
             .build()
         val builder =
             MaterialDatePicker.Builder.datePicker().setCalendarConstraints(calendarConstraints)
@@ -398,14 +398,14 @@ class PCADashboardFragment : Fragment() {
             requireActivity().finish()
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e(TAG, "redirectToLogin: ${e.message}", )
+            Log.e(TAG, "redirectToLogin: ${e.message}")
         }
     }
 
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        requireContext().registerReceiver(notificationReceiver,filter)
+        requireContext().registerReceiver(notificationReceiver,filter, Context.RECEIVER_NOT_EXPORTED)
     }
 
     override fun onStop() {

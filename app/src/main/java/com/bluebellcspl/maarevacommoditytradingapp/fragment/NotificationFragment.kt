@@ -132,7 +132,7 @@ class NotificationFragment : Fragment() {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e(TAG, "bindNotificationList: ${e.message}", )
+            Log.e(TAG, "bindNotificationList: ${e.message}")
         }
     }
 
@@ -142,7 +142,7 @@ class NotificationFragment : Fragment() {
             notificationManager.cancelAll()
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e(TAG, "clearNotification: ${e.message}", )
+            Log.e(TAG, "clearNotification: ${e.message}")
         }
     }
 
@@ -154,7 +154,7 @@ class NotificationFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        requireContext().registerReceiver(notificationReceiver,filter)
+        requireContext().registerReceiver(notificationReceiver,filter, Context.RECEIVER_NOT_EXPORTED)
     }
 
     override fun onStop() {

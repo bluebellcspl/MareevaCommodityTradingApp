@@ -84,7 +84,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
             override fun afterTextChanged(s: Editable?) {
                 if (s!!.isNotEmpty()) {
                     val amount = s.toString().replace(",", "")
-                    val numberAmount = amount.toDouble()
+                    val numberAmount = amount.toBigDecimal()
                     Log.d(TAG, "afterTextChanged: NUMBER_AMOUNT : $numberAmount")
                     val amountToWords = AmountNumberToWords.convert(numberAmount)
                     binding.tvAmountInWordsInvoicePreviewFragment.setText(amountToWords)
@@ -475,6 +475,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                             if (percentage > 100) {
                                 dialogBinding.edtGCACommInvoicePreviewPopup.setText("100")
                                 dialogBinding.edtGCACommInvoicePreviewPopup.setSelection(s.toString().length)
+                                percentage = 100.00
                             }
                             gcaCommAmount = BASIC_AMOUNT!! * percentage / 100.00
                             val formattedAmount =
@@ -534,6 +535,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
                             if (percentage > 100) {
                                 dialogBinding.edtPCACommInvoicePreviewPopup.setText("100")
                                 dialogBinding.edtPCACommInvoicePreviewPopup.setSelection(s.toString().length)
+                                percentage = 100.00
                             }
                             pcaCommAmount = BASIC_AMOUNT!! * percentage / 100.00
                             val formattedAmount =
@@ -596,6 +598,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
 
                                 dialogBinding.edtMarketFeesInvoicePreviewPopup.setText("100")
                                 dialogBinding.edtMarketFeesInvoicePreviewPopup.setSelection(s.toString().length)
+                                percentage = 100.00
                             }
                             marketFeesAmount = BASIC_AMOUNT!! * percentage / 100.00
                             val formattedAmount =
@@ -834,9 +837,9 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
     fun downloadInvoice(invoiceId:String)
     {
         try {
-            val fileURL = URLHelper.INVOICE_DOC.replace("<INVOICE_NO>",invoiceId)
+            val fileURL = URLHelper.INVOICE_PDF.replace("<INVOICE_NO>",invoiceId)
             Log.d(TAG, "downloadInvoice: fileURL : $fileURL")
-            fileDownloader.downloadFile(fileURL,"InVoiceGenerating_Report_Book.doc", "Downloading Invoice")
+            fileDownloader.downloadFile(fileURL,"InVoiceGenerating_Report_Book.pdf", "Downloading Invoice")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "downloadAuctionDetailReport: ${e.message}")

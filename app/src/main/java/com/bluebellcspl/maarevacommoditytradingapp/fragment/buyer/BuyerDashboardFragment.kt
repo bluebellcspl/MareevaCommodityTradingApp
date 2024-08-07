@@ -520,7 +520,7 @@ class BuyerDashboardFragment : Fragment() {
         super.onStart()
 
 //        commonUIUtility.dismissProgress()
-        requireContext().registerReceiver(notificationReceiver, filter)
+        requireContext().registerReceiver(notificationReceiver, filter,Context.RECEIVER_NOT_EXPORTED)
         if (!isWebSocketConnected && !isConnectingWebSocket) {
             Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
 
@@ -655,7 +655,7 @@ class BuyerDashboardFragment : Fragment() {
             requireActivity().finish()
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e(TAG, "redirectToLogin: ${e.message}", )
+            Log.e(TAG, "redirectToLogin: ${e.message}")
         }
     }
 

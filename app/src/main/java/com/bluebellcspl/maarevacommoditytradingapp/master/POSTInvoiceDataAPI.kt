@@ -48,6 +48,7 @@ class POSTInvoiceDataAPI(var context: Context, var fragment: InvoicePreviewFragm
                 }
 
                 val invoiceDataJO = Gson().toJsonTree(invoiceDataModel).asJsonObject
+                Log.d(TAG, "postInvoiceData: UPDATE_STOCK_LIST_JSON : $JO")
                 Log.d(TAG, "INVOICE_DATA_JSON : $invoiceDataJO")
                 val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
                 scope.launch(Dispatchers.IO)

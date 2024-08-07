@@ -229,6 +229,12 @@ class Query {
             return qry
         }
 
+        fun getShopData():String{
+            qry = "SELECT ShopId,ShopNo,ShortShopName,GujaratiShortShopName FROM ShopMaster"
+            Log.d(TAG, "getShopData: $qry")
+            return qry
+        }
+
         fun getApprovedPCAs():String{
             qry = "SELECT * FROM ShopMaster"
             Log.d(TAG, "getShopNoByGujShortShopName: $qry")
@@ -256,6 +262,12 @@ class Query {
         fun getCityNameByAPMCId(apmcId:String):String{
             qry = "SELECT CityName FROM APMCMaster WHERE IsActive='true' AND APMCId='$apmcId'"
             Log.d(TAG, "getAPMCNameByCityId: $qry")
+            return qry
+        }
+
+        fun getGujaratiCommodityName(commodityId:String):String{
+            qry = "SELECT GujaratiCommodityName FROM CommodityMaster WHERE CommodityId='$commodityId'"
+            Log.d(TAG, "getGujaratiCommodityName: $qry")
             return qry
         }
 

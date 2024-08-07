@@ -30,9 +30,7 @@ class InvoiceStockDetailAdapter(
         fun calcutateData(model: InvoiceStockModelItem) {
             try {
                 var currentBAGS = binding.edtBagsInvoiceStockAdapter.text.toString().toDouble()
-                var currentWEIGHT = model.AvailableWeight.toDouble()
                 var currentRATE = model.TotalRate.toDouble()
-                var currentAMOUNT = model.AvaliableAmount.toDouble()
 
                 if (currentBAGS > -1) {
                     var calculatedWEIGHT = currentBAGS * model.BhartiPrice.toDouble()
@@ -97,6 +95,7 @@ class InvoiceStockDetailAdapter(
         holder.binding.edtBagsInvoiceStockAdapter.setBackgroundResource(R.color.subtotalBG)
         holder.binding.mChbInvoiceStockAdapter.visibility = View.GONE
         val model = dataList[holder.adapterPosition]
+        Log.d(TAG, "onBindViewHolder: CURRENT_INVOICE_MODEL : $model")
         holder.binding.tvDateInvoiceStockAdapter.setText(model.Date)
         holder.binding.edtBagsInvoiceStockAdapter.setText(model.AvailableBags)
 
@@ -110,10 +109,33 @@ class InvoiceStockDetailAdapter(
             NumberFormat.getCurrencyInstance().format(model.TotalRate.toDouble()).substring(1)
         holder.binding.tvRateInvoiceStockAdapter.setText(formatedRATE)
 
-        holder.calcutateData(model)
+//        holder.calcutateData(model)
         holder.binding.edtBagsInvoiceStockAdapter.filters = arrayOf<InputFilter>(
             EditableDecimalInputFilter(7, 2)
         )
+
+        var calculatedWEIGHT = model.AvailableBags.toDouble() * model.BhartiPrice.toDouble()
+        var calculatedInvoiceApproxKG =
+            (calculatedWEIGHT / model.BhartiPrice.toDouble())
+        var calculatedInvoiceKG = (calculatedWEIGHT % model.BhartiPrice.toDouble())
+        model.UsedBags = model.AvailableBags
+        model.UsedBagRate = model.TotalRate
+        model.UsedBagAmount = model.AvaliableAmount
+        model.UsedBagWeightKg = model.AvailableWeight
+//        model.UsedInvoiceApproxKg = model.TotalInvoiceApproxKg
+//        model.UsedInvoiceKg = model.TotalInvoiceKg
+        model.UsedInvoiceApproxKg =
+            DecimalFormat("0.00").format(calculatedInvoiceApproxKG)
+        model.UsedInvoiceKg = DecimalFormat("0.00").format(calculatedInvoiceKG)
+
+        Log.d(TAG, "onBindViewHolder: INIT_USED_BAGS : ${model.UsedBags}")
+        Log.d(TAG, "onBindViewHolder: INIT_USED_RATE : ${model.UsedBagRate}")
+        Log.d(TAG, "onBindViewHolder: INIT_USED_BAG_AMOUNT : ${model.UsedBagAmount}")
+        Log.d(TAG, "onBindViewHolder: INIT_USED_BAG_WEIGHT_KG : ${model.UsedBagWeightKg}")
+        Log.d(TAG, "onBindViewHolder: INIT_USED_INVOICE_APPROX_KG : ${model.UsedInvoiceApproxKg}")
+        Log.d(TAG, "onBindViewHolder: INIT_USED_INVOICE_KG : ${model.UsedInvoiceKg}")
+        Log.d(TAG, "onBindViewHolder: ================================================================")
+        invoiceStockHelper.processData(dataList)
         val calculationWatcher: TextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 

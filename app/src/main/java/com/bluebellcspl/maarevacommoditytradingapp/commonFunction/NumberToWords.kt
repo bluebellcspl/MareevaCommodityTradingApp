@@ -1,5 +1,8 @@
 package com.bluebellcspl.maarevacommoditytradingapp.commonFunction
 
+import java.math.BigDecimal
+import java.math.RoundingMode
+
 object AmountNumberToWords {
     private val ones = arrayOf(
         "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
@@ -24,17 +27,17 @@ object AmountNumberToWords {
         return str
     }
 
-    fun convert(number: Double): String {
-        if (number == 0.0) return "Zero Rupees"
-        val stringBuilder = StringBuilder(number.toString())
+    fun convert(number: BigDecimal): String {
+        if (number == BigDecimal.ZERO) return "Zero Rupees"
+
+        val stringBuilder = StringBuilder(number.toPlainString())
         val decimalIndex = stringBuilder.indexOf(".")
         val decimalNumber = if (decimalIndex != -1) {
-            stringBuilder.substring(decimalIndex+1).toInt()
+            stringBuilder.substring(decimalIndex + 1).toInt()
         } else {
             0
         }
-        val integerPart = number.toLong()
-//        val decimalPart = ((number - integerPart) * 100).toInt()
+        val integerPart = number.setScale(0, RoundingMode.FLOOR).toLong()
         val decimalPart = decimalNumber
 
         var num = integerPart
@@ -55,7 +58,7 @@ object AmountNumberToWords {
         if (hundred > 0) result += convertToWords(hundred.toInt(), "Hundred ")
         if (ten > 0) result += if (result.isNotEmpty()) "and " + convertToWords(ten.toInt(), "") else convertToWords(ten.toInt(), "")
 
-        result += "Rupees"
+        result += " Rupees"
 
         if (decimalPart > 0) {
             result += " and " + convertToWords(decimalPart, "Paise")

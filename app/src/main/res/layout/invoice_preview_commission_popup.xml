@@ -294,7 +294,7 @@
                                 app:boxStrokeColor="@color/colorPrimary">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/edt_GSTAmount_InvoicePreviewPopup"
+                                    android:id="@+id/tv_GSTTotal_Percentage_InvoicePreviewPopup"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:inputType="numberDecimal"
@@ -306,7 +306,7 @@
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <TextView
-                                android:id="@+id/tv_GSTTotal_Percentage_InvoicePreviewPopup"
+                                android:id="@+id/edt_GSTAmount_InvoicePreviewPopup"
                                 android:layout_gravity="center_vertical"
                                 android:textSize="@dimen/_14ssp"
                                 android:textColor="@color/black"

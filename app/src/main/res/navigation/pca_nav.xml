@@ -190,7 +190,7 @@
         android:id="@+id/PCAAuctionListFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionListFragment"
         tools:layout="@layout/fragment_p_c_a_auction_list"
-        android:label="Shop List">
+        android:label="@string/shop_list">
         <argument
             android:name="pcaAuctionDetailModel"
             app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel" />

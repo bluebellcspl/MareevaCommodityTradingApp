@@ -153,9 +153,10 @@ class LiveAuctionListAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
+        Log.d(TAG, "onBindViewHolder: LIVE_AUCTION_MODEL : $model")
         val expanable = expandableList[holder.adapterPosition]
         holder.binding.tvPCAName.setText(model.PCAName)
-        if (PrefUtil.getSystemLanguage().equals("gu")) {
+        if (!PrefUtil.getSystemLanguage().equals("en")) {
             if (model.GujaratiPCAShortName.isNotEmpty()){
                 holder.binding.tvPCAName.setText(model.GujaratiPCAShortName)
             }else
