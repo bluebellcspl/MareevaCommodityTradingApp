@@ -65,14 +65,15 @@ class ShopListAdatper(var context: Context,var dataList:ArrayList<LiveAuctionSho
         {
             holder.binding.ShopName.setText(model.ShortShopName)
         }
-        val formatedCurrentPrice = formatAmount(model.CurrentPrice)
-        val formatedAmount = formatAmount(model.Amount)
-        val currentNf = NumberFormat.getCurrencyInstance().format(formatedCurrentPrice.toDouble()).substring(1)
-        val totalAmountNf = NumberFormat.getCurrencyInstance().format(formatedAmount.toDouble()).substring(1)
-        holder.binding.shopRate.setText(currentNf)
+        val formatedBags = formatAmount(model.Bags)
+        val currentNf = NumberFormat.getCurrencyInstance().format(model.CurrentPrice.toDouble()).substring(1)
+        val totalAmountNf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble()).substring(1)
+        val formatedCurrentPrice = formatAmount(currentNf)
+        val formatedAmount = formatAmount(totalAmountNf)
+        holder.binding.shopRate.setText(formatedCurrentPrice)
         holder.binding.ShopNo.setText(model.ShopNo)
-        holder.binding.tvBags.setText(model.Bags)
-        holder.binding.tvTotalAmount.setText(totalAmountNf)
+        holder.binding.tvBags.setText(formatedBags)
+        holder.binding.tvTotalAmount.setText(formatedAmount)
     }
 
     private fun formatAmount(amount: String): String {

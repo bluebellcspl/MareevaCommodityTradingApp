@@ -1,6 +1,7 @@
 package com.bluebellcspl.maarevacommoditytradingapp.adapter
 
 import android.content.Context
+import android.icu.text.NumberFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -41,7 +42,8 @@ class InvoiceReportAdapter(var context: Context, var dataList: ArrayList<Invoice
         holder.binding.tvBuyerNameInvoiceReportAdapter.setText(model.BuyerName)
         holder.binding.tvVehicleNoInvoiceReportAdapter.setText(model.VechicalNo)
         holder.binding.tvInvoiceNoInvoiceReportAdapter.setText(model.InvoiceNo)
-        holder.binding.tvAmountInvoiceReportAdapter.setText(model.FinalAmount)
+        val finalAmountNF = NumberFormat.getCurrencyInstance().format(model.FinalAmount.toDouble()).substring(1)
+        holder.binding.tvAmountInvoiceReportAdapter.setText(finalAmountNF)
 
         holder.binding.imgDocInvoiceReportAdapter.setOnClickListener {
             invoiceReportListHelper.onItemClicked(model,InvoiceReportFragment.DOC_TYPE)
