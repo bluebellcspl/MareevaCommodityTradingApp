@@ -244,6 +244,9 @@
     <string name="add">Add</string>
     <string name="shop_list">Shop List</string>
     <string name="current_auction_is_stopped_lbl">Current Auction is Stopped</string>
+    <string name="do_you_want_to_save_invoice_alert_lbl">Do you want to Save Invoice?</string>
+    <string name="current_price_auction_lbl">Current Price</string>
+    <string name="total_amount_buyer_auction_lbl">Total Amount</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

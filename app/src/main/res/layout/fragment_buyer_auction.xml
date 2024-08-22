@@ -164,7 +164,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        android:text="@string/total_amount"
+                                        android:text="@string/total_amount_buyer_auction_lbl"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/_14ssp" />

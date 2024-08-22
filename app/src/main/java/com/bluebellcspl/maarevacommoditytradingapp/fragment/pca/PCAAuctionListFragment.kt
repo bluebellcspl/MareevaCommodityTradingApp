@@ -9,9 +9,11 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -29,6 +31,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentPCAAuctionListBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.PcaAuctionDetailDailogLayoutBinding
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionFragment.ShopSelectionData
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTPCAAuctionDeleteAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTPCAAuctionDetailAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.ApiPCAAuctionDetail
@@ -52,11 +55,13 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
     lateinit var pcaAuctionList: ArrayList<ApiPCAAuctionDetail>
     lateinit var commodityBhartiRate: String
     private  val  pcaAuctionDataModel by lazy { args.pcaAuctionDetailModel }
-    var shopId = "0.0"
     var post_CurrentTotal = 0.0
     var post_CurrentPrice = 0.0
     var post_AvgPrice = 0.0
     var post_CumulativeTotal = 0.0
+    private lateinit var _ShopDataList : ArrayList<ShopSelectionData>
+    private lateinit var newShopNoAdapter: ArrayAdapter<String>
+    var shopId = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -111,11 +116,13 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
         val itemTouchHelper = ItemTouchHelper(swipeToDelete)
         itemTouchHelper.attachToRecyclerView(binding.rcViewPCAAuctionListFrament)
         pcaAuctionList = args.pcaAuctionDetailModel.ApiPCAAuctionDetail
+        getShopData()
         bindAuctionList(args.pcaAuctionDetailModel)
         return binding.root
     }
 
      fun bindAuctionList(model: PCAAuctionDetailModel) {
+         pcaAuctionList = model.ApiPCAAuctionDetail
          val dataList = model.ApiPCAAuctionDetail
         if (dataList.isNotEmpty()) {
             adapter = PCAAuctionListAdapter(requireContext(), dataList, this)
@@ -140,18 +147,39 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             shopId = model.ShopId
             post_CurrentTotal = model.Amount.toDouble()
             post_CurrentPrice = model.CurrentPrice.toDouble()
-            dialogBinding.actShopNamePCAAuctionDialog.setText(model.ShopName)
+
             dialogBinding.actShopNoPCAAuctionDialog.setText(model.ShopNo)
             dialogBinding.edtBagsPCAAuctionDialog.setText(model.Bags)
             dialogBinding.edtCurrentPricePCAAuctionDialog.setText(model.CurrentPrice)
             val amountNF = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
             dialogBinding.edtTotalAmountPCAAuctionDialog.setText(amountNF)
 
-            val shopNameAdapter = commonUIUtility.getCustomArrayAdapter(getShopNameFromDB())
-            val shopNoAdapter = commonUIUtility.getCustomArrayAdapter(getShopNoFromDb())
+//            val shopNameAdapter = commonUIUtility.getCustomArrayAdapter(getShopNameFromDB())
+            if (PrefUtil.getSystemLanguage().equals("en"))
+            {
+                dialogBinding.actShopNamePCAAuctionDialog.setText(model.ShortShopName)
+                _ShopDataList = ArrayList(getShopData().sortedBy { it.ShortShopName })
+                val shopNameAdapter = commonUIUtility.getCustomArrayAdapter(ArrayList(_ShopDataList.map { it.ShortShopName }))
+                dialogBinding.actShopNamePCAAuctionDialog.setAdapter(shopNameAdapter)
+            }else
+            {
+                dialogBinding.actShopNamePCAAuctionDialog.setText(model.GujaratiShortShopName)
+                _ShopDataList = ArrayList(getShopData().sortedBy { it.ShortGujShopName })
+                val shopNameAdapter = commonUIUtility.getCustomArrayAdapter(ArrayList(_ShopDataList.map { it.ShortGujShopName }))
+                dialogBinding.actShopNamePCAAuctionDialog.setAdapter(shopNameAdapter)
+            }
 
-            dialogBinding.actShopNoPCAAuctionDialog.setAdapter(shopNoAdapter)
-            dialogBinding.actShopNamePCAAuctionDialog.setAdapter(shopNameAdapter)
+            dialogBinding.actShopNoPCAAuctionDialog.setAdapter(newShopNoAdapter)
+
+            if (PrefUtil.getSystemLanguage().equals("en"))
+            {
+//            _ShopDataList = getShopData().sortedBy { it.ShortShopName } as ArrayList<ShopSelectionData>
+
+            }else
+            {
+
+            }
+
             dialogBinding.edtBagsPCAAuctionDialog.filters =arrayOf<InputFilter>(
                 EditableDecimalInputFilter(5, 2)
             )
@@ -164,10 +192,14 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                 dialogBinding.actShopNamePCAAuctionDialog.setText(shopName)
             }
 
-            dialogBinding.actShopNamePCAAuctionDialog.setOnItemClickListener { adapterView, view, i, l ->
-                var shopNo = DatabaseManager.ExecuteScalar(Query.getShopNoByShopName(dialogBinding.actShopNamePCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
-                shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopName(dialogBinding.actShopNamePCAAuctionDialog.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
-                dialogBinding.actShopNoPCAAuctionDialog.setText(shopNo)
+            dialogBinding.actShopNamePCAAuctionDialog.setOnItemClickListener { parent, view, position, id ->
+                val selectedShop = _ShopDataList[position]
+                Log.d(TAG, "onCreateView: SHOP_ID : ${selectedShop.ShopId}")
+                Log.d(TAG, "onCreateView: SHOP_NO : ${selectedShop.ShopNo}")
+                Log.d(TAG, "onCreateView: SHOP_NAME : ${selectedShop.ShortShopName}")
+                Log.d(TAG, "onCreateView: SHOP_NAME_GUJ : ${selectedShop.ShortGujShopName}")
+                shopId = selectedShop.ShopId
+                dialogBinding.actShopNoPCAAuctionDialog.setText(selectedShop.ShopNo)
             }
             dialogBinding.edtBagsPCAAuctionDialog.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -187,7 +219,14 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                             dialogBinding.edtBagsPCAAuctionDialog.text.toString().substring(1)
                         dialogBinding.edtBagsPCAAuctionDialog.setText(subStr)
                         dialogBinding.edtBagsPCAAuctionDialog.setSelection(1)
-                    } else {
+                    }else {
+                        if (p0!!.endsWith(".")) {
+                            val stringBuilder =
+                                StringBuilder(dialogBinding.edtBagsPCAAuctionDialog.text.toString())
+                            stringBuilder.append("50")
+                            dialogBinding.edtBagsPCAAuctionDialog.setText(stringBuilder.toString())
+                            dialogBinding.edtBagsPCAAuctionDialog.setSelection(stringBuilder.length)
+                        }
                         calculateExpense(
                             dialogBinding.edtBagsPCAAuctionDialog.text.toString().trim(),
                             dialogBinding.edtCurrentPricePCAAuctionDialog.text.toString().trim(),
@@ -196,6 +235,24 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                         )
                     }
                 }
+            })
+
+            dialogBinding.edtBagsPCAAuctionDialog.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
+                    val text = dialogBinding.edtBagsPCAAuctionDialog.text.toString()
+                    if (text.contains(".")) {
+                        val text = dialogBinding.edtBagsPCAAuctionDialog.text.toString()
+                        val decimalIndex = text.indexOf(".")
+                        if (decimalIndex != -1) {
+                            val newText = StringBuilder(text)
+                            newText.delete(decimalIndex, newText.length)
+                            dialogBinding.edtBagsPCAAuctionDialog.setText(newText.toString())
+                            dialogBinding.edtBagsPCAAuctionDialog.setSelection(newText.length)
+                            return@OnKeyListener true
+                        }
+                    }
+                }
+                false
             })
             dialogBinding.edtCurrentPricePCAAuctionDialog.addTextChangedListener(object :
                 TextWatcher {
@@ -231,10 +288,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
 
                 if (dialogBinding.edtCurrentPricePCAAuctionDialog.text.toString().toDouble() <1) {
                     commonUIUtility.showAlertWithOkButton("Please Enter Current Price!")
-                } else if (dialogBinding.actShopNamePCAAuctionDialog.text.toString()
-                        .isEmpty() || dialogBinding.actShopNoPCAAuctionDialog.text.toString()
-                        .isEmpty()
-                ) {
+                } else if (dialogBinding.actShopNamePCAAuctionDialog.text.toString().isEmpty() || dialogBinding.actShopNoPCAAuctionDialog.text.toString().isEmpty()) {
                     commonUIUtility.showAlertWithOkButton("Please Enter Shop Name or Shop No!")
                 } else if (dialogBinding.edtBagsPCAAuctionDialog.text.toString().toFloat() < 1) {
                     commonUIUtility.showToast("Please Enter Bags!")
@@ -244,16 +298,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                     commonUIUtility.showToast(getString(R.string.please_enter_valid_input_alert_msg))
                 }
                 else {
-                    val newbags = dialogBinding.edtBagsPCAAuctionDialog.text.toString().toString()
-                    var bags = ""
-                    if (newbags.contains("."))
-                    {
-                        val currentBag = newbags.split(".")[0]
-                        bags= "$currentBag.5"
-                    }else
-                    {
-                        bags= dialogBinding.edtBagsPCAAuctionDialog.text.toString().trim()
-                    }
+                    var bags = dialogBinding.edtBagsPCAAuctionDialog.text.toString().trim()
                     model.Amount = DecimalFormat("0.00").format(post_CurrentTotal)
                     model.Bags = DecimalFormat("0.00").format(bags.toFloat())
                     model.ShopNo = dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim()
@@ -369,60 +414,60 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             Log.e(TAG, "calculateExpense: ${e.message}")
         }
     }
-    private fun getShopNameFromDB(): ArrayList<String> {
-        var dataList: ArrayList<String> = ArrayList()
-        try {
-            val cursor = DatabaseManager.ExecuteRawSql(
-                Query.getShopName(PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString())
-            )
-            if (cursor != null && cursor.count > 0) {
-                dataList.clear()
-                while (cursor.moveToNext()) {
-                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShopName")))
-                }
-                dataList.sort()
-            }
-            cursor?.close()
-        } catch (e: Exception) {
-            dataList.clear()
-            e.printStackTrace()
-            Log.e(TAG, "getShopNameFromDB: ${e.message}")
-        }
-        Log.d(TAG, "getShopNameFromDB: SHOPLIST : $dataList")
-        return dataList
-    }
-
-    private fun getShopNoFromDb(): ArrayList<String> {
-        var dataList: ArrayList<String> = ArrayList()
-        try {
-            val cursor = DatabaseManager.ExecuteRawSql(
-                Query.getShopNo(
-                    PrefUtil.getString(
-                        PrefUtil.KEY_APMC_ID,
-                        ""
-                    ).toString()
-                )
-            )
-            if (cursor != null && cursor.count > 0) {
-                dataList.clear()
-                while (cursor.moveToNext()) {
-                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShopNo")))
-                }
-                dataList.sortWith(Comparator { str1, str2 ->
-                    val num1 = str1.toInt()
-                    val num2 = str2.toInt()
-                    num1.compareTo(num2)
-                })
-            }
-            cursor?.close()
-        } catch (e: Exception) {
-            dataList.clear()
-            e.printStackTrace()
-            Log.e(TAG, "getShopNoFromDb: ${e.message}")
-        }
-        Log.d(TAG, "getShopNoFromDb: SHOPLIST : $dataList")
-        return dataList
-    }
+//    private fun getShopNameFromDB(): ArrayList<String> {
+//        var dataList: ArrayList<String> = ArrayList()
+//        try {
+//            val cursor = DatabaseManager.ExecuteRawSql(
+//                Query.getShopName(PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString())
+//            )
+//            if (cursor != null && cursor.count > 0) {
+//                dataList.clear()
+//                while (cursor.moveToNext()) {
+//                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShopName")))
+//                }
+//                dataList.sort()
+//            }
+//            cursor?.close()
+//        } catch (e: Exception) {
+//            dataList.clear()
+//            e.printStackTrace()
+//            Log.e(TAG, "getShopNameFromDB: ${e.message}")
+//        }
+//        Log.d(TAG, "getShopNameFromDB: SHOPLIST : $dataList")
+//        return dataList
+//    }
+//
+//    private fun getShopNoFromDb(): ArrayList<String> {
+//        var dataList: ArrayList<String> = ArrayList()
+//        try {
+//            val cursor = DatabaseManager.ExecuteRawSql(
+//                Query.getShopNo(
+//                    PrefUtil.getString(
+//                        PrefUtil.KEY_APMC_ID,
+//                        ""
+//                    ).toString()
+//                )
+//            )
+//            if (cursor != null && cursor.count > 0) {
+//                dataList.clear()
+//                while (cursor.moveToNext()) {
+//                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShopNo")))
+//                }
+//                dataList.sortWith(Comparator { str1, str2 ->
+//                    val num1 = str1.toInt()
+//                    val num2 = str2.toInt()
+//                    num1.compareTo(num2)
+//                })
+//            }
+//            cursor?.close()
+//        } catch (e: Exception) {
+//            dataList.clear()
+//            e.printStackTrace()
+//            Log.e(TAG, "getShopNoFromDb: ${e.message}")
+//        }
+//        Log.d(TAG, "getShopNoFromDb: SHOPLIST : $dataList")
+//        return dataList
+//    }
 
     override fun onItemClick(postion: Int, onclickType: String) {
         showPCAAddAuctionDialog(pcaAuctionList[postion])
@@ -438,6 +483,35 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
 
     override fun getLiveAuctionPCAData(postion: Int, model: LiveAuctionPCAListModel) {
         TODO("Not yet implemented")
+    }
+
+    private fun getShopData():ArrayList<ShopSelectionData> {
+        var shopDataList = ArrayList<ShopSelectionData>()
+        try {
+            val cursor = DatabaseManager.ExecuteRawSql(Query.getShopData())
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()) {
+                    val model = ShopSelectionData(
+                        cursor.getString(cursor.getColumnIndexOrThrow("ShopId")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("ShopNo")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("ShortShopName")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("GujaratiShortShopName"))
+                    )
+
+                    shopDataList.add(model)
+                }
+                val newShopNoList = shopDataList.map { it.ShopNo } as ArrayList<String>
+                val newDataList = commonUIUtility.sortAlphanumericList(newShopNoList)
+                 newShopNoAdapter = commonUIUtility.getCustomArrayAdapter(newDataList)
+                Log.d(TAG, "getShopData: NEW_SHOPLIST : $shopDataList")
+            }
+            cursor?.close()
+        } catch (e: Exception) {
+            shopDataList.clear()
+            e.printStackTrace()
+            Log.e(TAG, "getShopData: ${e.message}")
+        }
+        return shopDataList
     }
 
     override fun onDestroyView() {

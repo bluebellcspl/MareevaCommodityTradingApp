@@ -36,7 +36,7 @@
     <string name="dashboard">ડેશબોર્ડ</string>
     <string name="commodity_name_lbl">જણસીનું નામ</string>
     <string name="total_pcas_lbl">ખરીદાયેલ</string>
-    <string name="notifications">નોતટતફકેશન</string>
+    <string name="notifications">નોટિફિકેશન</string>
     <string name="add_pca">PCA ઉમેરો</string>
     <string name="pca_list">આડતિયાની યાદી</string>
     <string name="commodity">જણસી</string>
@@ -46,7 +46,7 @@
     <string name="requirement">જરૂરિયાત</string>
     <string name="remaining_bags">બાકી બોરી</string>
     <string name="total_purchased_bags">કુલ ખરીદેલ બોરી</string>
-    <string name="average_price">સરેરાશ કિંમત</string>
+    <string name="average_price">ભાવ</string>
     <string name="per_20_kgs">Per 20 Kgs</string>
     <string name="buyer_s_lower_limit">Buyer\'s Lower Limit</string>
     <string name="buyer_s_upper_limit">Buyer\'s Upper Limit</string>
@@ -111,13 +111,13 @@
     <string name="accept_all_terms_and_conditions">તમામ નિયમો અને શરતો સ્વીકારો</string>
     <string name="please_accept_terms_and_conditions">કૃપા કરીને નિયમો અને શરતો સ્વીકારો!</string>
     <string name="expense">ખર્ચ</string>
-    <string name="total_amount">કુલ કિંમત</string>
+    <string name="total_amount">રકમ</string>
     <string name="market_cess_rupee">માર્કેટ સેસ (₹)</string>
     <string name="transportation_charge_rupee">પરિવહન શુલ્ક (₹)</string>
     <string name="labour_charge_rupee">મજૂરી શુલ્ક (₹)</string>
     <string name="submit">સબમિટ કરો</string>
     <string name="auction_inserted_successfully">હરાજી સફળતાપૂર્વક દાખલ થઈ!</string>
-    <string name="allocated_bags">ફાળવેલ બોરી</string>
+    <string name="allocated_bags">ફાળવણી</string>
     <string name="total_cost">કુલ રકમ</string>
     <string name="total_expense">કુલ ખર્ચ</string>
     <string name="expenses">ખર્ચાઓ</string>
@@ -133,17 +133,17 @@
     <string name="privacy_policy">પ્રાઇવસી પોલિસી</string>
     <string name="apmc_lbl">એ પી એમ સી :</string>
     <string name="pan_card_lbl">પાન કાર્ડ:</string>
-    <string name="aadhar_card_lbl">Aadhar Card :</string>
-    <string name="gst_no_lbl">GST નંબર:</string>
+    <string name="aadhar_card_lbl">આધાર કાર્ડ :</string>
+    <string name="gst_no_lbl">જીએસટી નંબર:</string>
     <string name="city_lbl">શહેર:</string>
     <string name="commodity_lbl">જણસી :</string>
     <string name="total_pcas_lbl_new">કુલ પાકા આડતિયા  :</string>
     <string name="allocated_lbl">ફાળવણી</string>
     <string name="bags_lbl">બોરી :</string>
-    <string name="purchased_lbl">ખરીદાયેલ</string>
+    <string name="purchased_lbl">ખરીદી</string>
     <string name="rate_lbl">ભાવ :</string>
     <string name="cost_lbl">રકમ :</string>
-    <string name="avg_rate_lbl">એવરેજ ભાવ :</string>
+    <string name="avg_rate_lbl">ભાવ :</string>
     <string name="total_cost_lbl">કુલ રકમ :</string>
     <string name="date_lbl">તારીખ :</string>
     <string name="buyer_previous_auction">જૂની ખરીદી</string>
@@ -156,7 +156,7 @@
     <string name="limit">લીમીટ</string>
     <string name="budget">બજેટ</string>
     <string name="send">મોકલો</string>
-    <string name="contact_us">સિંપકક કરો</string>
+    <string name="contact_us">અમારો સંપર્ક કરો</string>
     <string name="otp">ઓ ટી પી</string>
     <string name="shop_name">દુકાનનું નામ</string>
     <string name="unappproved_pca_list">અસ્વીકૃત આડતિયાની યાદી</string>
@@ -192,7 +192,7 @@
     <string name="no_data_found">No Data Found!</string>
     <string name="forward">Forward</string>
     <string name="next">આગળ વધો</string>
-    <string name="pre_invoice_generate">બિલની વિગતો મેળવો</string>
+    <string name="pre_invoice_generate">બિલ માટે વિગત મેળવો</string>
     <string name="invoice_generate">બિલ બનાવો</string>
     <string name="grand_total">Grand Total</string>
     <string name="remiaing_kgs">બાકી રહેલ કિ.ગ્રા</string>
@@ -238,6 +238,9 @@
     <string name="add">એડ કરો</string>
     <string name="shop_list">"દુકાનનુ  લિસ્ટ "</string>
     <string name="current_auction_is_stopped_lbl">હાલમાં હરાજી બંધ છે</string>
+    <string name="do_you_want_to_save_invoice_alert_lbl">શું તમે ઇન્વોઇસ  સાચવવા માંગો છો</string>
+    <string name="current_price_auction_lbl">ભાવ</string>
+    <string name="total_amount_buyer_auction_lbl">કુલ રકમ</string>
 
     <string-array name="tax_Array">
         <item>GST સાથે</item>

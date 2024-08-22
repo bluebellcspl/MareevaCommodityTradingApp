@@ -435,7 +435,7 @@ class BuyerDashboardFragment : Fragment() {
             val date = dateFormat.format(selectedDateInMillis)
             PREV_AUCTION_SELECTED_DATE = date
             FetchBuyerPreviousAuctionAPI(
-                requireContext().applicationContext,
+                requireContext(),
                 this@BuyerDashboardFragment,
                 PREV_AUCTION_SELECTED_DATE
             )

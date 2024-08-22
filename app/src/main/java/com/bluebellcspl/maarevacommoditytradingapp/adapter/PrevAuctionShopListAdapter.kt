@@ -5,6 +5,7 @@ import android.icu.text.NumberFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ShopListAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionShopListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCADetailModel
@@ -31,8 +32,13 @@ class PrevAuctionShopListAdapter(var context: Context, var dataList: ArrayList<P
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = dataList[holder.adapterPosition]
 
-        holder.binding.ShopName.setText(model.ShopName)
-
+        if (PrefUtil.getSystemLanguage().equals("en"))
+        {
+            holder.binding.ShopName.setText(model.ShopName)
+        }else
+        {
+            holder.binding.ShopName.setText(model.GujaratiShopName)
+        }
         val currentNf = NumberFormat.getCurrencyInstance().format(model.CurrentPrice.toDouble())
         val totalAmountNf = NumberFormat.getCurrencyInstance().format(model.Amount.toDouble())
         holder.binding.shopRate.setText(currentNf)

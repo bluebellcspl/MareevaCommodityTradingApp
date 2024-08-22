@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.LiveAuctionAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionShopListModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCADetailModel
@@ -45,7 +46,13 @@ class BuyerPrevAuctionAdapter(var context: Context, var dataList: ArrayList<PCAH
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val modeldata = dataList[holder.adapterPosition]
-        holder.binding.tvPCAName.setText(modeldata.PCAName)
+        if (PrefUtil.getSystemLanguage().equals("en"))
+        {
+            holder.binding.tvPCAName.setText(modeldata.PCAName)
+        }else
+        {
+            holder.binding.tvPCAName.setText(modeldata.PCAGujaratiName)
+        }
         holder.binding.tvPCATotalBags.setText(modeldata.TotalPurchasedBags)
         val PCATotalAmountNF =
             NumberFormat.getCurrencyInstance().format(modeldata.TotalCost.toDouble()).substring(1)

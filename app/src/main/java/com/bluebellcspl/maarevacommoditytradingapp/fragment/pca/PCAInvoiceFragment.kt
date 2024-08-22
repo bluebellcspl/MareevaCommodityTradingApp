@@ -112,8 +112,11 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
                 val shortShopName = shopName.split("-")[1]
                 for (shopModel in shopWiseList) {
                     if (shopModel.ShopShortName.equals(shortShopName)) {
-                        selectedShopList.add(shopModel)
-                        selectedChipList.add(chip.text.toString())
+                        if (!selectedShopList.contains(shopModel))
+                        {
+                            selectedShopList.add(shopModel)
+                            selectedChipList.add(chip.text.toString())
+                        }
                     }
                 }
             }

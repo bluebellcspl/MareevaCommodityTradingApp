@@ -38,41 +38,6 @@ class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment:
     private fun postPCAUpdatedData() {
         try{
             commonUIUtility.showProgress()
-//            val JO = JsonObject()
-//
-//            JO.addProperty(  "PCAId",model.PCAId)
-//            JO.addProperty(  "RegId",model.RegId)
-//            JO.addProperty(  "RegId",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
-//            JO.addProperty(  "CommodityId",model.CommodityId)
-//            JO.addProperty(  "PCAName",model.PCAName)
-//            JO.addProperty(  "PCAPhoneNumber",model.PCAPhoneNumber)
-//            JO.addProperty(  "Typeofuser","2")
-//            JO.addProperty(  "OfficeAddress",model.Address)
-//            JO.addProperty(  "EmailId",model.EmailId)
-//            JO.addProperty(  "BuyerId",model.BuyerId)
-//            JO.addProperty(  "RoleId",model.RoleId)
-//            JO.addProperty(  "ApprStatus",model.ApprStatus)
-//            JO.addProperty(  "GCACommission",model.GCACommission)
-//            JO.addProperty(  "PCACommission",model.PCACommission)
-//            JO.addProperty(  "MarketCess",model.MarketCess)
-////            JO.addProperty(  "MarketCess",marketCess)
-//            JO.addProperty(  "IsActive",model.IsActive)
-//            JO.addProperty(  "CompanyCode",model.CompanyCode)
-//            JO.addProperty(  "CreateUser",model.CreateUser)
-//            JO.addProperty(  "CreateDate",model.CreateDate)
-//            JO.addProperty(  "UpdateUser",model.UpdateUser)
-//            JO.addProperty(  "UpdateDate",model.UpdateDate)
-//            JO.addProperty(  "Action",model.Action)
-//            JO.addProperty(  "CurrentUserRole","")
-//            JO.addProperty(  "CityId",model.CityId)
-//            JO.addProperty(  "CityName",model.CityName)
-//            JO.addProperty(  "StateId",model.StateId)
-//            JO.addProperty(  "StateName",model.StateName)
-//            JO.addProperty(  "DistrictId",model.DistrictId)
-//            JO.addProperty(  "DistrictName",model.DistrictName)
-//            JO.addProperty(  "APMCId",model.APMCId)
-//            JO.addProperty(  "APMCName",model.APMCName)
-//            JO.addProperty(  "CommodityName",model.CommodityName)
 
             val postEditPCAJO = Gson().toJsonTree(model).asJsonObject
             Log.d(TAG, "postPCAUpdatedData: PCA_UPDATE_JSON : ${postEditPCAJO}")
@@ -84,15 +49,6 @@ class POSTPCAEditAPI(var context: Context, var activity: Activity, var fragment:
 
                 if (result.isSuccessful)
                 {
-//                    if (result.body()!!.contains("PCA Details Updated successfully")){
-//                        if (fragment is EditPCAFragment)
-//                        {
-//                            withContext(Main){
-//                                commonUIUtility.dismissProgress()
-//                                (fragment as EditPCAFragment).successRedirect()
-//                            }
-//                        }
-//                    }
                     val responseJo = result.body()!!
                     if (responseJo.get("Success").asBoolean)
                     {

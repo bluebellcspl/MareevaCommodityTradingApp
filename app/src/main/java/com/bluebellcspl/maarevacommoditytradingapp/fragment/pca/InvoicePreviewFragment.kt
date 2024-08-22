@@ -315,7 +315,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
     fun showAlertDialog() {
         val alertDialog = AlertDialog.Builder(requireContext())
         alertDialog.setTitle("Alert")
-        alertDialog.setMessage("Do you want to Save Invoice?")
+        alertDialog.setMessage(getString(R.string.do_you_want_to_save_invoice_alert_lbl))
         alertDialog.setPositiveButton(
             requireContext().getString(R.string.yes),
             object : DialogInterface.OnClickListener {

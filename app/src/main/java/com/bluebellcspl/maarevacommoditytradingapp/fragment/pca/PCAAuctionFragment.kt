@@ -12,6 +12,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -121,9 +122,7 @@ class PCAAuctionFragment : Fragment() {
             shopId = selectedShop.ShopId
             binding.actShopNoPCAAuctionFragment.setText(selectedShop.ShopNo)
         }
-        binding.actShopNoPCAAuctionFragment.setOnItemClickListener { parent, view, position, id ->
 
-        }
         binding.edtBagsPCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
         binding.edtCurrentPricePCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(7, 2))
 
@@ -210,24 +209,31 @@ class PCAAuctionFragment : Fragment() {
                     binding.edtBagsPCAAuctionFragment.setSelection(1)
                 } else {
                     var decimalBags = p0!!.toString().trim()
-                    var bags = ""
-                    if (decimalBags.contains("."))
-                    {
-                        val decimal = p0!!.toString().trim().split(".")[1]
-                        val currentBag = p0!!.toString().trim().split(".")[0]
-                        bags= "$currentBag.5"
-                        Log.d(TAG, "afterTextChanged: NEW_DECIMAL_BAGS : $bags")
-                    }
-                    else
-                    {
-                        bags = p0!!.toString().trim()
-                    }
-                    if (bags.toFloat() > 0) {
+                    var bags = p0!!.toString().trim()
+//                    if (decimalBags.contains("."))
+//                    {
+//                        val decimal = p0!!.toString().trim().split(".")[1]
+//                        val currentBag = p0!!.toString().trim().split(".")[0]
+//                        bags= "$currentBag.5"
+//                        Log.d(TAG, "afterTextChanged: NEW_DECIMAL_BAGS : $bags")
+//                    }
+//                    else
+//                    {
+//                        bags = p0!!.toString().trim()
+//                    }
+                    if (p0!!.endsWith(".")) {
+                        val stringBuilder =
+                            StringBuilder(binding.edtBagsPCAAuctionFragment.text.toString())
+                        stringBuilder.append("50")
+                        binding.edtBagsPCAAuctionFragment.setText(stringBuilder.toString())
+                        binding.edtBagsPCAAuctionFragment.setSelection(stringBuilder.length)
+                        bags = stringBuilder.toString()
+                    }else if (bags.toFloat() > 0) {
                         post_PurchasedBags = PURCHASED_BAG.toFloat() + bags.toFloat()
                         post_RemainingBags = BUYER_BORI.toFloat() - post_PurchasedBags
                         binding.tvRemainingBagsPCAAuctionFragment.setText(post_RemainingBags.toString())
                         binding.tvPurchasedBagsPCAAuctionFragment.setText(post_PurchasedBags.toString())
-                    } else {
+                    }else {
                         binding.tvRemainingBagsPCAAuctionFragment.setText(post_RemainingBags.toString())
                         binding.tvPurchasedBagsPCAAuctionFragment.setText(PURCHASED_BAG)
                     }
@@ -235,6 +241,24 @@ class PCAAuctionFragment : Fragment() {
                 }
             }
         })
+
+    binding.edtBagsPCAAuctionFragment.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
+            val text = binding.edtBagsPCAAuctionFragment.text.toString()
+            if (text.contains(".")) {
+                val text = binding.edtBagsPCAAuctionFragment.text.toString()
+                val decimalIndex = text.indexOf(".")
+                if (decimalIndex != -1) {
+                    val newText = StringBuilder(text)
+                    newText.delete(decimalIndex, newText.length)
+                    binding.edtBagsPCAAuctionFragment.setText(newText.toString())
+                    binding.edtBagsPCAAuctionFragment.setSelection(newText.length)
+                    return@OnKeyListener true
+                }
+            }
+        }
+        false
+    })
         binding.edtCurrentPricePCAAuctionFragment.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 

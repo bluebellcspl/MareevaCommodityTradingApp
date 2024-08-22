@@ -171,12 +171,16 @@ class PCAListFragment : Fragment(),RecyclerViewHelper {
                 {
                     alertDialog.dismiss()
 //                    model.GujaratiShortPCAName=""
+                    model.RegId=""
+                    model.Action=""
                     Log.d(TAG, "showPCAProfileDialogPopup: PCA_MODEL_FOR_EDIT : $model")
                     navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
                 }else
                 {
                     alertDialog.dismiss()
 //                    model.GujaratiShortPCAName=""
+                    model.RegId=""
+                    model.Action=""
                     Log.d(TAG, "showPCAProfileDialogPopup: PCA_MODEL_FOR_EDIT : $model")
                     navController.navigate(PCAListFragmentDirections.actionPCAListFragmentToEditPCAFragment(model))
                 }

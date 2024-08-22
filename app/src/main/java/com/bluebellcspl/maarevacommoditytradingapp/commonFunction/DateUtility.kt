@@ -9,6 +9,7 @@ import java.util.Locale
 
 class DateUtility {
     private val dateFormat : String = "dd-MM-yyyy HH:mm:ss"
+    private val newDateTimeFormat: String = "yyyy-MM-dd HH:mm:ss"
     private val codeGenrateFormate : String = "ddMMyyyyHHmmss"
     private val compDateFormat = "dd-MM-yyyy"
     private val newDateFormat = "yyyy-MM-dd"
@@ -34,6 +35,14 @@ class DateUtility {
     fun getyyyyMMdd() : String{
         val cal = Calendar.getInstance()
         val sdf = SimpleDateFormat(newDateFormat, Locale.US)
+        val current = sdf.format(cal.time)
+        val date : String = current.toString()
+        return date
+    }
+
+    fun getyyyyMMddDateTime() : String{
+        val cal = Calendar.getInstance()
+        val sdf = SimpleDateFormat(newDateTimeFormat, Locale.US)
         val current = sdf.format(cal.time)
         val date : String = current.toString()
         return date
