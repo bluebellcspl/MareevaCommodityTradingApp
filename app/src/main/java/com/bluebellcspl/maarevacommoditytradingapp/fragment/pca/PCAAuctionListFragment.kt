@@ -171,15 +171,6 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
 
             dialogBinding.actShopNoPCAAuctionDialog.setAdapter(newShopNoAdapter)
 
-            if (PrefUtil.getSystemLanguage().equals("en"))
-            {
-//            _ShopDataList = getShopData().sortedBy { it.ShortShopName } as ArrayList<ShopSelectionData>
-
-            }else
-            {
-
-            }
-
             dialogBinding.edtBagsPCAAuctionDialog.filters =arrayOf<InputFilter>(
                 EditableDecimalInputFilter(5, 2)
             )

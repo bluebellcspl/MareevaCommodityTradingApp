@@ -23,7 +23,7 @@
     <string name="invalid_data_of_user_alert_msg">યુઝરનો અમાન્ય ડેટા!</string>
     <string name="otp_sent_successfully_alert_msg">OTP સફળતાપૂર્વક મોકલવામાં આવ્યો!</string>
     <string name="register">રજીસ્ટર</string>
-    <string name="buyer_registration">બાયર રજીસ્ટ ટરેશન</string>
+    <string name="buyer_registration">યુઝર રજીસ્ટ્રેશન</string>
     <string name="please_try_again_later_alert_msg">પછીથી ફરી પ્રયત્ન કરો!</string>
     <string name="invalid_credentials_or_otp_alert_msg">અમાન્ય મોબાઇલ નંબર અથવા OTP!</string>
     <string name="remember_me">લોગ-ઇન રહેવુિં</string>
@@ -241,6 +241,7 @@
     <string name="do_you_want_to_save_invoice_alert_lbl">શું તમે ઇન્વોઇસ  સાચવવા માંગો છો</string>
     <string name="current_price_auction_lbl">ભાવ</string>
     <string name="total_amount_buyer_auction_lbl">કુલ રકમ</string>
+    <string name="please_enter_your_query_alert_msg">Please Enter Your Query!</string>
 
     <string-array name="tax_Array">
         <item>GST સાથે</item>

@@ -2,9 +2,11 @@ package com.bluebellcspl.maarevacommoditytradingapp.commonFunction
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 class PrefUtil {
     companion object {
+        private val TAG = "PrefUtil"
         public val ACTION_INSERT = "insert"
         public val ACTION_UPDATE = "update"
         public val ACTION_RETRIEVE = "All"
@@ -88,6 +90,7 @@ class PrefUtil {
         public fun deletePreference() {
             editor.clear()
             editor.commit()
+            Log.d(TAG, "deletePreference: SHARED_PREF_DELETED")
         }
     }
 

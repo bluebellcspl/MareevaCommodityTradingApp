@@ -60,6 +60,15 @@ class ProfileOptionFragment : Fragment() {
         binding.cvBuyerLogoutProfileOptionFragment.setOnClickListener {
             logoutDialog()
         }
+
+        binding.btnSendProfileOptionFragment.setOnClickListener {
+            if (binding.edtQueryProfileOptionFragment.text.toString().isNotEmpty()){
+                sendEmailForQuery()
+            }else
+            {
+                commonUIUtility.showToast(getString(R.string.please_enter_your_query_alert_msg))
+            }
+        }
         return binding.root
     }
 
@@ -129,6 +138,34 @@ class ProfileOptionFragment : Fragment() {
             startActivity(requireActivity().getIntent())
         }
     }
+    
+    private fun sendEmailForQuery(){
+        try {
+            var subjectStringBuilder = StringBuilder()
+            var roleName = PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"")!!
+            var mobileNo = PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,"")!!
+            var name = PrefUtil.getString(PrefUtil.KEY_NAME,"")!!
+            subjectStringBuilder.append("Inquiry Request From ")
+            subjectStringBuilder.append("$roleName - $name - $mobileNo")
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "message/rfc822" // Use this MIME type to indicate email
+                putExtra(Intent.EXTRA_EMAIL, arrayOf("hello@maareva.com")) // recipient(s)
+//                putExtra(Intent.EXTRA_EMAIL, arrayOf("ankulparmar.bbcspl@gmail.com")) // recipient(s)
+                putExtra(Intent.EXTRA_SUBJECT, subjectStringBuilder.toString()) // subject
+                putExtra(Intent.EXTRA_TEXT, binding.edtQueryProfileOptionFragment.text.toString().trim()) // body
+            }
+            intent.setPackage("com.google.android.gm") // Explicitly set Gmail package
+            requireActivity().startActivity(intent)
+//            if (intent.resolveActivity(requireContext().packageManager) != null) {
+//            } else {
+//                println("Gmail is not installed.")
+//            }
+        }catch (e:Exception)
+        {
+            Log.e(TAG, "sendEmailForQuery: ${e.message}", )
+            e.printStackTrace()
+        }
+    } 
 
     override fun onDestroyView() {
         super.onDestroyView()

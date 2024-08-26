@@ -22,7 +22,7 @@
     <string name="invalid_data_of_user_alert_msg">Invalid Data of User!</string>
     <string name="otp_sent_successfully_alert_msg">OTP Sent Successfully!</string>
     <string name="register">Register</string>
-    <string name="buyer_registration">Buyer Registration</string>
+    <string name="buyer_registration">User Registration</string>
     <string name="please_try_again_later_alert_msg">Please Try Again Later!</string>
     <string name="invalid_credentials_or_otp_alert_msg">Invalid Credentials or OTP!</string>
     <string name="remember_me">Remember Me</string>
@@ -193,7 +193,7 @@
     <string name="pre_invoice_generate">Pre Invoice Generate</string>
     <string name="invoice_generate">Invoice Generate</string>
     <string name="grand_total">Grand Total</string>
-    <string name="remiaing_kgs">Remiaing Kgs</string>
+    <string name="remiaing_kgs">Remaining Kgs</string>
     <string name="invoice_stock">Invoice Stock</string>
     <string name="please_select_at_least_1_entry_alert_msg">Please Select At Least 1 Entry!</string>
     <string name="gst">GST</string>
@@ -239,4 +239,5 @@
     <string name="do_you_want_to_save_invoice_alert_lbl">Do you want to Save Invoice?</string>
     <string name="current_price_auction_lbl">Current Price</string>
     <string name="total_amount_buyer_auction_lbl">Total Amount</string>
+    <string name="please_enter_your_query_alert_msg">Please Enter Your Query!</string>
 </resources>

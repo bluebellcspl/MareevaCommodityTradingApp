@@ -48,6 +48,7 @@ class RegisterActivity : AppCompatActivity() {
             activityConf,
             baseContext.resources.displayMetrics
         )
+        alertDialog = AlertDialog.Builder(this).create()
         super.onCreate(savedInstanceState)
         with(window) {
             requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)

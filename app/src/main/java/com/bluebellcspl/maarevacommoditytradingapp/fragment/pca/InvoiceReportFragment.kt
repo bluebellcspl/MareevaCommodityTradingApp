@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.pca
 import ConnectionCheck
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.os.Environment
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
+import java.io.File
 import java.util.Locale
 
 
@@ -247,18 +249,19 @@ class InvoiceReportFragment : Fragment(),InvoiceReportListHelper {
             val fileNameStringBuilder = StringBuilder()
             if (type.equals(PDF_TYPE))
             {
-                fileUrl = URLHelper.INVOICE_PDF.replace("<INVOICE_NO>",invoiceNo)
+                fileUrl = URLHelper.INVOICE_PDF.replace("<INVOICE_NO>",invoiceNo).replace("<PCA_REG_ID>",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
                 desc = "Downloading Invoice PDF"
                 fileNameStringBuilder.clear()
                 fileNameStringBuilder.append("Invoice_${model.InvoiceNo}_${model.Date}.pdf")
             }else if (type.equals(DOC_TYPE))
             {
-                fileUrl = URLHelper.INVOICE_DOC.replace("<INVOICE_NO>",invoiceNo)
+                fileUrl = URLHelper.INVOICE_DOC.replace("<INVOICE_NO>",invoiceNo).replace("<PCA_REG_ID>",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
                 desc = "Downloading Invoice Doc"
                 fileNameStringBuilder.clear()
                 fileNameStringBuilder.append("Invoice_${model.InvoiceNo}_${model.Date}.doc")
             }
-
+            Log.d(TAG, "onItemClicked: CURRENT_REG_ID : ${PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"")}")
+            deleteFileIfExists(fileNameStringBuilder.toString())
             fileDownloader.downloadFile(fileUrl,fileNameStringBuilder.toString(),desc)
 
         } catch (e: Exception) {
@@ -266,8 +269,22 @@ class InvoiceReportFragment : Fragment(),InvoiceReportListHelper {
             Log.e(TAG, "onItemClicked: ${e.message}")
         }
     }
-}
 
+    fun deleteFileIfExists(fileName: String) {
+        try {
+            val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val fileToDelete = File(downloadDir, fileName)
+            if (fileToDelete.exists()) {
+                fileToDelete.delete()
+            } else {
+                Log.d(TAG, "deleteFileIfExists: FILE DOES NOT EXIST")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "deleteFileIfExists: ${e.message}")
+        }
+    }
+}
 interface InvoiceReportListHelper{
     fun onItemClicked(model:InvoiceReportModelItem,type:String)
 }

@@ -17,7 +17,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 1
-        versionName "1.0.52"
+        versionName "1.0.54"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -86,9 +86,9 @@ dependencies {
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
 
     //Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
-    implementation 'com.google.firebase:firebase-messaging:24.0.0'
-    implementation 'com.google.firebase:firebase-analytics:22.0.2'
+    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
+    implementation 'com.google.firebase:firebase-messaging:24.0.1'
+    implementation 'com.google.firebase:firebase-analytics:22.1.0'
 
     //CirclarImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'

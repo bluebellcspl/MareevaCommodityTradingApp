@@ -837,7 +837,7 @@ class InvoicePreviewFragment : Fragment(), InvoiceStockDetailHelper {
     fun downloadInvoice(invoiceId:String)
     {
         try {
-            val fileURL = URLHelper.INVOICE_PDF.replace("<INVOICE_NO>",invoiceId)
+            val fileURL = URLHelper.INVOICE_PDF.replace("<INVOICE_NO>",invoiceId).replace("<PCA_REG_ID>",PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
             Log.d(TAG, "downloadInvoice: fileURL : $fileURL")
             fileDownloader.downloadFile(fileURL,"InVoiceGenerating_Report_Book.pdf", "Downloading Invoice")
         } catch (e: Exception) {

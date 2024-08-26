@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
@@ -40,6 +41,9 @@ import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerVi
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 
@@ -54,7 +58,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     lateinit var adapter: BuyerAuctionListAdapter
     var auctionDetailList: ArrayList<AuctionDetailsModel> = ArrayList()
     var auctionDetailList2: ArrayList<AuctionDetailsModel> = ArrayList()
-    lateinit var pcaDetailList: ArrayList<newPCAModel>
+//    lateinit var pcaDetailList: ArrayList<newPCAModel>
     lateinit var ALLOCATED_BAGS: String
     lateinit var TOTAL_AMOUNT: String
     lateinit var TOTAL_PCA_BASIC: String
@@ -66,6 +70,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     lateinit var AUCTION_MASTER_ID: String
     lateinit var postAuction: BuyerAuctionMasterModel
     lateinit var commodityBharti:String
+    var CURRENT_PCA_COUNT = 0
     var isAuctionForUpdate = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,22 +87,6 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         }else{
             commonUIUtility.showToast(getString(R.string.no_internet_connection))
         }
-        val today = MaterialDatePicker.todayInUtcMilliseconds()
-        val calendarConstraints =
-            CalendarConstraints.Builder().setValidator(DateValidatorPointForward.now())
-                .build()
-        datePicker = MaterialDatePicker.Builder.datePicker().setSelection(today)
-            .setCalendarConstraints(calendarConstraints)
-            .setTitleText("Select Date").build()
-        binding.tvDateBuyerAuctionFragment.text = DateUtility().getCompletionDate()
-        datePicker.addOnPositiveButtonClickListener {
-            val selectedDate = datePicker.selection
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            val date = dateFormat.format(selectedDate)
-            binding.tvDateBuyerAuctionFragment.text = date.toString()
-        }
-
-        binding.fabAddAuctionBuyerAuctionFragment.visibility = View.GONE
 
         binding.cvTotalAmountBuyerAuctionFragment.setOnClickListener {
             showExpenseAuctionDialog(auctionDetailList)
@@ -118,8 +107,8 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             }
         }
         //new design changes
-        pcaDetailList = getPCADetails()
-        Log.d(TAG, "onCreateView: PCA_DETAIL_LIST : $pcaDetailList")
+//        pcaDetailList = getPCADetails()
+        Log.d(TAG, "onCreateView: PCA_COUNT_IN_AUCTION_API : $CURRENT_PCA_COUNT")
 
         binding.edtTotalBagsBuyerAuctionFragment.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -132,7 +121,9 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
 
             override fun afterTextChanged(p0: Editable?) {
                 if (p0.toString().isNotEmpty()) {
-                    allocateBagsAutomatically(p0.toString().trim())
+                    lifecycleScope.launch(Dispatchers.Default){
+                        allocateBagsAutomatically(p0.toString().trim())
+                    }
                 } else {
 //                    val detailModel = Detail("","","","","","","","","","","","","")
 //                    auctionDetailList.add(detailModel)
@@ -209,6 +200,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             }
             auctionDetailList = dataFromAPI.AuctionDetailsModel
             postAuction = dataFromAPI
+            CURRENT_PCA_COUNT = dataFromAPI.AuctionDetailsModel.size
             bindRecyclerView(auctionDetailList)
             if (dataFromAPI.BudgetAmount.isNotEmpty() && dataFromAPI.TotalBags.isNotEmpty())
             {
@@ -226,6 +218,8 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             if (dataList.isNotEmpty()) {
                 adapter = BuyerAuctionListAdapter(requireContext(), dataList, this,commodityBharti)
                 binding.rcViewBuyerAuctionFragment.adapter = adapter
+                binding.rcViewBuyerAuctionFragment.setItemViewCacheSize(dataList.size)
+                binding.rcViewBuyerAuctionFragment.setHasFixedSize(true)
                 binding.rcViewBuyerAuctionFragment.invalidate()
             } else {
                 commonUIUtility.showToast("No Details Found!")
@@ -236,26 +230,35 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         }
     }
 
-    fun allocateBagsAutomatically(bags: String) {
+    suspend fun allocateBagsAutomatically(bags: String) {
         try {
             auctionDetailList2 = ArrayList()
-            val pcaCount = pcaDetailList.size
-            val bagsPerPerson = distributeBagsEvenly(bags.toDouble(), pcaCount)
+//            val pcaCount = pcaDetailList.size
+            val bagsPerPerson = distributeBagsEvenly(bags.toDouble(), CURRENT_PCA_COUNT)
             auctionDetailList2.addAll(auctionDetailList)
-            for (i in 0 until pcaCount) {
+            for (i in 0 until CURRENT_PCA_COUNT) {
+                Log.d(TAG, "allocateBagsAutomatically: BAG_POSITION : $i")
+                Log.d(TAG, "allocateBagsAutomatically: PER_PERSON_BAG : ${bagsPerPerson[i]}")
                 auctionDetailList2[i].Bags = bagsPerPerson[i].toString()
                 auctionDetailList2[i].Basic = "0.0"
+                Log.d(TAG, "allocateBagsAutomatically: AFTER_BAG_ALLOCATED_TO_PCA : ${auctionDetailList2[i].PCAShortName} - ${auctionDetailList2[i].Bags}")
             }
-            Log.d(TAG, "allocateBagsAutomatically: SECOND_LIST : $auctionDetailList2")
-            bindRecyclerView(auctionDetailList2)
-            calculateOtherExpenses(auctionDetailList2)
+
+//            Log.d(TAG, "allocateBagsAutomatically: SECOND_LIST : $auctionDetailList2")
+            auctionDetailList2.forEach { it->
+                Log.d(TAG, "allocateBagsAutomatically: ALLOCATED_BAG PCA_NAME : ${it.Bags} - ${it.PCAShortName}")
+            }
+            withContext(Dispatchers.Main){
+                bindRecyclerView(auctionDetailList2)
+                calculateOtherExpenses(auctionDetailList2)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "allocateBagsAutomatically: ${e.message}")
         }
     }
 
-    fun distributeBagsEvenly(totalBags: Double, numberOfSellers: Int): List<Int> {
+   suspend fun distributeBagsEvenly(totalBags: Double, numberOfSellers: Int): List<Int> {
         val totalBagsInt = totalBags.toInt()
         val bagsPerSeller = totalBagsInt / numberOfSellers
         val remainingBags = totalBagsInt % numberOfSellers
@@ -267,6 +270,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             distributedBags[i]++
         }
 
+        Log.d(TAG, "distributeBagsEvenly: BAGS_DISTRIBUTION : $distributedBags")
         return distributedBags
     }
 
@@ -290,7 +294,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         if (dataList.isEmpty()) {
             commonUIUtility.showToast("No Bags are Allocated!")
         } else {
-            var leftBags = ""
+            var leftBags = "0"
             var ab: Int = 0
             var basic: Double = 0.0
             var total: Double = 0.0
@@ -590,7 +594,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
                 TOTAL_LABOUR_CHARGE,
                 TOTAL_MARKETCESS,
                 TOTAL_PCA_COMMISSION,
-                pcaDetailList.size.toString(),
+                CURRENT_PCA_COUNT.toString(),
                 TOTAL_TRANSPORTATION_CHARGE,
                 DateUtility().getyyyyMMdd(),
                 PrefUtil.getString(PrefUtil.KEY_BUYER_ID, "").toString()

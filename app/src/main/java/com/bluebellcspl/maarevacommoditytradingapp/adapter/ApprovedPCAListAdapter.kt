@@ -45,8 +45,7 @@ class ApprovedPCAListAdapter(
         val model = dataList[holder.adapterPosition]
         holder.binding.tvPCACommissionPCAListItem.setText(model.PCACommission)
         holder.binding.tvGCACommissionPCAListItem.setText(model.GCACommission)
-        val marketCess = DatabaseManager.ExecuteScalar(Query.getMarketCessByAPMCId(model.APMCId))!!
-        holder.binding.tvMarketCessPCAListItem.setText(marketCess)
+        holder.binding.tvMarketCessPCAListItem.setText(model.MarketCess)
         holder.binding.tvApprovedStatusPCAListItem.setTextAppearance(R.style.confirmVisitStatusText)
         holder.binding.tvApprovedStatusPCAListItem.gravity = Gravity.CENTER
         holder.binding.tvApprovedStatusPCAListItem.setText(context.getString(R.string.approved))
