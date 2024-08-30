@@ -201,6 +201,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
             auctionDetailList = dataFromAPI.AuctionDetailsModel
             postAuction = dataFromAPI
             CURRENT_PCA_COUNT = dataFromAPI.AuctionDetailsModel.size
+            Log.d(TAG, "updateUIFromAPIData PCA_COUNT_FOR_DISTRIBUTION : $CURRENT_PCA_COUNT")
             bindRecyclerView(auctionDetailList)
             if (dataFromAPI.BudgetAmount.isNotEmpty() && dataFromAPI.TotalBags.isNotEmpty())
             {
