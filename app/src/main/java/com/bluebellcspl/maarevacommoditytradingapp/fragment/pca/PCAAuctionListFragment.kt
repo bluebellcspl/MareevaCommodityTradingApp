@@ -53,7 +53,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
     val args by navArgs<PCAAuctionListFragmentArgs>()
     lateinit var adapter: PCAAuctionListAdapter
     lateinit var pcaAuctionList: ArrayList<ApiPCAAuctionDetail>
-    lateinit var commodityBhartiRate: String
+    private val commodityBhartiRate:String by lazy { args.pcaAuctionDetailModel.CommodityBhartiPrice }
     private  val  pcaAuctionDataModel by lazy { args.pcaAuctionDetailModel }
     var post_CurrentTotal = 0.0
     var post_CurrentPrice = 0.0
@@ -73,14 +73,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             container,
             false
         )
-        commodityBhartiRate = DatabaseManager.ExecuteScalar(
-            Query.getCommodityBhartiByCommodityId(
-                PrefUtil.getString(
-                    PrefUtil.KEY_COMMODITY_ID,
-                    ""
-                ).toString()
-            )
-        )!!
+//        commodityBhartiRate = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
         binding.rcViewPCAAuctionListFrament.layoutManager = LinearLayoutManager(requireContext())
         val swipeToDelete = object: SwipeToDeleteCallback(){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

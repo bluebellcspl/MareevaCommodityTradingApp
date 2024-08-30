@@ -83,15 +83,16 @@ class PCAAuctionFragment : Fragment() {
             commodityNameNDateBuilder.append(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,""))
         }else
         {
-            val gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
-            commodityNameNDateBuilder.append(gujCommodityName)
+//            val gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
+//            commodityNameNDateBuilder.append(gujCommodityName)
+            commodityNameNDateBuilder.append(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME_GUJ,""))
         }
         commodityNameNDateBuilder.append(" - ")
         commodityNameNDateBuilder.append(DateUtility().getyyyyMMdd())
         binding.tvHeaderCommodityNDate.setText(commodityNameNDateBuilder.toString())
 
         FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
-        commodityBhartiRate = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
+//        commodityBhartiRate = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
 
 //        shopNameList = getShopNameFromDB()
         shopNoList = getShopNoFromDb()
@@ -348,6 +349,7 @@ class PCAAuctionFragment : Fragment() {
     fun updateUIFromAPIData(apiDataModel: PCAAuctionDetailModel) {
         try {
             pcaBoriList = ArrayList()
+            commodityBhartiRate = apiDataModel.CommodityBhartiPrice
             binding.tvRemainingBagsPCAAuctionFragment.setText(apiDataModel.RemainingBags)
             binding.tvBuyerBagsPCAAuctionFragment.setText(apiDataModel.BuyerBori)
             val BuyerULNF =

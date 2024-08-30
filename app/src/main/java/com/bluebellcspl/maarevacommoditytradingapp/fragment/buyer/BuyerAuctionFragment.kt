@@ -79,8 +79,7 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
         // Inflate the layout for this fragment
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_buyer_auction, container, false)
-        commodityBharti = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
-        Log.d(TAG, "onCreateView: COMMODITY_BHARTI : $commodityBharti")
+//        commodityBharti = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
         if (ConnectionCheck.isConnected(requireContext()))
         {
             FetchBuyerAuctionDetailAPI(requireContext(), requireActivity(), this)
@@ -172,10 +171,11 @@ class BuyerAuctionFragment : Fragment(), RecyclerViewHelper {
     fun updateUIFromAPIData(dataFromAPI: BuyerAuctionMasterModel) {
 //        auctionDetailList = ArrayList()
         try {
+            commodityBharti = dataFromAPI.CommodityBhartiPrice
+            Log.d(TAG, "onCreateView: COMMODITY_BHARTI : $commodityBharti")
             if (dataFromAPI.BudgetAmount.isEmpty()) {
                 dataFromAPI.BudgetAmount = "0.0"
             }
-            dataFromAPI.CommodityBhartiPrice = commodityBharti
             if (dataFromAPI.TotalBags.contains("."))
             {
                 val newTotalBag = dataFromAPI.TotalBags.split(".")[0]

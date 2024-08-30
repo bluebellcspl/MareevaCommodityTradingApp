@@ -147,12 +147,13 @@ class PCADashboardFragment : Fragment() {
         COMMODITY_BHARTI =
             DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(commodityId.toString()))!!
         if (PrefUtil.getSystemLanguage().equals("gu")) {
+//            binding.tvCommodityNewPCADashboardFragment.setText(DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityNameByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString())))
+
             binding.tvCommodityNewPCADashboardFragment.setText(
-                DatabaseManager.ExecuteScalar(
-                    Query.getGujaratiCommodityNameByCommodityId(
-                        PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "").toString()
-                    )
-                )
+                PrefUtil.getString(
+                    PrefUtil.KEY_COMMODITY_NAME_GUJ,
+                    ""
+                ).toString()
             )
         } else {
             binding.tvCommodityNewPCADashboardFragment.setText(

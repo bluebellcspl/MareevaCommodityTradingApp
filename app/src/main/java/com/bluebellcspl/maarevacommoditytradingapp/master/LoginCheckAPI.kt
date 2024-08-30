@@ -71,6 +71,7 @@ class LoginCheckAPI(
                         PrefUtil.setString(PrefUtil.KEY_APMC_NAME,resultJO.get("APMCName").asString)
                         PrefUtil.setString(PrefUtil.KEY_COMMODITY_Id,resultJO.get("CommodityId").asString)
                         PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,resultJO.get("CommodityName").asString)
+                        PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME_GUJ,resultJO.get("GujaratiCommodityName").asString)
                         PrefUtil.setString(PrefUtil.KEY_USER_NAME,resultJO.get("UserName").asString)
                         PrefUtil.setString(PrefUtil.KEY_USER_PASSWORD,resultJO.get("UserPassword").asString)
                         PrefUtil.setString(PrefUtil.KEY_IsActive,resultJO.get("IsActive").asString)

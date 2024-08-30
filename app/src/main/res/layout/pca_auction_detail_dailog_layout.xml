@@ -38,7 +38,7 @@
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
-                        android:hint="Shop No.">
+                        android:hint="@string/shop_no">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/act_ShopNo_PCAAuctionDialog"
@@ -60,7 +60,7 @@
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
-                        android:hint="Shop Name">
+                        android:hint="@string/shop_name">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/act_ShopName_PCAAuctionDialog"
@@ -82,7 +82,7 @@
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
                         app:endIconMode="clear_text"
-                        android:hint="Bags">
+                        android:hint="@string/bags">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_Bags_PCAAuctionDialog"
@@ -105,7 +105,7 @@
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
                         app:endIconMode="clear_text"
-                        android:hint="Current Price">
+                        android:hint="@string/current_price_auction_lbl">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_CurrentPrice_PCAAuctionDialog"
@@ -127,7 +127,7 @@
                         app:boxCornerRadiusTopEnd="@dimen/_5sdp"
                         app:boxCornerRadiusBottomStart="@dimen/_5sdp"
                         app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
-                        android:hint="Total Amount">
+                        android:hint="@string/total_amount">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_TotalAmount_PCAAuctionDialog"
@@ -154,7 +154,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/_3sdp"
                             android:layout_weight="0.5"
-                            android:text="Update"
+                            android:text="@string/update"
                             android:textSize="@dimen/_15ssp"
                             app:cornerRadius="@dimen/_5sdp" />
                     </LinearLayout>

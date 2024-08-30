@@ -150,7 +150,6 @@ class ProfileOptionFragment : Fragment() {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "message/rfc822" // Use this MIME type to indicate email
                 putExtra(Intent.EXTRA_EMAIL, arrayOf("hello@maareva.com")) // recipient(s)
-//                putExtra(Intent.EXTRA_EMAIL, arrayOf("ankulparmar.bbcspl@gmail.com")) // recipient(s)
                 putExtra(Intent.EXTRA_SUBJECT, subjectStringBuilder.toString()) // subject
                 putExtra(Intent.EXTRA_TEXT, binding.edtQueryProfileOptionFragment.text.toString().trim()) // body
             }

@@ -65,7 +65,7 @@ class BuyerDashboardFragment : Fragment() {
     private var isConnectingWebSocket = false
     var _binding: FragmentBuyerDashboardBinding? = null
     val binding get() = _binding!!
-    private val commonUIUtility by lazy { CommonUIUtility(requireContext().applicationContext) }
+    private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController by lazy { findNavController() }
     val TAG = "BuyerDashboardFragment"
     var newAuctionData: LiveAuctionMasterModel? = null
@@ -177,7 +177,7 @@ class BuyerDashboardFragment : Fragment() {
 
     private fun fetchDataFromAPI() {
         try {
-            if (ConnectionCheck.isConnected(requireContext().applicationContext)) {
+            if (ConnectionCheck.isConnected(requireContext())) {
                 FetchApprovedPCAListAPI(
                     requireActivity(),
                     requireActivity(),
@@ -529,7 +529,7 @@ class BuyerDashboardFragment : Fragment() {
 
             // Delay WebSocket connection by 3 seconds
             Handler(Looper.getMainLooper()).postDelayed({
-                if (ConnectionCheck.isConnected(requireContext().applicationContext)) {
+                if (ConnectionCheck.isConnected(requireContext())) {
 //                    webSocketClient.connect()
                     val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
                         "<COMMODITY_ID>",
