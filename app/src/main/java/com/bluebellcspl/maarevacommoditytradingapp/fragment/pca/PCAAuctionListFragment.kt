@@ -148,6 +148,8 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             dialogBinding.edtTotalAmountPCAAuctionDialog.setText(amountNF)
 
 //            val shopNameAdapter = commonUIUtility.getCustomArrayAdapter(getShopNameFromDB())
+            dialogBinding.actShopNoPCAAuctionDialog.threshold = 100
+            dialogBinding.actShopNamePCAAuctionDialog.threshold = 100
             if (PrefUtil.getSystemLanguage().equals("en"))
             {
                 dialogBinding.actShopNamePCAAuctionDialog.setText(model.ShortShopName)
@@ -171,8 +173,15 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
                 EditableDecimalInputFilter(7, 2)
             )
             dialogBinding.actShopNoPCAAuctionDialog.setOnItemClickListener { adapterView, view, i, l ->
-                var shopName = DatabaseManager.ExecuteScalar(Query.getShopNameByShopNo(dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
                 shopId = DatabaseManager.ExecuteScalar(Query.getShopIdByShopNo(dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+                var shopName =if (PrefUtil.getSystemLanguage().toString().equals("en"))
+                {
+                    DatabaseManager.ExecuteScalar(Query.getShortShopNameByShopNo(dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+                }else
+                {
+                    DatabaseManager.ExecuteScalar(Query.getGujShortShopNameByShopNo(dialogBinding.actShopNoPCAAuctionDialog.text.toString().trim(),PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString()))!!
+                }
+
                 dialogBinding.actShopNamePCAAuctionDialog.setText(shopName)
             }
 
@@ -398,60 +407,6 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             Log.e(TAG, "calculateExpense: ${e.message}")
         }
     }
-//    private fun getShopNameFromDB(): ArrayList<String> {
-//        var dataList: ArrayList<String> = ArrayList()
-//        try {
-//            val cursor = DatabaseManager.ExecuteRawSql(
-//                Query.getShopName(PrefUtil.getString(PrefUtil.KEY_APMC_ID, "").toString())
-//            )
-//            if (cursor != null && cursor.count > 0) {
-//                dataList.clear()
-//                while (cursor.moveToNext()) {
-//                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShopName")))
-//                }
-//                dataList.sort()
-//            }
-//            cursor?.close()
-//        } catch (e: Exception) {
-//            dataList.clear()
-//            e.printStackTrace()
-//            Log.e(TAG, "getShopNameFromDB: ${e.message}")
-//        }
-//        Log.d(TAG, "getShopNameFromDB: SHOPLIST : $dataList")
-//        return dataList
-//    }
-//
-//    private fun getShopNoFromDb(): ArrayList<String> {
-//        var dataList: ArrayList<String> = ArrayList()
-//        try {
-//            val cursor = DatabaseManager.ExecuteRawSql(
-//                Query.getShopNo(
-//                    PrefUtil.getString(
-//                        PrefUtil.KEY_APMC_ID,
-//                        ""
-//                    ).toString()
-//                )
-//            )
-//            if (cursor != null && cursor.count > 0) {
-//                dataList.clear()
-//                while (cursor.moveToNext()) {
-//                    dataList.add(cursor.getString(cursor.getColumnIndexOrThrow("ShopNo")))
-//                }
-//                dataList.sortWith(Comparator { str1, str2 ->
-//                    val num1 = str1.toInt()
-//                    val num2 = str2.toInt()
-//                    num1.compareTo(num2)
-//                })
-//            }
-//            cursor?.close()
-//        } catch (e: Exception) {
-//            dataList.clear()
-//            e.printStackTrace()
-//            Log.e(TAG, "getShopNoFromDb: ${e.message}")
-//        }
-//        Log.d(TAG, "getShopNoFromDb: SHOPLIST : $dataList")
-//        return dataList
-//    }
 
     override fun onItemClick(postion: Int, onclickType: String) {
         showPCAAddAuctionDialog(pcaAuctionList[postion])
