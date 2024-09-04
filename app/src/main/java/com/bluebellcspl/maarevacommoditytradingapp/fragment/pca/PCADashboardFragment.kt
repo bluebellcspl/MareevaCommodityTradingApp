@@ -345,7 +345,7 @@ class PCADashboardFragment : Fragment() {
 
     private fun showDatePickerDialog() {
         val calendarConstraints = CalendarConstraints.Builder()
-            .setValidator(DateValidatorPointBackward.before(System.currentTimeMillis() + Constants.OneDayInMillies))
+            .setValidator(DateValidatorPointBackward.before(System.currentTimeMillis()))
             .build()
         val builder =
             MaterialDatePicker.Builder.datePicker().setCalendarConstraints(calendarConstraints)

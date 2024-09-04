@@ -17,7 +17,6 @@
             android:id="@+id/llStockDetail_InvoiceStockFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             app:cardBackgroundColor="@color/subtotalBG"
             app:cardCornerRadius="@dimen/_5sdp"
             app:cardElevation="@dimen/_3sdp"

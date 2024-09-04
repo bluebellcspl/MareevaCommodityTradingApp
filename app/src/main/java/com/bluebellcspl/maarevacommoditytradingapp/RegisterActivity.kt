@@ -40,7 +40,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var alertDialog: AlertDialog
     var isAgreed:Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
-        val languageCode = PrefUtil.getString(PrefUtil.KEY_LANGUAGE, "en")
+        val languageCode = PrefUtil.getSystemLanguage()
         val activityConf = Configuration()
         val newLocale = Locale(languageCode)
         activityConf.setLocale(newLocale)

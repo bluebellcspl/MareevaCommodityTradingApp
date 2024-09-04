@@ -102,10 +102,8 @@ class InvoiceStockFragment : Fragment(),InvoiceStockHelper {
                 binding.rcViewInvoiceStockFragment.adapter = adapter
                 binding.rcViewInvoiceStockFragment.invalidate()
                 calculateTOTAL(invoiceStockList)
-            }else
-            {
-                binding.llStockDetailInvoiceStockFragment.visibility = View.GONE
             }
+
         }catch (e:Exception)
         {
             e.printStackTrace()

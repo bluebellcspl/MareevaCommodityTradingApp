@@ -26,7 +26,7 @@
     <string name="buyer_registration">યુઝર રજીસ્ટ્રેશન</string>
     <string name="please_try_again_later_alert_msg">પછીથી ફરી પ્રયત્ન કરો!</string>
     <string name="invalid_credentials_or_otp_alert_msg">અમાન્ય મોબાઇલ નંબર અથવા OTP!</string>
-    <string name="remember_me">લોગ-ઇન રહેવુિં</string>
+    <string name="remember_me">લોગ-ઇન રહેવું</string>
     <string name="please_enter_full_name">કૃપા કરીને સંપૂર્ણ નામ દાખલ કરો!</string>
     <string name="please_enter_email_alert_msg">કૃપા કરીને ઇમેઇલ દાખલ કરો!</string>
     <string name="please_enter_address_alert_msg">કૃપા કરીને સરનામું દાખલ કરો!</string>
