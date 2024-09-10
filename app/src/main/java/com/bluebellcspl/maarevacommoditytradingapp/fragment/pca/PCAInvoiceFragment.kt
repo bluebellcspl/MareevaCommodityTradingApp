@@ -8,6 +8,7 @@ import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Parcel
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
@@ -47,6 +48,8 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
 import java.text.DecimalFormat
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
@@ -331,11 +334,43 @@ class PCAInvoiceFragment : Fragment(), InvoiceSelectedDataCallBack {
     private fun showToDatePickerDialog(editText: TextInputEditText) {
 
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val date = dateFormat.parse(binding.edtFromDatePCAInvoiceFragment.text.toString().trim())
+        val date = binding.edtFromDatePCAInvoiceFragment.text.toString().trim()
+
+        val fromDate: Date? = try {
+            dateFormat.parse(date)
+        } catch (e: Exception) {
+            null
+        }
+
+        if (fromDate == null) {
+            editText.error = "Invalid 'From Date'"
+            return
+        }
+
+
+        val today = Calendar.getInstance()
+
+        val fromDateCalendar = Calendar.getInstance().apply {
+            time = fromDate
+        }
 
         val calendarConstraints = CalendarConstraints.Builder()
-            .setValidator(DateValidatorPointForward.from(date.time))
+            .setStart(fromDateCalendar.timeInMillis)  // Set the start to the 'From Date'
+            .setEnd(today.timeInMillis)  // Set the end to today's date
+            .setValidator(object : CalendarConstraints.DateValidator {
+                override fun describeContents(): Int = 0
+
+                override fun writeToParcel(dest: Parcel, flags: Int) {}
+
+                override fun isValid(date: Long): Boolean {
+                    return (date >= fromDateCalendar.timeInMillis && date <= today.timeInMillis)
+                }
+            })
             .build()
+
+//        val calendarConstraints = CalendarConstraints.Builder()
+//            .setValidator(DateValidatorPointForward.from(fromDate.time))
+//            .build()
         val builder =
             MaterialDatePicker.Builder.datePicker().setCalendarConstraints(calendarConstraints)
         if (toSelectedDate>0)

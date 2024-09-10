@@ -89,4 +89,11 @@ class DateUtility {
         }
     }
 
+    fun generateUnixTimestamp(): Long {
+        val currentDateTime = System.currentTimeMillis()
+        // Get the Unix timestamp
+        val unixTimestamp = currentDateTime / 1000
+        return unixTimestamp
+    }
+
 }

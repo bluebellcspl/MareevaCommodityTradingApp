@@ -105,7 +105,7 @@
     <string name="is_active">સક્રિય છે</string>
     <string name="edit_pca">આડતિયાનો ફેરફાર કરો</string>
     <string name="admin_login">Admin Login</string>
-    <string name="location">સ્થાન</string>
+    <string name="location">લોકેશન</string>
     <string name="please_enter_location_alert_msg">Please Enter Location!</string>
     <string name="user_approval_is_pending_alert_msg">યુઝરની મંજૂરી બાકી છે!</string>
     <string name="accept_all_terms_and_conditions">તમામ નિયમો અને શરતો સ્વીકારો</string>

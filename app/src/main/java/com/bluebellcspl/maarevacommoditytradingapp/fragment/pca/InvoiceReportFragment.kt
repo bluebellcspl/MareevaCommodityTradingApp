@@ -4,6 +4,7 @@ import ConnectionCheck
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.os.Environment
+import android.os.Parcel
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
@@ -38,6 +39,8 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
 import java.io.File
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 
@@ -191,42 +194,119 @@ class InvoiceReportFragment : Fragment(),InvoiceReportListHelper {
         }
     }
 
-    private fun showToDatePickerDialog(editText: TextInputEditText) {
+//    private fun showToDatePickerDialog(editText: TextInputEditText) {
+//
+//        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+//        val date = dateFormat.parse(binding.edtFromDateInvoiceReportFragment.text.toString().trim())
+//
+//        val calendarConstraints = CalendarConstraints.Builder()
+//            .setValidator(DateValidatorPointForward.from(date.time))
+//            .build()
+//        val builder =
+//            MaterialDatePicker.Builder.datePicker().setCalendarConstraints(calendarConstraints)
+//        if (toSelectedDate>0)
+//        {
+//            builder.setSelection(toSelectedDate)
+//        }
+//
+//        val datePicker = builder.setTitleText("Select To Date").build()
+//        datePicker.addOnPositiveButtonClickListener {
+//            // Handle the selected date
+//            toSelectedDate = it
+//            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+//            val date = dateFormat.format(it)!!
+//            editText.setText(date)
+//            if (DateUtility().isStartDateBeforeEndDate(binding.edtFromDateInvoiceReportFragment.text.toString().trim(),binding.edtToDateInvoiceReportFragment.text.toString().trim(),"yyyy-MM-dd"))
+//            {
+//                invoiceReportJSONParamModel = InvoiceReportJSONParamModel(
+//                    PrefUtil.ACTION_RETRIEVE,
+//                    PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString(),
+//                    binding.edtFromDateInvoiceReportFragment.text.toString().trim(),
+//                    PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+//                    binding.edtToDateInvoiceReportFragment.text.toString().trim(),
+//                )
+//                if (ConnectionCheck.isConnected(requireContext())) {
+//                    FetchInvoiceReportAPI(requireContext(),this,invoiceReportJSONParamModel)
+//                }
+//            }
+//        }
+//        if (!datePicker.isAdded) {
+//            datePicker.show(parentFragmentManager, datePicker.toString())
+//        }
+//    }
 
+    private fun showToDatePickerDialog(editText: TextInputEditText) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val date = dateFormat.parse(binding.edtFromDateInvoiceReportFragment.text.toString().trim())
+        val fromDateString = binding.edtFromDateInvoiceReportFragment.text.toString().trim()
+
+        val fromDate: Date? = try {
+            dateFormat.parse(fromDateString)
+        } catch (e: Exception) {
+            null
+        }
+
+        if (fromDate == null) {
+            editText.error = "Invalid 'From Date'"
+            return
+        }
+
+
+        val today = Calendar.getInstance()
+
+        val fromDateCalendar = Calendar.getInstance().apply {
+            time = fromDate
+        }
 
         val calendarConstraints = CalendarConstraints.Builder()
-            .setValidator(DateValidatorPointForward.from(date.time))
+            .setStart(fromDateCalendar.timeInMillis)  // Set the start to the 'From Date'
+            .setEnd(today.timeInMillis)  // Set the end to today's date
+            .setValidator(object : CalendarConstraints.DateValidator {
+                override fun describeContents(): Int = 0
+
+                override fun writeToParcel(dest: Parcel, flags: Int) {}
+
+                override fun isValid(date: Long): Boolean {
+                    return (date >= fromDateCalendar.timeInMillis && date <= today.timeInMillis)
+                }
+            })
             .build()
-        val builder =
-            MaterialDatePicker.Builder.datePicker().setCalendarConstraints(calendarConstraints)
-        if (toSelectedDate>0)
-        {
+
+        val builder = MaterialDatePicker.Builder.datePicker()
+            .setCalendarConstraints(calendarConstraints)
+
+        if (toSelectedDate > 0) {
             builder.setSelection(toSelectedDate)
         }
 
         val datePicker = builder.setTitleText("Select To Date").build()
-        datePicker.addOnPositiveButtonClickListener {
-            // Handle the selected date
-            toSelectedDate = it
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            val date = dateFormat.format(it)!!
-            editText.setText(date)
-            if (DateUtility().isStartDateBeforeEndDate(binding.edtFromDateInvoiceReportFragment.text.toString().trim(),binding.edtToDateInvoiceReportFragment.text.toString().trim(),"yyyy-MM-dd"))
-            {
+
+        datePicker.addOnPositiveButtonClickListener { selectedDateInMillis ->
+            toSelectedDate = selectedDateInMillis
+
+            val selectedDateFormatted = dateFormat.format(selectedDateInMillis)
+            editText.setText(selectedDateFormatted)
+
+            if (DateUtility().isStartDateBeforeEndDate(
+                    binding.edtFromDateInvoiceReportFragment.text.toString().trim(),
+                    binding.edtToDateInvoiceReportFragment.text.toString().trim(),
+                    "yyyy-MM-dd"
+                )
+            ) {
+                // Step 9: Create JSON Param Model and Fetch the Invoice Report
                 invoiceReportJSONParamModel = InvoiceReportJSONParamModel(
                     PrefUtil.ACTION_RETRIEVE,
-                    PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString(),
+                    PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "").toString(),
                     binding.edtFromDateInvoiceReportFragment.text.toString().trim(),
-                    PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+                    PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString(),
                     binding.edtToDateInvoiceReportFragment.text.toString().trim(),
                 )
+
                 if (ConnectionCheck.isConnected(requireContext())) {
-                    FetchInvoiceReportAPI(requireContext(),this,invoiceReportJSONParamModel)
+                    FetchInvoiceReportAPI(requireContext(), this, invoiceReportJSONParamModel)
                 }
             }
         }
+
         if (!datePicker.isAdded) {
             datePicker.show(parentFragmentManager, datePicker.toString())
         }
