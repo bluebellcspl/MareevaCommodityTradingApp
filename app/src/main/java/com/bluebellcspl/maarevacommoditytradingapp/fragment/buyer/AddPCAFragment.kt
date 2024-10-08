@@ -188,7 +188,7 @@ class AddPCAFragment : Fragment() {
                 districtName,
                 binding.edtEmailAddPCAFragment.text.toString().trim(),
                 binding.edtGCACommissionAddPCAFragment.text.toString().trim(),
-                "1",
+                "0",
                 binding.edtMarketCessAddPCAFragment.text.toString().trim(),
                 binding.edtPCACommissionAddPCAFragment.text.toString().trim(),
                 "",

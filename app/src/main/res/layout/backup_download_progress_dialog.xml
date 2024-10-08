@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="25dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="@dimen/_320sdp"
+        android:layout_gravity="center"
+        android:elevation="8dp"
+        android:padding="25dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/pearlWhite"
+        app:cardUseCompatPadding="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:weightSum="2"
+            >
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                app:lottie_fileName="backup_downlaod_animation.json"
+                app:lottie_autoPlay="true"
+                android:padding="@dimen/_5sdp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:layout_weight="1"
+                app:lottie_loop="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="-50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:fontFamily="@font/inter_medium"
+                android:text="Backup In Progress \n Do not press back or close app"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

@@ -248,6 +248,14 @@
     <string name="current_price_auction_lbl">Current Price</string>
     <string name="total_amount_buyer_auction_lbl">Total Amount</string>
     <string name="please_enter_your_query_alert_msg">Please Enter Your Query!</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="alert_account_delete">Alert Account Delete</string>
+    <string name="account_delete_dialog_text">Are you sure you want to delete your account?\nOnce deleted, all your data and transaction history will be permanently lost. Do you still wish to proceed?</string>
+    <string name="cancel">Cancel</string>
+    <string name="backup_your_data">Backup Your Data</string>
+    <string name="backup_dialog_text">Please note Before deleting your account, backup is required.</string>
+    <string name="backup_n_delete"><![CDATA[Backup & Delete]]></string>
+    <string name="auction_in_progress_an_auction_has_been_started_so_you_cannot_delete_or_back_up_your_data_for_today">Auction in Progress\nAn auction has been started, so you cannot delete or back up your data for today.</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

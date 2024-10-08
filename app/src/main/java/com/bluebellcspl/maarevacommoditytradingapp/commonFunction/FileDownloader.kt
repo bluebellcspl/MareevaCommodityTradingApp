@@ -6,9 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment
 import java.io.File
 
 class FileDownloader private constructor(private val context: Context) {
@@ -30,9 +32,41 @@ class FileDownloader private constructor(private val context: Context) {
         // Register a BroadcastReceiver to receive download complete notification
         val onCompleteReceiver = MyDownloadReceiver(downloadId)
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_EXPORTED)
+        }else
+        {
+            context.registerReceiver(onCompleteReceiver, filter)
+        }
 
         Toast.makeText(context, "Downloading $fileName", Toast.LENGTH_SHORT).show()
+    }
+
+    fun downloadZipFile(fileUrl: String, fileName: String,description:String,fragment: ProfileFragment) {
+        Log.d(TAG, "downloadFile: URL : $fileUrl")
+        Log.d(TAG, "downloadFile: FILENAME : $fileName")
+        val request = DownloadManager.Request(Uri.parse(fileUrl))
+        request.setTitle("Downloading $fileName")
+        request.setDescription(description)
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        // Set the destination directory and file name
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+
+        // Enqueue the download
+        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadId = downloadManager.enqueue(request)
+
+        val onCompleteReceiver = MyZipDownloadReceiver(downloadId,fragment)
+        val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_EXPORTED)
+        }else
+        {
+            context.registerReceiver(onCompleteReceiver, filter)
+        }
+
+//        Toast.makeText(context, "Downloading $fileName", Toast.LENGTH_SHORT).show()
+
     }
 
     fun downloadImage(fileUrl: String, fileName: String) {
@@ -63,7 +97,12 @@ class FileDownloader private constructor(private val context: Context) {
         // Register a BroadcastReceiver to receive download complete notification
         val onCompleteReceiver = MyDownloadReceiver(downloadId)
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_EXPORTED)
+        }else
+        {
+            context.registerReceiver(onCompleteReceiver, filter)
+        }
 
         Toast.makeText(context, "Downloading $fileName", Toast.LENGTH_SHORT).show()
     }
@@ -73,6 +112,15 @@ class FileDownloader private constructor(private val context: Context) {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == downloadId) {
                 Toast.makeText(context, "Download complete!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    inner class MyZipDownloadReceiver(private val downloadId: Long,val fragment: ProfileFragment) : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == downloadId) {
+                Toast.makeText(context, "Backup Downloaded completed!", Toast.LENGTH_SHORT).show()
+                fragment.logout()
             }
         }
     }

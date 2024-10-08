@@ -69,6 +69,20 @@ class CommonUIUtility(var context: Context) {
         dialog.show()
     }
 
+    public fun showBackupProgress() {
+        val view: View =
+            LayoutInflater.from(context).inflate(R.layout.backup_download_progress_dialog, null, false)
+        dialog.setContentView(view.rootView)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val lp = WindowManager.LayoutParams()
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialog.window!!.attributes = lp
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
+        dialog.show()
+    }
+
     public fun dismissProgress() {
         if (dialog.isShowing) {
             dialog.dismiss()

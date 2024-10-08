@@ -8,6 +8,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionListFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragment
@@ -81,6 +82,12 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                                 }
                             }
                             job.cancel()
+                        }
+
+                        //Check if Auction Started for PCA Profile Delete
+                        if (fragment is ProfileFragment)
+                        {
+                            (fragment as ProfileFragment).pcaAuctionLiveCheck(true)
                         }
 
                     }
