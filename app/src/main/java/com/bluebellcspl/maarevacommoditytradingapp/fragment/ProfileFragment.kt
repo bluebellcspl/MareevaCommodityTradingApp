@@ -27,21 +27,23 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentProfileBi
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchApprovedPCAListAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchPCAAuctionDetailAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.POSTDeleteBuyerAccountAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTDeletePCAAccountAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerMasterModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAListModelItem
+import com.bluebellcspl.maarevacommoditytradingapp.model.PostDeleteBuyerProfileModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PostDeletePCAProfileModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.bumptech.glide.Glide
 
 class ProfileFragment : Fragment() {
-    var _binding: FragmentProfileBinding?=null
+    var _binding: FragmentProfileBinding? = null
     val binding get() = _binding!!
     private val args by navArgs<ProfileFragmentArgs>()
     val TAG = "ProfileFragment"
     private val commonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val fileDownloader by lazy { FileDownloader.getInstance(requireContext()) }
-    var isPCAAuctionLive : Boolean = false
+    var isPCAAuctionLive: Boolean = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,17 +51,15 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         if (args.userType.equals("pca", true)) {
-            FetchApprovedPCAListAPI(requireContext(),requireActivity(),this@ProfileFragment)
+            FetchApprovedPCAListAPI(requireContext(), requireActivity(), this@ProfileFragment)
             FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
             binding.llBuyerViewProfileFragment.visibility = View.GONE
             binding.llPCAViewProfileFragment.visibility = View.VISIBLE
 
             binding.btnPCADeleteAccountProfileFragment.setOnClickListener {
-                if (isPCAAuctionLive)
-                {
-                 commonUIUtility.showAlertWithOkButton(getString(R.string.auction_in_progress_an_auction_has_been_started_so_you_cannot_delete_or_back_up_your_data_for_today))
-                }else
-                {
+                if (isPCAAuctionLive) {
+                    commonUIUtility.showAlertWithOkButton(getString(R.string.auction_in_progress_an_auction_has_been_started_so_you_cannot_delete_or_back_up_your_data_for_today))
+                } else {
                     showDeleteAccDialog()
                 }
             }
@@ -124,29 +124,30 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    fun showDeleteAccDialog(){
+    fun showDeleteAccDialog() {
         try {
-          val alertDialogBuilder = AlertDialog.Builder(requireContext())
+            val alertDialogBuilder = AlertDialog.Builder(requireContext())
             alertDialogBuilder.setCancelable(true)
             alertDialogBuilder.setTitle(getString(R.string.alert_account_delete))
             alertDialogBuilder.setMessage(getString(R.string.account_delete_dialog_text))
-            alertDialogBuilder.setNegativeButton(getString(R.string.cancel), DialogInterface.OnClickListener { dialogInterface, i ->
-                dialogInterface!!.dismiss()
-            })
+            alertDialogBuilder.setNegativeButton(
+                getString(R.string.cancel),
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    dialogInterface!!.dismiss()
+                })
             alertDialogBuilder.setPositiveButton(requireContext().getString(R.string.delete),
                 DialogInterface.OnClickListener { dialogInterface, i ->
                     dialogInterface!!.dismiss()
                     showBackUpDailog()
                 })
             alertDialogBuilder.show()
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "showDeleteAccDialog: ${e.message}")
         }
     }
 
-    fun showBackUpDailog(){
+    fun showBackUpDailog() {
         try {
             val alertDialogBuilder = AlertDialog.Builder(requireContext())
             alertDialogBuilder.setCancelable(true)
@@ -159,27 +160,40 @@ class ProfileFragment : Fragment() {
 //                        commonUIUtility.dismissProgress()
 //                    },10000)
 
-                    if (PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString().equals("PCA")){
+                    if (PrefUtil.getString(PrefUtil.KEY_ROLE_NAME, "").toString().equals("PCA")) {
                         val postDeletePCAProfileModel = PostDeletePCAProfileModel(
                             "DeletePCA",
-                            ""+PrefUtil.getString(PrefUtil.KEY_BUYER_ID,"").toString(),
-                            ""+PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString(),
-                            ""+PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString(),
-                            ""+PrefUtil.getSystemLanguage(),
-                            ""+PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,"").toString(),
-                            ""+PrefUtil.getString(PrefUtil.KEY_NAME,"").toString(),
-                            ""+PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()
+                            "" + PrefUtil.getString(PrefUtil.KEY_BUYER_ID, "").toString(),
+                            "" + PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID, "").toString(),
+                            "" + PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE, "").toString(),
+                            "" + PrefUtil.getSystemLanguage(),
+                            "" + PrefUtil.getString(PrefUtil.KEY_MOBILE_NO, "").toString(),
+                            "" + PrefUtil.getString(PrefUtil.KEY_NAME, "").toString(),
+                            "" + PrefUtil.getString(PrefUtil.KEY_REGISTER_ID, "").toString()
                         )
 
-                        POSTDeletePCAAccountAPI(requireContext(),this@ProfileFragment,postDeletePCAProfileModel)
-                    }else{
+                        POSTDeletePCAAccountAPI(
+                            requireContext(),
+                            this@ProfileFragment,
+                            postDeletePCAProfileModel
+                        )
+                    } else {
+                        val postDeleteBuyerProfileModel = PostDeleteBuyerProfileModel(
+                            ""+"DeleteBuyer",
+                            ""+PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,"").toString(),
+                            ""+PrefUtil.getString(PrefUtil.KEY_NAME,"").toString(),
+                            ""+PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+                            ""+PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString(),
+                            ""+PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString(),
+                            ""+PrefUtil.getSystemLanguage()
+                        )
 
+                        POSTDeleteBuyerAccountAPI(requireContext(),this@ProfileFragment,postDeleteBuyerProfileModel)
                     }
                     dialogInterface!!.dismiss()
                 })
             alertDialogBuilder.show()
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "showBackUpDailog: ${e.message}")
         }
@@ -188,9 +202,10 @@ class ProfileFragment : Fragment() {
     fun downloadBackup(fileUrl: String) {
         try {
             // commonUIUtility.showBackupProgress()
-            val fileName = "Maareva_Backup_${PrefUtil.getString(PrefUtil.KEY_NAME, "").toString()}.zip"
+            val fileName =
+                "Maareva_Backup_${PrefUtil.getString(PrefUtil.KEY_NAME, "").toString()}.zip"
             val desc = "Downloading Backup"
-            fileDownloader.downloadZipFile(fileUrl, fileName, desc,this@ProfileFragment)
+            fileDownloader.downloadZipFile(fileUrl, fileName, desc, this@ProfileFragment)
         } catch (e: Exception) {
             commonUIUtility.dismissProgress()
             e.printStackTrace()
@@ -198,14 +213,14 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    fun logout(){
+    fun logout() {
 //        commonUIUtility.dismissProgress()
-        PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,false)
+        PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN, false)
         requireActivity().startActivity(Intent(activity, LoginActivity::class.java))
         requireActivity().finish()
     }
 
-    fun pcaAuctionLiveCheck(isAuctionLive:Boolean){
+    fun pcaAuctionLiveCheck(isAuctionLive: Boolean) {
         isPCAAuctionLive = isAuctionLive
     }
 

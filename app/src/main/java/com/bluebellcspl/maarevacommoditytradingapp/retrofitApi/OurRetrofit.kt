@@ -238,4 +238,9 @@ interface OurRetrofit {
   suspend fun deletePCAProfile(
     @Body body: JsonObject,
   ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/BackupBuyerData")
+  suspend fun deleteBuyerProfile(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
 }

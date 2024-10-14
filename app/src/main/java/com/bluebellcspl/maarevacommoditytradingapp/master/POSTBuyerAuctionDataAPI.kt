@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.buyer.BuyerAuctionFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTBuyerAuctionData
@@ -36,10 +38,21 @@ class POSTBuyerAuctionDataAPI(var context: Context,var activity: Activity,var fr
             commonUIUtility.showProgress()
 
             val postBuyerAuctionData = Gson().toJsonTree(model).asJsonObject
+
+            val checkBuyerActiveJO = JsonObject().apply {
+                addProperty("CommodityId", PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,""))
+                addProperty("BuyerRegId", PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""))
+                addProperty("CompanyCode", PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
+                addProperty("Date", DateUtility().getyyyyMMdd())
+                addProperty("Action","All")
+            }
             Log.d(TAG, "postAuctionData: BUYER_AUCTION_JSON : $postBuyerAuctionData")
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
             scope.launch(Dispatchers.IO)
             {
+                //Chech if Buyer isActive
+                val activeBuyerResult = APICall.getBuyerAuctionDetail(checkBuyerActiveJO)
+                //Insert Auction Code
                 val result = APICall.POSTBuyerAuctionDetail(postBuyerAuctionData)
                 if (result.isSuccessful)
                 {

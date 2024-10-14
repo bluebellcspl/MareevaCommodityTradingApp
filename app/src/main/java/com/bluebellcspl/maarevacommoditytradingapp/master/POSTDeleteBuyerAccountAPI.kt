@@ -5,7 +5,7 @@ import android.util.Log
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment
-import com.bluebellcspl.maarevacommoditytradingapp.model.PostDeletePCAProfileModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.PostDeleteBuyerProfileModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.RegErrorReponse
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
@@ -16,24 +16,26 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class POSTDeletePCAAccountAPI(var context: Context,var fragment:ProfileFragment,var model: PostDeletePCAProfileModel) {
+class POSTDeleteBuyerAccountAPI(var context: Context,var fragment: ProfileFragment,var model: PostDeleteBuyerProfileModel) {
     val job = Job()
     val scope = CoroutineScope(job)
     private val commonUIUtility by lazy { CommonUIUtility(context) }
-    val TAG = "POSTDeletePCAAccountAPI"
-
+    val TAG = "POSTDeleteBuyerAccountAPI"
+    
     init {
-        postDeletePCA()
+        deleteBuyerAccount()
     }
 
-    private fun postDeletePCA() {
+    private fun deleteBuyerAccount() {
         try {
             commonUIUtility.showBackupProgress()
             val JO = Gson().toJsonTree(model).asJsonObject
-            Log.d(TAG, "postDeletePCA: DELETE_PCA_PROFILE_JSON : $JO")
-            val APICAll = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
+
+            Log.d(TAG, "deleteBuyerAccount: DELETE_BUYER_ACCOUNT_JSON : $JO")
+
+            val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
             scope.launch(Dispatchers.IO){
-                val result = APICAll.deletePCAProfile(JO)
+                val result = APICall.deleteBuyerProfile(JO)
                 if (result.isSuccessful)
                 {
                     val responseJO = result.body()!!
@@ -53,13 +55,12 @@ class POSTDeletePCAAccountAPI(var context: Context,var fragment:ProfileFragment,
                         }
                         job.complete()
                     }
-                }
-                else
+                }else
                 {
                     val errorResponseJO = Gson().fromJson(result.errorBody()!!.string(), RegErrorReponse::class.java)
                     if (!errorResponseJO.Success){
                         withContext(Dispatchers.Main){
-                            Log.e(TAG, "postDeletePCA: ${errorResponseJO.Message}")
+                            Log.e(TAG, "deleteBuyerAccount: ${errorResponseJO.Message}")
                             commonUIUtility.dismissProgress()
                             commonUIUtility.showToast(errorResponseJO.Message)
                         }
@@ -70,10 +71,9 @@ class POSTDeletePCAAccountAPI(var context: Context,var fragment:ProfileFragment,
             job.complete()
         }catch (e:Exception)
         {
-            commonUIUtility.dismissProgress()
             commonUIUtility.showToast(context.getString(R.string.sorry_something_went_wrong_alert_msg))
             e.printStackTrace()
-            Log.e(TAG, "postDeletePCA: ${e.message}")
+            Log.e(TAG, "deleteBuyerAccount: ${e.message}")
         }
     }
 }
