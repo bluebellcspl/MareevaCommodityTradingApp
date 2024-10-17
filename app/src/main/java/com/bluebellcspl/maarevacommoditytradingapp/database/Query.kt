@@ -200,6 +200,12 @@ class Query {
             return qry
         }
 
+        fun deleteAllShop():String{
+            qry = "DELETE FROM ShopMaster"
+            Log.d(TAG, "deleteAllShop: $qry")
+            return qry
+        }
+
         fun getGujShortShopName(apmcId:String):String{
             qry = "SELECT GujaratiShortShopName FROM ShopMaster WHERE APMCId='$apmcId' AND IsActive='true'"
             Log.d(TAG, "getGujShortShopName: $qry")

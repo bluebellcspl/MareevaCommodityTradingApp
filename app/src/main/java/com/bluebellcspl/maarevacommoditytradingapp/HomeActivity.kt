@@ -1,9 +1,12 @@
 package com.bluebellcspl.maarevacommoditytradingapp
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.transition.Explode
 import android.util.Log
+import android.util.TypedValue
+import android.view.ContextThemeWrapper
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -15,6 +18,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtilit
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityHomeBinding
+import com.google.android.material.appbar.MaterialToolbar
 import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
@@ -89,4 +93,28 @@ class HomeActivity : AppCompatActivity() {
         super.onDestroy()
         _binding = null
     }
+
+//    private fun applyToolbarTheme(toolbar: MaterialToolbar, userType: String) {
+//        val toolbarTheme = when (userType) {
+//            "Buyer" -> R.style.ToolbarTheme_Buyer
+//            "PCA" -> R.style.ToolbarTheme_PCA
+//            "IndividualPCA" -> R.style.ToolbarTheme_IndPCA
+//            else -> {
+//                R.style.ToolbarTheme_PCA
+//            }
+//        }
+//
+//        // Wrap the toolbar with the new theme.
+//        val themedContext: Context = ContextThemeWrapper(this, toolbarTheme)
+//        toolbar.apply {
+//            setBackgroundColor(getThemeColor(themedContext, androidx.appcompat.R.attr.colorPrimary))
+//            popupTheme = toolbarTheme
+//        }
+//    }
+//
+//    private fun getThemeColor(context: Context, attrRes: Int): Int {
+//        val typedValue = TypedValue()
+//        context.theme.resolveAttribute(attrRes, typedValue, true)
+//        return typedValue.data
+//    }
 }

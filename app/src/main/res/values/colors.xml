@@ -6,6 +6,22 @@
     <color name="colorPrimary">#222B40</color>
     <color name="colorPrimaryDark">#171E2C</color>
     <color name="colorPrimaryLight">#4E5566</color>
+<!--    Buyer Theme Color-->
+    <color name="colorPrimaryBuyer">#09867d</color>
+    <color name="colorPrimaryDarkBuyer">#065D57</color>
+    <color name="colorPrimaryLightBuyer">#3A9E97</color>
+
+    <!--    PCA Theme Color-->
+    <color name="colorPrimaryPCA">#3BB449</color>
+    <color name="colorPrimaryDarkPCA">#62C36D</color>
+    <color name="colorPrimaryLightPCA">#297D33</color>
+
+    <!--    IndPCA Theme Color-->
+    <color name="colorPrimaryIndPCA">#5D6E1E</color>
+    <color name="colorPrimaryDarkIndPCA">#7D8B4B</color>
+    <color name="colorPrimaryLightIndPCA">#414D15</color>
+
+
     <color name="colorSecondary">#F3F0EC</color>
     <color name="colorSecondaryDark">#AAA8A5</color>
     <color name="colorSecondaryLight">#F5F3EF</color>

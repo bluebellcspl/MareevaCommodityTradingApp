@@ -96,6 +96,7 @@ class PCAAuctionFragment : Fragment() {
 
 //        shopNameList = getShopNameFromDB()
         shopNoList = getShopNoFromDb()
+
         getShopData()
         var shopAdapter:ArrayAdapter<String>
         if (PrefUtil.getSystemLanguage().equals("en"))
@@ -181,7 +182,14 @@ class PCAAuctionFragment : Fragment() {
                 commonUIUtility.showToast("Please Enter Valid Input!")
             } else if (binding.edtBagsPCAAuctionFragment.text.toString().toFloat() < 1) {
                 commonUIUtility.showToast("Please Enter Bags!")
-            } else {
+            } else if (shopNoList.isEmpty())
+            {
+                binding.actShopNoPCAAuctionFragment.isEnabled = false
+                binding.actShopNamePCAAuctionFragment.isEnabled = false
+                binding.actShopNoPCAAuctionFragment.setText("")
+                binding.actShopNamePCAAuctionFragment.setText("")
+                commonUIUtility.showToast("Shop List is Blank!")
+            }else {
 //                alertForSubmitData()
                 postPCAData()
             }

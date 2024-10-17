@@ -520,7 +520,7 @@ class BuyerDashboardFragment : Fragment() {
         super.onStart()
 
 //        commonUIUtility.dismissProgress()
-        requireContext().registerReceiver(notificationReceiver, filter,Context.RECEIVER_NOT_EXPORTED)
+        requireContext().registerReceiver(notificationReceiver, filter,Context.RECEIVER_EXPORTED)
         if (!isWebSocketConnected && !isConnectingWebSocket) {
             Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
 

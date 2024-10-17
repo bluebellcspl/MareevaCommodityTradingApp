@@ -59,8 +59,10 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
     var post_CurrentPrice = 0.0
     var post_AvgPrice = 0.0
     var post_CumulativeTotal = 0.0
+    lateinit var shopList:ArrayList<ShopSelectionData>
     private lateinit var _ShopDataList : ArrayList<ShopSelectionData>
     private lateinit var newShopNoAdapter: ArrayAdapter<String>
+
     var shopId = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -109,7 +111,7 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
         val itemTouchHelper = ItemTouchHelper(swipeToDelete)
         itemTouchHelper.attachToRecyclerView(binding.rcViewPCAAuctionListFrament)
         pcaAuctionList = args.pcaAuctionDetailModel.ApiPCAAuctionDetail
-        getShopData()
+        shopList=getShopData()
         bindAuctionList(args.pcaAuctionDetailModel)
         return binding.root
     }
@@ -140,6 +142,13 @@ class PCAAuctionListFragment : Fragment(), RecyclerViewHelper {
             shopId = model.ShopId
             post_CurrentTotal = model.Amount.toDouble()
             post_CurrentPrice = model.CurrentPrice.toDouble()
+
+            if (shopList.isEmpty())
+            {
+                dialogBinding.actShopNamePCAAuctionDialog.isEnabled=false
+                dialogBinding.actShopNoPCAAuctionDialog.isEnabled = false
+                commonUIUtility.showToast("Shop List is Blank!")
+            }
 
             dialogBinding.actShopNoPCAAuctionDialog.setText(model.ShopNo)
             dialogBinding.edtBagsPCAAuctionDialog.setText(model.Bags)

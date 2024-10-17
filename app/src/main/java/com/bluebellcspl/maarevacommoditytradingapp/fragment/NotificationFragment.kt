@@ -154,7 +154,7 @@ class NotificationFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        requireContext().registerReceiver(notificationReceiver,filter, Context.RECEIVER_NOT_EXPORTED)
+        requireContext().registerReceiver(notificationReceiver,filter, Context.RECEIVER_EXPORTED)
     }
 
     override fun onStop() {

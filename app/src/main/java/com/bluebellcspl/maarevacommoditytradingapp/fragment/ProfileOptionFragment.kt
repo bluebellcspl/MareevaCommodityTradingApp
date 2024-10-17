@@ -20,6 +20,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
+import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentProfileOptionBinding
 import java.util.Locale
 
@@ -81,6 +83,7 @@ class ProfileOptionFragment : Fragment() {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 p0!!.dismiss()
                 PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,false)
+                DatabaseManager.ExecuteScalar(Query.deleteAllShop())
                 requireActivity().startActivity(Intent(activity, LoginActivity::class.java))
                 requireActivity().finish()
             }

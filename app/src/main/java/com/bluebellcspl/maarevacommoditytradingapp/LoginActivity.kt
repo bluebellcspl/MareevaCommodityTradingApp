@@ -19,6 +19,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtilit
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityLoginBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.TermsAndConditionDialogBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.DashboardFragment
@@ -75,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
             val hasLoggedInPreviously = PrefUtil.getBoolean(PrefUtil.KEY_HAS_LOGGEDIN_PREVIOUSLY,false)
             if (!isLoggedIn)
             {
+                DatabaseManager.ExecuteScalar(Query.deleteAllShop())
                 LogoutAPI(this, this@LoginActivity,DashboardFragment())
             }
         }
