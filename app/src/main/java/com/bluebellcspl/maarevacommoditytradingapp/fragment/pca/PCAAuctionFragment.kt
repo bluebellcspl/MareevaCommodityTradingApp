@@ -91,7 +91,9 @@ class PCAAuctionFragment : Fragment() {
         commodityNameNDateBuilder.append(DateUtility().getyyyyMMdd())
         binding.tvHeaderCommodityNDate.setText(commodityNameNDateBuilder.toString())
 
-        FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
+        if(ConnectionCheck.isConnected(requireContext())){
+            FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
+        }
 //        commodityBhartiRate = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()))!!
 
 //        shopNameList = getShopNameFromDB()

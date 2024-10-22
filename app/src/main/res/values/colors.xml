@@ -10,11 +10,13 @@
     <color name="colorPrimaryBuyer">#09867d</color>
     <color name="colorPrimaryDarkBuyer">#065D57</color>
     <color name="colorPrimaryLightBuyer">#3A9E97</color>
+    <color name="dashboardCardBuyer">#8BE1DD</color>
 
     <!--    PCA Theme Color-->
     <color name="colorPrimaryPCA">#3BB449</color>
-    <color name="colorPrimaryDarkPCA">#62C36D</color>
-    <color name="colorPrimaryLightPCA">#297D33</color>
+    <color name="colorPrimaryLightPCA">#62C36D</color>
+    <color name="colorPrimaryDarkPCA">#297D33</color>
+    <color name="dashboardCardPCA">#97D89F</color>
 
     <!--    IndPCA Theme Color-->
     <color name="colorPrimaryIndPCA">#5D6E1E</color>

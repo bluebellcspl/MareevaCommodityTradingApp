@@ -20,7 +20,7 @@
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <!-- Primary brand color. -->
         <!--    <item name="fontFamily">@font/alata</item>-->
-        <item name="fontFamily">@font/inter_medium</item>
+        <item name="fontFamily">@font/roboto</item>
         <item name="colorPrimary">@color/colorPrimaryBuyer</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDarkBuyer</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -36,7 +36,7 @@
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <!-- Primary brand color. -->
         <!--    <item name="fontFamily">@font/alata</item>-->
-        <item name="fontFamily">@font/inter_medium</item>
+        <item name="fontFamily">@font/roboto</item>
         <item name="colorPrimary">@color/colorPrimaryPCA</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDarkPCA</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -72,18 +72,22 @@
     <style name="ToolbarTheme.Buyer" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorPrimary">@color/colorPrimaryBuyer</item> <!-- Red -->
         <item name="colorOnPrimary">#FFFFFF</item> <!-- White Text -->
+        <item name="android:textColor">@color/black</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>
 
     <style name="ToolbarTheme.PCA" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorPrimary">@color/colorPrimaryPCA</item> <!-- Blue -->
         <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textColorSecondary">@color/white</item>
+        <item name="fontFamily">@font/inter_medium</item>
     </style>
 
     <style name="ToolbarTheme.IndPCA" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorPrimary">@color/colorPrimaryIndPCA</item> <!-- Blue -->
         <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>
 

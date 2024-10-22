@@ -81,7 +81,6 @@ class PCADashboardFragment : Fragment() {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.ds_menu, menu)
-
                 val notificationMenuItem = menu.findItem(R.id.nav_Notification)
                 val chatMenuItem = menu.findItem(R.id.btn_Chat)
                 chatMenuItem.setVisible(true)
@@ -172,7 +171,7 @@ class PCADashboardFragment : Fragment() {
         try {
             if(ConnectionCheck.isConnected(requireContext())) {
 //                FetchCityMasterAPI(requireContext(), requireActivity())
-                FetchShopMasterAPI(requireContext(), requireActivity(), ShopMasterAPICallModel(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString(), "GetAPMCwise",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()))
+//                FetchShopMasterAPI(requireContext(), requireActivity(), ShopMasterAPICallModel(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString(), "GetAPMCwise",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()))
                 FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
                 FetchPCAPreviousAuctionAPI(requireContext(),this@PCADashboardFragment,PREV_AUCTION_SELECTED_DATE)
             }

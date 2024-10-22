@@ -48,6 +48,8 @@ class HomeActivity : AppCompatActivity() {
         }
         _binding = DataBindingUtil.setContentView(this@HomeActivity, R.layout.activity_home)
         DatabaseManager.initializeInstance(applicationContext)
+        applyToolbarTheme(binding.toolbarHome.toolbar,PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString())
+        setAppTheme(PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString())
         setSupportActionBar(binding.toolbarHome.toolbar)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -74,6 +76,7 @@ class HomeActivity : AppCompatActivity() {
         try {
             when (usertype) {
                 "Buyer" -> {
+
                     navController.setGraph(R.navigation.my_nav)
                     Log.d(TAG, "setHomeDestination: BUYER_NAV_GRAPH")
                 }
@@ -94,27 +97,50 @@ class HomeActivity : AppCompatActivity() {
         _binding = null
     }
 
-//    private fun applyToolbarTheme(toolbar: MaterialToolbar, userType: String) {
-//        val toolbarTheme = when (userType) {
-//            "Buyer" -> R.style.ToolbarTheme_Buyer
-//            "PCA" -> R.style.ToolbarTheme_PCA
-//            "IndividualPCA" -> R.style.ToolbarTheme_IndPCA
-//            else -> {
-//                R.style.ToolbarTheme_PCA
-//            }
-//        }
-//
-//        // Wrap the toolbar with the new theme.
-//        val themedContext: Context = ContextThemeWrapper(this, toolbarTheme)
-//        toolbar.apply {
-//            setBackgroundColor(getThemeColor(themedContext, androidx.appcompat.R.attr.colorPrimary))
-//            popupTheme = toolbarTheme
-//        }
-//    }
-//
-//    private fun getThemeColor(context: Context, attrRes: Int): Int {
-//        val typedValue = TypedValue()
-//        context.theme.resolveAttribute(attrRes, typedValue, true)
-//        return typedValue.data
-//    }
+    private fun applyToolbarTheme(toolbar: MaterialToolbar, userType: String) {
+        val toolbarTheme = when (userType) {
+            "Buyer" -> {
+                R.style.ToolbarTheme_Buyer
+            }
+            "PCA" -> R.style.ToolbarTheme_PCA
+            "IndividualPCA" -> R.style.ToolbarTheme_IndPCA
+            else -> {
+                R.style.ToolbarTheme_PCA
+            }
+        }
+
+        // Wrap the toolbar with the new theme.
+        val themedContext: Context = ContextThemeWrapper(this, toolbarTheme)
+
+        // Get the colorPrimary from the current theme.
+        val colorPrimary = getThemeColor(themedContext, androidx.appcompat.R.attr.colorPrimary)
+
+        // Apply the color to the toolbar background.
+        toolbar.setBackgroundColor(colorPrimary)
+
+        // Set the status bar color to match the toolbar.
+        window.statusBarColor = colorPrimary
+
+        toolbar.apply {
+            setBackgroundColor(getThemeColor(themedContext, androidx.appcompat.R.attr.colorPrimary))
+            popupTheme = toolbarTheme
+        }
+    }
+
+    private fun setAppTheme(userType: String) {
+        val theme = when (userType) {
+            "Buyer" -> R.style.MaarevaTheme_Buyer
+            "PCA" -> R.style.MaarevaTheme_PCA
+            "IndividualPCA" -> R.style.MaarevaTheme_IndPCA
+            else -> {R.style.MaarevaTheme_PCA}
+        }
+        Log.d(TAG, "setAppTheme: CURRENT_THEME : $theme")
+        setTheme(theme)
+    }
+
+    private fun getThemeColor(context: Context, attrRes: Int): Int {
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(attrRes, typedValue, true)
+        return typedValue.data
+    }
 }

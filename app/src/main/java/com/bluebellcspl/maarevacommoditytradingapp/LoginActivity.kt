@@ -63,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
             enterTransition.duration = 1000
             exitTransition.duration = 1000
         }
+//        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars());
         _binding = DataBindingUtil.setContentView(this@LoginActivity, R.layout.activity_login)
         DatabaseManager.initializeInstance(this.applicationContext)
         if (ConnectionCheck.isConnected(this))
@@ -287,6 +288,20 @@ class LoginActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e(TAG, "showTaskAllocationDialog: ${e.message}")
             e.printStackTrace()
+        }
+    }
+
+    private fun hideStatusBar() {
+        // Use View.SYSTEM_UI_FLAG_FULLSCREEN to hide the status bar
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        // Optional: Hide the ActionBar if you have one
+        supportActionBar?.hide()
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            hideStatusBar()
         }
     }
 

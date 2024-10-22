@@ -40,7 +40,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.4"
-                            app:cardBackgroundColor="@color/newCommodityCardColor"
+                            app:cardBackgroundColor="@color/dashboardCardPCA"
                             app:cardCornerRadius="@dimen/_8sdp"
                             app:cardElevation="@dimen/_5sdp"
                             app:cardUseCompatPadding="true">
@@ -75,7 +75,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.4"
-                            app:cardBackgroundColor="@color/newCommodityCardColor"
+                            app:cardBackgroundColor="@color/dashboardCardPCA"
                             app:cardCornerRadius="@dimen/_8sdp"
                             app:cardElevation="@dimen/_5sdp"
                             app:cardUseCompatPadding="true">
@@ -359,7 +359,7 @@
                                 app:fabCustomSize="@dimen/_30sdp"
                                 app:rippleColor="@color/colorSecondary"
                                 app:srcCompat="@drawable/baseline_calendar_today_24"
-                                app:tint="@color/newPCACardColor" />
+                                app:tint="@color/colorPrimaryLightPCA" />
 
                         </RelativeLayout>
                     </com.google.android.material.card.MaterialCardView>
