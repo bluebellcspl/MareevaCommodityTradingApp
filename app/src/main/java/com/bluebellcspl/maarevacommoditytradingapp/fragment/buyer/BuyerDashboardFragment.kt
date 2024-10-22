@@ -480,82 +480,78 @@ class BuyerDashboardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if (!isWebSocketConnected && !isConnectingWebSocket) {
-            Log.d(TAG, "onResume: WEB_SOCKET_CONNECT onResume")
+        lifecycleScope.launch(Dispatchers.Main) {
+            if (!isWebSocketConnected && !isConnectingWebSocket) {
+                Log.d(TAG, "onResume: WEB_SOCKET_CONNECT onResume")
 
-            // Set the flag to indicate that a connection attempt is in progress
-            isConnectingWebSocket = true
+                // Set the flag to indicate that a connection attempt is in progress
+                isConnectingWebSocket = true
 
-            // Delay WebSocket connection by 3 seconds
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (ConnectionCheck.isConnected(requireContext())) {
-//                    webSocketClient.connect()
-                    val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
-                        "<COMMODITY_ID>",
-                        commodityId.toString()
-                    ).replace("<DATE>", DateUtility().getCompletionDate())
-                        .replace("<COMPANY_CODE>", companyCode.toString())
-                        .replace("<BUYER_REG_ID>", buyerRegId.toString())
-                    Log.d(TAG, "onResume: BUYER_LIVE_AUCTION_SOCKET_API : $LIVE_SOCKET_API")
+                // Delay WebSocket connection by 3 seconds
+                Handler(Looper.getMainLooper()).postDelayed({
+                    if (isAdded && ConnectionCheck.isConnected(requireContext().applicationContext)) {
+                        val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
+                            "<COMMODITY_ID>", commodityId.toString()
+                        ).replace("<DATE>", DateUtility().getCompletionDate())
+                            .replace("<COMPANY_CODE>", companyCode.toString())
+                            .replace("<BUYER_REG_ID>", buyerRegId.toString())
+                        Log.d(TAG, "onResume: BUYER_LIVE_AUCTION_SOCKET_API : $LIVE_SOCKET_API")
 
-                    lifecycleScope.launch(Dispatchers.IO)
-                    {
-                        webSocket = SocketHandler.getWebSocket(
-                            LIVE_SOCKET_API,
-                            MyWebSocketListener()
-                        )
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            webSocket = SocketHandler.getWebSocket(
+                                LIVE_SOCKET_API, MyWebSocketListener()
+                            )
+                        }
+                        isWebSocketConnected = true
+                    } else if (isAdded) {
+                        commonUIUtility.showToast(getString(R.string.no_internet_connection))
                     }
-                    isWebSocketConnected = true
-                } else {
-                    commonUIUtility.showToast(getString(R.string.no_internet_connection))
-                }
 
-                // Reset the flag after the connection attempt
-                isConnectingWebSocket = false
-            }, 3000) // 3000 milliseconds = 3 seconds
+                    // Reset the flag after the connection attempt
+                    isConnectingWebSocket = false
+                }, 3000)
+            }
         }
     }
 
     override fun onStart() {
         super.onStart()
 
-//        commonUIUtility.dismissProgress()
-        requireContext().registerReceiver(notificationReceiver, filter,Context.RECEIVER_EXPORTED)
-        if (!isWebSocketConnected && !isConnectingWebSocket) {
-            Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
+        lifecycleScope.launch(Dispatchers.Main) {
+            requireContext().registerReceiver(notificationReceiver, filter, Context.RECEIVER_EXPORTED)
+            if (!isWebSocketConnected && !isConnectingWebSocket) {
+                Log.d(TAG, "onStart: WEB_SOCKET_CONNECT onStart")
 
-            // Set the flag to indicate that a connection attempt is in progress
-            isConnectingWebSocket = true
+                // Set the flag to indicate that a connection attempt is in progress
+                isConnectingWebSocket = true
 
-            // Delay WebSocket connection by 3 seconds
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (ConnectionCheck.isConnected(requireContext())) {
-//                    webSocketClient.connect()
-                    val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
-                        "<COMMODITY_ID>",
-                        commodityId.toString()
-                    ).replace("<DATE>", DateUtility().getCompletionDate())
-                        .replace("<COMPANY_CODE>", companyCode.toString())
-                        .replace("<BUYER_REG_ID>", buyerRegId.toString())
-                    Log.d(TAG, "onStart: BUYER_LIVE_AUCTION_SOCKET_API : $LIVE_SOCKET_API")
+                // Delay WebSocket connection by 2 seconds
+                Handler(Looper.getMainLooper()).postDelayed({
+                    if (isAdded && ConnectionCheck.isConnected(requireContext().applicationContext)) {
+                        val LIVE_SOCKET_API = URLHelper.LIVE_AUCTION_SOCKET_URL.replace(
+                            "<COMMODITY_ID>", commodityId.toString()
+                        ).replace("<DATE>", DateUtility().getCompletionDate())
+                            .replace("<COMPANY_CODE>", companyCode.toString())
+                            .replace("<BUYER_REG_ID>", buyerRegId.toString())
+                        Log.d(TAG, "onStart: BUYER_LIVE_AUCTION_SOCKET_API : $LIVE_SOCKET_API")
 
-                    lifecycleScope.launch(Dispatchers.IO)
-                    {
-                        webSocket = SocketHandler.getWebSocket(
-                            LIVE_SOCKET_API,
-                            MyWebSocketListener()
-                        )
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            webSocket = SocketHandler.getWebSocket(
+                                LIVE_SOCKET_API, MyWebSocketListener()
+                            )
+                        }
+                        isWebSocketConnected = true
+                    } else if (isAdded) {
+                        commonUIUtility.showToast(getString(R.string.no_internet_connection))
                     }
-                    isWebSocketConnected = true
-                } else {
-                    commonUIUtility.showToast(getString(R.string.no_internet_connection))
-                }
 
-                // Reset the flag after the connection attempt
-                isConnectingWebSocket = false
-            }, 2000)
+                    // Reset the flag after the connection attempt
+                    isConnectingWebSocket = false
+                }, 2000)
+            }
         }
     }
+
 
     override fun onStop() {
         super.onStop()

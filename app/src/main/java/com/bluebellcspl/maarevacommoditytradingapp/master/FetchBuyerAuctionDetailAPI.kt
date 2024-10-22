@@ -77,12 +77,14 @@ class FetchBuyerAuctionDetailAPI(var context: Context, var activity: Activity,va
         if (resultBody!!.IsActive.equals("False",true))
         {
             withContext(Main){
-                commonUIUtility.dismissProgress()
+
                 when(fragment){
                     is BuyerDashboardFragment->{
+                        commonUIUtility.dismissProgress()
                         (fragment as BuyerDashboardFragment).redirectToLogin()
                     }
                     is BuyerAuctionFragment->{
+                        commonUIUtility.dismissProgress()
                         (fragment as BuyerAuctionFragment).redirectToLogin()
                     }
                 }

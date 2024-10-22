@@ -14,6 +14,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCAAuctionListFr
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionErrorResponse
 import com.bluebellcspl.maarevacommoditytradingapp.model.RegErrorReponse
+import com.bluebellcspl.maarevacommoditytradingapp.model.ShopMasterAPICallModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.Gson
@@ -55,55 +56,63 @@ class FetchPCAAuctionDetailAPI(var context: Context, var activity: Activity, var
                     Log.d(TAG, "getPCAAuction: RESPONSE : $pcaAuctionDetailModel")
                     withContext(Dispatchers.Main)
                     {
-                        commonUIUtility.dismissProgress()
-                        if (pcaAuctionDetailModel.IsAuctionStop.equals("false",true))
-                        {
-                            if (fragment is PCAAuctionFragment)
-                            {
-                                (fragment as PCAAuctionFragment).updateUIFromAPIData(pcaAuctionDetailModel)
-                            }else if (fragment is PCAAuctionListFragment)
-                            {
-                                (fragment as PCAAuctionListFragment).bindAuctionList(pcaAuctionDetailModel)
-                            }else if (fragment is PCADashboardFragment)
-                            {
-                                (fragment as PCADashboardFragment).bindBuyerAllocatedData(pcaAuctionDetailModel)
+                        if(pcaAuctionDetailModel.IsActive.equals("False",true)){
+
+                            withContext(Dispatchers.Main) {
+                                commonUIUtility.dismissProgress()
+                                if (fragment is PCAAuctionFragment) {
+                                    (fragment as PCAAuctionFragment).redirectToLogin()
+                                }
+                                if (fragment is PCADashboardFragment) {
+                                    (fragment as PCADashboardFragment).redirectToLogin()
+                                }
                             }
+                            job.cancel()
                         }else
                         {
-                            withContext(Dispatchers.Main)
+                            commonUIUtility.dismissProgress()
+                            if (pcaAuctionDetailModel.IsAuctionStop.equals("false",true))
                             {
-                                commonUIUtility.dismissProgress()
                                 if (fragment is PCAAuctionFragment)
                                 {
-                                    (fragment as PCAAuctionFragment).noAuctionPopup(context.getString(R.string.current_auction_is_stopped_lbl))
+                                    (fragment as PCAAuctionFragment).updateUIFromAPIData(pcaAuctionDetailModel)
+                                }else if (fragment is PCAAuctionListFragment)
+                                {
+                                    (fragment as PCAAuctionListFragment).bindAuctionList(pcaAuctionDetailModel)
                                 }else if (fragment is PCADashboardFragment)
                                 {
                                     (fragment as PCADashboardFragment).bindBuyerAllocatedData(pcaAuctionDetailModel)
                                 }
-                            }
-                            job.cancel()
-                        }
+                            }else
+                            {
+                                withContext(Dispatchers.Main)
+                                {
+                                    commonUIUtility.dismissProgress()
+                                    if (fragment is PCAAuctionFragment)
+                                    {
+                                        (fragment as PCAAuctionFragment).noAuctionPopup(context.getString(R.string.current_auction_is_stopped_lbl))
+                                    }else if (fragment is PCADashboardFragment)
+                                    {
+                                        (fragment as PCADashboardFragment).bindBuyerAllocatedData(pcaAuctionDetailModel)
+                                    }
+                                    job.complete()
 
-                        //Check if Auction Started for PCA Profile Delete
-                        if (fragment is ProfileFragment)
-                        {
-                            (fragment as ProfileFragment).pcaAuctionLiveCheck(true)
+                                    FetchShopMasterAPI(context, activity, ShopMasterAPICallModel(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString(), "GetAPMCwise",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()))
+                                }
+                                job.cancel()
+                            }
+
+                            //Check if Auction Started for PCA Profile Delete
+                            if (fragment is ProfileFragment)
+                            {
+                                (fragment as ProfileFragment).pcaAuctionLiveCheck(true)
+                            }
                         }
 
                     }
                     job.cancel()
                 }else
                 {
-//                    Log.e(TAG, "getPCAAuction_Error: $errorbody")
-//                    withContext(Dispatchers.Main)
-//                    {
-//                        commonUIUtility.dismissProgress()
-//                        if (fragment is PCAAuctionFragment)
-//                        {
-//                            (fragment as PCAAuctionFragment).noAuctionPopup()
-//                        }
-//                    }
-
                     val errorbody = result.errorBody()?.string()
 
                     val errorResult = Gson().fromJson(errorbody, PCAAuctionErrorResponse::class.java)
