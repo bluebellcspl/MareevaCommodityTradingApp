@@ -277,6 +277,12 @@ class Query {
             return qry
         }
 
+        fun getAPMCDetail():String{
+            qry = "SELECT APMCId,APMCName FROM APMCMaster WHERE IsActive='true'"
+            Log.d(TAG, "getAPMCDetail: $qry")
+            return qry
+        }
+
     }
 
 }

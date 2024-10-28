@@ -171,7 +171,7 @@ class PCADashboardFragment : Fragment() {
         try {
             if(ConnectionCheck.isConnected(requireContext())) {
 //                FetchCityMasterAPI(requireContext(), requireActivity())
-//                FetchShopMasterAPI(requireContext(), requireActivity(), ShopMasterAPICallModel(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString(), "GetAPMCwise",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()))
+                FetchShopMasterAPI(requireContext(), requireActivity(), ShopMasterAPICallModel(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString(), "GetAPMCwise",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()))
                 FetchPCAAuctionDetailAPI(requireContext(), requireActivity(), this)
                 FetchPCAPreviousAuctionAPI(requireContext(),this@PCADashboardFragment,PREV_AUCTION_SELECTED_DATE)
             }

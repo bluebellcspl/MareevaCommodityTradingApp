@@ -243,4 +243,8 @@ interface OurRetrofit {
   suspend fun deleteBuyerProfile(
     @Body body: JsonObject,
   ):Response<JsonObject>
+
+  @Headers("Content-Type:application/json")
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCARegister")
+  suspend fun registerIndividualPCA(@Body body: JsonObject): Response<JsonObject>
 }

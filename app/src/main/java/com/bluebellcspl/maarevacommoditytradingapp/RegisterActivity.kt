@@ -13,18 +13,22 @@ import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
+import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.master.RegisterBuyerAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.RegisterBuyerModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.ActivityRegisterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.TermsAndConditionDialogBinding
+import com.bluebellcspl.maarevacommoditytradingapp.master.RegisterIndividualPCAAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.IndividualPCARegisterModel
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,6 +43,8 @@ class RegisterActivity : AppCompatActivity() {
     val TAG = "RegisterActivity"
     lateinit var alertDialog: AlertDialog
     var isAgreed:Boolean = false
+    var selected_APMC_ID = ""
+    lateinit var _APMCList : ArrayList<APMCDetail>
     override fun onCreate(savedInstanceState: Bundle?) {
         val languageCode = PrefUtil.getSystemLanguage()
         val activityConf = Configuration()
@@ -82,15 +88,46 @@ class RegisterActivity : AppCompatActivity() {
 //                    requestForOTP()
 //                }
 //            }
+            _APMCList = getAPMCfromDB()
+            binding.rdGrpSelectRoleRegister.setOnCheckedChangeListener { radioGroup, checkedId ->
+                when(checkedId)
+                {
+                    R.id.mRdb_Buyer_Register -> {
+                        binding.actAPMCRegisterContainer.visibility = View.GONE
+                        binding.edtLocationRegisterContainer.visibility = View.VISIBLE
+                        selected_APMC_ID = ""
+                    }
+
+                    R.id.mRdb_IndividualPCA_Register->{
+                        binding.actAPMCRegisterContainer.visibility = View.VISIBLE
+                        binding.edtLocationRegisterContainer.visibility = View.GONE
+                        binding.edtLocationRegister.setText("")
+                    }
+                }
+            }
+            
+            binding.actAPMCRegister.setOnItemClickListener { adapterView, view, position, long ->
+                val apmcModel = _APMCList.find {it.APMCName.equals(adapterView.getItemAtPosition(position).toString())}!!
+                selected_APMC_ID = apmcModel.APMCId
+                Log.d(TAG, "setOnClickListeners: SELECTED_APMC_NAME : ${adapterView.getItemAtPosition(position).toString()}")
+                Log.d(TAG, "setOnClickListeners: SELECTED_APMC_ID : $selected_APMC_ID")
+            }
 
             binding.btnRegisterRegister.setOnClickListener {
                 if (binding.edtPhoneNoRegister.text.toString().isEmpty()) {
                     commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
                 } else if (binding.edtFullNameRegister.text.toString().isEmpty()) {
                     commonUIUtility.showToast(getString(R.string.please_enter_full_name))
-                } else if (binding.edtLocationRegister.text.toString().isEmpty()) {
+                }
+                else if (binding.edtLocationRegisterContainer.isVisible && binding.edtLocationRegister.text.toString().isEmpty()) {
                     commonUIUtility.showToast(getString(R.string.please_enter_location_alert_msg))
-                } else if (!isAgreed) {
+                } else if (binding.actAPMCRegisterContainer.isVisible && binding.actAPMCRegister.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(getString(R.string.please_select_apmc_alert_msg))
+                }
+                else if(binding.rdGrpSelectRoleRegister.checkedRadioButtonId == -1){
+                    commonUIUtility.showToast(getString(R.string.please_select_role_alert_msg))
+                }
+                else if (!isAgreed) {
                     commonUIUtility.showToast(getString(R.string.please_accept_terms_and_conditions))
                 } else {
 //                    val commodityId = DatabaseManager.ExecuteScalar(
@@ -103,27 +140,45 @@ class RegisterActivity : AppCompatActivity() {
 //                        DatabaseManager.ExecuteScalar(Query.getStateIdByCommodityId(commodityId))!!
 //                    val districtId =
 //                        DatabaseManager.ExecuteScalar(Query.getDistrictIdByCommodityId(commodityId))!!
-                    val model = RegisterBuyerModel(
-                        "",
-                        "",
-                        "",
-                        DateUtility().getyyyyMMdd(),
-                        binding.edtPhoneNoRegister.text.toString().trim(),
-                        "",
-                        "",
-                        binding.edtLocationRegister.text.toString().trim(),
-                        binding.edtPhoneNoRegister.text.toString().trim(),
-                        binding.edtFullNameRegister.text.toString().trim(),
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        ""
-                    )
+                    if(binding.mRdbBuyerRegister.isChecked){
+                        val model = RegisterBuyerModel(
+                            "",
+                            "",
+                            "",
+                            DateUtility().getyyyyMMdd(),
+                            binding.edtPhoneNoRegister.text.toString().trim(),
+                            "",
+                            "",
+                            binding.edtLocationRegister.text.toString().trim(),
+                            binding.edtPhoneNoRegister.text.toString().trim(),
+                            binding.edtFullNameRegister.text.toString().trim(),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                        )
 
-                    RegisterBuyerAPI(this,this@RegisterActivity,model)
+                        RegisterBuyerAPI(this,this@RegisterActivity,model)
+                    }
+                    else if(binding.mRdbIndividualPCARegister.isChecked){
+                        val PCAModel = IndividualPCARegisterModel(
+                            "MAT189",
+                            DateUtility().getyyyyMMddDateTime(),
+                            selected_APMC_ID,
+                            binding.edtPhoneNoRegister.text.toString().trim(),
+                            binding.edtFullNameRegister.text.toString().trim(),
+                            "1",
+                            "1",
+                            "1",
+                            "0",
+                            "4",
+                        )
+                        
+                        RegisterIndividualPCAAPI(this,this@RegisterActivity, PCAModel)
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -388,6 +443,41 @@ class RegisterActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+
+    private fun getAPMCfromDB():ArrayList<APMCDetail>{
+        val localArrayList = ArrayList<APMCDetail>()
+        val cursor = DatabaseManager.ExecuteRawSql(Query.getAPMCDetail())
+        try {
+            if (cursor!=null && cursor.count>0)
+            {
+                while (cursor.moveToNext())
+                {
+
+                    val model = APMCDetail(
+                        cursor.getString(cursor.getColumnIndexOrThrow("APMCId")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("APMCName"))
+                    )
+                    localArrayList.add(model)
+                }
+            }
+            val apmcAdapter = commonUIUtility.getCustomArrayAdapter(ArrayList(localArrayList.map { it.APMCName }))
+            binding.actAPMCRegister.setAdapter(apmcAdapter)
+            localArrayList.forEach {
+                Log.d(TAG, "getAPMCfromDB: ID - APMC : ${it.APMCId} - ${it.APMCName}")
+            }
+            Log.d(TAG, "getAPMCfromDB: AMPCList : $localArrayList")
+            cursor?.close()
+        }catch (e:Exception)
+        {
+            cursor?.close()
+            localArrayList.clear()
+            e.printStackTrace()
+            Log.e(TAG, "getAPMCfromDB: ${e.message}")
+        }
+        return localArrayList
+    }
+
+    data class APMCDetail(var APMCId:String,var APMCName:String)
 
     override fun onBackPressed() {
         super.onBackPressed()

@@ -248,4 +248,8 @@
     <string name="backup_dialog_text">Please note Before deleting your account, backup is required.</string>
     <string name="backup_n_delete"><![CDATA[Backup & Delete]]></string>
     <string name="auction_in_progress_an_auction_has_been_started_so_you_cannot_delete_or_back_up_your_data_for_today">Auction in Progress\nAn auction has been started, so you cannot delete or back up your data for today.</string>
+    <string name="buyer">Buyer</string>
+    <string name="individual_pca">Individual PCA</string>
+    <string name="pca">PCA</string>
+    <string name="pca_registered_successfully">PCA Registered Successfully!</string>
 </resources>
