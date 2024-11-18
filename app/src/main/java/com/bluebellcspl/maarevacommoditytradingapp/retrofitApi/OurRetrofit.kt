@@ -9,6 +9,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.ChatRecipientModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionFetchModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionReportModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceEntryMergedModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
@@ -247,4 +249,16 @@ interface OurRetrofit {
   @Headers("Content-Type:application/json")
   @POST("/API/MaarevaApi/MaarevaApi/IndividualPCARegister")
   suspend fun registerIndividualPCA(@Body body: JsonObject): Response<JsonObject>
+
+  @Headers("Content-Type:application/json")
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCAAuctionDetailsGet")
+  suspend fun getIndPCAAuctionDetail(@Body body: JsonObject): Response<IndPCAAuctionFetchModel>
+
+  @Headers("Content-Type:application/json")
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCAAuctionInsUpd")
+  suspend fun postIndPCAAuctionData(@Body body: JsonObject): Response<JsonObject>
+
+  @Headers("Content-Type:application/json")
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCADashPreAuctionGet")
+  suspend fun getIndPCAAuctionReportData(@Body body: JsonObject): Response<IndPCAAuctionReportModel>
 }

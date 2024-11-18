@@ -283,6 +283,25 @@ class Query {
             return qry
         }
 
+        fun getCommodityDetail():String{
+            qry = "SELECT CommodityId,CommodityName,GujaratiCommodityName FROM CommodityMaster WHERE IsActive='1'"
+            Log.d(TAG, "getCommodityDetail: $qry")
+            return qry
+        }
+
+        fun getShopNoName():String{
+            qry = "SELECT ShopId,ShopNo,ShopNoName,GujaratiShopNoName FROM ShopMaster WHERE IsActive = 'true'"
+            Log.d(TAG, "getShopNoName: $qry")
+            return qry
+        }
+
+        fun getBuyerList():String{
+            qry = "SELECT BuyerName FROM BuyerData"
+            Log.d(TAG, "getBuyerList: $qry")
+            return qry
+        }
+
+
     }
 
 }

@@ -48,8 +48,8 @@ class HomeActivity : AppCompatActivity() {
         }
         _binding = DataBindingUtil.setContentView(this@HomeActivity, R.layout.activity_home)
         DatabaseManager.initializeInstance(applicationContext)
-        applyToolbarTheme(binding.toolbarHome.toolbar,PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString())
-        setAppTheme(PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString())
+//        applyToolbarTheme(binding.toolbarHome.toolbar,PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString())
+//        setAppTheme(PrefUtil.getString(PrefUtil.KEY_ROLE_NAME,"").toString())
         setSupportActionBar(binding.toolbarHome.toolbar)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -64,7 +64,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/dashboardFragment") || navController.currentDestination!!.displayName.equals(
                 "com.bluebellcspl.maarevacommoditytradingapp:id/buyerDashboardFragment"
-            ) || navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/PCADashboardFragment")
+            ) || navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/PCADashboardFragment")||navController.currentDestination!!.displayName.equals("com.bluebellcspl.maarevacommoditytradingapp:id/indPCADashboardFragment")
         ) {
             finishAffinity()
         } else {
@@ -75,15 +75,19 @@ class HomeActivity : AppCompatActivity() {
     fun setHomeDestination(usertype: String) {
         try {
             when (usertype) {
-                "Buyer" -> {
+                PrefUtil.KEY_ROLE_BUYER -> {
 
                     navController.setGraph(R.navigation.my_nav)
                     Log.d(TAG, "setHomeDestination: BUYER_NAV_GRAPH")
                 }
 
-                "PCA" -> {
+                PrefUtil.KEY_ROLE_PCA -> {
                     navController.setGraph(R.navigation.pca_nav)
                     Log.d(TAG, "setHomeDestination: PCA_NAV_GRAPH")
+                }
+                PrefUtil.KEY_ROLE_IND_PCA -> {
+                    navController.setGraph(R.navigation.ind_pca_nav)
+                    Log.d(TAG, "setHomeDestination: IND_PCA_NAV_GRAPH")
                 }
             }
         } catch (e: Exception) {

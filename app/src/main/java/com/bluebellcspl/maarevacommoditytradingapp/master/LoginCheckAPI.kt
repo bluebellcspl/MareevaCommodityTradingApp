@@ -69,7 +69,7 @@ class LoginCheckAPI(
                         PrefUtil.setString(PrefUtil.KEY_ROLE_NAME,resultJO.get("RoleName").asString)
                         PrefUtil.setString(PrefUtil.KEY_APMC_ID,resultJO.get("APMCId").asString)
                         PrefUtil.setString(PrefUtil.KEY_APMC_NAME,resultJO.get("APMCName").asString)
-                        PrefUtil.setString(PrefUtil.KEY_COMMODITY_Id,resultJO.get("CommodityId").asString)
+                        PrefUtil.setString(PrefUtil.KEY_COMMODITY_ID,resultJO.get("CommodityId").asString)
                         PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,resultJO.get("CommodityName").asString)
                         PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME_GUJ,resultJO.get("GujaratiCommodityName").asString)
                         PrefUtil.setString(PrefUtil.KEY_USER_NAME,resultJO.get("UserName").asString)
@@ -84,11 +84,11 @@ class LoginCheckAPI(
                             val loginBinding = (activity as LoginActivity).binding
                             if (isAgreementRead.equals("true",true))
                             {
-                                if (loginBinding.mchbRememberLogin.isChecked)
-                                {
-                                    PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,true)
-                                }
-
+//                                if (loginBinding.mchbRememberLogin.isChecked)
+//                                {
+//
+//                                }
+                                PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN,true)
                                 withContext(Main){
                                     commonUIUtility.dismissProgress()
                                     (activity as LoginActivity).redirectToHome()

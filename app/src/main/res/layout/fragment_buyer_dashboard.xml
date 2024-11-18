@@ -39,7 +39,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.4"
-                            app:cardBackgroundColor="@color/dashboardCardBuyer"
+                            app:cardBackgroundColor="@color/newCommodityCardColor"
                             app:cardCornerRadius="@dimen/_8sdp"
                             app:cardElevation="@dimen/_5sdp"
                             app:cardUseCompatPadding="true">
@@ -74,7 +74,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.4"
-                            app:cardBackgroundColor="@color/dashboardCardBuyer"
+                            app:cardBackgroundColor="@color/newCommodityCardColor"
                             app:cardCornerRadius="@dimen/_8sdp"
                             app:cardElevation="@dimen/_5sdp"
                             app:cardUseCompatPadding="true">
@@ -114,7 +114,7 @@
                         android:layout_marginLeft="@dimen/_8sdp"
                         android:layout_marginRight="@dimen/_8sdp"
                         android:layout_weight="0.3"
-                        app:cardBackgroundColor="@color/colorPrimaryDarkBuyer"
+                        app:cardBackgroundColor="@color/newPCACardColor"
                         app:cardCornerRadius="@dimen/_8sdp"
                         app:cardElevation="@dimen/_5sdp"
                         app:cardUseCompatPadding="true">
@@ -364,7 +364,7 @@
                                 app:fabCustomSize="@dimen/_30sdp"
                                 app:rippleColor="@color/colorSecondary"
                                 app:srcCompat="@drawable/baseline_calendar_today_24"
-                                app:tint="@color/colorPrimaryLightBuyer" />
+                                app:tint="@color/newPCACardColor" />
 
                         </RelativeLayout>
                     </com.google.android.material.card.MaterialCardView>

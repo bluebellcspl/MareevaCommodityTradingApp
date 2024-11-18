@@ -37,13 +37,15 @@ class PrefUtil {
         public val KEY_TYPE_OF_USER = "Typeofuser"
         public val KEY_NAME = "Name"
         public val KEY_LOCATION = "Location"
-        public val KEY_COMMODITY_Id = "CommodityId"
         public val KEY_USER_NAME = "UserName"
         public val KEY_USER_PASSWORD = "UserPassword"
         public val KEY_IsActive = "IsActive"
         public val KEY_IsUser = "IsUser"
         public val KEY_CREATE_DATE = "CreateDate"
         public val KEY_HAS_LOGGEDIN_PREVIOUSLY = "hasLoggedInPreviously"
+        public val KEY_ROLE_IND_PCA = "Individual PCA"
+        public val KEY_ROLE_BUYER = "Buyer"
+        public val KEY_ROLE_PCA = "PCA"
 
 
 

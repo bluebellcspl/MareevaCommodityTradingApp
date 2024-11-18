@@ -12,7 +12,43 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:theme="@style/ToolbarColoredBackArrow"
-        android:textSize="30sp"
-        app:titleTextColor="@color/white"
-        />
+        app:titleTextColor="@color/white">
+
+        <LinearLayout
+            android:id="@+id/languageLayout"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="8dp">
+
+            <!-- Label that appears behind the switch track -->
+            <TextView
+                android:id="@+id/labelText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="GU"
+                android:layout_marginEnd="@dimen/_2sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"/> <!-- Semi-transparent to blend with the track -->
+
+            <!-- The Switch for toggling languages -->
+            <com.google.android.material.materialswitch.MaterialSwitch
+                style="@style/Widget.AppCompat.CompoundButton.Switch"
+                android:id="@+id/languageSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/white"
+                app:trackTint="@drawable/lang_switch_track_selection"
+                android:checked="false"
+                />
+        </LinearLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+
 </layout>

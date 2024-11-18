@@ -1,0 +1,30 @@
+package com.bluebellcspl.maarevacommoditytradingapp.model
+
+data class IndPCAAuctionInsertModel(
+    var Action: String,
+    var Amount: String,
+    var AvgPrice: String,
+    var Bags: String,
+    var BuyerName: String,
+    var CommodityBhartiPrice: String,
+    var CommodityId: String,
+    var CompanyCode: String,
+    var CreateDate: String,
+    var CreateUser: String,
+    var CurrentPrice: String,
+    var Date: String,
+    var IndividualPCAAPMCId: String,
+    var IndividualPCAAuctionDetailId: String,
+    var IndividualPCAAuctionHeaderId: String,
+    var IndividualPCAAuctionMasterId: String,
+    var IndividualPCAId: String,
+    var IndividualPCAMobileNo: String,
+    var IndividualPCARegId: String,
+    var RoleId: String,
+    var ShopId: String,
+    var ShopNo: String,
+    var TotalCost: String,
+    var TotalPurchasedBags: String,
+    var UpdateDate: String,
+    var UpdateUser: String
+)

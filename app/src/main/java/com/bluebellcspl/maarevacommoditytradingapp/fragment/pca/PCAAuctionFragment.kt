@@ -253,7 +253,7 @@ class PCAAuctionFragment : Fragment() {
             }
         })
 
-    binding.edtBagsPCAAuctionFragment.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        binding.edtBagsPCAAuctionFragment.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
         if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
             val text = binding.edtBagsPCAAuctionFragment.text.toString()
             if (text.contains(".")) {

@@ -63,6 +63,8 @@ class FetchShopMasterAPI(var context: Context, var activity: Activity,var model:
                             list.put("ShopAddress",model.ShopAddress)
                             list.put("ShopId",model.ShopId)
                             list.put("ShopName",model.ShopName)
+                            list.put("ShopNoName",model.ShopNoName)
+                            list.put("GujaratiShopNoName",model.GujaratiShopNoName)
                             list.put("ShopNo",model.ShopNo)
                             list.put("ShortShopName",model.ShortShopName)
                             list.put("StateId",model.StateId)

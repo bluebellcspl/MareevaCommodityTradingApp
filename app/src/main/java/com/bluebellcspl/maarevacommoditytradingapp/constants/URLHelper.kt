@@ -16,6 +16,9 @@ class URLHelper {
 
         val PCA_AUCTION_DETAIL_REPORT = RetrofitHelper.BASE_URL+ "/Report/PCADashPCADetailsExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&PCARegId=<PCA_REG_ID>"
 
+        val IND_PCA_AUCTION_DETAIL_REPORT = RetrofitHelper.BASE_URL+
+                "/Report/IndividualPCADashPCADetailsExcelReport?selectedDate=<DATE>&CommodityId=<COMMODITY_ID>&CompanyCode=<COMPANY_CODE>&IndividualPCARegId=<PCA_REG_ID>&Language=en"
+
         val INVOICE_DOC = RetrofitHelper.BASE_URL+ "/RDLCReport/InVoiceGenerating.aspx?InvoiceNo=<INVOICE_NO>&PCARegId=<PCA_REG_ID>"
 
         val INVOICE_PDF = RetrofitHelper.BASE_URL+ "/RDLCReport/InVoiceGenerating.aspx?InvoiceNo=<INVOICE_NO>&PCARegId=<PCA_REG_ID>&Action=PDF"

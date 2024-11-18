@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.IndividualPca.IndPCADashboardFragment">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeToRefresh_IndPCADashboardFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/NestedScrollView_IndPCADashboardFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/dashboard_bg"
+                android:padding="@dimen/_8sdp">
+
+                <LinearLayout
+                    android:id="@+id/ll_IndPCADashboardFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            app:cardBackgroundColor="@color/newCommodityCardColor"
+                            app:cardCornerRadius="@dimen/_8sdp"
+                            app:cardElevation="@dimen/_5sdp"
+                            app:cardUseCompatPadding="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:padding="@dimen/_8sdp">
+
+                                <LinearLayout
+                                    android:layout_marginBottom="@dimen/_5sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins"
+                                        android:text="@string/date"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_15ssp" />
+
+                                    <TextView
+                                        android:layout_weight="1"
+                                        android:id="@+id/tv_Date_New_IndPCADashboardFragment"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/inter_medium"
+                                        android:text=""
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_15ssp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <!--                            <TextView-->
+                                <!--                                android:layout_width="match_parent"-->
+                                <!--                                android:layout_height="wrap_content"-->
+                                <!--                                android:fontFamily="@font/poppins"-->
+                                <!--                                android:text="@string/commodity"-->
+                                <!--                                android:textColor="@color/black"-->
+                                <!--                                android:textSize="@dimen/_15ssp" />-->
+
+                                <!--                            <TextView-->
+                                <!--                                android:id="@+id/tv_Commodity_New_IndPCADashboardFragment"-->
+                                <!--                                android:layout_width="match_parent"-->
+                                <!--                                android:layout_height="wrap_content"-->
+                                <!--                                android:fontFamily="@font/inter_medium"-->
+                                <!--                                android:text=""-->
+                                <!--                                android:textColor="@color/black"-->
+                                <!--                                android:textSize="@dimen/_15ssp"-->
+                                <!--                                android:textStyle="bold" />-->
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:hint="@string/commodity"
+                                    app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                                    app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                                    app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                                    app:boxCornerRadiusTopStart="@dimen/_10sdp"
+                                    app:endIconTint="@color/colorPrimaryDark">
+
+                                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                        android:id="@+id/act_Commodity_IndPCADashboardFragment"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:textColor="@color/black"
+                                        android:selectAllOnFocus="true"
+                                        android:textSize="@dimen/_15ssp" />
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!--                    <com.google.android.material.card.MaterialCardView-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:layout_weight="0.4"-->
+                        <!--                        app:cardBackgroundColor="@color/newCommodityCardColor"-->
+                        <!--                        app:cardCornerRadius="@dimen/_8sdp"-->
+                        <!--                        app:cardElevation="@dimen/_5sdp"-->
+                        <!--                        app:cardUseCompatPadding="true">-->
+
+                        <!--                        <LinearLayout-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="match_parent"-->
+                        <!--                            android:orientation="vertical"-->
+                        <!--                            android:padding="@dimen/_8sdp">-->
+
+                        <!--                            <TextView-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:fontFamily="@font/poppins"-->
+                        <!--                                android:text="@string/date"-->
+                        <!--                                android:textColor="@color/black"-->
+                        <!--                                android:textSize="@dimen/_15ssp" />-->
+
+                        <!--                            <TextView-->
+                        <!--                                android:id="@+id/tv_Date_New_IndPCADashboardFragment"-->
+                        <!--                                android:layout_width="match_parent"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:fontFamily="@font/inter_medium"-->
+                        <!--                                android:text=""-->
+                        <!--                                android:textColor="@color/black"-->
+                        <!--                                android:textSize="@dimen/_15ssp"-->
+                        <!--                                android:textStyle="bold" />-->
+                        <!--                        </LinearLayout>-->
+                        <!--                    </com.google.android.material.card.MaterialCardView>-->
+                        <!--                PCA Card Buyer-->
+                    </LinearLayout>
+
+                    <!--                <com.google.android.material.card.MaterialCardView-->
+                    <!--                    android:id="@+id/cv_Auction_IndPCADashboardFragment"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="@dimen/_120sdp"-->
+                    <!--                    android:layout_weight="0.4"-->
+                    <!--                    android:clickable="true"-->
+                    <!--                    android:focusable="true"-->
+                    <!--                    android:foreground="?attr/selectableItemBackground"-->
+                    <!--                    android:visibility="gone"-->
+                    <!--                    app:cardBackgroundColor="@color/colorSecondaryLight"-->
+                    <!--                    app:cardCornerRadius="@dimen/_10sdp"-->
+                    <!--                    app:cardElevation="@dimen/_5sdp"-->
+                    <!--                    app:cardUseCompatPadding="true">-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:orientation="vertical">-->
+
+                    <!--                        <androidx.cardview.widget.CardView-->
+                    <!--                            android:layout_width="@dimen/_70sdp"-->
+                    <!--                            android:layout_height="@dimen/_70sdp"-->
+                    <!--                            app:cardCornerRadius="18dp"-->
+                    <!--                            app:cardUseCompatPadding="true">-->
+
+                    <!--                            <ImageView-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="match_parent"-->
+                    <!--                                android:layout_gravity="center"-->
+                    <!--                                android:padding="5dp"-->
+                    <!--                                android:scaleType="fitCenter"-->
+                    <!--                                android:src="@drawable/bid"-->
+                    <!--                                app:tint="@color/colorPrimaryLight" />-->
+                    <!--                        </androidx.cardview.widget.CardView>-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:fontFamily="@font/inter_medium"-->
+                    <!--                            android:text="@string/pca_auction"-->
+                    <!--                            android:textAlignment="center"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textSize="@dimen/_14ssp" />-->
+                    <!--                    </LinearLayout>-->
+                    <!--                </com.google.android.material.card.MaterialCardView>-->
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:visibility="gone"
+                        android:id="@+id/cv_BuyerAuction_New_IndPCADashboardFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        app:cardBackgroundColor="@color/newDSCardColor"
+                        app:cardCornerRadius="@dimen/_8sdp"
+                        app:cardElevation="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_8sdp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnAllocatedBags_New_IndPCADashboardFragment"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="@dimen/_6sdp"
+                                android:fontFamily="@font/inter_medium"
+                                android:text="@string/allocated_lbl"
+                                android:textSize="@dimen/_15ssp"
+                                app:cornerRadius="@dimen/_8sdp" />
+
+                            <TextView
+                                android:id="@+id/tv_AllocatedBags_New_IndPCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/bags_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_15ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_AllocatedRate_New_IndPCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/rate_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_15ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_AllocatedTotalCost_New_IndPCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/cost_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_15ssp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cv_PCAAuction_New_IndPCADashboardFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/newDSCardColor"
+                        app:cardCornerRadius="@dimen/_8sdp"
+                        app:cardElevation="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_8sdp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnPurchasedBags_New_IndPCADashboardFragment"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:fontFamily="@font/inter_medium"
+                                android:text="@string/purchased_lbl"
+                                android:textSize="@dimen/_15ssp"
+                                app:cornerRadius="@dimen/_8sdp" />
+
+                            <TextView
+                                android:id="@+id/tv_PurchasedBags_New_IndPCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/bags_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_22ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PurchasedAvgRate_New_IndPCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/rate_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_22ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_PurchasedTotalCost_New_IndPCADashboardFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:fontFamily="@font/poppins"
+                                android:text="@string/cost_lbl"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_22ssp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cv_PreviousAuction_New_IndPCADashboardFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        app:cardBackgroundColor="@color/newDSCardColor"
+                        app:cardCornerRadius="@dimen/_8sdp"
+                        app:cardElevation="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:padding="@dimen/_5sdp">
+
+                                <TextView
+                                    android:id="@+id/tv_PreviousAuctionDate_New_IndPCADashboardFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_1sdp"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="@string/date_lbl"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_14ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_PreviousAuctionPurchasedBags_New_IndPCADashboardFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_1sdp"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="@string/bags_lbl"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_14ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_PreviousAuctionAvgRate_New_IndPCADashboardFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_1sdp"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="@string/avg_rate_lbl"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_14ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_PreviousAuctionTotalCost_New_IndPCADashboardFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_1sdp"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="@string/total_cost_lbl"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_14ssp" />
+                            </LinearLayout>
+
+                            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/btnDatePicker_New_IndPCADashboardFragment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:contentDescription="Add PCA"
+                                app:fabCustomSize="@dimen/_30sdp"
+                                app:rippleColor="@color/colorSecondary"
+                                app:srcCompat="@drawable/baseline_calendar_today_24"
+                                app:tint="@color/newPCACardColor" />
+
+                        </RelativeLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </RelativeLayout>
+</layout>

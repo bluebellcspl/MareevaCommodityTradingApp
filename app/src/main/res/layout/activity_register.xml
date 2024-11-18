@@ -39,7 +39,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:src="@drawable/splash_logo" />
+                        android:src="@drawable/new_app_logo" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -167,14 +167,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/_5sdp"
                             android:text="@string/select_role"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                             <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:buttonTint="@color/colorPrimary"
                                 android:id="@+id/mRdb_Buyer_Register"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/buyer"
+                                android:text="Buyer( મીલ વાળા )"
                                 android:textSize="@dimen/_12ssp" />
 
                             <com.google.android.material.radiobutton.MaterialRadioButton
@@ -183,7 +183,7 @@
                                 android:id="@+id/mRdb_IndividualPCA_Register"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/pca"
+                                android:text="PCA (પાકા ના વેપારી)"
                                 android:textSize="@dimen/_12ssp" />
                         </RadioGroup>
 
