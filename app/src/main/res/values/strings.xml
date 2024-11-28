@@ -260,6 +260,7 @@
     <string name="individual_pca">Individual PCA</string>
     <string name="pca">PCA</string>
     <string name="pca_registered_successfully">PCA Registered Successfully!</string>
+    <string name="buyer_list">Buyer List</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

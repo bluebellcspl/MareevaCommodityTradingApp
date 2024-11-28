@@ -24,7 +24,7 @@ class POSTIndPCAAuctionAPI(var context: Context, var fragment: Fragment, var mod
     val scope = CoroutineScope(job)
     val commonUIUtility = CommonUIUtility(context)
     val TAG = "POSTIndPCAAuctionAPI"
-
+    var BUYER_ID = ""
 
     init {
         postIndPCAAuctionData()
@@ -33,6 +33,7 @@ class POSTIndPCAAuctionAPI(var context: Context, var fragment: Fragment, var mod
     private fun postIndPCAAuctionData() {
         try {
             commonUIUtility.showProgress()
+            BUYER_ID = model.PreviousBuyerId
             val JO = Gson().toJsonTree(model).asJsonObject
 
             if (fragment is IndPCAAuctionFragment) {
@@ -57,11 +58,13 @@ class POSTIndPCAAuctionAPI(var context: Context, var fragment: Fragment, var mod
                                 commonUIUtility.showToast(responseJO.get("Message").asString)
                                 (fragment as IndPCAAuctionFragment).updateAfterInsert()
                                 FetchIndPCAAuctionAPI(context,fragment)
+                                FetchIndBuyerName(context,fragment)
                             }
                             else if (fragment is IndPCAAuctionListFragment){
                                 if (responseJO.get("Message").asString.contains("Updated",true)){
                                     commonUIUtility.showToast(responseJO.get("Message").asString)
-                                    FetchIndPCAAuctionAPI(context,fragment)
+                                    FetchIndPCAAuctionAPI(context,fragment,BUYER_ID)
+                                    FetchIndBuyerName(context,fragment)
                                 }else if (responseJO.get("Message").asString.contains("Delete",true)){
                                     commonUIUtility.showToast(responseJO.get("Message").asString)
                                     (fragment as IndPCAAuctionListFragment).deleteShopItem(position)

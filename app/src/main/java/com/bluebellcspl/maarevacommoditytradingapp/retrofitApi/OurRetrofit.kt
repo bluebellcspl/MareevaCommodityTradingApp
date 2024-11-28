@@ -11,6 +11,8 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.DistrictMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionFetchModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionReportModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCABuyerModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCABuyerModelList
 import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceEntryMergedModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
@@ -261,4 +263,8 @@ interface OurRetrofit {
   @Headers("Content-Type:application/json")
   @POST("/API/MaarevaApi/MaarevaApi/IndividualPCADashPreAuctionGet")
   suspend fun getIndPCAAuctionReportData(@Body body: JsonObject): Response<IndPCAAuctionReportModel>
+
+  @Headers("Content-Type:application/json")
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCA_BuyerGet")
+  suspend fun getIndPCA_Buyers(@Body body: JsonObject): Response<IndPCABuyerModelList>
 }

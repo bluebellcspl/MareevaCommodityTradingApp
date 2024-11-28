@@ -18,6 +18,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,12 +34,14 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentIndPCAAuctionListBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.IndPcaAuctionUpdateDailogBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionFragment.ShopNewDetails
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndBuyerName
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndPCAAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTIndPCAAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.ApiIndividualPCAAuctionDetail
 import com.bluebellcspl.maarevacommoditytradingapp.model.AuctionDetailsModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionFetchModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionInsertModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCABuyerModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.LiveAuctionPCAListModel
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.RecyclerViewHelper
 import com.bluebellcspl.maarevacommoditytradingapp.recyclerViewHelper.SwipeToDeleteCallback
@@ -62,6 +65,11 @@ class IndPCAAuctionListFragment : Fragment(),RecyclerViewHelper {
     var shopId = ""
     var CURRENT_IND_PCA_ID = ""
     var shopNo = ""
+    val args by navArgs<IndPCAAuctionListFragmentArgs>()
+    var _BuyerList:ArrayList<IndPCABuyerModel> = ArrayList()
+    var SELECTED_BUYER_ID= ""
+    var SELECTED_BUYER_NAME= ""
+    var PREVIOUS_BUYER_ID = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,7 +81,8 @@ class IndPCAAuctionListFragment : Fragment(),RecyclerViewHelper {
 
         if (ConnectionCheck.isConnected(requireContext()))
         {
-            FetchIndPCAAuctionAPI(requireContext(),this@IndPCAAuctionListFragment)
+            FetchIndBuyerName(requireContext(),this@IndPCAAuctionListFragment)
+            FetchIndPCAAuctionAPI(requireContext(),this@IndPCAAuctionListFragment,args.buyerModel.BuyerId)
         }else
         {
             commonUIUtility.showToast(requireContext().getString(R.string.no_internet_connection))
@@ -92,6 +101,7 @@ class IndPCAAuctionListFragment : Fragment(),RecyclerViewHelper {
                 "",
                 "",
                 "",
+                    "",
                 "",
                 "",
                 "",
@@ -107,6 +117,7 @@ class IndPCAAuctionListFragment : Fragment(),RecyclerViewHelper {
                 "",
                 "",
                 "",
+                    "",
                 "",
                 "",
                 "",
@@ -176,13 +187,19 @@ class IndPCAAuctionListFragment : Fragment(),RecyclerViewHelper {
             alertDialog.setCancelable(true)
             alertDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
             alertDialog.show()
+            PREVIOUS_BUYER_ID = model.BuyerId
+            SELECTED_BUYER_ID = model.BuyerId
+            SELECTED_BUYER_NAME = model.BuyerName
             shopId = model.ShopId
+            shopNo = model.ShopNo
             post_CurrentTotal = model.Amount.toDouble()
             post_CurrentPrice = model.CurrentPrice.toDouble()
 
             _ShopList = getShopDetails(dialogBinding.actShopNameIndPCAAuctionFragment)
 
-            buyerList = getBuyerList(dialogBinding.actBuyerIndPCAAuctionFragment)
+            val buyerAdapter = commonUIUtility.getCustomArrayAdapter(_BuyerList.map { it.BuyerShortName } as ArrayList<String>)
+            dialogBinding.actBuyerIndPCAAuctionFragment.setAdapter(buyerAdapter)
+//            buyerList = getBuyerList(dialogBinding.actBuyerIndPCAAuctionFragment)
 
             if (_ShopList.isEmpty())
             {
@@ -228,11 +245,39 @@ class IndPCAAuctionListFragment : Fragment(),RecyclerViewHelper {
                     shopModel = _ShopList.find { it-> it.ShopNoName.equals(adapterView.getItemAtPosition(position).toString())}!!
                 }
 
-                Log.d(TAG, "onCreateView: SELECTED_SHOP_NAME : ${shopModel.ShopNoName}")
-                Log.d(TAG, "onCreateView: SELECTED_SHOP_ID : ${shopModel.ShopId}")
+                Log.d(TAG, "showPCAAddAuctionDialog: SELECTED_SHOP_NAME : ${shopModel.ShopNoName}")
+                Log.d(TAG, "showPCAAddAuctionDialog: SELECTED_SHOP_ID : ${shopModel.ShopId}")
                 shopId = shopModel.ShopId
                 shopNo = shopModel.ShopNo
             }
+
+            dialogBinding.actBuyerIndPCAAuctionFragment.setOnItemClickListener { adapterView, view, position, long ->
+                val buyerModel = _BuyerList.find { it-> it.BuyerShortName.equals(adapterView.getItemAtPosition(position).toString()) }!!
+                Log.d(TAG, "showPCAAddAuctionDialog: SELECTED_BUYER_ID : ${buyerModel.InBuyerId}")
+                Log.d(TAG, "showPCAAddAuctionDialog: SELECTED_BUYER_SHORT_NAME : ${buyerModel.BuyerShortName}")
+                SELECTED_BUYER_ID = buyerModel.InBuyerId
+                SELECTED_BUYER_NAME = buyerModel.BuyerShortName
+                Log.d(TAG, "showPCAAddAuctionDialog: SELECTED_BUYER_ID : $SELECTED_BUYER_ID")
+            }
+
+            dialogBinding.actBuyerIndPCAAuctionFragment.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    if (p0!!.toString().isNotEmpty()) {
+                        SELECTED_BUYER_ID = ""
+                        SELECTED_BUYER_NAME = ""
+                        Log.d(TAG, "afterTextChanged: SELECTED_BUYER_ID : $SELECTED_BUYER_ID")
+                        Log.d(TAG, "afterTextChanged: SELECTED_BUYER_NAME : $SELECTED_BUYER_NAME")
+                    }
+                }
+            })
 
             dialogBinding.edtBagsPCAAuctionDialog.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -354,6 +399,7 @@ class IndPCAAuctionListFragment : Fragment(),RecyclerViewHelper {
         ""+model.Amount,
         "",
         ""+model.Bags,
+            SELECTED_BUYER_ID,
         ""+model.BuyerName,
         ""+model.CommodityBhartiPrice,
         ""+model.CommodityId,
@@ -369,6 +415,7 @@ class IndPCAAuctionListFragment : Fragment(),RecyclerViewHelper {
         ""+CURRENT_IND_PCA_ID,
         ""+PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,"").toString(),
         ""+PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+            ""+PREVIOUS_BUYER_ID,
         ""+PrefUtil.getString(PrefUtil.KEY_ROLE_ID,"").toString(),
         ""+shopId,
         ""+shopNo,
@@ -442,6 +489,10 @@ class IndPCAAuctionListFragment : Fragment(),RecyclerViewHelper {
         }
     }
 
+    fun getBuyerFromAPI(dataList:ArrayList<IndPCABuyerModel>){
+        _BuyerList.clear()
+        _BuyerList = dataList
+    }
     private fun getBuyerList(dropDown:MaterialAutoCompleteTextView):ArrayList<String>{
         val cursor = DatabaseManager.ExecuteRawSql(Query.getBuyerList())
         var buyerList = ArrayList<String>()

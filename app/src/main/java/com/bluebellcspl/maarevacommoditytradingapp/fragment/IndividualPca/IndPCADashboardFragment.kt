@@ -70,7 +70,7 @@ class IndPCADashboardFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_ind_p_c_a_dashboard, container, false)
-        Log.d("??", "onCreateView: ONCREATEVIEW_IND_PCA_FRAGMENT")
+        Log.d("??", "onCreateView: ON_CREATEVIEW_IND_PCA_DASHBOARD_FRAGMENT")
         if (PrefUtil.getSystemLanguage()!!.isEmpty()){
             PrefUtil.setSystemLanguage("en")
         }
@@ -372,8 +372,6 @@ class IndPCADashboardFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-
         languageSwitch = (activity as HomeActivity).binding.toolbarHome.languageSwitch
         languageLayout = (activity as HomeActivity).binding.toolbarHome.languageLayout
 
@@ -404,18 +402,22 @@ class IndPCADashboardFragment : Fragment() {
         }else{
             commonUIUtility.showToast(requireContext().getString(R.string.no_internet_connection))
         }
-        Log.d("??", "onResume: RESUME_IND_PCA_FRAGMENT")
+        Log.d("??", "onResume: RESUME_IND_PCA_DASHBOARD_FRAGMENT")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("??", "onStop: STOP_IND_PCA_FRAGMENT")
-        languageLayout!!.visibility = View.GONE
+        Log.d("??", "onStop: STOP_IND_PCA_DASHBOARD_FRAGMENT")
+//        languageLayout!!.visibility = View.GONE
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("??", "onDestroy: DESTROY_IND_PCA_FRAGMENT")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("??", "onDestroy: DESTROY_VIEW_IND_PCA_DASHBOARD_FRAGMENT")
         _binding = null
         languageLayout!!.visibility = View.GONE
     }

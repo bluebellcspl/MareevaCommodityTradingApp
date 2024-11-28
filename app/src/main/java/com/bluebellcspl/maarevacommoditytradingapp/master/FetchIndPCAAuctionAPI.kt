@@ -7,6 +7,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionBuyerListFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionListFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCADashboardFragment
@@ -19,7 +20,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FetchIndPCAAuctionAPI(var context: Context, var fragment: Fragment) {
+class FetchIndPCAAuctionAPI(var context: Context, var fragment: Fragment,var buyerId:String = "") {
     val job = Job()
     val scope = CoroutineScope(job)
     val commonUIUtility = CommonUIUtility(context)
@@ -38,6 +39,7 @@ class FetchIndPCAAuctionAPI(var context: Context, var fragment: Fragment) {
                 addProperty("CompanyCode",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""))
                 addProperty("MobileNo",PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,""))
                 addProperty("Date",DateUtility().getCompletionDate())
+                addProperty("BuyerId",buyerId)
 //                addProperty("Date","28-10-2024")
                 addProperty("CommodityId",PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,""))
                 addProperty("Language",PrefUtil.getSystemLanguage())
@@ -56,7 +58,9 @@ class FetchIndPCAAuctionAPI(var context: Context, var fragment: Fragment) {
                         {
                             (fragment as IndPCAAuctionFragment).updateAuctionUI(model)
                         }
-                        else if(fragment is IndPCADashboardFragment){
+                        else if(fragment is IndPCAAuctionBuyerListFragment){
+                            (fragment as IndPCAAuctionBuyerListFragment).bindAuctionList(model)
+                        }else if(fragment is IndPCADashboardFragment){
                             (fragment as IndPCADashboardFragment).updateAuctionUI(model)
                         }else if(fragment is IndPCAAuctionListFragment){
                             (fragment as IndPCAAuctionListFragment).bindAuctionList(model)

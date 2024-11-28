@@ -34,20 +34,32 @@
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionFragment"
         android:label="@string/pca_auction"
         tools:layout="@layout/fragment_ind_p_c_a_auction" >
+<!--        <action-->
+<!--            android:id="@+id/action_indPCAAuctionFragment_to_indPCAAuctionListFragment"-->
+<!--            app:destination="@id/indPCAAuctionListFragment"-->
+<!--            app:enterAnim="@anim/slide_in_left"-->
+<!--            app:exitAnim="@anim/slide_out_right"-->
+<!--            app:popEnterAnim="@anim/slide_in_right"-->
+<!--            app:popExitAnim="@anim/slide_out_left"-->
+<!--            app:popUpTo="@id/indPCAAuctionFragment" />-->
         <action
-            android:id="@+id/action_indPCAAuctionFragment_to_indPCAAuctionListFragment"
-            app:destination="@id/indPCAAuctionListFragment"
+            android:id="@+id/action_indPCAAuctionFragment_to_indPCAAuctionBuyerListFragment"
+            app:destination="@id/indPCAAuctionBuyerListFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/indPCAAuctionFragment" />
+            app:popUpTo="@id/indPCAAuctionFragment"/>
     </fragment>
     <fragment
         android:id="@+id/indPCAAuctionListFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionListFragment"
         android:label="@string/shop_list"
-        tools:layout="@layout/fragment_ind_p_c_a_auction_list"/>
+        tools:layout="@layout/fragment_ind_p_c_a_auction_list">
+        <argument
+            android:name="buyerModel"
+            app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.IndPCABuyerWiseAuctionModel" />
+    </fragment>
     <fragment
         android:id="@+id/indPCAAuctionReportFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionReportFragment"
@@ -56,5 +68,19 @@
         <argument
             android:name="selectedDate"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/indPCAAuctionBuyerListFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionBuyerListFragment"
+        tools:layout="@layout/fragment_ind_p_c_a_auction_buyer_list"
+        android:label="@string/buyer_list">
+        <action
+            android:id="@+id/action_indPCAAuctionBuyerListFragment_to_indPCAAuctionListFragment"
+            app:destination="@id/indPCAAuctionListFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/indPCAAuctionBuyerListFragment" />
     </fragment>
 </navigation>

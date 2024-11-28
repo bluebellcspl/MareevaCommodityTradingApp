@@ -28,13 +28,13 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentIndPCAAuctionBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCADashboardFragment.CommodityDetail
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndBuyerName
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndPCAAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTIndPCAAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.ApiIndividualPCAAuctionDetail
-import com.bluebellcspl.maarevacommoditytradingapp.model.ApiPCAAuctionDetail
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionFetchModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionInsertModel
-import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCABuyerModel
 
 class IndPCAAuctionFragment : Fragment() {
     var _binding: FragmentIndPCAAuctionBinding? = null
@@ -43,8 +43,10 @@ class IndPCAAuctionFragment : Fragment() {
     private val TAG = "PCAAuctionFragment"
     private val navController: NavController by lazy { findNavController() }
     private lateinit var buyerList:ArrayList<String>
+    var _BuyerList:ArrayList<IndPCABuyerModel> = ArrayList()
     private lateinit var _ShopList:ArrayList<ShopNewDetails>
-    var SELECTED_SHOP_ID= ""
+    var SELECTED_BUYER_ID= ""
+    var SELECTED_BUYER_NAME= ""
     var BUYER_UPPER_LIMIT = "0.0"
     var BUYER_LOWER_LIMIT = "0.0"
     var REMAINING_BAG = "0"
@@ -59,16 +61,18 @@ class IndPCAAuctionFragment : Fragment() {
     var post_RemainingBags = 0f
     var post_PurchasedBags = 0f
     var post_CurrentTotal = 0.0
+    var isWritten = false
     lateinit var apiDataforPost: IndPCAAuctionFetchModel
     lateinit var commodityBhartiRate: String
     lateinit var _CommodityList : ArrayList<CommodityDetail>
-    lateinit var pcaBagList : ArrayList<ApiIndividualPCAAuctionDetail>
+    var pcaBagList : ArrayList<ApiIndividualPCAAuctionDetail> = ArrayList()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_ind_p_c_a_auction, container, false)
+        Log.d("??", "onCreateView: ON_CREATE_VIEW_IND_PCA_FRAGMENT")
         binding.tvHeaderCommodityNDate.setText(DateUtility().getCompletionDate())
         if (PrefUtil.getSystemLanguage()!!.equals("gu")){
             var gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))
@@ -81,7 +85,7 @@ class IndPCAAuctionFragment : Fragment() {
             binding.actCommodityIndPCAAuctionFragment.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,""))
         }
         _ShopList = getShopDetails()
-        buyerList = getBuyerList()
+//        buyerList = getBuyerList()
         _CommodityList = getCommodityfromDB()
         commodityBhartiRate = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!)).toString()
 
@@ -92,6 +96,7 @@ class IndPCAAuctionFragment : Fragment() {
 
         if (ConnectionCheck.isConnected(requireContext())){
             FetchIndPCAAuctionAPI(requireContext(),this@IndPCAAuctionFragment)
+            FetchIndBuyerName(requireContext(),this@IndPCAAuctionFragment)
         }else{
             commonUIUtility.showToast(requireContext().getString(R.string.no_internet_connection))
         }
@@ -252,6 +257,56 @@ class IndPCAAuctionFragment : Fragment() {
             }
         })
 
+        binding.actBuyerIndPCAAuctionFragment.setOnItemClickListener { adapterView, view, position, long ->
+            val buyerModel = _BuyerList.find { it-> it.BuyerShortName.equals(adapterView.getItemAtPosition(position).toString()) }!!
+            binding.actBuyerIndPCAAuctionFragment.setText(adapterView.getItemAtPosition(position).toString())
+            Log.d(TAG, "onCreateView: SELECTED_BUYER_ID : ${buyerModel.InBuyerId}")
+            Log.d(TAG, "onCreateView: SELECTED_BUYER_SHORT_NAME : ${buyerModel.BuyerShortName}")
+            SELECTED_BUYER_ID = buyerModel.InBuyerId
+            SELECTED_BUYER_NAME = buyerModel.BuyerShortName
+            Log.d(TAG, "onCreateView: SELECTED_BUYER_ID : $SELECTED_BUYER_ID")
+            isWritten=false
+            getBuyerPreviousPurchaseData(pcaBagList,SELECTED_BUYER_ID)
+        }
+
+        binding.actBuyerIndPCAAuctionFragment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0!!.toString().isNotEmpty()) {
+                    SELECTED_BUYER_ID = ""
+                    SELECTED_BUYER_NAME = ""
+                    Log.d(TAG, "afterTextChanged: SELECTED_BUYER_ID : $SELECTED_BUYER_ID")
+                    Log.d(TAG, "afterTextChanged: SELECTED_BUYER_NAME : $SELECTED_BUYER_NAME")
+                    isWritten=true
+                }
+            }
+        })
+
+        binding.edtBagsIndPCAAuctionFragment.setOnFocusChangeListener { view, b ->
+            if (b) {
+                if (binding.actBuyerIndPCAAuctionFragment.text.toString().isNotEmpty() && SELECTED_BUYER_ID.isEmpty())
+                {
+                    if(_BuyerList.find { it-> it.BuyerShortName.equals(binding.actBuyerIndPCAAuctionFragment.text.toString()) } != null){
+                        val buyerModel = _BuyerList.find { it-> it.BuyerShortName.equals(binding.actBuyerIndPCAAuctionFragment.text.toString()) }
+                        SELECTED_BUYER_ID = buyerModel!!.InBuyerId
+                        SELECTED_BUYER_NAME = buyerModel.BuyerShortName
+                        Log.d(TAG, "onCreateView: ON_FOCUS : SELECTED_BUYER_ID : $SELECTED_BUYER_ID")
+
+                        getBuyerPreviousPurchaseData(pcaBagList,SELECTED_BUYER_ID)
+                    }
+                }
+            }
+        }
+//        if (binding.actBuyerIndPCAAuctionFragment.text.toString().isNotEmpty()){
+//            getBuyerPreviousPurchaseData(pcaBagList,binding.actBuyerIndPCAAuctionFragment.text.toString())
+//        }
         setOnClickListeners()
         return binding.root
     }
@@ -302,7 +357,8 @@ class IndPCAAuctionFragment : Fragment() {
             }
 
             binding.btnListIndPCAAuctionFragment.setOnClickListener {
-                navController.navigate(IndPCAAuctionFragmentDirections.actionIndPCAAuctionFragmentToIndPCAAuctionListFragment())
+//                navController.navigate(IndPCAAuctionFragmentDirections.actionIndPCAAuctionFragmentToIndPCAAuctionListFragment())
+                navController.navigate(IndPCAAuctionFragmentDirections.actionIndPCAAuctionFragmentToIndPCAAuctionBuyerListFragment())
             }
         }catch (e:Exception)
         {
@@ -373,6 +429,7 @@ class IndPCAAuctionFragment : Fragment() {
                 "%.2f".format(post_CurrentTotal),
                 "%.2f".format(post_AvgPrice),
                 ""+binding.edtBagsIndPCAAuctionFragment.text.toString().trim(),
+                ""+SELECTED_BUYER_ID,
                 ""+binding.actBuyerIndPCAAuctionFragment.text.toString(),
                 commodityBhartiRate,
                 ""+PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString(),
@@ -388,6 +445,7 @@ class IndPCAAuctionFragment : Fragment() {
                 ""+apiDataforPost.IndividualPCAId,
                 ""+PrefUtil.getString(PrefUtil.KEY_MOBILE_NO,"").toString(),
                 ""+apiDataforPost.IndividualPCARegId,
+                "",
                 ""+PrefUtil.getString(PrefUtil.KEY_ROLE_ID,"").toString(),
                 shopId,
                 shopNo,
@@ -425,6 +483,10 @@ class IndPCAAuctionFragment : Fragment() {
             PURCHASED_BAG = auctionModel.TotalBags
             pcaBagList = auctionModel.ApiIndividualPCAAuctionDetail
             apiDataforPost = auctionModel
+            if (SELECTED_BUYER_NAME.isNotEmpty() && SELECTED_BUYER_ID.isNotEmpty())
+            {
+                getBuyerPreviousPurchaseData(pcaBagList,SELECTED_BUYER_ID)
+            }
         }catch (e:Exception)
         {
             e.printStackTrace()
@@ -551,7 +613,68 @@ class IndPCAAuctionFragment : Fragment() {
         }
         return buyerList
     }
-    
+
+    fun getBuyerFromAPI(dataList:ArrayList<IndPCABuyerModel>){
+        _BuyerList.clear()
+        _BuyerList = dataList
+        val buyerAdapter = commonUIUtility.getCustomArrayAdapter(_BuyerList.map { it.BuyerShortName } as ArrayList<String>)
+        binding.actBuyerIndPCAAuctionFragment.setAdapter(buyerAdapter)
+    }
+
+    private fun getBuyerPreviousPurchaseData(dataList:ArrayList<ApiIndividualPCAAuctionDetail>, buyerId:String){
+        try {
+            binding.cvInfoCard1IndPCAAuctionFragment.visibility = View.VISIBLE
+            var buyerBags = 0.0
+            var buyerTotalAmount = 0.0
+            var buyerAveragePrice = 0.0
+            var buyerName = ""
+            if (buyerId.isNotEmpty()){
+                if (dataList.isNotEmpty()){
+                    for (i in 0 until dataList.size)
+                    {
+                        if (dataList[i].BuyerId.equals(buyerId))
+                        {
+                            buyerName = dataList[i].BuyerName
+                            buyerBags += dataList[i].Bags.toDouble()
+                            buyerTotalAmount += dataList[i].Amount.toDouble()
+                        }
+                    }
+                    buyerAveragePrice =
+                        (buyerTotalAmount) / ((buyerBags * commodityBhartiRate.toDouble()) / 20)
+
+                    val formattedPost_AvgPrice = DecimalFormat("########0.00").format(buyerAveragePrice)
+                    val fomattedCumilativeTotal = DecimalFormat("########0.00").format(buyerTotalAmount)
+                    Log.d(TAG, "calculateExpense: AVG_PRICE : $formattedPost_AvgPrice")
+                    val AvgPriceNF = NumberFormat.getCurrencyInstance().format(formattedPost_AvgPrice.toDouble()).substring(1)
+                    if (buyerAveragePrice>0){
+                        binding.tvBuyerAveragePriceIndPCAAuctionFragment.setText(AvgPriceNF)
+                    }else{
+                        binding.tvBuyerAveragePriceIndPCAAuctionFragment.setText("0.0")
+                    }
+
+                    Log.d(TAG, "calculateExpense: CUMULATIVE_TOTAL : $fomattedCumilativeTotal")
+                    val cumulativeTotalNF =NumberFormat.getCurrencyInstance().format(buyerTotalAmount).substring(1)
+                    binding.tvBuyersBudgetIndPCAAuctionFragment.setText(cumulativeTotalNF)
+                    binding.tvBuyerBagsIndPCAAuctionFragment.setText("$buyerBags")
+                    binding.tvBuyerNameIndPCAAuctionFragment.setText(buyerName)
+                }else{
+                    binding.tvBuyerAveragePriceIndPCAAuctionFragment.setText("")
+                    binding.tvBuyersBudgetIndPCAAuctionFragment.setText("")
+                    binding.tvBuyerBagsIndPCAAuctionFragment.setText("")
+                }
+            }else{
+                binding.tvBuyerNameIndPCAAuctionFragment.setText("")
+                binding.tvBuyerAveragePriceIndPCAAuctionFragment.setText("")
+                binding.tvBuyersBudgetIndPCAAuctionFragment.setText("")
+                binding.tvBuyerBagsIndPCAAuctionFragment.setText("")
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "getBuyerPreviousPurchaseData: ${e.message}", )
+        }
+    }
+
     private fun insertBuyer(BuyerName:String){
         try {
             if (binding.actBuyerIndPCAAuctionFragment.text.toString().isNotEmpty() && !buyerList.contains(BuyerName)){
@@ -567,10 +690,28 @@ class IndPCAAuctionFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("??", "onResume: ON_RESUME_IND_AUCTION_FRAGMENT")
+        if (ConnectionCheck.isConnected(requireContext())){
+            FetchIndPCAAuctionAPI(requireContext(),this@IndPCAAuctionFragment)
+        }else{
+            commonUIUtility.showToast(requireContext().getString(R.string.no_internet_connection))
+        }
+        binding.actShopNameIndPCAAuctionFragment.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.actShopNameIndPCAAuctionFragment.showDropDown()
+        }
+    }
     data class ShopNewDetails(var ShopId:String,var ShopNo:String,var ShopNoName:String,var GujaratiShopNoName:String)
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d("??", "onDestroy: ON_DESTROY_IND_AUCTION_FRAGMENT")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
+        Log.d("??", "onDestroy: ON_DESTROY_VIEW_IND_AUCTION_FRAGMENT")
     }
 }

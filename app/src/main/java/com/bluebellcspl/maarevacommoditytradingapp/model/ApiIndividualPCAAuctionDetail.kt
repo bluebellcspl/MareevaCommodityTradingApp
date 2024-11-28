@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.model
 data class ApiIndividualPCAAuctionDetail(
     var Amount: String,
     var Bags: String,
+    var BuyerId: String,
     var BuyerName: String,
     var CommodityBhartiPrice: String,
     var CommodityId: String,
