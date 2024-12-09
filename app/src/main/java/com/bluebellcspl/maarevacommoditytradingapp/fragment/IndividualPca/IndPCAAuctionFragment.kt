@@ -424,13 +424,18 @@ class IndPCAAuctionFragment : Fragment() {
 
     private fun postIndPCAAuctionData() {
         try {
+            if (SELECTED_BUYER_ID.isEmpty() && SELECTED_BUYER_NAME.isEmpty() && binding.actBuyerIndPCAAuctionFragment.text.toString().isEmpty())
+            {
+                SELECTED_BUYER_NAME = "Self"
+                SELECTED_BUYER_ID = "0"
+            }
             var indPCAAuctionModel = IndPCAAuctionInsertModel(
                 "Confirm",
                 "%.2f".format(post_CurrentTotal),
                 "%.2f".format(post_AvgPrice),
                 ""+binding.edtBagsIndPCAAuctionFragment.text.toString().trim(),
                 ""+SELECTED_BUYER_ID,
-                ""+binding.actBuyerIndPCAAuctionFragment.text.toString(),
+                ""+SELECTED_BUYER_NAME,
                 commodityBhartiRate,
                 ""+PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString(),
                 ""+PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString(),

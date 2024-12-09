@@ -5,4 +5,8 @@
         android:title="@string/logout"
         app:showAsAction="always"
         android:icon="@drawable/baseline_logout_24"/>
+
+    <item android:id="@+id/btn_Invoice_Ind_PCA"
+        android:title="@string/invoice"
+        android:icon="@drawable/baseline_logout_24"/>
 </menu>

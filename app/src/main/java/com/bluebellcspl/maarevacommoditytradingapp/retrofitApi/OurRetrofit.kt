@@ -267,4 +267,14 @@ interface OurRetrofit {
   @Headers("Content-Type:application/json")
   @POST("/API/MaarevaApi/MaarevaApi/IndividualPCA_BuyerGet")
   suspend fun getIndPCA_Buyers(@Body body: JsonObject): Response<IndPCABuyerModelList>
+
+  @POST("/API/MaarevaApi/MaarevaApi/ShopListGet_IndividualPCA")
+  suspend fun getIndPCAInvoiceData(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCAStockInsert")
+  suspend fun postIndPCAStockDataIns(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
 }

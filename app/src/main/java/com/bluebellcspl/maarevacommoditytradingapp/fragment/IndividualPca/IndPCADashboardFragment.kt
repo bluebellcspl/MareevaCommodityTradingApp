@@ -124,6 +124,14 @@ class IndPCADashboardFragment : Fragment() {
                     R.id.btn_Logout_Ind_PCA -> {
                         logoutDialog()
                     }
+                    R.id.btn_Invoice_Ind_PCA -> {
+                        if (!_CommodityNameList.contains(binding.actCommodityIndPCADashboardFragment.text.toString())){
+                            commonUIUtility.showToast(requireContext().getString(R.string.please_select_commodity_alert_msg))
+                        }else
+                        {
+                            navController.navigate(IndPCADashboardFragmentDirections.actionIndPCADashboardFragmentToIndPCAInvoiceFragment())
+                        }
+                    }
                 }
                 return true
             }

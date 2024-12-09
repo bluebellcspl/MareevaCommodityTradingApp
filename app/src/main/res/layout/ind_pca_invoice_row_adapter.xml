@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_2sdp">
+
+        <LinearLayout
+            android:background="@color/floralWhite"
+            android:layout_toStartOf="@id/mChb_IndPCAInvoiceRowAdapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvBuyerName_IndPCAInvoiceRowAdapter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_2sdp"
+                android:text="Gokul"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13ssp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/black"
+                android:dividerPadding="@dimen/_2sdp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="3dp"
+                android:showDividers="none">
+
+                <TextView
+                    android:id="@+id/tvBags_IndPCAInvoiceRowAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.55"
+                    android:gravity="center"
+                    android:text="700"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp" />
+
+                <EditText
+                    android:theme="@style/Widget.AppCompat.EditText"
+                    android:id="@+id/edt_Weight_IndPCAInvoiceRowAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.70"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/outline_bg"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:fontFamily="@font/poppins"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/weight"
+                    android:selectAllOnFocus="true"
+                    android:padding="@dimen/_3sdp"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    android:imeOptions="actionNext"
+                    android:textStyle="bold"
+                    android:nextFocusDown="@id/edt_Amount_IndPCAInvoiceRowAdapter" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:dividerPadding="@dimen/_2sdp"
+                android:gravity="center"
+                android:padding="3dp"
+                android:showDividers="none">
+
+                <TextView
+                    android:id="@+id/tvRate_IndPCAInvoiceRowAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.55"
+                    android:gravity="center"
+                    android:text="1230"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp" />
+
+                <EditText
+                    android:id="@+id/edt_Amount_IndPCAInvoiceRowAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="0.70"
+                    android:background="@drawable/outline_bg"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/amount"
+                    android:selectAllOnFocus="true"
+                    android:imeOptions="actionDone"
+                    android:fontFamily="@font/poppins"
+                    android:padding="@dimen/_3sdp"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:dividerPadding="@dimen/_2sdp"
+                android:divider="@color/black"
+                android:gravity="center"
+                android:padding="3dp"
+                android:showDividers="middle">
+                <TextView
+                    android:id="@+id/tvGST_IndPCAInvoiceRowAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.55"
+                    android:gravity="center"
+                    android:text="56450"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp" />
+
+
+                <TextView
+                    android:id="@+id/tv_TotAmount_IndPCAInvoiceRowAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.65"
+                    android:gravity="center"
+                    android:text="1506750"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp" />
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:dividerPadding="@dimen/_2sdp"
+                android:divider="@color/black"
+                android:gravity="center"
+                android:padding="3dp"
+                android:showDividers="middle">
+                <TextView
+                    android:id="@+id/tvHWeight_IndPCAInvoiceRowAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.55"
+                    android:gravity="center"
+
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp" />
+
+
+                <TextView
+                    android:id="@+id/tvHAmount_IndPCAInvoiceRowAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.65"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:buttonTint="@color/colorPrimary"
+            android:id="@+id/mChb_IndPCAInvoiceRowAdapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</layout>

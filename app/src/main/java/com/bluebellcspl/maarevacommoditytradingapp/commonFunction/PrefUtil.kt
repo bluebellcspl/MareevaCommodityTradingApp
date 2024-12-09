@@ -16,6 +16,7 @@ class PrefUtil {
         public val KEY_USERNAME = "username"
         public val KEY_EMPLOYEE_ID = "EmployeeId"
         public val KEY_REGISTER_ID = "RegisterId"
+        public val KEY_IND_PCA_ID = "IndividualPCAId"
         public val KEY_MOBILE_NO = "MobileNo"
         public val KEY_ROLE_ID = "RoleId"
         public val KEY_ROLE_NAME = "RoleName"
@@ -46,7 +47,6 @@ class PrefUtil {
         public val KEY_ROLE_IND_PCA = "Individual PCA"
         public val KEY_ROLE_BUYER = "Buyer"
         public val KEY_ROLE_PCA = "PCA"
-
 
 
         lateinit var editor: SharedPreferences.Editor
