@@ -44,6 +44,7 @@ class POSTIndPCAStockInsertAPI(var context: Context, var fragment: Fragment,var 
                             if (fragment is IndPCAInvoiceFragment)
                             {
                                 (fragment as IndPCAInvoiceFragment).resetUI()
+                                (fragment as IndPCAInvoiceFragment).navigateOnSuccessfulInsert()
                             }
                         }
                         job.complete()

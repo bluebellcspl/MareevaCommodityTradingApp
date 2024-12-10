@@ -13,6 +13,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionFetchModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionReportModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCABuyerModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCABuyerModelList
+import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceStockModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceEntryMergedModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.NotificationRTRMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.PCAAuctionDetailModel
@@ -277,4 +278,14 @@ interface OurRetrofit {
   suspend fun postIndPCAStockDataIns(
     @Body body: JsonObject,
   ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualInvoicePCAStockGet")
+  suspend fun getIndPCAInvoiceStockAPI(
+    @Body body: JsonObject,
+  ):Response<JsonElement>
+
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualInvoicePCAStockAllBuyerGet")
+  suspend fun getIndPCAInvoiceStockBuyerWiseAPI(
+    @Body body: JsonObject,
+  ):Response<JsonElement>
 }

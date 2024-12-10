@@ -422,6 +422,9 @@ class IndPCAInvoiceFragment : Fragment() {
         selectedChipList.clear()
         selectedShopList.clear()
     }
+    fun navigateOnSuccessfulInsert(){
+        navController.navigate(IndPCAInvoiceFragmentDirections.actionIndPCAInvoiceFragmentToIndPCAInvoiceStockFragment())
+    }
 
     private fun insertIndPCAInvoiceData(datalist: ArrayList<APIIndividualInvoiceShopwise>){
         try {

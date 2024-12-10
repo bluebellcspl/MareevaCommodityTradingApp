@@ -131,6 +131,13 @@ class IndPCADashboardFragment : Fragment() {
                         {
                             navController.navigate(IndPCADashboardFragmentDirections.actionIndPCADashboardFragmentToIndPCAInvoiceFragment())
                         }
+                    }R.id.btn_Invoice_Stock_Ind_PCA -> {
+                        if (!_CommodityNameList.contains(binding.actCommodityIndPCADashboardFragment.text.toString())){
+                            commonUIUtility.showToast(requireContext().getString(R.string.please_select_commodity_alert_msg))
+                        }else
+                        {
+                            navController.navigate(IndPCADashboardFragmentDirections.actionIndPCADashboardFragmentToIndPCAInvoiceStockFragment())
+                        }
                     }
                 }
                 return true
