@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.icu.text.NumberFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import java.text.DecimalFormat
 
 
 class CommonUIUtility(var context: Context) {
@@ -161,6 +163,14 @@ class CommonUIUtility(var context: Context) {
         val sortedList = list.sortedWith(alphanumericComparator)
 
         return ArrayList(sortedList)
+    }
+
+    fun formatDecimal(value: Double): String {
+        return DecimalFormat("0.00").format(value)
+    }
+
+    fun numberCurrencyFormat(value: Double): String {
+        return NumberFormat.getCurrencyInstance().format(value).substring(1)
     }
 
     // Extension function to check if a string contains only digits

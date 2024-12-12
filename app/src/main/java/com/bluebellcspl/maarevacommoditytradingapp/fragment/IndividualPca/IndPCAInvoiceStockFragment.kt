@@ -208,6 +208,7 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
 
     override fun onInvoiceStockItemClick(model: Any, position: Int) {
         Log.d(TAG, "onInvoiceStockItemClick: BUYER_SELECTED_POSITION : $position")
+        navController.navigate(IndPCAInvoiceStockFragmentDirections.actionIndPCAInvoiceStockFragmentToIndPCAInvoiceStockDetailFragment(model as IndPCAStockBuyerWiseModelItem))
     }
 
     private fun formatDecimal(value: Double): String {

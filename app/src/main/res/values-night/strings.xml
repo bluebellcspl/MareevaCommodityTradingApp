@@ -253,4 +253,5 @@
     <string name="pca">PCA</string>
     <string name="pca_registered_successfully">PCA Registered Successfully!</string>
     <string name="buyer_list">Buyer List</string>
+    <string name="select_all">Select All</string>
 </resources>

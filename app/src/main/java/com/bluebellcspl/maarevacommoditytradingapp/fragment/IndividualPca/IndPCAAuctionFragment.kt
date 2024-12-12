@@ -291,7 +291,7 @@ class IndPCAAuctionFragment : Fragment() {
 
         binding.edtBagsIndPCAAuctionFragment.setOnFocusChangeListener { view, b ->
             if (b) {
-                if (binding.actBuyerIndPCAAuctionFragment.text.toString().isNotEmpty() && SELECTED_BUYER_ID.isEmpty())
+                if (binding.actBuyerIndPCAAuctionFragment.text.toString().isNotEmpty() && SELECTED_BUYER_ID.isEmpty() && isWritten)
                 {
                     if(_BuyerList.find { it-> it.BuyerShortName.equals(binding.actBuyerIndPCAAuctionFragment.text.toString()) } != null){
                         val buyerModel = _BuyerList.find { it-> it.BuyerShortName.equals(binding.actBuyerIndPCAAuctionFragment.text.toString()) }
@@ -428,6 +428,8 @@ class IndPCAAuctionFragment : Fragment() {
             {
                 SELECTED_BUYER_NAME = "Self"
                 SELECTED_BUYER_ID = "0"
+            }else if(SELECTED_BUYER_NAME.isEmpty() && binding.actBuyerIndPCAAuctionFragment.text.toString().isNotEmpty()){
+                SELECTED_BUYER_NAME = binding.actBuyerIndPCAAuctionFragment.text.toString().trim()
             }
             var indPCAAuctionModel = IndPCAAuctionInsertModel(
                 "Confirm",

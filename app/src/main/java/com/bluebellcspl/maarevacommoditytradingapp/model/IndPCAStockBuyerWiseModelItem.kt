@@ -1,5 +1,9 @@
 package com.bluebellcspl.maarevacommoditytradingapp.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class IndPCAStockBuyerWiseModelItem(
     var BuyerId: String,
     var BuyerName: String,
@@ -16,4 +20,4 @@ data class IndPCAStockBuyerWiseModelItem(
     var TotalAvailableTotalAmount: String,
     var TotalAvailableWeight: String,
     var TotalBillRate: String
-)
+):Parcelable

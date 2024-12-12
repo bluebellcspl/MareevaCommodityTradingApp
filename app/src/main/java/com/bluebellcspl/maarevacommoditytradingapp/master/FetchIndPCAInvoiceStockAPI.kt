@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoiceStockDetailFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoiceStockFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceStockModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
@@ -55,12 +56,12 @@ class FetchIndPCAInvoiceStockAPI(var context: Context, var fragment: Fragment,va
                         val responseJA = mainResponseJO.asJsonArray
                         val userListType = object : TypeToken<IndPCAInvoiceStockModel>() {}.type
                         var indPCAStockFetchList:IndPCAInvoiceStockModel = Gson().fromJson(responseJA, userListType)
-//                        withContext(Dispatchers.Main){
-//                            commonUIUtility.dismissProgress()
-//                            if (fragment is IndPCAInvoiceStockFragment){
-//                                (fragment as IndPCAInvoiceStockFragment).bindAPIStockData(indPCAStockFetchList)
-//                            }
-//                        }
+                        withContext(Dispatchers.Main){
+                            commonUIUtility.dismissProgress()
+                            if (fragment is IndPCAInvoiceStockDetailFragment){
+                                (fragment as IndPCAInvoiceStockDetailFragment).bindStockListView(indPCAStockFetchList)
+                            }
+                        }
                         job.complete()
                     }
                 }else

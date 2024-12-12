@@ -118,5 +118,22 @@
         android:id="@+id/indPCAInvoiceStockFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoiceStockFragment"
         android:label="@string/invoice_stock"
-        tools:layout="@layout/fragment_ind_p_c_a_invoice_stock"/>
+        tools:layout="@layout/fragment_ind_p_c_a_invoice_stock">
+        <action
+            android:id="@+id/action_indPCAInvoiceStockFragment_to_indPCAInvoiceStockDetailFragment"
+            app:destination="@id/indPCAInvoiceStockDetailFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/indPCAInvoiceStockDetailFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoiceStockDetailFragment"
+        android:label="@string/stock_details"
+        tools:layout="@layout/fragment_ind_p_c_a_invoice_stock_detail">
+        <argument
+            android:name="buyerStockModel"
+            app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAStockBuyerWiseModelItem" />
+    </fragment>
 </navigation>
