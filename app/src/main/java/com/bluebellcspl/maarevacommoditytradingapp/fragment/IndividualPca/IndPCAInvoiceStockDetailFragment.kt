@@ -27,7 +27,7 @@ class IndPCAInvoiceStockDetailFragment : Fragment(),IndPCAInvoiceStockHelper {
     val TAG = "IndPCAInvoiceStockDetailFragment"
     private val commonUIUtility: CommonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController: NavController by lazy { findNavController() }
-    private lateinit  var _StockList: ArrayList<IndPCAInvoiceStockModelItem>
+    private var _StockList: ArrayList<IndPCAInvoiceStockModelItem> = ArrayList()
     private var _invoiceList:ArrayList<IndPCAInvoiceStockModelItem> = ArrayList()
     private lateinit var adapter:IndPCAInvoiceStockBuyerAdapter
     private val args by navArgs<IndPCAInvoiceStockDetailFragmentArgs>()
@@ -70,6 +70,8 @@ class IndPCAInvoiceStockDetailFragment : Fragment(),IndPCAInvoiceStockHelper {
                     Log.d("????", "onCreateView: AMOUNT: ${it.AvaliableAmount}")
                     Log.d("????", "onCreateView: =======================================================================")
                 }
+
+                navController.navigate(IndPCAInvoiceStockDetailFragmentDirections.actionIndPCAInvoiceStockDetailFragmentToIndPCAInvoiceStockAdjustmentFragment(_invoiceList.toTypedArray()))
             }else{
                 commonUIUtility.showToast("Please Select At least 1 entry")
             }
@@ -167,6 +169,11 @@ class IndPCAInvoiceStockDetailFragment : Fragment(),IndPCAInvoiceStockHelper {
             _StockList.forEach { it.isSelected = isChecked }
             adapter.notifyDataSetChanged()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bindStockListView(_StockList)
     }
 
     override fun onDestroyView() {
