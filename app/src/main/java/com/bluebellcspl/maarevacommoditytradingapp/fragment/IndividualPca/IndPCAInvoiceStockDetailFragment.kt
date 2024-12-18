@@ -2,6 +2,8 @@ package com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca
 
 import ConnectionCheck
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +16,7 @@ import androidx.navigation.fragment.navArgs
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.IndPCAInvoiceStockBuyerAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentIndPCAInvoiceStockDetailBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoiceStockFragment.IndPCAInvoiceStockFetchAPIModel
@@ -46,38 +49,32 @@ class IndPCAInvoiceStockDetailFragment : Fragment(),IndPCAInvoiceStockHelper {
         }else{
             binding.tvCommodityIndPCAInvoiceStockDetailFragment.text = args.buyerStockModel.CommodityName
         }
+
+        binding.btnNextIndPCAInvoiceStockDetailFragment.setOnClickListener {
+            Log.d(TAG, "onCreateView: INVOICE_LIST_SIZE : ${_invoiceList.size}")
+            if (_invoiceList.isNotEmpty()){
+                navController.navigate(IndPCAInvoiceStockDetailFragmentDirections.actionIndPCAInvoiceStockDetailFragmentToIndPCAInvoiceStockAdjustmentFragment(_invoiceList.toTypedArray()))
+            }else{
+                commonUIUtility.showToast(getString(R.string.please_select_at_least_1_entry_alert_msg))
+            }
+        }
+
         binding.mChbSelectAllIndPCAInvoiceStockDetailFragment.setOnCheckedChangeListener { _, isChecked ->
             _StockList.forEach {
                 it.isSelected = isChecked
                 if (isChecked) {
-                    if (!_invoiceList.contains(it)) _invoiceList.add(it)
+//                    if (!_invoiceList.contains(it)) _invoiceList.add(it)
+                    onItemSelected(it)
                 } else {
-                    _invoiceList.remove(it)
+//                    _invoiceList.remove(it)
+                    onItemDeselected(it)
                 }
             }
             Log.d("????", "Select All: Invoice list size: ${_invoiceList.size}")
             adapter.notifyDataSetChanged() // Refresh the adapter
         }
 
-        binding.btnNextIndPCAInvoiceStockDetailFragment.setOnClickListener {
-            if (_invoiceList.isNotEmpty()) {
-                _invoiceList.forEach {
-                    Log.d("????", "onCreateView: ")
-                    Log.d("????", "onCreateView: DATE: ${it.Date}")
-                    Log.d("????", "onCreateView: BAGS: ${it.AvailableBags}")
-                    Log.d("????", "onCreateView: RATE: ${it.BillRate}")
-                    Log.d("????", "onCreateView: WEIGHT: ${it.AvailableWeight}")
-                    Log.d("????", "onCreateView: AMOUNT: ${it.AvaliableAmount}")
-                    Log.d("????", "onCreateView: =======================================================================")
-                }
-
-                navController.navigate(IndPCAInvoiceStockDetailFragmentDirections.actionIndPCAInvoiceStockDetailFragmentToIndPCAInvoiceStockAdjustmentFragment(_invoiceList.toTypedArray()))
-            }else{
-                commonUIUtility.showToast("Please Select At least 1 entry")
-            }
-        }
-
-        return binding.root
+            return binding.root
     }
 
     private fun callAPI(){
@@ -102,26 +99,30 @@ class IndPCAInvoiceStockDetailFragment : Fragment(),IndPCAInvoiceStockHelper {
             _StockList = dataList
             if(dataList.isNotEmpty())
             {
-                calculateData(dataList)
+                PrefUtil.setString(PrefUtil.KEY_IND_PCA_ID,dataList[0].InPCAId)
                 adapter = IndPCAInvoiceStockBuyerAdapter(requireContext(),dataList,this@IndPCAInvoiceStockDetailFragment){
                     updateSelectAllCheckbox(_StockList)
                 }
                 binding.rcViewIndPCAInvoiceStockDetailFragment.adapter = adapter
                 binding.rlSelectAllIndPCAInvoiceStockDetailFragment.visibility = View.VISIBLE
                 binding.rcViewIndPCAInvoiceStockDetailFragment.invalidate()
-            }else
-            {
-                binding.rcViewIndPCAInvoiceStockDetailFragment.adapter = null
-                binding.rcViewIndPCAInvoiceStockDetailFragment.invalidate()
-                binding.rlSelectAllIndPCAInvoiceStockDetailFragment.visibility = View.GONE
-                _StockList.clear()
-                _invoiceList.clear()
+                calculateData(dataList)
             }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "setOnClickListeners: ${e.message}")
         }
     }
+
+    private fun updateSelectAllCheckbox(dataList: ArrayList<IndPCAInvoiceStockModelItem>) {
+        binding.mChbSelectAllIndPCAInvoiceStockDetailFragment.setOnCheckedChangeListener(null) // Temporarily remove listener
+        binding.mChbSelectAllIndPCAInvoiceStockDetailFragment.isChecked = dataList.all { it.isSelected }
+        binding.mChbSelectAllIndPCAInvoiceStockDetailFragment.setOnCheckedChangeListener { _, isChecked ->
+            _StockList.forEach { it.isSelected = isChecked }
+            adapter.notifyDataSetChanged()
+        }
+    }
+
 
     private fun calculateData(dataList: ArrayList<IndPCAInvoiceStockModelItem>){
         try {
@@ -147,43 +148,58 @@ class IndPCAInvoiceStockDetailFragment : Fragment(),IndPCAInvoiceStockHelper {
         }
     }
 
-    override fun onItemSelected(model: Any) {
-        if (model is IndPCAInvoiceStockModelItem && !_invoiceList.contains(model)) {
-            _invoiceList.add(model)
-            Log.d("????", "onItemSelected: Added to invoice list. Size: ${_invoiceList.size}")
-        }
-    }
-
-    override fun onItemDeselected(model: Any) {
-        if (model is IndPCAInvoiceStockModelItem && _invoiceList.contains(model)) {
-            _invoiceList.remove(model)
-            Log.d("????", "onItemDeselected: Removed from invoice list. Size: ${_invoiceList.size}")
-        }
-    }
-
-
-    private fun updateSelectAllCheckbox(dataList: ArrayList<IndPCAInvoiceStockModelItem>) {
-        binding.mChbSelectAllIndPCAInvoiceStockDetailFragment.setOnCheckedChangeListener(null) // Temporarily remove listener
-        binding.mChbSelectAllIndPCAInvoiceStockDetailFragment.isChecked = dataList.all { it.isSelected }
-        binding.mChbSelectAllIndPCAInvoiceStockDetailFragment.setOnCheckedChangeListener { _, isChecked ->
-            _StockList.forEach { it.isSelected = isChecked }
-            adapter.notifyDataSetChanged()
-        }
-    }
-
     override fun onResume() {
         super.onResume()
-        bindStockListView(_StockList)
+        Log.d(TAG, "onResume: ON_RESUME")
+        commonUIUtility.showProgress()
+        Handler(Looper.getMainLooper()).postDelayed({
+            _StockList.forEach {
+                _invoiceList.forEach { model->
+                    if (it.Date.equals(model.Date) && it.AvailableBags.equals(model.AvailableBags) && it.AvailableWeight.equals(model.AvailableWeight) && it.AvaliableAmount.equals(model.AvaliableAmount)){
+                        it.isSelected = true
+                    }
+                }
+            }
+            commonUIUtility.dismissProgress()
+            bindStockListView(_StockList)
+        },1000)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d(TAG, "onDestroyView: ON_DESTROY_VIEW")
         _binding = null
+    }
+
+    override fun onItemSelected(model: IndPCAInvoiceStockModelItem) {
+        Log.d(TAG, "onItemSelected: SELECTED_MODEL : DATE : ${model.Date}")
+        Log.d(TAG, "onItemSelected: SELECTED_MODEL : BAGS : ${model.AvailableBags}")
+        Log.d(TAG, "onItemSelected: SELECTED_MODEL : AMOUNT : ${model.AvaliableAmount}")
+        Log.d(TAG, "onItemSelected: SELECTED_MODEL : WEIGHT : ${model.AvailableWeight}")
+        Log.d(TAG, "onItemSelected: SELECTED_MODEL : IS_SELECTED : ${model.isSelected}")
+//
+//        if(!_invoiceList.contains(model)){
+//            _invoiceList.add(model)
+//        }
+        val currentModel = _invoiceList.find {it.Date.equals(model.Date) && it.AvailableBags.equals(model.AvailableBags) && it.AvailableWeight.equals(model.AvailableWeight) && it.AvaliableAmount.equals(model.AvaliableAmount)}
+        if (currentModel==null){
+            _invoiceList.add(model)
+        }
+    }
+
+    override fun onItemDeselected(model: IndPCAInvoiceStockModelItem) {
+        Log.d(TAG, "onItemSelected: UNSELECTED_MODEL : DATE : ${model.Date}")
+        Log.d(TAG, "onItemSelected: UNSELECTED_MODEL : BAGS : ${model.AvailableBags}")
+        Log.d(TAG, "onItemSelected: UNSELECTED_MODEL : AMOUNT : ${model.AvaliableAmount}")
+        Log.d(TAG, "onItemSelected: UNSELECTED_MODEL : WEIGHT : ${model.AvailableWeight}")
+        Log.d(TAG, "onItemSelected: UNSELECTED_MODEL : IS_SELECTED : ${model.isSelected}")
+        val currentModel = _invoiceList.find {it.Date.equals(model.Date) && it.AvailableBags.equals(model.AvailableBags) && it.AvailableWeight.equals(model.AvailableWeight) && it.AvaliableAmount.equals(model.AvaliableAmount)}
+        _invoiceList.remove(currentModel)
     }
 }
 
 interface IndPCAInvoiceStockHelper{
-    fun onItemSelected(model: Any)
+    fun onItemSelected(model: IndPCAInvoiceStockModelItem)
 
-    fun  onItemDeselected(model: Any)
+    fun  onItemDeselected(model: IndPCAInvoiceStockModelItem)
 }

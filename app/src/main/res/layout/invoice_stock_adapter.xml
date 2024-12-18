@@ -93,6 +93,7 @@
                             style="@style/EditTextNoUnderline"
                             android:id="@+id/edtBags_InvoiceStockAdapter"
                             android:textCursorDrawable="@drawable/custom_cursor"
+                            android:textColorHighlight="@color/subtotalBG"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.5"

@@ -203,6 +203,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_selectAll_IndPCAInvoiceStockDetailFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -249,7 +250,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rc_View_IndPCAInvoiceStockDetailFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/invoice_stock_adapter" />

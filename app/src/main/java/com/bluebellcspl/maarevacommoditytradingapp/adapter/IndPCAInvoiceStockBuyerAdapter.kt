@@ -10,7 +10,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCA
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceStockModelItem
 import java.text.NumberFormat
 
-class IndPCAInvoiceStockBuyerAdapter(var context: Context, var dataList: ArrayList<IndPCAInvoiceStockModelItem>, var invoiceStockHelper: IndPCAInvoiceStockHelper,var onItemCheckedChangeListener: (Boolean) -> Unit):RecyclerView.Adapter<IndPCAInvoiceStockBuyerAdapter.MyViewHolder>() {
+class IndPCAInvoiceStockBuyerAdapter(var context: Context, var dataList: ArrayList<IndPCAInvoiceStockModelItem>, var invoiceStockHelper: IndPCAInvoiceStockHelper,var onItemClickListener: (Boolean) -> Unit):RecyclerView.Adapter<IndPCAInvoiceStockBuyerAdapter.MyViewHolder>() {
     val TAG = "IndPCAInvoiceStockBuyerAdapter"
     inner class MyViewHolder(var binding: InvoiceStockAdapterBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -43,20 +43,18 @@ class IndPCAInvoiceStockBuyerAdapter(var context: Context, var dataList: ArrayLi
         val formatedRATE = NumberFormat.getCurrencyInstance().format(model.BillRate.toDouble()).substring(1)
         holder.binding.tvRateInvoiceStockAdapter.setText(formatedRATE)
 
+        holder.binding.mChbInvoiceStockAdapter.setChecked(model.isSelected)
         holder.binding.mChbInvoiceStockAdapter.setOnCheckedChangeListener(null)
-        holder.binding.mChbInvoiceStockAdapter.isChecked = model.isSelected
 
         holder.binding.mChbInvoiceStockAdapter.setOnCheckedChangeListener { _comoundButton, isChecked ->
-
-            model.isSelected = _comoundButton.isChecked
-            invoiceStockHelper.run {
-                if (_comoundButton.isChecked) {
-                    invoiceStockHelper.onItemSelected(model)
-                } else {
-                    invoiceStockHelper.onItemDeselected(model)
-                }
+            if (_comoundButton.isChecked){
+                model.isSelected = true
+                invoiceStockHelper.onItemSelected(model)
+            }else{
+                model.isSelected = false
+                invoiceStockHelper.onItemDeselected(model)
             }
-            onItemCheckedChangeListener(isChecked)
+            onItemClickListener(isChecked)
         }
     }
 }

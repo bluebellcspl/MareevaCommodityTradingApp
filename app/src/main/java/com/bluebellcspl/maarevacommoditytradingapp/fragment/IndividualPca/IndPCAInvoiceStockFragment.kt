@@ -80,6 +80,8 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
 
             SELECTED_COMMODITY_NAME = commodityModel.CommodityName
             SELECTED_COMMODITY_ID = commodityModel.CommodityId
+            PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,SELECTED_COMMODITY_NAME)
+            PrefUtil.setString(PrefUtil.KEY_COMMODITY_ID,SELECTED_COMMODITY_ID)
 
             callAPI()
         }
@@ -189,6 +191,31 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
             Log.e(TAG, "getCommodityfromDB: ${e.message}")
         }
         return localArrayList
+    }
+
+    override fun onResume() {
+        super.onResume()
+        _InvoiceStockList.clear()
+        if (PrefUtil.getSystemLanguage()!!.isEmpty()){
+            PrefUtil.setSystemLanguage("en")
+        }
+        Log.d(TAG, "onCreateView: CURRENT_SYS_LANG : ${PrefUtil.getSystemLanguage()}")
+        if (PrefUtil.getSystemLanguage()!!.equals("gu")){
+            var gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))
+            if (gujCommodityName.equals("invalid")){
+                gujCommodityName = ""
+            }
+            binding.actCommodityIndPCAInvoiceStockFragment.setText(gujCommodityName)
+        }else{
+
+            binding.actCommodityIndPCAInvoiceStockFragment.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,""))
+        }
+
+        SELECTED_COMMODITY_ID = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()
+        callAPI()
+
+        _CommodityList = getCommodityfromDB()
+
     }
 
     override fun onDestroyView() {
