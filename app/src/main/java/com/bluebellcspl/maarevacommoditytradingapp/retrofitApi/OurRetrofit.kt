@@ -288,4 +288,24 @@ interface OurRetrofit {
   suspend fun getIndPCAInvoiceStockBuyerWiseAPI(
     @Body body: JsonObject,
   ):Response<JsonElement>
+
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCAInvoicePreviewGet")
+  suspend fun getIndPCAInvoicePreviewData(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/TransportPerBoriGet")
+  suspend fun getIndPCATransportRate(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCAStockUpdate")
+  suspend fun postIndPCAStockList(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCAInvoiceInsert")
+  suspend fun postIndPCAInvoiceInsert(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
 }

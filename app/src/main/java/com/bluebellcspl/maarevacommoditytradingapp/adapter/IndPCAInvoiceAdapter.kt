@@ -222,50 +222,50 @@ class IndPCAShopRowAdapter(
 //                    val currentWeight = weightText.toDoubleOrNull() ?: 0.0
 //                    val currentAmount = amountText.toDoubleOrNull() ?: 0.0
 
-                    if (currentWeight > 0.0 && currentAmount > 0.0) {
-                        val currentRate =
-                            formatDecimal(currentAmount / (currentWeight / WEIGHT_DIVISOR))
-                        val bagsAfterWeightCalc =
-                            formatDecimal(currentWeight / model.CommodityBhartiPrice.toDouble())
-                        val calculatedAmount =
-                            formatDecimal((currentWeight / WEIGHT_DIVISOR) * currentRate.toDouble())
-                        val currGST =
-                            formatDecimal(calculatedAmount.toDouble() * (model.TotalPct.toDouble() / 100.0))
-                        val currTOTAmount =
-                            formatDecimal(currGST.toDouble() + calculatedAmount.toDouble())
+                if (currentWeight > 0.0 && currentAmount > 0.0) {
+                    val currentRate =
+                        formatDecimal(currentAmount / (currentWeight / WEIGHT_DIVISOR))
+                    val bagsAfterWeightCalc =
+                        formatDecimal(currentWeight / model.CommodityBhartiPrice.toDouble())
+                    val calculatedAmount =
+                        formatDecimal((currentWeight / WEIGHT_DIVISOR) * currentRate.toDouble())
+                    val currGST =
+                        formatDecimal(calculatedAmount.toDouble() * (model.TotalPct.toDouble() / 100.0))
+                    val currTOTAmount =
+                        formatDecimal(currGST.toDouble() + calculatedAmount.toDouble())
 
-                        var totalInvoiceApproxKG = formatDecimal(currentWeight / model.CommodityBhartiPrice.toDouble())
-                        var totalInvoiceKG =formatDecimal(currentWeight % model.CommodityBhartiPrice.toDouble())
+                    var totalInvoiceApproxKG = formatDecimal(currentWeight / model.CommodityBhartiPrice.toDouble())
+                    var totalInvoiceKG =formatDecimal(currentWeight % model.CommodityBhartiPrice.toDouble())
 
-                        // Update model values
-                        model.BillWeight = DecimalFormat("0.00").format(currentWeight)
-                        model.BillAmount = DecimalFormat("0.00").format(currentAmount)
-                        model.BillRate = currentRate
-                        model.BillBags = bagsAfterWeightCalc
-                        model.BillTotalAmount = currTOTAmount
-                        model.BillGST = currGST
-                        model.BillApproxKg = totalInvoiceApproxKG
-                        model.BillKg = totalInvoiceKG
+                    // Update model values
+                    model.BillWeight = DecimalFormat("0.00").format(currentWeight)
+                    model.BillAmount = DecimalFormat("0.00").format(currentAmount)
+                    model.BillRate = currentRate
+                    model.BillBags = bagsAfterWeightCalc
+                    model.BillTotalAmount = currTOTAmount
+                    model.BillGST = currGST
+                    model.BillApproxKg = totalInvoiceApproxKG
+                    model.BillKg = totalInvoiceKG
 
-                        Log.d(TAG,"calculateWeightNAmount: ========================================")
-                        Log.d(TAG, "calculateWeightNAmount: BILL_BAGS : ${model.BillBags}")
-                        Log.d(TAG, "calculateWeightNAmount: BILL_AMOUNT : ${model.BillAmount}")
-                        Log.d(TAG, "calculateWeightNAmount: BILL_RATE : ${model.BillRate}")
-                        Log.d(TAG, "calculateWeightNAmount: BILL_WEIGHT : ${model.BillWeight}")
-                        Log.d(TAG,"calculateWeightNAmount: BILL_TOTAL_AMOUNT : ${model.BillTotalAmount}")
-                        Log.d(TAG, "calculateWeightNAmount: BILL_GST : ${model.BillGST}")
-                        Log.d(TAG,"calculateWeightNAmount: BILL_APPROX_KG : ${model.BillApproxKg}")
+                    Log.d(TAG,"calculateWeightNAmount: ========================================")
+                    Log.d(TAG, "calculateWeightNAmount: BILL_BAGS : ${model.BillBags}")
+                    Log.d(TAG, "calculateWeightNAmount: BILL_AMOUNT : ${model.BillAmount}")
+                    Log.d(TAG, "calculateWeightNAmount: BILL_RATE : ${model.BillRate}")
+                    Log.d(TAG, "calculateWeightNAmount: BILL_WEIGHT : ${model.BillWeight}")
+                    Log.d(TAG,"calculateWeightNAmount: BILL_TOTAL_AMOUNT : ${model.BillTotalAmount}")
+                    Log.d(TAG, "calculateWeightNAmount: BILL_GST : ${model.BillGST}")
+                    Log.d(TAG,"calculateWeightNAmount: BILL_APPROX_KG : ${model.BillApproxKg}")
 
-                        binding.tvRateIndPCAInvoiceRowAdapter.text =
-                            numberFormat(currentRate.toDouble())
-                        binding.tvGSTIndPCAInvoiceRowAdapter.text = numberFormat(currGST.toDouble())
-                        binding.tvTotAmountIndPCAInvoiceRowAdapter.text =
-                            numberFormat(currTOTAmount.toDouble())
+                    binding.tvRateIndPCAInvoiceRowAdapter.text =
+                        numberFormat(currentRate.toDouble())
+                    binding.tvGSTIndPCAInvoiceRowAdapter.text = numberFormat(currGST.toDouble())
+                    binding.tvTotAmountIndPCAInvoiceRowAdapter.text =
+                        numberFormat(currTOTAmount.toDouble())
 
-                    } else {
-                        resetCalculatedFields()
-                    }
-                    
+                } else {
+                    resetCalculatedFields()
+                }
+
                     onChildCalculationEdit.onChildCalculationEdited(parentPosition,adapterPosition,dataList)
                 Log.d(TAG, "calculateWeightNAmount: onChildCalculationEdit : CALLED")
 

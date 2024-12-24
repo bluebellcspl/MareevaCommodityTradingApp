@@ -23,6 +23,10 @@ class URLHelper {
 
         val INVOICE_PDF = RetrofitHelper.BASE_URL+ "/RDLCReport/InVoiceGenerating.aspx?InvoiceNo=<INVOICE_NO>&PCARegId=<PCA_REG_ID>&Action=PDF"
 
+        val IND_PCA_INVOICE_PDF = RetrofitHelper.BASE_URL+ "/RDLCReport/IndividualPCAInVoice.aspx?InvoiceNo=<INVOICE_NO>&PCARegId=<PCA_REG_ID>&Action=PDF"
+
+        val IND_PCA_INVOICE_DOC = RetrofitHelper.BASE_URL+ "/RDLCReport/IndividualPCAInVoice.aspx?InvoiceNo=<INVOICE_NO>&PCARegId=<PCA_REG_ID>&Action=word"
+
 //        val LIVE_CHAT_SOCKET = "wss://maareva.bbcspldev.in/API/MaarevaApi/MaarevaApi/ConnectWebSocket" //Testing Server URL
         val LIVE_CHAT_SOCKET = "wss://maareva.com/API/MaarevaApi/MaarevaApi/ConnectWebSocket"
     }

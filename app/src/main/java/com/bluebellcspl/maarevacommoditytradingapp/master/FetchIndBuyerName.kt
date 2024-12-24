@@ -7,6 +7,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtilit
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionListFragment
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoicePreviewFragment
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.JsonObject
@@ -47,6 +48,8 @@ class FetchIndBuyerName(var context: Context, var fragment: Fragment) {
                         }
                         else if (fragment is IndPCAAuctionListFragment){
                             (fragment as IndPCAAuctionListFragment).getBuyerFromAPI(response)
+                        }else if (fragment is IndPCAInvoicePreviewFragment){
+                            (fragment as IndPCAInvoicePreviewFragment).getBuyerFromAPI(response)
                         }
                     }
                     job.complete()

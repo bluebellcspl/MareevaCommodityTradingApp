@@ -9,7 +9,7 @@
         android:id="@+id/indPCADashboardFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCADashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/fragment_ind_p_c_a_dashboard" >
+        tools:layout="@layout/fragment_ind_p_c_a_dashboard">
         <action
             android:id="@+id/action_indPCADashboardFragment_to_indPCAAuctionFragment"
             app:destination="@id/indPCAAuctionFragment"
@@ -36,7 +36,7 @@
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/indPCADashboardFragment"/>
+            app:popUpTo="@id/indPCADashboardFragment" />
         <action
             android:id="@+id/action_indPCADashboardFragment_to_indPCAInvoiceStockFragment"
             app:destination="@id/indPCAInvoiceStockFragment"
@@ -44,21 +44,21 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/indPCAInvoiceFragment"/>
+            app:popUpTo="@id/indPCAInvoiceFragment" />
     </fragment>
     <fragment
         android:id="@+id/indPCAAuctionFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionFragment"
         android:label="@string/pca_auction"
-        tools:layout="@layout/fragment_ind_p_c_a_auction" >
-<!--        <action-->
-<!--            android:id="@+id/action_indPCAAuctionFragment_to_indPCAAuctionListFragment"-->
-<!--            app:destination="@id/indPCAAuctionListFragment"-->
-<!--            app:enterAnim="@anim/slide_in_left"-->
-<!--            app:exitAnim="@anim/slide_out_right"-->
-<!--            app:popEnterAnim="@anim/slide_in_right"-->
-<!--            app:popExitAnim="@anim/slide_out_left"-->
-<!--            app:popUpTo="@id/indPCAAuctionFragment" />-->
+        tools:layout="@layout/fragment_ind_p_c_a_auction">
+        <!--        <action-->
+        <!--            android:id="@+id/action_indPCAAuctionFragment_to_indPCAAuctionListFragment"-->
+        <!--            app:destination="@id/indPCAAuctionListFragment"-->
+        <!--            app:enterAnim="@anim/slide_in_left"-->
+        <!--            app:exitAnim="@anim/slide_out_right"-->
+        <!--            app:popEnterAnim="@anim/slide_in_right"-->
+        <!--            app:popExitAnim="@anim/slide_out_left"-->
+        <!--            app:popUpTo="@id/indPCAAuctionFragment" />-->
         <action
             android:id="@+id/action_indPCAAuctionFragment_to_indPCAAuctionBuyerListFragment"
             app:destination="@id/indPCAAuctionBuyerListFragment"
@@ -66,7 +66,7 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/indPCAAuctionFragment"/>
+            app:popUpTo="@id/indPCAAuctionFragment" />
     </fragment>
     <fragment
         android:id="@+id/indPCAAuctionListFragment"
@@ -89,8 +89,8 @@
     <fragment
         android:id="@+id/indPCAAuctionBuyerListFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionBuyerListFragment"
-        tools:layout="@layout/fragment_ind_p_c_a_auction_buyer_list"
-        android:label="@string/buyer_list">
+        android:label="@string/buyer_list"
+        tools:layout="@layout/fragment_ind_p_c_a_auction_buyer_list">
         <action
             android:id="@+id/action_indPCAAuctionBuyerListFragment_to_indPCAAuctionListFragment"
             app:destination="@id/indPCAAuctionListFragment"
@@ -104,7 +104,7 @@
         android:id="@+id/indPCAInvoiceFragment"
         android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoiceFragment"
         android:label="@string/invoice"
-        tools:layout="@layout/fragment_ind_p_c_a_invoice" >
+        tools:layout="@layout/fragment_ind_p_c_a_invoice">
         <action
             android:id="@+id/action_indPCAInvoiceFragment_to_indPCAInvoiceStockFragment"
             app:destination="@id/indPCAInvoiceStockFragment"
@@ -125,7 +125,7 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/indPCAInvoiceStockDetailFragment"
@@ -153,5 +153,38 @@
         <argument
             android:name="invoiceSeletedList"
             app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceStockModelItem[]" />
+        <action
+            android:id="@+id/action_indPCAInvoiceStockAdjustmentFragment_to_indPCAInvoicePreviewFragment"
+            app:destination="@id/indPCAInvoicePreviewFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/indPCAInvoiceStockAdjustmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/indPCAInvoicePreviewFragment"
+        android:name="com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoicePreviewFragment"
+        android:label="@string/invoice_preview"
+        tools:layout="@layout/fragment_ind_p_c_a_invoice_preview">
+        <argument
+            android:name="invoiceFetchDataModel"
+            app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.InvoicePreviewFetchDataModel" />
+        <argument
+            android:name="adjustBagList"
+            app:argType="com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceBagAdjustmentModel[]" />
+        <argument
+            android:name="GST_STATUS"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_indPCAInvoicePreviewFragment_to_indPCAInvoiceStockFragment"
+            app:destination="@id/indPCAInvoiceStockFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/indPCAInvoiceStockFragment" />
     </fragment>
 </navigation>

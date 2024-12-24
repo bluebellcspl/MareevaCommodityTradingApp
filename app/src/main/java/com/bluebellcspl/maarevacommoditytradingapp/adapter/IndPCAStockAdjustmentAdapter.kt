@@ -9,14 +9,17 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.EditableDecimalInputFilter
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.InvoiceStockAdapterBinding
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoiceAdjustmentHelper
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceStockModelItem
-import java.text.NumberFormat
 
-class IndPCAStockAdjustmentAdapter(var context: Context, var dataList: ArrayList<IndPCAInvoiceStockModelItem>):RecyclerView.Adapter<IndPCAStockAdjustmentAdapter.MyViewHolder>() {
+
+class IndPCAStockAdjustmentAdapter(var context: Context, var dataList: ArrayList<IndPCAInvoiceStockModelItem>,var invoiceAdjustmentHelper: IndPCAInvoiceAdjustmentHelper):RecyclerView.Adapter<IndPCAStockAdjustmentAdapter.MyViewHolder>() {
     val TAG = "IndPCAStockAdjustmentAdapter"
     private val commonUIUtility by lazy { CommonUIUtility(context) }
     inner class MyViewHolder(var binding: InvoiceStockAdapterBinding) :
@@ -41,11 +44,14 @@ class IndPCAStockAdjustmentAdapter(var context: Context, var dataList: ArrayList
                     model.UsedBillWeight = commonUIUtility.formatDecimal(calculatedWEIGHT)
                     model.UsedBillApproxKg = commonUIUtility.formatDecimal(calculatedInvoiceApproxKG)
                     model.UsedBillKg = commonUIUtility.formatDecimal(calculatedInvoiceKG)
+                    model.UsedBillGST = commonUIUtility.formatDecimal(calculatedAMOUNT * (model.TotalPct.toDouble() / 100))
+                    model.UsedBillTotalAmount = commonUIUtility.formatDecimal(calculatedAMOUNT + model.UsedBillGST.toDouble())
 
                     binding.tvRateInvoiceStockAdapter.text = commonUIUtility.numberCurrencyFormat(model.BillRate.toDouble())
                     binding.tvWeightInvoiceStockAdapter.text = commonUIUtility.numberCurrencyFormat(model.UsedBillWeight.toDouble())
                     binding.tvAmountInvoiceStockAdapter.text = commonUIUtility.numberCurrencyFormat(model.UsedBillAmount.toDouble())
 
+                    invoiceAdjustmentHelper.getCalculatedData(dataList)
                 } else {
                     binding.tvWeightInvoiceStockAdapter.setText("0")
                     binding.tvAmountInvoiceStockAdapter.setText("0")
@@ -95,6 +101,8 @@ class IndPCAStockAdjustmentAdapter(var context: Context, var dataList: ArrayList
         model.UsedBillWeight = model.AvailableWeight
         model.UsedBillApproxKg = commonUIUtility.formatDecimal(calculatedInvoiceApproxKG)
         model.UsedBillKg = commonUIUtility.formatDecimal(calculatedInvoiceKG)
+
+        holder.calcutateData(model)
 
         val calculationWatcher: TextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -153,6 +161,28 @@ class IndPCAStockAdjustmentAdapter(var context: Context, var dataList: ArrayList
                 }
             }
             false
+        })
+
+        holder.binding.edtBagsInvoiceStockAdapter.setOnEditorActionListener(OnEditorActionListener { view, actionId, event ->
+            val result = actionId and EditorInfo.IME_MASK_ACTION
+            when (result) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().toDouble()==0.0){
+                        holder.binding.edtBagsInvoiceStockAdapter.setText(model.AvailableBags)
+                    }
+                    return@OnEditorActionListener false
+                }
+                EditorInfo.IME_ACTION_NEXT -> {
+                    if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().toDouble()==0.0){
+                        holder.binding.edtBagsInvoiceStockAdapter.setText(model.AvailableBags)
+                    }
+                    return@OnEditorActionListener false
+                }
+
+                else -> {
+                    return@OnEditorActionListener false
+                }
+            }
         })
         holder.binding.edtBagsInvoiceStockAdapter.addTextChangedListener(calculationWatcher)
 

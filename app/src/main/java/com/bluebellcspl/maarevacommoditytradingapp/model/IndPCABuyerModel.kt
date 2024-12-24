@@ -3,6 +3,7 @@ package com.bluebellcspl.maarevacommoditytradingapp.model
 data class IndPCABuyerModel(
     var BuyerAddress: String,
     var BuyerCity: String,
+    var BuyerCityName: String,
     var BuyerFullName: String,
     var BuyerGSTIn: String,
     var BuyerPanNo: String,

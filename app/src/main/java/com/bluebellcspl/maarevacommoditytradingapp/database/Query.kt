@@ -301,6 +301,12 @@ class Query {
             return qry
         }
 
+        fun getCityData():String{
+            qry = "SELECT CityName,CityId FROM CityMaster WHERE IsActive='true'"
+            Log.d(TAG, "getCityData: $qry")
+            return qry
+        }
+
 
     }
 

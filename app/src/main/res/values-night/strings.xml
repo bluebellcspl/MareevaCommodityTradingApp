@@ -255,4 +255,5 @@
     <string name="buyer_list">Buyer List</string>
     <string name="select_all">Select All</string>
     <string name="invoice_bag_adjustment">Invoice Bag Adjustment</string>
+    <string name="select_or_enter_buyer">Select or Enter Buyer!</string>
 </resources>

@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.core.view.isEmpty
@@ -19,16 +18,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.IndPCAInvoiceAdapter
-import com.bluebellcspl.maarevacommoditytradingapp.adapter.InvoiceAdapter
-import com.bluebellcspl.maarevacommoditytradingapp.adapter.OnParentCheckedChangeListener
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
-import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
-import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentIndPCAInvoiceBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCADashboardFragment.CommodityDetail
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndPCAInvoiceDataAPI
@@ -37,14 +31,11 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.APIIndividualInvoiceSho
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceDataModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAStockInsertItemModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.POSTIndPCAStockInsertModel
-import com.bluebellcspl.maarevacommoditytradingapp.model.Shopwise
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -180,6 +171,20 @@ class IndPCAInvoiceFragment : Fragment() {
                 {
                     binding.btnSaveIndPCAInvoiceFragment.visibility = View.VISIBLE
                     binding.rcViewIndPCAInvoiceFragment.visibility = View.VISIBLE
+                    datalist.forEach {parentModel->
+                        parentModel.ShopEntries.forEach {childModel->
+                            childModel.BillAmount = childModel.Amount
+                            childModel.BillWeight = childModel.Weight
+                            childModel.BillGST = commonUIUtility.formatDecimal(childModel.Amount.toDouble() * (childModel.TotalPct.toDouble() / 100.0))
+                            childModel.BillTotalAmount = commonUIUtility.formatDecimal(childModel.Amount.toDouble() + childModel.BillGST.toDouble())
+                            childModel.BillBags = childModel.Bags
+                            childModel.BillRate = commonUIUtility.formatDecimal(childModel.Amount.toDouble() / (childModel.Weight.toDouble() / 20.0))
+                            var totalInvoiceApproxKG = commonUIUtility.formatDecimal(childModel.Weight.toDouble() / childModel.CommodityBhartiPrice.toDouble())
+                            var totalInvoiceKG =commonUIUtility.formatDecimal(childModel.Weight.toDouble() % childModel.CommodityBhartiPrice.toDouble())
+                            childModel.BillApproxKg = totalInvoiceApproxKG
+                            childModel.BillKg = totalInvoiceKG
+                        }
+                    }
                     adapter =
                         IndPCAInvoiceAdapter(requireContext(), datalist)
                     binding.rcViewIndPCAInvoiceFragment.adapter = adapter
