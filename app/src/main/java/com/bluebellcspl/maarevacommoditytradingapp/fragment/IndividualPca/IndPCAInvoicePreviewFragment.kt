@@ -7,6 +7,7 @@ import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
+import android.text.Spanned
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -74,6 +75,8 @@ class IndPCAInvoicePreviewFragment : Fragment() {
     private val navController by lazy { findNavController() }
     private var isBuyerGSTINValid = false
     private var isBuyerPANValid = false
+    private var isPcaGSTINValid = false
+    private var isPcaPANValid = false
     private var SELECTED_BUYER_ID = ""
     private var SELECTED_BUYER_NAME = ""
     private var alertDialog: AlertDialog? = null
@@ -181,7 +184,6 @@ class IndPCAInvoicePreviewFragment : Fragment() {
                 }
             }
         })
-
         binding.edtBuyerPANIndPCAInvoicePreviewFragment.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -207,6 +209,57 @@ class IndPCAInvoicePreviewFragment : Fragment() {
                 }
             }
         })
+        binding.edtIndPCAGSTINIndPCAInvoicePreviewFragment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s!!.isNotEmpty())
+                {
+                    if (isValidGSTIN(s!!.toString())) {
+                        binding.edtIndPCAGSTINContainerIndPCAInvoicePreviewFragment.boxStrokeColor = requireContext().getColor(R.color.newButtonColor)
+                        isPcaGSTINValid = true
+                    } else {
+                        binding.edtIndPCAGSTINContainerIndPCAInvoicePreviewFragment.boxStrokeColor = requireContext().getColor(R.color.unReadChatBadge)
+                        isPcaGSTINValid = false
+                    }
+                }else
+                {
+                    isPcaGSTINValid = false
+                }
+            }
+        })
+        binding.edtIndPCAPANIndPCAInvoicePreviewFragment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s!!.isNotEmpty())
+                {
+                    if (isValidPAN(s!!.toString())) {
+                        binding.edtIndPCAPANContainerIndPCAInvoicePreviewFragment.boxStrokeColor = requireContext().getColor(R.color.newButtonColor)
+                        isPcaPANValid = true
+                    } else {
+                        binding.edtIndPCAPANContainerIndPCAInvoicePreviewFragment.boxStrokeColor = requireContext().getColor(R.color.unReadChatBadge)
+                        isPcaPANValid = false
+                    }
+                }else
+                {
+                    isPcaPANValid = false
+                }
+            }
+        })
+
         binding.actBuyerCityIndPCAInvoicePreviewFragment.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -222,6 +275,16 @@ class IndPCAInvoicePreviewFragment : Fragment() {
                 }
             }
         })
+
+        binding.actBuyerCityIndPCAInvoicePreviewFragment.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.actBuyerCityIndPCAInvoicePreviewFragment.showDropDown()
+            }
+        }
+        binding.actBuyerCityIndPCAInvoicePreviewFragment.setOnClickListener {
+            binding.actBuyerCityIndPCAInvoicePreviewFragment.showDropDown()
+        }
+
         setOnClickListener()
         return binding.root
     }
@@ -281,6 +344,12 @@ class IndPCAInvoicePreviewFragment : Fragment() {
                 }else if (!isBuyerGSTINValid){
                     commonUIUtility.showToast(getString(R.string.please_enter_valid_gstin_alert_msg))
                     return@setOnClickListener
+                }else if (!isPcaGSTINValid){
+                    commonUIUtility.showToast(getString(R.string.please_enter_valid_gstin_alert_msg))
+                    return@setOnClickListener
+                }else if (!isPcaPANValid){
+                    commonUIUtility.showToast(getString(R.string.please_enter_valid_pan_alert_msg))
+                    return@setOnClickListener
                 }else if (binding.actBuyerNameIndPCAInvoicePreviewFragment.text.toString().isEmpty())
                 {
                     commonUIUtility.showToast(getString(R.string.please_enter_buyer_name_alert_msg))
@@ -303,7 +372,6 @@ class IndPCAInvoicePreviewFragment : Fragment() {
                     showAlertDialog()
                 }
             }
-
             binding.cvTotalCalculationIndPCAInvoicePreviewFragment.setOnClickListener {
                 if (binding.actBuyerNameIndPCAInvoicePreviewFragment.text.toString().isEmpty() && invoiceDataFromAPI.BuyerId.equals("0")){
                     commonUIUtility.showToast(getString(R.string.select_or_enter_buyer))

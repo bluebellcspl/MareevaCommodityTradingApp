@@ -13,10 +13,10 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorSecondary"
             app:cardCornerRadius="@dimen/_5sdp"
-            app:cardUseCompatPadding="true"
             app:cardElevation="@dimen/_5sdp"
-            app:cardBackgroundColor="@color/colorSecondary">
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,45 +26,46 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/edt_VehicleNoContainer_InvoiceStockPopup"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/vehicle_no"
-                    app:endIconMode="clear_text"
                     android:layout_margin="@dimen/_3sdp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    android:hint="@string/vehicle_no"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_VehicleNo_InvoiceStockPopup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="@dimen/_8sdp"
-                        android:maxLength="13"
-                        android:inputType="text"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                         android:imeOptions="actionDone"
-                        android:id="@+id/edt_VehicleNo_InvoiceStockPopup" />
+                        android:inputType="textCapCharacters|textVisiblePassword"
+                        android:maxLength="13"
+                        android:padding="@dimen/_8sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/select_tax"
                     android:layout_margin="@dimen/_3sdp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                    android:hint="@string/select_tax">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/act_GST_InvoiceStockPopup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="@dimen/_8sdp"
-                        android:id="@+id/act_GST_InvoiceStockPopup"
-                        android:inputType="none" />
+                        android:inputType="none"
+                        android:padding="@dimen/_8sdp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_gravity="center"
+                    android:id="@+id/btn_Next_InvoiceStockPopup"
                     android:layout_width="@dimen/_150sdp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="@string/next"
-                    android:textSize="@dimen/_14ssp"
-                    android:id="@+id/btn_Next_InvoiceStockPopup" />
+                    android:textSize="@dimen/_14ssp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </RelativeLayout>

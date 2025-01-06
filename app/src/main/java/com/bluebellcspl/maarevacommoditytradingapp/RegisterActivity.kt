@@ -116,6 +116,8 @@ class RegisterActivity : AppCompatActivity() {
             binding.btnRegisterRegister.setOnClickListener {
                 if (binding.edtPhoneNoRegister.text.toString().isEmpty()) {
                     commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
+                }else if (binding.edtPhoneNoRegister.text.toString().length<10) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_valid_phone_no_alert_msg))
                 } else if (binding.edtFullNameRegister.text.toString().isEmpty()) {
                     commonUIUtility.showToast(getString(R.string.please_enter_full_name))
                 }

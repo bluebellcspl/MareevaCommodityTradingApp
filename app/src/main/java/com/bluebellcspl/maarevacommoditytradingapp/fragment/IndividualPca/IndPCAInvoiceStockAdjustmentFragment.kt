@@ -256,13 +256,13 @@ class IndPCAInvoiceStockAdjustmentFragment : Fragment(),IndPCAInvoiceAdjustmentH
             dialogBinding.btnNextInvoiceStockPopup.setOnClickListener {
 
                 if (dialogBinding.actGSTInvoiceStockPopup.text.toString().isEmpty()){
-                    commonUIUtility.showToast("Please Select GST")
+                    commonUIUtility.showToast(getString(R.string.please_select_gst_alert_msg))
                     return@setOnClickListener
                 }else
                 {
                     if (dialogBinding.edtVehicleNoInvoiceStockPopup.text.toString().isNotEmpty()){
                         if (!isValidRTO){
-                            commonUIUtility.showToast("Please Enter Valid RTO Number")
+                            commonUIUtility.showToast(getString(R.string.please_enter_valid_rto_number_alert_msg))
                             return@setOnClickListener
                         }
                     }

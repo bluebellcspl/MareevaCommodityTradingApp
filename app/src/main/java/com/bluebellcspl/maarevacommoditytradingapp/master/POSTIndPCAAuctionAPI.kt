@@ -55,14 +55,14 @@ class POSTIndPCAAuctionAPI(var context: Context, var fragment: Fragment, var mod
                         withContext(Dispatchers.Main){
                             commonUIUtility.dismissProgress()
                             if (fragment is IndPCAAuctionFragment){
-                                commonUIUtility.showToast(responseJO.get("Message").asString)
+                                commonUIUtility.showToast(context.getString(R.string.shop_details_inserted_successfully_alert_msg))
                                 (fragment as IndPCAAuctionFragment).updateAfterInsert()
                                 FetchIndPCAAuctionAPI(context,fragment)
                                 FetchIndBuyerName(context,fragment)
                             }
                             else if (fragment is IndPCAAuctionListFragment){
                                 if (responseJO.get("Message").asString.contains("Updated",true)){
-                                    commonUIUtility.showToast(responseJO.get("Message").asString)
+                                    commonUIUtility.showToast(context.getString(R.string.shop_details_updated_successfully_alert_msg))
                                     FetchIndPCAAuctionAPI(context,fragment,BUYER_ID)
                                     FetchIndBuyerName(context,fragment)
                                 }else if (responseJO.get("Message").asString.contains("Delete",true)){

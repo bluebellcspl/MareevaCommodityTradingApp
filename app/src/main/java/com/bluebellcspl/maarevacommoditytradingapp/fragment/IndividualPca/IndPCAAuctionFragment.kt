@@ -7,6 +7,7 @@ import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
+import android.text.Spanned
 import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
@@ -90,9 +91,7 @@ class IndPCAAuctionFragment : Fragment() {
         commodityBhartiRate = DatabaseManager.ExecuteScalar(Query.getCommodityBhartiByCommodityId(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!)).toString()
 
         binding.edtBagsIndPCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(5, 2))
-        binding.edtCurrentPriceIndPCAAuctionFragment.filters =arrayOf<InputFilter>(
-            EditableDecimalInputFilter(7, 2)
-        )
+        binding.edtCurrentPriceIndPCAAuctionFragment.filters =arrayOf<InputFilter>(EditableDecimalInputFilter(7, 2))
 
         if (ConnectionCheck.isConnected(requireContext())){
             FetchIndPCAAuctionAPI(requireContext(),this@IndPCAAuctionFragment)
@@ -293,8 +292,8 @@ class IndPCAAuctionFragment : Fragment() {
             if (b) {
                 if (binding.actBuyerIndPCAAuctionFragment.text.toString().isNotEmpty() && SELECTED_BUYER_ID.isEmpty() && isWritten)
                 {
-                    if(_BuyerList.find { it-> it.BuyerShortName.equals(binding.actBuyerIndPCAAuctionFragment.text.toString()) } != null){
-                        val buyerModel = _BuyerList.find { it-> it.BuyerShortName.equals(binding.actBuyerIndPCAAuctionFragment.text.toString()) }
+                    if(_BuyerList.find { it-> it.BuyerShortName.equals(binding.actBuyerIndPCAAuctionFragment.text.toString().trim()) } != null){
+                        val buyerModel = _BuyerList.find { it-> it.BuyerShortName.equals(binding.actBuyerIndPCAAuctionFragment.text.toString().trim()) }
                         SELECTED_BUYER_ID = buyerModel!!.InBuyerId
                         SELECTED_BUYER_NAME = buyerModel.BuyerShortName
                         Log.d(TAG, "onCreateView: ON_FOCUS : SELECTED_BUYER_ID : $SELECTED_BUYER_ID")
@@ -331,23 +330,23 @@ class IndPCAAuctionFragment : Fragment() {
 //                    commonUIUtility.showAlertWithOkButton("Current Price Must be Lesser Than Upper Limit Price")
 //                }
                 if (shopId.equals("invalid") || shopId.isEmpty()) {
-                    commonUIUtility.showAlertWithOkButton("Please Select proper shop!")
+                    commonUIUtility.showAlertWithOkButton(getString(R.string.please_select_proper_shop_alert_msg))
                 } else if (binding.actShopNameIndPCAAuctionFragment.text.toString()
                         .isEmpty()) {
-                    commonUIUtility.showAlertWithOkButton("Please Enter Shop Name or Shop No!")
+                    commonUIUtility.showAlertWithOkButton(getString(R.string.please_enter_shop_name_or_shop_no_alert_msg))
                 } else if (binding.edtBagsIndPCAAuctionFragment.text.toString().endsWith(".") || binding.edtBagsIndPCAAuctionFragment.text.toString().startsWith(".")) {
-                    commonUIUtility.showToast("Please Enter Valid Input!")
+                    commonUIUtility.showToast(getString(R.string.please_enter_valid_input_alert_msg))
                 } else if (binding.edtBagsIndPCAAuctionFragment.text.toString().isEmpty() || binding.edtBagsIndPCAAuctionFragment.text.toString().toFloat() < 1) {
-                    commonUIUtility.showToast("Please Enter Bags!")
+                    commonUIUtility.showToast(getString(R.string.please_enter_bags_alert_msg))
                 }else if (binding.edtCurrentPriceIndPCAAuctionFragment.text.toString().isEmpty() || binding.edtCurrentPriceIndPCAAuctionFragment.text.toString().toFloat() < 1) {
-                    commonUIUtility.showToast("Please Current Price!")
+                    commonUIUtility.showToast(getString(R.string.please_enter_current_price_alert_msg))
                 } else if (_ShopList.isEmpty())
                 {
                     binding.actShopNoIndPCAAuctionFragment.isEnabled = false
                     binding.actShopNameIndPCAAuctionFragment.isEnabled = false
                     binding.actShopNoIndPCAAuctionFragment.setText("")
                     binding.actShopNameIndPCAAuctionFragment.setText("")
-                    commonUIUtility.showToast("Shop List is Blank!")
+                    commonUIUtility.showToast(getString(R.string.shop_list_is_blank_alert_msg))
                 }
                 else{
                     insertBuyer(binding.actBuyerIndPCAAuctionFragment.text.toString())

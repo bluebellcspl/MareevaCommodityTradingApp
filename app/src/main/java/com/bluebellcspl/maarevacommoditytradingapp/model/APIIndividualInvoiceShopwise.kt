@@ -13,6 +13,7 @@ data class APIIndividualInvoiceShopwise(
     var PurchasedBag: String,
     var ShopEntries: ArrayList<IndPCAShopEntries>,
     var ShopId: String,
+    var ShopNoName: String,
     var ShopName: String,
     var ShopNo: String,
     var ShopShortName: String,

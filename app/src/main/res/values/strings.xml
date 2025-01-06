@@ -264,6 +264,19 @@
     <string name="select_all">Select All</string>
     <string name="invoice_bag_adjustment">Invoice Bag Adjustment</string>
     <string name="select_or_enter_buyer">Select or Enter Buyer!</string>
+    <string name="please_select_proper_shop_alert_msg">Please Select proper shop!</string>
+    <string name="please_enter_shop_name_or_shop_no_alert_msg">Please Enter Shop Name or Shop No!</string>
+    <string name="please_enter_bags_alert_msg">Please Enter Bags!</string>
+    <string name="please_enter_current_price_alert_msg">Please Enter Current Price!</string>
+    <string name="shop_list_is_blank_alert_msg">Shop List is Blank!</string>
+    <string name="shop_details_updated_successfully_alert_msg">Shop Details Updated Successfully!</string>
+    <string name="shop_details_inserted_successfully_alert_msg">Shop Details Inserted Successfully</string>
+    <string name="download_complete_alert_msg">Download complete!</string>
+    <string name="please_select_gst_alert_msg">Please Select GST</string>
+    <string name="please_enter_valid_rto_number_alert_msg">Please Enter Valid RTO Number</string>
+    <string name="please_select_date_alert_msg">Please Select Date!</string>
+    <string name="please_select_proper_commodity_alert_msg">Please Select Proper Commodity!</string>
+    <string name="inserted_successfully_alert_msg">Inserted Successfully!</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

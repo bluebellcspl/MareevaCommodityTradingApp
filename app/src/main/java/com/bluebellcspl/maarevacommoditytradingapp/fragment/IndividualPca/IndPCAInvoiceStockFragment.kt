@@ -20,7 +20,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentIndPCAInvoiceStockBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCADashboardFragment.CommodityDetail
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCommodityForStockAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndPCAStockBuyerWiseAPI
+import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityListModel
+import com.bluebellcspl.maarevacommoditytradingapp.model.CommodityListModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceStockModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceStockModelItem
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAStockBuyerWiseModel
@@ -34,7 +37,7 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
     private val commonUIUtility: CommonUIUtility by lazy { CommonUIUtility(requireContext()) }
     private val navController: NavController by lazy { findNavController() }
     val _InvoiceStockList = arrayListOf<IndPCAStockBuyerWiseModelItem>()
-    lateinit var _CommodityList : ArrayList<CommodityDetail>
+    lateinit var _CommodityList : ArrayList<CommodityListModelItem>
     lateinit var _CommodityNameList : ArrayList<String>
     lateinit var adapter:IndPCAInvoiceStockAdapter
     var SELECTED_COMMODITY_NAME = ""
@@ -46,30 +49,27 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
         // Inflate the layout for this fragment
         _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_ind_p_c_a_invoice_stock, container, false)
 
-        if (PrefUtil.getSystemLanguage()!!.isEmpty()){
-            PrefUtil.setSystemLanguage("en")
-        }
-        Log.d(TAG, "onCreateView: CURRENT_SYS_LANG : ${PrefUtil.getSystemLanguage()}")
-        if (PrefUtil.getSystemLanguage()!!.equals("gu")){
-            var gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))
-            if (gujCommodityName.equals("invalid")){
-                gujCommodityName = ""
-            }
-            binding.actCommodityIndPCAInvoiceStockFragment.setText(gujCommodityName)
-        }else{
-
-            binding.actCommodityIndPCAInvoiceStockFragment.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,""))
-        }
-
-        SELECTED_COMMODITY_ID = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()
+//        if (PrefUtil.getSystemLanguage()!!.isEmpty()){
+//            PrefUtil.setSystemLanguage("en")
+//        }
+//        Log.d(TAG, "onCreateView: CURRENT_SYS_LANG : ${PrefUtil.getSystemLanguage()}")
+//        if (PrefUtil.getSystemLanguage()!!.equals("gu")){
+//            var gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))
+//            if (gujCommodityName.equals("invalid")){
+//                gujCommodityName = ""
+//            }
+//            binding.actCommodityIndPCAInvoiceStockFragment.setText(gujCommodityName)
+//        }else{
+//
+//            binding.actCommodityIndPCAInvoiceStockFragment.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,""))
+//        }
+//
+//        SELECTED_COMMODITY_ID = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()
         callAPI()
-
-        _CommodityList = getCommodityfromDB()
-
         binding.actCommodityIndPCAInvoiceStockFragment.setOnItemClickListener { adapterView, view, position, long ->
-            var commodityModel: CommodityDetail
+            var commodityModel: CommodityListModelItem
             if (PrefUtil.getSystemLanguage().equals("gu")){
-                commodityModel = _CommodityList.find {it.CommodityGujName.equals(adapterView.getItemAtPosition(position).toString())}!!
+                commodityModel = _CommodityList.find {it.CommodityName.equals(adapterView.getItemAtPosition(position).toString())}!!
             }
             else{
                 commodityModel = _CommodityList.find {it.CommodityName.equals(adapterView.getItemAtPosition(position).toString())}!!
@@ -83,12 +83,31 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
             PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,SELECTED_COMMODITY_NAME)
             PrefUtil.setString(PrefUtil.KEY_COMMODITY_ID,SELECTED_COMMODITY_ID)
 
-            callAPI()
+            callStockAPI()
         }
         return binding.root
     }
 
     private fun callAPI() {
+        if (ConnectionCheck.isConnected(requireContext())){
+            val commodityListmodel = IndPCAInvoiceStockFetchAPIModel(
+                "AllCommodityList",
+                "",
+                "",
+                ""+PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,""),
+                "",
+                ""+PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""),
+                ""+PrefUtil.getSystemLanguage()
+            )
+            FetchCommodityForStockAPI(requireContext(),this@IndPCAInvoiceStockFragment,commodityListmodel)
+
+        }else
+        {
+            commonUIUtility.showToast(requireContext().getString(R.string.no_internet_connection))
+        }
+    }
+
+    private fun callStockAPI() {
         if (ConnectionCheck.isConnected(requireContext())){
             val model = IndPCAInvoiceStockFetchAPIModel(
                 "AllBuyer",
@@ -106,6 +125,23 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
         }
     }
 
+    fun bindStockCommodityList(dataList : ArrayList<CommodityListModelItem>){
+        if (dataList.isNotEmpty()){
+            var commodityAdapter : ArrayAdapter<String>
+            if(PrefUtil.getSystemLanguage().equals("gu")){
+                _CommodityNameList = ArrayList(dataList.map { it.CommodityName })
+                commodityAdapter = commonUIUtility.getCustomArrayAdapter(_CommodityNameList)
+            }else
+            {
+                _CommodityNameList = ArrayList(dataList.map { it.CommodityName })
+                commodityAdapter = commonUIUtility.getCustomArrayAdapter(_CommodityNameList)
+            }
+
+            binding.actCommodityIndPCAInvoiceStockFragment.setAdapter(commodityAdapter)
+
+            _CommodityList = dataList
+        }
+    }
     fun bindAPIStockData(dataList:IndPCAStockBuyerWiseModel){
         _InvoiceStockList.clear()
         _InvoiceStockList.addAll(dataList)
@@ -210,11 +246,10 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
 
             binding.actCommodityIndPCAInvoiceStockFragment.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,""))
         }
-
-        SELECTED_COMMODITY_ID = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()
         callAPI()
-
-        _CommodityList = getCommodityfromDB()
+        SELECTED_COMMODITY_ID = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()
+        callStockAPI()
+//        _CommodityList = getCommodityfromDB()4
 
     }
 

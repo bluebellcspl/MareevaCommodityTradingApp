@@ -40,7 +40,7 @@ class POSTIndPCAStockInsertAPI(var context: Context, var fragment: Fragment,var 
                     if (responseJO.get("Success").asBoolean){
                         withContext(Dispatchers.Main){
                             commonUIUtility.dismissProgress()
-                            commonUIUtility.showToast(responseJO.get("Message").asString)
+                            commonUIUtility.showToast(context.getString(R.string.inserted_successfully_alert_msg))
                             if (fragment is IndPCAInvoiceFragment)
                             {
                                 (fragment as IndPCAInvoiceFragment).resetUI()

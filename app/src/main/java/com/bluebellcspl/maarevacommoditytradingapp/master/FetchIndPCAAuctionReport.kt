@@ -62,7 +62,8 @@ class FetchIndPCAAuctionReport(var context: Context, var fragment: Fragment,var 
                 {
                     withContext(Dispatchers.Main){
                         commonUIUtility.dismissProgress()
-                        commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
+                        Log.e(TAG, "getAuctionReportData: ${result.errorBody()}", )
+//                        commonUIUtility.showToast(context.getString(R.string.please_try_again_later_alert_msg))
                     }
                     job.cancel()
                 }

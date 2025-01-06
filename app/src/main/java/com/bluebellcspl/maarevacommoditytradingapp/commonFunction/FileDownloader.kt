@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
+import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment
 import java.io.File
 
@@ -111,7 +112,7 @@ class FileDownloader private constructor(private val context: Context) {
     inner class MyDownloadReceiver(private val downloadId: Long) : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == downloadId) {
-                Toast.makeText(context, "Download complete!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,context!!.getString(R.string.download_complete_alert_msg), Toast.LENGTH_SHORT).show()
             }
         }
     }
