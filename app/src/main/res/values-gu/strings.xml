@@ -272,6 +272,11 @@
     <string name="please_select_date_alert_msg">તારીખ પસંદ કરો!</string>
     <string name="please_select_proper_commodity_alert_msg">યોગ્ય કોમોડિટી પસંદ કરો!</string>
     <string name="inserted_successfully_alert_msg">સફળતાપૂર્વક થઇ ગયું છે.</string>
+    <string name="please_fill_all_entries">બધી એન્ટ્રીઓ ભરો!</string>
+    <string name="please_enter_weight_alert_msg">વજન ઉમેરો!</string>
+    <string name="please_enter_amount_alert_msg">રકમ ઉમેરો!</string>
+    <string name="weight_cannot_be_empty_alert_msg">Weight cannot be empty</string>
+    <string name="amount_cannot_be_empty_alert_msg">Amount cannot be empty</string>
 
     <string-array name="tax_Array">
         <item>GST સાથે</item>

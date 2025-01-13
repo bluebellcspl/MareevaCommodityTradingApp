@@ -21,5 +21,6 @@ class Constants {
         val TBL_TempNotificationMaster = "TempNotificationMaster"
         val TBL_TempChatNotification = "TempChatNotification"
         val TBL_BuyerData = "BuyerData"
+        val TBL_APMCIntCommodityMaster = "APMCIntCommodityMaster"
     }
 }

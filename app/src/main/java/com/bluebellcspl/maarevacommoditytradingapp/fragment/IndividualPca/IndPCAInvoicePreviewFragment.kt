@@ -46,6 +46,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.model.IndividualInvoiceDetail
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.text.DecimalFormat
+import java.util.regex.Pattern
 import kotlin.math.floor
 
 class IndPCAInvoicePreviewFragment : Fragment() {
@@ -80,6 +81,7 @@ class IndPCAInvoicePreviewFragment : Fragment() {
     private var SELECTED_BUYER_ID = ""
     private var SELECTED_BUYER_NAME = ""
     private var alertDialog: AlertDialog? = null
+    private var isValidRTO = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -285,8 +287,86 @@ class IndPCAInvoicePreviewFragment : Fragment() {
             binding.actBuyerCityIndPCAInvoicePreviewFragment.showDropDown()
         }
 
+        binding.edtVehicleNoIndPCAInvoicePreviewFragment.addTextChangedListener(object :
+            TextWatcher {
+            private var isFormatting: Boolean = false
+            private var beforeLength: Int = 0
+            private var cursorPosition: Int = 0
+            private var deleting: Boolean = false
+
+            override fun afterTextChanged(s: Editable?) {
+                Log.d(TAG, "afterTextChanged: =================================== START")
+                Log.d(TAG, "afterTextChanged: BEFORE_LEN : $beforeLength")
+                Log.d(TAG, "afterTextChanged: CURSOR_POS : $cursorPosition")
+                if (isFormatting || s == null) return
+
+                isFormatting = true
+
+                // Remove all spaces
+                val originalString = s.toString().replace(" ", "")
+                val formattedString = StringBuilder()
+
+                for (i in originalString.indices) {
+                    formattedString.append(originalString[i])
+                    // Add spaces after the respective positions
+                    if (i == 1 || i == 3 || i == 5) {
+                        formattedString.append(" ")
+                    }
+                }
+
+                val newString = formattedString.toString().toUpperCase()
+
+                // Calculate the new cursor position
+                var newCursorPosition = cursorPosition
+                if (deleting && cursorPosition > 0 && newCursorPosition > 0 && newString[cursorPosition - 1] == ' ') {
+                    newCursorPosition--
+                }
+
+                binding.edtVehicleNoIndPCAInvoicePreviewFragment.setText(newString)
+                if (newCursorPosition > newString.length) newCursorPosition = newString.length
+                if (beforeLength == cursorPosition) newCursorPosition = newString.length
+                if (newCursorPosition < 0) newCursorPosition = 0
+                binding.edtVehicleNoIndPCAInvoicePreviewFragment.setSelection(newCursorPosition)
+
+                Log.d(TAG, "afterTextChanged: =================================== END")
+                Log.d(TAG, "afterTextChanged: BEFORE_LEN : $beforeLength")
+                Log.d(TAG, "afterTextChanged: CURSOR_POS : $cursorPosition")
+                Log.d(TAG, "afterTextChanged: NEW_STR : $newString")
+
+                isFormatting = false
+
+                // Validate the formatted RTO number
+                if (isValidRtoNumber(s!!.toString())) {
+                    binding.edtVehicleNoContainerIndPCAInvoicePreviewFragment.boxStrokeColor = requireContext().getColor(R.color.newButtonColor)
+                    isValidRTO = true
+                } else {
+                    binding.edtVehicleNoContainerIndPCAInvoicePreviewFragment.boxStrokeColor = requireContext().getColor(R.color.unReadChatBadge)
+                    isValidRTO = false
+                }
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (isFormatting) return
+
+                beforeLength = s?.length ?: 0
+                cursorPosition = start
+                deleting = count > after
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (isFormatting) return
+
+                cursorPosition = start + count
+            }
+        })
         setOnClickListener()
         return binding.root
+    }
+
+    private fun isValidRtoNumber(rtoNumber: String): Boolean {
+        val rtoPattern = "^[A-Z]{2} [0-9]{2} [A-Z]{2} [0-9]{4}$"
+        return Pattern.compile(rtoPattern).matcher(rtoNumber).matches()
     }
 
     private var buyerNameTextWatcher : TextWatcher = object : TextWatcher {
@@ -353,6 +433,10 @@ class IndPCAInvoicePreviewFragment : Fragment() {
                 }else if (binding.actBuyerNameIndPCAInvoicePreviewFragment.text.toString().isEmpty())
                 {
                     commonUIUtility.showToast(getString(R.string.please_enter_buyer_name_alert_msg))
+                    return@setOnClickListener
+                }
+                else if(binding.edtVehicleNoIndPCAInvoicePreviewFragment.text.toString().isNotEmpty() && !isValidRTO){
+                    commonUIUtility.showToast(getString(R.string.please_enter_valid_rto_number_alert_msg))
                     return@setOnClickListener
                 }
                 else if (binding.edtBuyerAddressIndPCAInvoicePreviewFragment.text.toString().isEmpty())
@@ -433,7 +517,7 @@ class IndPCAInvoicePreviewFragment : Fragment() {
             binding.actBuyerCityIndPCAInvoicePreviewFragment.setText(responseJO.BuyerCityName)
             binding.edtBuyerGSTINIndPCAInvoicePreviewFragment.setText(responseJO.BuyerGSTNo)
             binding.edtBuyerPANIndPCAInvoicePreviewFragment.setText(responseJO.BuyerPanNo)
-            binding.edtTransportVehicleIndPCAInvoicePreviewFragment.setText(args.invoiceFetchDataModel.VehicleNo)
+            binding.edtVehicleNoIndPCAInvoicePreviewFragment.setText(args.invoiceFetchDataModel.VehicleNo)
 
             HSN_CODE = responseJO.HSNASC
             bindAdjustInvoiceBag(_InvoiceStockList)
@@ -1139,7 +1223,7 @@ class IndPCAInvoicePreviewFragment : Fragment() {
                         "",
                         ""+DateUtility().getyyyyMMddDateTime(),
                         ""+invoiceDataFromAPI.PCARegId,
-                        ""+binding.edtTransportVehicleIndPCAInvoicePreviewFragment.text.toString().trim(),
+                        ""+binding.edtVehicleNoIndPCAInvoicePreviewFragment.text.toString().trim(),
 
             )
 

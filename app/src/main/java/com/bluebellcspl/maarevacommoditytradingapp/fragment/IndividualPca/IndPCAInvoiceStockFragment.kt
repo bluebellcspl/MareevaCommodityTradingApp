@@ -197,7 +197,7 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
                     val model = CommodityDetail(
                         cursor.getString(cursor.getColumnIndexOrThrow("CommodityId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("CommodityName")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("GujaratiCommodityName"))
+                        cursor.getString(cursor.getColumnIndexOrThrow("CommodityName"))
                     )
                     localArrayList.add(model)
                 }

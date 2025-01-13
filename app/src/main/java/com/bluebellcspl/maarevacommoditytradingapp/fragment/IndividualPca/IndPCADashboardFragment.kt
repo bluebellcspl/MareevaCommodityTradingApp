@@ -38,6 +38,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.database.Query
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentIndPCADashboardBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragmentDirections
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCIntCommodityAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerPreviousAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndPCAAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndPCAAuctionReport
@@ -76,15 +77,21 @@ class IndPCADashboardFragment : Fragment() {
         }
         Log.d(TAG, "onCreateView: CURRENT_SYS_LANG : ${PrefUtil.getSystemLanguage()}")
         if (PrefUtil.getSystemLanguage()!!.equals("gu")){
-            var gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))
+            var gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))!!
             if (gujCommodityName.equals("invalid")){
                 gujCommodityName = ""
             }
+            PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,gujCommodityName)
             binding.actCommodityIndPCADashboardFragment.setText(gujCommodityName)
         }else{
-
-            binding.actCommodityIndPCADashboardFragment.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,""))
+            var CommodityName = DatabaseManager.ExecuteScalar(Query.getCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))!!
+            PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,CommodityName)
+            if (CommodityName.equals("invalid")){
+                CommodityName = ""
+            }
+            binding.actCommodityIndPCADashboardFragment.setText(CommodityName)
         }
+        FetchAPMCIntCommodityAPI(requireContext(),this@IndPCADashboardFragment)
         binding.tvDateNewIndPCADashboardFragment.setText(DateUtility().getCompletionDate())
         _CommodityList = getCommodityfromDB()
 
@@ -251,7 +258,7 @@ class IndPCADashboardFragment : Fragment() {
                     val model = CommodityDetail(
                         cursor.getString(cursor.getColumnIndexOrThrow("CommodityId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("CommodityName")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("GujaratiCommodityName"))
+                        cursor.getString(cursor.getColumnIndexOrThrow("CommodityName"))
                     )
                     localArrayList.add(model)
                 }
@@ -376,6 +383,21 @@ class IndPCADashboardFragment : Fragment() {
         }
     }
 
+    fun bindCommodityAPMCWise(dataList:ArrayList<CommodityDetail>){
+        _CommodityList = dataList
+        var commodityAdapter :ArrayAdapter<String>
+        if(PrefUtil.getSystemLanguage().equals("gu")){
+            _CommodityNameList = ArrayList(dataList.map { it.CommodityGujName })
+            commodityAdapter = commonUIUtility.getCustomArrayAdapter(_CommodityNameList)
+        }else
+        {
+            _CommodityNameList = ArrayList(dataList.map { it.CommodityName })
+            commodityAdapter = commonUIUtility.getCustomArrayAdapter(_CommodityNameList)
+        }
+
+        binding.actCommodityIndPCADashboardFragment.setAdapter(commodityAdapter)
+    }
+
     override fun onResume() {
         super.onResume()
         languageSwitch = (activity as HomeActivity).binding.toolbarHome.languageSwitch
@@ -390,14 +412,19 @@ class IndPCADashboardFragment : Fragment() {
         }
 
         if (PrefUtil.getSystemLanguage()!!.equals("gu")){
-            var gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))
+            var gujCommodityName = DatabaseManager.ExecuteScalar(Query.getGujaratiCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))!!
             if (gujCommodityName.equals("invalid")){
                 gujCommodityName = ""
             }
+            PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,gujCommodityName)
             binding.actCommodityIndPCADashboardFragment.setText(gujCommodityName)
         }else{
-
-            binding.actCommodityIndPCADashboardFragment.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,""))
+            var CommodityName = DatabaseManager.ExecuteScalar(Query.getCommodityName(PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!))!!
+            PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,CommodityName)
+            if (CommodityName.equals("invalid")){
+                CommodityName = ""
+            }
+            binding.actCommodityIndPCADashboardFragment.setText(CommodityName)
         }
         binding.tvDateNewIndPCADashboardFragment.setText(DateUtility().getCompletionDate())
         _CommodityList = getCommodityfromDB()

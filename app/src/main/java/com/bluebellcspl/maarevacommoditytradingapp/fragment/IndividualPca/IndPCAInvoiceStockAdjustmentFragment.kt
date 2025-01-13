@@ -58,45 +58,61 @@ class IndPCAInvoiceStockAdjustmentFragment : Fragment(),IndPCAInvoiceAdjustmentH
         _InvoiceSeletedList = ArrayList(args.invoiceSeletedList.toList())
         bindRcViewStock(_InvoiceSeletedList!!)
         binding.btnNextIndPCAInvoiceStockAdjustmentFragment.setOnClickListener {
-            _AdjStockList.clear()
-            _InvoiceSeletedList!!.forEach {stock->
-                Log.d("????", "onCreateView: DATE = : ${stock.Date}")
-                Log.d("????", "onCreateView: BAGS = : ${stock.UsedBillBags}")
-                Log.d("????", "onCreateView: AMOUNT = : ${stock.UsedBillAmount}")
-                Log.d("????", "onCreateView: WEIGHT = : ${stock.UsedBillWeight}")
-                Log.d(TAG, "onCreateView: STOCK_ITEM : $stock")
-                Log.d("????", "onCreateView: =======================================================================")
-                val model = IndPCAInvoiceBagAdjustmentModel(
-                            stock.UsedBillAmount,
-                            stock.UsedBillApproxKg,
-                            stock.UsedBillBags,
-                            stock.UsedBillGST,
-                            stock.UsedBillKg,
-                            stock.UsedBillRate,
-                            stock.UsedBillTotalAmount,
-                            stock.UsedBillWeight,
-                            stock.BuyerId,
-                            stock.BuyerName,
-                            stock.CommodityBhartiPrice,
-                            stock.CommodityId,
-                    stock.CommodityName,
-                    DateUtility().getyyyyMMddDateTime(),
-                            stock.CreateUser,
-                    DateUtility().formatToyyyyMMdd(stock.Date),
-                            stock.TotalPct,
-                    "",
-                            stock.InStockId,
-                            ""+stock.InPCAAuctionDetailId,
-                            "",
-                            ""+PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""),
-                    ""+PrefUtil.getString(PrefUtil.KEY_IND_PCA_ID,""),
-                    DateUtility().getyyyyMMddDateTime(),
-                    PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
-                )
-
-                _AdjStockList.add(model)
+            var isBagsZero = false
+            for (model in _InvoiceSeletedList!!)
+            {
+                if (model.UsedBillBags.toDouble()<0 || model.UsedBillBags.toDouble()==0.0)
+                {
+                    isBagsZero = true
+                    break
+                }
             }
-            shopFinalPopup()
+
+            if (!isBagsZero){
+                _AdjStockList.clear()
+                _InvoiceSeletedList!!.forEach {stock->
+                    Log.d("????", "onCreateView: DATE = : ${stock.Date}")
+                    Log.d("????", "onCreateView: BAGS = : ${stock.UsedBillBags}")
+                    Log.d("????", "onCreateView: AMOUNT = : ${stock.UsedBillAmount}")
+                    Log.d("????", "onCreateView: WEIGHT = : ${stock.UsedBillWeight}")
+                    Log.d(TAG, "onCreateView: STOCK_ITEM : $stock")
+                    Log.d("????", "onCreateView: =======================================================================")
+                    val model = IndPCAInvoiceBagAdjustmentModel(
+                        stock.UsedBillAmount,
+                        stock.UsedBillApproxKg,
+                        stock.UsedBillBags,
+                        stock.UsedBillGST,
+                        stock.UsedBillKg,
+                        stock.UsedBillRate,
+                        stock.UsedBillTotalAmount,
+                        stock.UsedBillWeight,
+                        stock.BuyerId,
+                        stock.BuyerName,
+                        stock.CommodityBhartiPrice,
+                        stock.CommodityId,
+                        stock.CommodityName,
+                        DateUtility().getyyyyMMddDateTime(),
+                        stock.CreateUser,
+                        DateUtility().formatToyyyyMMdd(stock.Date),
+                        stock.TotalPct,
+                        "",
+                        stock.InStockId,
+                        ""+stock.InPCAAuctionDetailId,
+                        "",
+                        ""+PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,""),
+                        ""+PrefUtil.getString(PrefUtil.KEY_IND_PCA_ID,""),
+                        DateUtility().getyyyyMMddDateTime(),
+                        PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString(),
+                    )
+
+                    _AdjStockList.add(model)
+                }
+                shopFinalPopup()
+            }else
+            {
+                commonUIUtility.showToast(getString(R.string.please_fill_all_entries))
+            }
+
         }
         return binding.root
     }

@@ -413,7 +413,7 @@
                                 android:layout_height="match_parent"
                                 android:padding="@dimen/_8sdp"
                                 android:selectAllOnFocus="true"
-                                android:inputType="textVisiblePassword"
+                                android:inputType="textPersonName"
                                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_15ssp" />
@@ -476,26 +476,27 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edt_VehicleNoContainer_IndPCAInvoicePreviewFragment"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/_3sdp"
-                            android:hint="Vehicle No."
+                            android:hint="@string/vehicle_no"
                             app:boxCornerRadiusBottomEnd="@dimen/_3sdp"
                             app:boxCornerRadiusBottomStart="@dimen/_3sdp"
                             app:boxCornerRadiusTopEnd="@dimen/_3sdp"
                             app:boxCornerRadiusTopStart="@dimen/_3sdp"
-                            app:boxStrokeColor="@color/colorPrimary"
                             app:endIconMode="clear_text">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_TransportVehicle_IndPCAInvoicePreviewFragment"
+                                android:id="@+id/edt_VehicleNo_IndPCAInvoicePreviewFragment"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:enabled="false"
-                                android:padding="@dimen/_8sdp"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14ssp" />
+                                android:imeOptions="actionDone"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                                android:inputType="textCapCharacters|textVisiblePassword"
+                                android:maxLength="13"
+                                android:padding="@dimen/_8sdp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

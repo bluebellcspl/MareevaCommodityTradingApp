@@ -371,8 +371,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
-                            android:inputType="text"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "
                             android:selectAllOnFocus="true"
+                            android:textColorHighlight="@color/subtotalBG"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -394,6 +395,7 @@
                             android:layout_height="match_parent"
                             android:imeOptions="actionNext"
                             android:selectAllOnFocus="true"
+                            android:textColorHighlight="@color/subtotalBG"
                             android:inputType="text"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp" />

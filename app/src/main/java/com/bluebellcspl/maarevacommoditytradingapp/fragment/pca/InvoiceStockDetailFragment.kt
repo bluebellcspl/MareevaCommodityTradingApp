@@ -66,7 +66,7 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
                     shopFinalPopup()
                 }else
                 {
-                    commonUIUtility.showToast("Please Fill All Entries!")
+                    commonUIUtility.showToast(getString(R.string.please_fill_all_entries))
                 }
             }
         }catch (e:Exception)

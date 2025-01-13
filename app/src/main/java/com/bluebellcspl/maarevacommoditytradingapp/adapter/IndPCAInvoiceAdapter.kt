@@ -8,7 +8,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.RecyclerView
+import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.IndPcaInvoiceRowAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.IndPcaInvoiceTransactionAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.model.APIIndividualInvoiceShopwise
@@ -71,7 +74,7 @@ class IndPCAInvoiceAdapter(
             var commodityBhartiPrice = 0.0
             var weight = 0.0
             for (entry in dataList[parentPosition].ShopEntries) {
-                bags += entry.Bags.toDouble()
+                bags += entry.BillBags.toDouble()
                 amount += entry.Amount.toDouble()
                 weight+= entry.BillWeight.toDouble()
                 commodityBhartiPrice = entry.CommodityBhartiPrice.toDouble()
@@ -83,6 +86,7 @@ class IndPCAInvoiceAdapter(
             dataList[parentPosition].Amount = formatDecimal(amount)
             dataList[parentPosition].PurchasedBag = formatDecimal(bags)
 
+            Log.d("???", "updateTotalData: ${dataList[parentPosition]}")
             binding.tvBagIndPCAInvoiceAdapter.text =
                 numberFormat(dataList[parentPosition].PurchasedBag.toDouble())
             binding.tvPriceIndPCAInvoiceAdapter.text =
@@ -123,6 +127,7 @@ class IndPCAShopRowAdapter(
 
     private val TAG = "IndPCAShopRowAdapter"
     private val WEIGHT_DIVISOR = 20.0
+    private val commonUIUtility = CommonUIUtility(context)
 
     inner class MyViewHolder(var binding: IndPcaInvoiceRowAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -130,16 +135,16 @@ class IndPCAShopRowAdapter(
             // Set up TextWatchers
             binding.edtWeightIndPCAInvoiceRowAdapter.addTextChangedListener(createWeightTextWatcher { model ->
                 model.Weight = binding.edtWeightIndPCAInvoiceRowAdapter.text.toString()
-                calculateWeightNAmount(model)
+                calculateWeight(model)
             })
 
             binding.edtAmountIndPCAInvoiceRowAdapter.addTextChangedListener(createAmountTextWatcher { model ->
                 model.Amount = binding.edtAmountIndPCAInvoiceRowAdapter.text.toString()
-                calculateWeightNAmount(model)
+                calculateAmount(model)
             })
         }
 
-        private fun createAmountTextWatcher(onTextChanged: (IndPCAShopEntries) -> Unit): TextWatcher {
+        private fun createAmountTextWatcher(onAfterTextWatcher: (IndPCAShopEntries) -> Unit): TextWatcher {
             return object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -152,12 +157,6 @@ class IndPCAShopRowAdapter(
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
                     val model = dataList[adapterPosition]
-//                    if (s.isNullOrEmpty()) {
-//                        binding.edtAmountIndPCAInvoiceRowAdapter.setText("0")
-//                        binding.edtWeightIndPCAInvoiceRowAdapter.setText("0")
-//                    } else if (s.toString().startsWith("0") && s.length > 1) {
-//                        binding.edtAmountIndPCAInvoiceRowAdapter.setText(s.toString().substring(1))
-//                    }
 
                     if (binding.edtAmountIndPCAInvoiceRowAdapter.text.toString().isEmpty()) {
                         binding.edtAmountIndPCAInvoiceRowAdapter.setText("0")
@@ -171,12 +170,12 @@ class IndPCAShopRowAdapter(
                         binding.edtAmountIndPCAInvoiceRowAdapter.setText(subStr)
                         binding.edtAmountIndPCAInvoiceRowAdapter.setSelection(1)
                     }
-                    onTextChanged(model)
+                    onAfterTextWatcher(model)
                 }
             }
         }
 
-        private fun createWeightTextWatcher(onTextChanged: (IndPCAShopEntries) -> Unit): TextWatcher {
+        private fun createWeightTextWatcher(onAfterTextWatcher: (IndPCAShopEntries) -> Unit): TextWatcher {
             return object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -189,12 +188,6 @@ class IndPCAShopRowAdapter(
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
                     val model = dataList[adapterPosition]
-//                    if (s.isNullOrEmpty()) {
-//                        binding.edtAmountIndPCAInvoiceRowAdapter.setText("0")
-//                        binding.edtWeightIndPCAInvoiceRowAdapter.setText("0")
-//                    } else if (s.toString().startsWith("0") && s.length > 1) {
-//                        binding.edtAmountIndPCAInvoiceRowAdapter.setText(s.toString().substring(1))
-//                    }
 
                     if (binding.edtWeightIndPCAInvoiceRowAdapter.text.toString().isEmpty()) {
                         binding.edtWeightIndPCAInvoiceRowAdapter.setText("0")
@@ -208,12 +201,89 @@ class IndPCAShopRowAdapter(
                         binding.edtWeightIndPCAInvoiceRowAdapter.setText(subStr)
                         binding.edtWeightIndPCAInvoiceRowAdapter.setSelection(1)
                     }
-                    onTextChanged(model)
+                    onAfterTextWatcher(model)
                 }
             }
         }
 
-        fun calculateWeightNAmount(model: IndPCAShopEntries) {
+        fun calculateWeight(model: IndPCAShopEntries) {
+            try {
+                val currentWeight = binding.edtWeightIndPCAInvoiceRowAdapter.text.toString().toDouble()
+
+                val currentAmount = if (binding.edtAmountIndPCAInvoiceRowAdapter.text.toString().isEmpty()){
+                    model.Amount.toDouble()
+                }else
+                {
+                    binding.edtAmountIndPCAInvoiceRowAdapter.text.toString().toDouble()
+                }
+
+
+//                    val currentWeight = weightText.toDoubleOrNull() ?: 0.0
+//                    val currentAmount = amountText.toDoubleOrNull() ?: 0.0
+
+                if (currentWeight > 0.0) {
+                    var currentRate = 0.0
+
+                    if (currentAmount.equals(model.Amount.toDouble())){
+                        currentRate = model.CurrentPrice.toDouble()
+                    }else{
+                        currentRate = formatDecimal(currentAmount / (currentWeight / WEIGHT_DIVISOR)).toDouble()
+                    }
+                    val bagsAfterWeightCalc =
+                        formatDecimal(currentWeight / model.CommodityBhartiPrice.toDouble())
+                    val calculatedAmount =
+                        formatDecimal((currentWeight / WEIGHT_DIVISOR) * currentRate)
+                    val currGST =
+                        formatDecimal(calculatedAmount.toDouble() * (model.TotalPct.toDouble() / 100.0))
+                    val currTOTAmount =
+                        formatDecimal(currGST.toDouble() + calculatedAmount.toDouble())
+
+                    var totalInvoiceApproxKG = formatDecimal(currentWeight / model.CommodityBhartiPrice.toDouble())
+                    var totalInvoiceKG =formatDecimal(currentWeight % model.CommodityBhartiPrice.toDouble())
+
+                    // Update model values
+                    model.BillWeight = DecimalFormat("0.00").format(currentWeight)
+                    model.BillAmount = DecimalFormat("0.00").format(currentAmount)
+                    model.BillRate = currentRate.toString()
+                    model.BillBags = bagsAfterWeightCalc
+                    model.BillTotalAmount = currTOTAmount
+                    model.BillGST = currGST
+                    model.BillApproxKg = totalInvoiceApproxKG
+                    model.BillKg = totalInvoiceKG
+
+                    Log.d(TAG,"calculateWeightNAmount: ========================================")
+                    Log.d(TAG, "calculateWeight: BILL_BAGS : ${model.BillBags}")
+                    Log.d(TAG, "calculateWeight: BILL_AMOUNT : ${model.BillAmount}")
+                    Log.d(TAG, "calculateWeight: BILL_RATE : ${model.BillRate}")
+                    Log.d(TAG, "calculateWeight: BILL_WEIGHT : ${model.BillWeight}")
+                    Log.d(TAG,"calculateWeight: BILL_TOTAL_AMOUNT : ${model.BillTotalAmount}")
+                    Log.d(TAG, "calculateWeight: BILL_GST : ${model.BillGST}")
+                    Log.d(TAG,"calculateWeight: BILL_APPROX_KG : ${model.BillApproxKg}")
+
+                    binding.tvRateIndPCAInvoiceRowAdapter.text =
+                        numberFormat(currentRate)
+                    binding.tvGSTIndPCAInvoiceRowAdapter.text = numberFormat(currGST.toDouble())
+                    binding.tvTotAmountIndPCAInvoiceRowAdapter.text =
+                        numberFormat(currTOTAmount.toDouble())
+
+                    binding.tvBagsIndPCAInvoiceRowAdapter.text = model.BillBags
+
+                } else {
+                    model.BillWeight = "0"
+                    model.BillBags = "0"
+                    model.BillApproxKg = "0"
+                    model.BillKg = "0"
+                    resetWeightCalculatedFields()
+                }
+                    model.isWeightBlank = false
+                    onChildCalculationEdit.onChildCalculationEdited(parentPosition,adapterPosition,dataList)
+                Log.d(TAG, "calculateWeightNAmount: onChildCalculationEdit : CALLED")
+
+            } catch (e: NumberFormatException) {
+                Log.e(TAG, "calculateWeightNAmount: ${e.message}")
+            }
+        }
+        fun calculateAmount(model: IndPCAShopEntries) {
             try {
                 val currentWeight = binding.edtWeightIndPCAInvoiceRowAdapter.text.toString().toDouble()
                 val currentAmount = binding.edtAmountIndPCAInvoiceRowAdapter.text.toString().toDouble()
@@ -262,11 +332,17 @@ class IndPCAShopRowAdapter(
                     binding.tvTotAmountIndPCAInvoiceRowAdapter.text =
                         numberFormat(currTOTAmount.toDouble())
 
+                    binding.tvBagsIndPCAInvoiceRowAdapter.text = model.BillBags
+
                 } else {
+                    model.BillAmount = "0"
+                    model.BillRate = "0"
+                    model.BillTotalAmount = "0"
+                    model.BillGST = "0"
                     resetCalculatedFields()
                 }
-
-                    onChildCalculationEdit.onChildCalculationEdited(parentPosition,adapterPosition,dataList)
+                model.isAmountBlank = false
+                onChildCalculationEdit.onChildCalculationEdited(parentPosition,adapterPosition,dataList)
                 Log.d(TAG, "calculateWeightNAmount: onChildCalculationEdit : CALLED")
 
             } catch (e: NumberFormatException) {
@@ -278,6 +354,10 @@ class IndPCAShopRowAdapter(
             binding.tvRateIndPCAInvoiceRowAdapter.text = "0"
             binding.tvGSTIndPCAInvoiceRowAdapter.text = "0"
             binding.tvTotAmountIndPCAInvoiceRowAdapter.text = "0"
+            binding.tvBagsIndPCAInvoiceRowAdapter.text = "0"
+        }
+        private fun resetWeightCalculatedFields() {
+            binding.tvBagsIndPCAInvoiceRowAdapter.text = "0"
         }
 
         private fun formatDecimal(value: Double): String {
@@ -305,24 +385,69 @@ class IndPCAShopRowAdapter(
         holder.binding.tvBagsIndPCAInvoiceRowAdapter.text = model.Bags
         holder.binding.tvRateIndPCAInvoiceRowAdapter.text =
             numberFormat(model.CurrentPrice.toDouble())
-        holder.binding.edtAmountIndPCAInvoiceRowAdapter.setText(model.Amount)
-        holder.binding.edtWeightIndPCAInvoiceRowAdapter.setText(model.Weight)
+        holder.binding.edtAmountIndPCAInvoiceRowAdapter.setHint(model.Amount)
+        holder.binding.edtWeightIndPCAInvoiceRowAdapter.setHint(model.Weight)
         holder.binding.tvHAmountIndPCAInvoiceRowAdapter.setText(model.Amount)
         holder.binding.tvHWeightIndPCAInvoiceRowAdapter.setText(model.Weight)
 
+        model.isAmountBlank = true
+        model.isWeightBlank = true
+
         holder.binding.edtWeightIndPCAInvoiceRowAdapter.setOnFocusChangeListener { view, hasFocus ->
             if (!hasFocus){
-                if(holder.binding.edtWeightIndPCAInvoiceRowAdapter.text.toString().toDouble()==0.0){
-                    holder.binding.edtWeightIndPCAInvoiceRowAdapter.setText(formatDecimal(holder.binding.tvHWeightIndPCAInvoiceRowAdapter.text.toString().toDouble()))
+                val edtText = holder.binding.edtWeightIndPCAInvoiceRowAdapter.text.toString()
+
+                // Check if the EditText is empty
+                if (edtText.isEmpty()) {
+                    // Request focus back if it's empty
+                    commonUIUtility.showToast(context.getString(R.string.weight_cannot_be_empty_alert_msg))
+                    holder.binding.edtWeightIndPCAInvoiceRowAdapter.requestFocus()
                 }
+                // Check if the value is 0.0
+                else if (edtText.toDouble() == 0.0) {
+                    val formattedAmount = formatDecimal(holder.binding.tvHWeightIndPCAInvoiceRowAdapter.text.toString().toDouble())
+                    holder.binding.edtWeightIndPCAInvoiceRowAdapter.setText(formattedAmount)
+                }else if (edtText.endsWith(".")) {
+                    holder.binding.edtWeightIndPCAInvoiceRowAdapter.append("0")
+                }
+            }else{
+                holder.binding.edtAmountIndPCAInvoiceRowAdapter.clearFocus()
             }
         }
 
         holder.binding.edtAmountIndPCAInvoiceRowAdapter.setOnFocusChangeListener { view, hasFocus ->
-            if (!hasFocus){
-                if(holder.binding.edtAmountIndPCAInvoiceRowAdapter.text.toString().toDouble()==0.0){
-                    holder.binding.edtAmountIndPCAInvoiceRowAdapter.setText(formatDecimal(holder.binding.tvHAmountIndPCAInvoiceRowAdapter.text.toString().toDouble()))
+            if (!hasFocus) {
+                val edtText = holder.binding.edtAmountIndPCAInvoiceRowAdapter.text.toString()
+
+                // Check if the EditText is empty
+                if (edtText.isEmpty()) {
+                    // Request focus back if it's empty
+                    commonUIUtility.showToast(context.getString(R.string.amount_cannot_be_empty_alert_msg))
+                    holder.binding.edtAmountIndPCAInvoiceRowAdapter.requestFocus()
                 }
+                // Check if the value is 0.0
+                else if (edtText.toDouble() == 0.0) {
+                    val formattedAmount = formatDecimal(holder.binding.tvHAmountIndPCAInvoiceRowAdapter.text.toString().toDouble())
+                    holder.binding.edtAmountIndPCAInvoiceRowAdapter.setText(formattedAmount)
+                }else if (edtText.endsWith(".")) {
+                    holder.binding.edtAmountIndPCAInvoiceRowAdapter.append("0")
+                }
+            }else{
+                holder.binding.edtWeightIndPCAInvoiceRowAdapter.clearFocus()
+            }
+        }
+
+        holder.binding.edtWeightIndPCAInvoiceRowAdapter.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                if (holder.binding.edtWeightIndPCAInvoiceRowAdapter.text.toString().isEmpty()) {
+                    commonUIUtility.showToast(context.getString(R.string.weight_cannot_be_empty_alert_msg))
+                    holder.binding.edtWeightIndPCAInvoiceRowAdapter.requestFocus()
+                    true
+                } else {
+                    false // Move to the next field
+                }
+            } else {
+                false
             }
         }
 

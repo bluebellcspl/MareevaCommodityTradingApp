@@ -42,7 +42,9 @@ data class IndPCAShopEntries(
     var UpdateStatus: String,
     var UpdateUser: String,
     var Weight: String,
-    var isExpandable:Boolean = false
+    var isExpandable:Boolean = false,
+    var isWeightBlank:Boolean = true,
+    var isAmountBlank:Boolean = true
 ):Parcelable{
     fun getExpandable ():Boolean{
         return isExpandable

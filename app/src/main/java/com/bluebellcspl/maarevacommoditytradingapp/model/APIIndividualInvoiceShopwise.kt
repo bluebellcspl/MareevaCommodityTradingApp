@@ -14,6 +14,7 @@ data class APIIndividualInvoiceShopwise(
     var ShopEntries: ArrayList<IndPCAShopEntries>,
     var ShopId: String,
     var ShopNoName: String,
+    var GujShopNoName: String,
     var ShopName: String,
     var ShopNo: String,
     var ShopShortName: String,

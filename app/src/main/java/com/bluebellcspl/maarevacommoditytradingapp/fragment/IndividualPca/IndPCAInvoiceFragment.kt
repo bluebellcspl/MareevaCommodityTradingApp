@@ -28,7 +28,6 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentIndPCAInvoiceBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCADashboardFragment.CommodityDetail
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndPCAInvoiceDataAPI
-import com.bluebellcspl.maarevacommoditytradingapp.master.FetchInvoiceDataAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.POSTIndPCAStockInsertAPI
 import com.bluebellcspl.maarevacommoditytradingapp.model.APIIndividualInvoiceShopwise
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceDataModel
@@ -81,8 +80,8 @@ class IndPCAInvoiceFragment : Fragment() {
             Log.d(TAG, "onCreateView: SELECTED_COMMODITY_NAME : ${commodityModel.CommodityName}")
             Log.d(TAG, "onCreateView: SELECTED_COMMODITY_ID : ${commodityModel.CommodityId}")
 
-            PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,commodityModel.CommodityName)
-            PrefUtil.setString(PrefUtil.KEY_COMMODITY_ID,commodityModel.CommodityId)
+//            PrefUtil.setString(PrefUtil.KEY_COMMODITY_NAME,commodityModel.CommodityName)
+//            PrefUtil.setString(PrefUtil.KEY_COMMODITY_ID,commodityModel.CommodityId)
 
             Log.d(TAG, "onCreateView: SAVED_COMMODITY_NAME : ${PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,"")}")
             Log.d(TAG, "onCreateView: SAVED_COMMODITY_ID : ${PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")}")
@@ -159,7 +158,54 @@ class IndPCAInvoiceFragment : Fragment() {
             }
 
             binding.btnSaveIndPCAInvoiceFragment.setOnClickListener {
-                insertIndPCAInvoiceData(selectedShopList)
+                var isWeightZero = false
+                var isAmountZero = false
+                var isAmountBlank = false
+                var isWeightBlank = false
+                for (model in selectedShopList!!)
+                {
+                    for (shop in model.ShopEntries)
+                    {
+                        if (shop.isWeightBlank)
+                        {
+                            isWeightBlank = true
+                            break
+                        }
+                        if (shop.isAmountBlank)
+                        {
+                            isAmountBlank = true
+                            break
+                        }
+                        if (shop.BillWeight.toDouble()<0 || shop.BillWeight.toDouble()==0.0)
+                        {
+                            isWeightZero = true
+                            break
+                        }
+                        if (shop.BillAmount.toDouble()<0 || shop.BillAmount.toDouble()==0.0)
+                        {
+                            isAmountZero = true
+                            break
+                        }
+                    }
+
+                }
+                if (isWeightBlank){
+                    commonUIUtility.showToast(getString(R.string.please_enter_weight_alert_msg))
+                    return@setOnClickListener
+                }else if (isAmountBlank) {
+                    commonUIUtility.showToast(getString(R.string.please_enter_amount_alert_msg))
+                    return@setOnClickListener
+                }
+                else if (isWeightZero){
+                    commonUIUtility.showToast(getString(R.string.please_enter_weight_alert_msg))
+                    return@setOnClickListener
+                }else if (isAmountZero){
+                    commonUIUtility.showToast(getString(R.string.please_enter_amount_alert_msg))
+                    return@setOnClickListener
+                }else{
+                    Log.d(TAG, "setOnClickListeners: PROCEED_FOR_INSERT")
+                    insertIndPCAInvoiceData(selectedShopList)
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -215,9 +261,9 @@ class IndPCAInvoiceFragment : Fragment() {
                     TAG,
                     "bindFilterForRecyclerview: DATA_HAS_SHOP : ${i.ShopNo}-${i.ShopShortName}"
                 )
-                val customShopName = i.ShopNoName
+                val customShopName = i.GujShopNoName
                 if (!shopNameAdapterList.contains(customShopName)) {
-                    shopNameAdapterList.add(i.ShopNoName)
+                    shopNameAdapterList.add(i.GujShopNoName)
                 }
             }
             val sortedShopNameList = commonUIUtility.sortAlphanumericList(shopNameAdapterList)
@@ -228,9 +274,12 @@ class IndPCAInvoiceFragment : Fragment() {
             binding.actShopIndPCAInvoiceFragment.setOnItemClickListener { parent, _, position, _ ->
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 if (selectedItem.equals("ALL")) {
-                    for (i in 0 until shopNameAdapterList.size) {
-                        addChip(parent.getItemAtPosition(i).toString())
-                        selectedChipList.add(parent.getItemAtPosition(i).toString())
+                    // Start from 1 to skip "ALL" itself
+                    for (i in 1 until sortedShopNameList.size) {
+                        val shopName = sortedShopNameList[i]
+                        addChip(shopName)
+                        selectedChipList.add(shopName)
+                        Log.d(TAG, "bindFilterForRecyclerview: SHOP_NAME N INDEX : $shopName - $i")
                     }
                     binding.actShopIndPCAInvoiceFragment.setText("")
                 } else {
@@ -315,8 +364,8 @@ class IndPCAInvoiceFragment : Fragment() {
         if (!chipNameExists) {
             binding.ChipGroupIndPCAInvoiceFragment.addView(chip)
         } else {
-            commonUIUtility.showToast("Shop Already Selected!")
             if (!isShopAdded){
+                commonUIUtility.showToast("Shop Already Selected!")
                 isShopAdded = true
             }
         }
@@ -526,7 +575,7 @@ class IndPCAInvoiceFragment : Fragment() {
                     val chip = currentChip as Chip
                     val shopName = chip.text.toString()
                     for (shopModel in shopWiseList) {
-                        if (shopModel.ShopNoName.equals(shopName)) {
+                        if (shopModel.GujShopNoName.equals(shopName)) {
                             selectedShopList.add(shopModel)
                             selectedChipList.add(chip.text.toString())
                         }

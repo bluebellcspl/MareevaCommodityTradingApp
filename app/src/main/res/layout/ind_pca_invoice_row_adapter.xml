@@ -13,10 +13,10 @@
         android:layout_margin="@dimen/_2sdp">
 
         <LinearLayout
-            android:background="@color/floralWhite"
-            android:layout_toStartOf="@id/mChb_IndPCAInvoiceRowAdapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/mChb_IndPCAInvoiceRowAdapter"
+            android:background="@color/floralWhite"
             android:orientation="vertical">
 
             <TextView
@@ -33,8 +33,8 @@
                 android:layout_height="wrap_content"
                 android:divider="@color/black"
                 android:dividerPadding="@dimen/_2sdp"
-                android:orientation="horizontal"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:padding="3dp"
                 android:showDividers="none">
 
@@ -49,34 +49,35 @@
                     android:textSize="@dimen/_13ssp" />
 
                 <EditText
-                    android:theme="@style/Widget.AppCompat.EditText"
                     android:id="@+id/edt_Weight_IndPCAInvoiceRowAdapter"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.70"
                     android:layout_margin="2dp"
+                    android:layout_weight="0.70"
                     android:background="@drawable/outline_bg"
-                    android:textCursorDrawable="@drawable/custom_cursor"
                     android:fontFamily="@font/poppins"
-                    android:inputType="numberDecimal"
                     android:hint="@string/weight"
-                    android:selectAllOnFocus="true"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:nextFocusDown="@id/edt_Amount_IndPCAInvoiceRowAdapter"
                     android:padding="@dimen/_3sdp"
+                    android:selectAllOnFocus="true"
                     android:textAlignment="center"
                     android:textColor="@color/black"
+                    android:textColorHighlight="@color/subtotalBG"
+                    android:textCursorDrawable="@drawable/custom_cursor"
                     android:textSize="@dimen/_14ssp"
-                    android:imeOptions="actionNext"
                     android:textStyle="bold"
-                    android:nextFocusDown="@id/edt_Amount_IndPCAInvoiceRowAdapter" />
+                    android:theme="@style/Widget.AppCompat.EditText" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:dividerPadding="@dimen/_2sdp"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:padding="3dp"
                 android:showDividers="none">
 
@@ -91,21 +92,23 @@
                     android:textSize="@dimen/_13ssp" />
 
                 <EditText
+                    android:theme="@style/Widget.AppCompat.EditText"
                     android:id="@+id/edt_Amount_IndPCAInvoiceRowAdapter"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
                     android:layout_weight="0.70"
                     android:background="@drawable/outline_bg"
-                    android:textCursorDrawable="@drawable/custom_cursor"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/amount"
-                    android:selectAllOnFocus="true"
-                    android:imeOptions="actionDone"
                     android:fontFamily="@font/poppins"
+                    android:hint="@string/amount"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
                     android:padding="@dimen/_3sdp"
+                    android:selectAllOnFocus="true"
                     android:textAlignment="center"
                     android:textColor="@color/black"
+                    android:textColorHighlight="@color/subtotalBG"
+                    android:textCursorDrawable="@drawable/custom_cursor"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold" />
 
@@ -114,12 +117,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:dividerPadding="@dimen/_2sdp"
                 android:divider="@color/black"
+                android:dividerPadding="@dimen/_2sdp"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:padding="3dp"
                 android:showDividers="middle">
+
                 <TextView
                     android:id="@+id/tvGST_IndPCAInvoiceRowAdapter"
                     android:layout_width="0dp"
@@ -141,16 +145,18 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp" />
             </LinearLayout>
+
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:dividerPadding="@dimen/_2sdp"
                 android:divider="@color/black"
+                android:dividerPadding="@dimen/_2sdp"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:padding="3dp"
-                android:showDividers="middle">
+                android:showDividers="middle"
+                android:visibility="gone">
+
                 <TextView
                     android:id="@+id/tvHWeight_IndPCAInvoiceRowAdapter"
                     android:layout_width="0dp"
@@ -174,12 +180,12 @@
         </LinearLayout>
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:visibility="gone"
-            android:layout_centerVertical="true"
-            android:buttonTint="@color/colorPrimary"
             android:id="@+id/mChb_IndPCAInvoiceRowAdapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:buttonTint="@color/colorPrimary"
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>

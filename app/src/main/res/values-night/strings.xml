@@ -268,4 +268,9 @@
     <string name="please_select_date_alert_msg">Please Select Date!</string>
     <string name="please_select_proper_commodity_alert_msg">Please Select Proper Commodity!</string>
     <string name="inserted_successfully_alert_msg">Inserted Successfully!</string>
+    <string name="please_fill_all_entries">Please Fill All Entries!</string>
+    <string name="please_enter_weight_alert_msg">Please Enter Weight</string>
+    <string name="please_enter_amount_alert_msg">Please Enter Amount</string>
+    <string name="weight_cannot_be_empty_alert_msg">Weight cannot be empty</string>
+    <string name="amount_cannot_be_empty_alert_msg">Amount cannot be empty</string>
 </resources>

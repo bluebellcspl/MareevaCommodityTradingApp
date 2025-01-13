@@ -1,5 +1,6 @@
 package com.bluebellcspl.maarevacommoditytradingapp.retrofitApi
 
+import com.bluebellcspl.maarevacommoditytradingapp.model.APMCIntCommodityModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.APMCMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerAuctionMasterModel
 import com.bluebellcspl.maarevacommoditytradingapp.model.BuyerMasterModel
@@ -308,4 +309,9 @@ interface OurRetrofit {
   suspend fun postIndPCAInvoiceInsert(
     @Body body: JsonObject,
   ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/InteCommodityMasterGet")
+  suspend fun getAMPCIntCommodity(
+    @Body body: JsonObject,
+  ):Response<APMCIntCommodityModel>
 }

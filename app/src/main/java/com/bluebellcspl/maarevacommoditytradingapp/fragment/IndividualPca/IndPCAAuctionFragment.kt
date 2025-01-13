@@ -284,6 +284,9 @@ class IndPCAAuctionFragment : Fragment() {
                     Log.d(TAG, "afterTextChanged: SELECTED_BUYER_ID : $SELECTED_BUYER_ID")
                     Log.d(TAG, "afterTextChanged: SELECTED_BUYER_NAME : $SELECTED_BUYER_NAME")
                     isWritten=true
+                }else{
+                    SELECTED_BUYER_ID = "0"
+                    SELECTED_BUYER_NAME = "Self"
                 }
             }
         })
@@ -563,7 +566,7 @@ class IndPCAAuctionFragment : Fragment() {
                     val model = CommodityDetail(
                         cursor.getString(cursor.getColumnIndexOrThrow("CommodityId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("CommodityName")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("GujaratiCommodityName"))
+                        cursor.getString(cursor.getColumnIndexOrThrow("CommodityName"))
                     )
                     localArrayList.add(model)
                 }
