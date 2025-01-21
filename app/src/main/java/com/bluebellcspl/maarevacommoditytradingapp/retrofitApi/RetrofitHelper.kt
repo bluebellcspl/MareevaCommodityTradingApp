@@ -1,6 +1,7 @@
 package com.bluebellcspl.maarevacommoditytradingapp.retrofitApi
 
 import com.google.gson.GsonBuilder
+import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -24,6 +25,7 @@ object RetrofitHelper {
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .connectionPool(ConnectionPool(5, 5, TimeUnit.MINUTES))
             .connectTimeout(2, TimeUnit.MINUTES)
             .readTimeout(2, TimeUnit.MINUTES)
             .writeTimeout(2, TimeUnit.MINUTES)

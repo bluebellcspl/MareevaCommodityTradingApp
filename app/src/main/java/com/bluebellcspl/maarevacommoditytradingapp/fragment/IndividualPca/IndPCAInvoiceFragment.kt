@@ -113,7 +113,7 @@ class IndPCAInvoiceFragment : Fragment() {
 //                    val shortShopName = shopName.split("-")[1]
                     for (shopModel in shopWiseList) {
 //                        if (shopModel.ShopShortName.equals(shortShopName)) {
-                        if (shopModel.ShopNoName.equals(shopName) && shopModel.CommodityId.equals(COMMODITY_ID)) {
+                        if (shopModel.GujShopNoName.equals(shopName) && shopModel.CommodityId.equals(COMMODITY_ID)) {
                             if (!selectedShopList.contains(shopModel))
                             {
                                 selectedShopList.add(shopModel)

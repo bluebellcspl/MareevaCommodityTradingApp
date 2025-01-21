@@ -128,13 +128,13 @@ class IndPCAStockAdjustmentAdapter(var context: Context, var dataList: ArrayList
                     holder.binding.edtBagsInvoiceStockAdapter.setSelection(holder.binding.edtBagsInvoiceStockAdapter.text.toString().length)
                     Log.d(TAG, "afterTextChanged: REMOVE_ZERO_CONDITION")
                 }
-//                else if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().endsWith(".")) {
+                else if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().endsWith(".")) {
 //                    val stringBuilder =
 //                        StringBuilder(holder.binding.edtBagsInvoiceStockAdapter.text.toString())
 //                    stringBuilder.append("50")
 //                    holder.binding.edtBagsInvoiceStockAdapter.setText(stringBuilder.toString())
 //                    holder.binding.edtBagsInvoiceStockAdapter.setSelection(stringBuilder.length)
-//                }
+                }
                 else if (holder.binding.edtBagsInvoiceStockAdapter.text.toString()
                         .toDouble() > model.AvailableBags.toDouble()
                 ) {
@@ -190,6 +190,8 @@ class IndPCAStockAdjustmentAdapter(var context: Context, var dataList: ArrayList
             if (!hasFocus){
                 if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().toDouble()==0.0){
                     holder.binding.edtBagsInvoiceStockAdapter.setText(model.AvailableBags)
+                } else if (holder.binding.edtBagsInvoiceStockAdapter.text.toString().endsWith(".")) {
+                    holder.binding.edtBagsInvoiceStockAdapter.append("0")
                 }
             }
         }

@@ -217,10 +217,6 @@ class IndPCAShopRowAdapter(
                     binding.edtAmountIndPCAInvoiceRowAdapter.text.toString().toDouble()
                 }
 
-
-//                    val currentWeight = weightText.toDoubleOrNull() ?: 0.0
-//                    val currentAmount = amountText.toDoubleOrNull() ?: 0.0
-
                 if (currentWeight > 0.0) {
                     var currentRate = 0.0
 
@@ -288,10 +284,6 @@ class IndPCAShopRowAdapter(
                 val currentWeight = binding.edtWeightIndPCAInvoiceRowAdapter.text.toString().toDouble()
                 val currentAmount = binding.edtAmountIndPCAInvoiceRowAdapter.text.toString().toDouble()
 
-
-//                    val currentWeight = weightText.toDoubleOrNull() ?: 0.0
-//                    val currentAmount = amountText.toDoubleOrNull() ?: 0.0
-
                 if (currentWeight > 0.0 && currentAmount > 0.0) {
                     val currentRate =
                         formatDecimal(currentAmount / (currentWeight / WEIGHT_DIVISOR))
@@ -354,7 +346,6 @@ class IndPCAShopRowAdapter(
             binding.tvRateIndPCAInvoiceRowAdapter.text = "0"
             binding.tvGSTIndPCAInvoiceRowAdapter.text = "0"
             binding.tvTotAmountIndPCAInvoiceRowAdapter.text = "0"
-            binding.tvBagsIndPCAInvoiceRowAdapter.text = "0"
         }
         private fun resetWeightCalculatedFields() {
             binding.tvBagsIndPCAInvoiceRowAdapter.text = "0"
@@ -401,7 +392,8 @@ class IndPCAShopRowAdapter(
                 if (edtText.isEmpty()) {
                     // Request focus back if it's empty
                     commonUIUtility.showToast(context.getString(R.string.weight_cannot_be_empty_alert_msg))
-                    holder.binding.edtWeightIndPCAInvoiceRowAdapter.requestFocus()
+                    val formattedAmount = formatDecimal(holder.binding.tvHWeightIndPCAInvoiceRowAdapter.text.toString().toDouble())
+                    holder.binding.edtWeightIndPCAInvoiceRowAdapter.setText(formattedAmount)
                 }
                 // Check if the value is 0.0
                 else if (edtText.toDouble() == 0.0) {
@@ -410,8 +402,6 @@ class IndPCAShopRowAdapter(
                 }else if (edtText.endsWith(".")) {
                     holder.binding.edtWeightIndPCAInvoiceRowAdapter.append("0")
                 }
-            }else{
-                holder.binding.edtAmountIndPCAInvoiceRowAdapter.clearFocus()
             }
         }
 
@@ -423,7 +413,8 @@ class IndPCAShopRowAdapter(
                 if (edtText.isEmpty()) {
                     // Request focus back if it's empty
                     commonUIUtility.showToast(context.getString(R.string.amount_cannot_be_empty_alert_msg))
-                    holder.binding.edtAmountIndPCAInvoiceRowAdapter.requestFocus()
+                    val formattedAmount = formatDecimal(holder.binding.tvHAmountIndPCAInvoiceRowAdapter.text.toString().toDouble())
+                    holder.binding.edtAmountIndPCAInvoiceRowAdapter.setText(formattedAmount)
                 }
                 // Check if the value is 0.0
                 else if (edtText.toDouble() == 0.0) {
@@ -432,8 +423,6 @@ class IndPCAShopRowAdapter(
                 }else if (edtText.endsWith(".")) {
                     holder.binding.edtAmountIndPCAInvoiceRowAdapter.append("0")
                 }
-            }else{
-                holder.binding.edtWeightIndPCAInvoiceRowAdapter.clearFocus()
             }
         }
 

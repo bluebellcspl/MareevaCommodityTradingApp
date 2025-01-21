@@ -243,7 +243,9 @@ class IndPCAInvoiceStockFragment : Fragment(),IndPCAInvoiceStockAdapterListener 
             }
             binding.actCommodityIndPCAInvoiceStockFragment.setText(gujCommodityName)
         }else{
-
+            if (PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,"").equals("invalid")){
+                binding.actCommodityIndPCAInvoiceStockFragment.setText("")
+            }else
             binding.actCommodityIndPCAInvoiceStockFragment.setText(PrefUtil.getString(PrefUtil.KEY_COMMODITY_NAME,""))
         }
         callAPI()

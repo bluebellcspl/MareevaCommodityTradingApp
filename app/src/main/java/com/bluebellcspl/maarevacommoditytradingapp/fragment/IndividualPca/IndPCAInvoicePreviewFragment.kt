@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.icu.text.NumberFormat
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
@@ -476,7 +478,6 @@ class IndPCAInvoicePreviewFragment : Fragment() {
         try {
             if (ConnectionCheck.isConnected(requireContext())){
                 FetchIndPCAInvoicePreviewAPI(requireContext(),this@IndPCAInvoicePreviewFragment,args.invoiceFetchDataModel)
-                FetchCityMasterAPI(requireContext(),requireActivity())
             }else
             {
                 commonUIUtility.showToast(requireContext().getString(R.string.no_internet_connection))

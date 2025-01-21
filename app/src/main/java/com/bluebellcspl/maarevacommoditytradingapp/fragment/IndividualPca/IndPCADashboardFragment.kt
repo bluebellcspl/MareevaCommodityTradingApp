@@ -40,6 +40,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.databinding.FragmentIndPCADas
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.PCADashboardFragmentDirections
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchAPMCIntCommodityAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchBuyerPreviousAuctionAPI
+import com.bluebellcspl.maarevacommoditytradingapp.master.FetchCityMasterAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndPCAAuctionAPI
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchIndPCAAuctionReport
 import com.bluebellcspl.maarevacommoditytradingapp.master.FetchShopMasterAPI
@@ -91,7 +92,6 @@ class IndPCADashboardFragment : Fragment() {
             }
             binding.actCommodityIndPCADashboardFragment.setText(CommodityName)
         }
-        FetchAPMCIntCommodityAPI(requireContext(),this@IndPCADashboardFragment)
         binding.tvDateNewIndPCADashboardFragment.setText(DateUtility().getCompletionDate())
         _CommodityList = getCommodityfromDB()
 
@@ -108,6 +108,7 @@ class IndPCADashboardFragment : Fragment() {
 
         if (ConnectionCheck.isConnected(requireContext()))
         {
+            FetchCityMasterAPI(requireContext(),requireActivity())
             callAPI()
         }else{
             commonUIUtility.showToast(requireContext().getString(R.string.no_internet_connection))
@@ -128,8 +129,8 @@ class IndPCADashboardFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
-                    R.id.btn_Logout_Ind_PCA -> {
-                        logoutDialog()
+                    R.id.btn_Profile_Ind_PCA -> {
+                        navController.navigate(IndPCADashboardFragmentDirections.actionIndPCADashboardFragmentToIndPCAProfileFragment())
                     }
                     R.id.btn_Invoice_Ind_PCA -> {
                         navController.navigate(IndPCADashboardFragmentDirections.actionIndPCADashboardFragmentToIndPCAInvoiceFragment())
@@ -185,7 +186,7 @@ class IndPCADashboardFragment : Fragment() {
             FetchShopMasterAPI(requireContext(),requireActivity(),
                 ShopMasterAPICallModel(PrefUtil.getString(PrefUtil.KEY_APMC_ID,"").toString(), "GetAPMCwise",PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString())
             )
-
+            FetchAPMCIntCommodityAPI(requireContext(),this@IndPCADashboardFragment)
             if (PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!.isNotEmpty()){
                 FetchIndPCAAuctionAPI(requireContext(),this@IndPCADashboardFragment)
                 FetchIndPCAAuctionReport(requireContext(),this@IndPCADashboardFragment,PREV_AUCTION_SELECTED_DATE)

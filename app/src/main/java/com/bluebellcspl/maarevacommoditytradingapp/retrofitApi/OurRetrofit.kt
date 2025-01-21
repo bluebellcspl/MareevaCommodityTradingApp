@@ -314,4 +314,9 @@ interface OurRetrofit {
   suspend fun getAMPCIntCommodity(
     @Body body: JsonObject,
   ):Response<APMCIntCommodityModel>
+
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualPCAMasterGet")
+  suspend fun getIndPCAProfile(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
 }
