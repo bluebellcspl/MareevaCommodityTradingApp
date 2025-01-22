@@ -319,4 +319,9 @@ interface OurRetrofit {
   suspend fun getIndPCAProfile(
     @Body body: JsonObject,
   ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/IndividualInvoiceReportGet")
+  suspend fun getIndPCAInvoiceReport(
+    @Body body: JsonObject,
+  ):Response<JsonElement>
 }

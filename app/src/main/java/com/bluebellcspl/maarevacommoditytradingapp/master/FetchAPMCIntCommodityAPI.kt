@@ -11,6 +11,7 @@ import com.bluebellcspl.maarevacommoditytradingapp.constants.Constants
 import com.bluebellcspl.maarevacommoditytradingapp.database.DatabaseManager
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCADashboardFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCADashboardFragment.CommodityDetail
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoiceReportFragment
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
 import com.google.gson.JsonObject
@@ -67,6 +68,7 @@ class FetchAPMCIntCommodityAPI(var context:Context,var fragment:Fragment) {
                             list.put("IsActive",model.IsActive)
                             list.put("CommodityId",model.CommodityId)
                             list.put("CommodityName",model.CommodityName)
+                            list.put("CommodityBhartiValue",model.CommodityBhartiValue)
                             list.put("cdate",model.cdate)
                             list.put("CreateUser",model.CreateUser)
                             list.put("CreatedUserName",model.CreatedUserName)
@@ -78,6 +80,8 @@ class FetchAPMCIntCommodityAPI(var context:Context,var fragment:Fragment) {
                         commonUIUtility.dismissProgress()
                         if (fragment is IndPCADashboardFragment){
                             (fragment as IndPCADashboardFragment).bindCommodityAPMCWise(commodityAPMCWiseForDD)
+                        }else if (fragment is IndPCAInvoiceReportFragment){
+                            (fragment as IndPCAInvoiceReportFragment).bindCommodityList(commodityAPMCWiseForDD)
                         }
                     }
                     job.complete()

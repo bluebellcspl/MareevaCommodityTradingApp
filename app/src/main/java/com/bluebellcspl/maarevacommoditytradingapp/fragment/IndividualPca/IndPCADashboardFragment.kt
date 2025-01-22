@@ -138,6 +138,9 @@ class IndPCADashboardFragment : Fragment() {
                     R.id.btn_Invoice_Stock_Ind_PCA -> {
                         navController.navigate(IndPCADashboardFragmentDirections.actionIndPCADashboardFragmentToIndPCAInvoiceStockFragment())
                     }
+                    R.id.btn_Invoice_Report_Ind_PCA -> {
+                        navController.navigate(IndPCADashboardFragmentDirections.actionIndPCADashboardFragmentToIndPCAInvoiceReportFragment())
+                    }
                 }
                 return true
             }

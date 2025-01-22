@@ -3,12 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/btn_Profile_Ind_PCA"
         android:title="@string/profile"
-        android:icon="@drawable/baseline_logout_24"/>
+        app:showAsAction="always"
+        android:icon="@drawable/baseline_person_24"/>
 
     <item android:id="@+id/btn_Invoice_Ind_PCA"
         android:title="@string/invoice"
         android:icon="@drawable/baseline_logout_24"/>
+
     <item android:id="@+id/btn_Invoice_Stock_Ind_PCA"
         android:title="@string/invoice_stock"
+        android:icon="@drawable/baseline_logout_24"/>
+
+    <item android:id="@+id/btn_Invoice_Report_Ind_PCA"
+        android:title="@string/invoice_report"
         android:icon="@drawable/baseline_logout_24"/>
 </menu>
