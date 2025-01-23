@@ -8,11 +8,21 @@ import android.os.Parcel
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.adapter.IndPCAInvoiceReportAdapter
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
@@ -55,6 +65,7 @@ class IndPCAInvoiceReportFragment : Fragment(),IndPCAInvoiceReportHelper {
     private lateinit var invoiceJSONModel : IndPCAInvoiceReportModelJSON
     private var _InvoiceReportList:ArrayList<IndPCAInvoiceReportModelItem>?=null
     private lateinit var adapter: IndPCAInvoiceReportAdapter
+    lateinit var menuHost: MenuHost
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +78,44 @@ class IndPCAInvoiceReportFragment : Fragment(),IndPCAInvoiceReportHelper {
         }else{
             commonUIUtility.showToast(requireContext().getString(R.string.no_internet_connection))
         }
+
+        menuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.invoice_report_menu,menu)
+
+                val searchItem = menu?.findItem(R.id.btn_Search_InvoiceReport)
+                val searchView = searchItem?.actionView as SearchView
+                val searchText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+
+                searchText.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+
+                searchText.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                searchView.queryHint = "Search"
+
+                searchView.setOnQueryTextListener(object : OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        adapter.filter.filter(newText)
+                        return false
+                    }
+                })
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when(menuItem.itemId){
+                    R.id.btn_Search_InvoiceReport->{
+                        return true
+                    }
+                }
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.STARTED)
+
+
         //Commodity DropDown
         SELECTED_COMMODITY_ID = PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"")!!
 

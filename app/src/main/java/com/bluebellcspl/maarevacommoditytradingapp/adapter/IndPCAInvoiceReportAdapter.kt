@@ -4,13 +4,17 @@ import android.content.Context
 import android.icu.text.NumberFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bluebellcspl.maarevacommoditytradingapp.databinding.InvoiceReportAdapterBinding
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAInvoiceReportHelper
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.pca.InvoiceReportFragment
 import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAInvoiceReportModelItem
+import com.bluebellcspl.maarevacommoditytradingapp.model.InvoiceReportModelItem
+import java.util.Locale
 
-class IndPCAInvoiceReportAdapter(var context: Context, var dataList: ArrayList<IndPCAInvoiceReportModelItem>, var invoiceReportListHelper: IndPCAInvoiceReportHelper):RecyclerView.Adapter<IndPCAInvoiceReportAdapter.MyViewHolder>() {
+class IndPCAInvoiceReportAdapter(var context: Context, var dataList: ArrayList<IndPCAInvoiceReportModelItem>, var invoiceReportListHelper: IndPCAInvoiceReportHelper):RecyclerView.Adapter<IndPCAInvoiceReportAdapter.MyViewHolder>(),Filterable {
     private val TAG = "IndPCAInvoiceReportAdapter"
     private var filteredList: ArrayList<IndPCAInvoiceReportModelItem> = dataList
     inner class MyViewHolder(var binding: InvoiceReportAdapterBinding) :
@@ -47,6 +51,40 @@ class IndPCAInvoiceReportAdapter(var context: Context, var dataList: ArrayList<I
 
     override fun getItemCount(): Int {
         return filteredList.size
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filterResults = FilterResults()
+                val charString = constraint.toString().toLowerCase(Locale.getDefault())
+
+                filteredList = if (charString.isEmpty()) {
+                    dataList
+                } else {
+                    val filtered = ArrayList<IndPCAInvoiceReportModelItem>()
+                    for (user in dataList) {
+                        if (user.InvoiceBags.toLowerCase(Locale.getDefault()).contains(charString) ||
+                            user.InvoiceNo.toLowerCase(Locale.getDefault()).contains(charString) ||
+                            user.VechicalNo.toLowerCase(Locale.getDefault()).contains(charString) ||
+                            user.Date.toLowerCase(Locale.getDefault()).contains(charString) ||
+                            user.FinalAmount.toLowerCase(Locale.getDefault()).contains(charString)||
+                            user.BuyerName.toLowerCase(Locale.getDefault()).contains(charString)
+                        ) {
+                            filtered.add(user)
+                        }
+                    }
+                    filtered
+                }
+                filterResults.values = filteredList
+                return filterResults
+            }
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(p0: CharSequence?, results: FilterResults?) {
+                filteredList = results?.values as ArrayList<IndPCAInvoiceReportModelItem>
+                notifyDataSetChanged()
+            }
+        }
     }
 
 }
