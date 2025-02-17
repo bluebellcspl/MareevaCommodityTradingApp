@@ -10,7 +10,9 @@ import android.os.Build
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.bluebellcspl.maarevacommoditytradingapp.R
+import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAProfileFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.ProfileFragment
 import java.io.File
 
@@ -37,13 +39,13 @@ class FileDownloader private constructor(private val context: Context) {
             context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_EXPORTED)
         }else
         {
-            context.registerReceiver(onCompleteReceiver, filter)
+            context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_EXPORTED)
         }
 
         Toast.makeText(context, "Downloading $fileName", Toast.LENGTH_SHORT).show()
     }
 
-    fun downloadZipFile(fileUrl: String, fileName: String,description:String,fragment: ProfileFragment) {
+    fun downloadZipFile(fileUrl: String, fileName: String,description:String,fragment: Fragment) {
         Log.d(TAG, "downloadFile: URL : $fileUrl")
         Log.d(TAG, "downloadFile: FILENAME : $fileName")
         val request = DownloadManager.Request(Uri.parse(fileUrl))
@@ -63,7 +65,7 @@ class FileDownloader private constructor(private val context: Context) {
             context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_EXPORTED)
         }else
         {
-            context.registerReceiver(onCompleteReceiver, filter)
+            context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_EXPORTED)
         }
 
 //        Toast.makeText(context, "Downloading $fileName", Toast.LENGTH_SHORT).show()
@@ -102,7 +104,7 @@ class FileDownloader private constructor(private val context: Context) {
             context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_EXPORTED)
         }else
         {
-            context.registerReceiver(onCompleteReceiver, filter)
+            context.registerReceiver(onCompleteReceiver, filter, Context.RECEIVER_EXPORTED)
         }
 
         Toast.makeText(context, "Downloading $fileName", Toast.LENGTH_SHORT).show()
@@ -117,11 +119,15 @@ class FileDownloader private constructor(private val context: Context) {
         }
     }
 
-    inner class MyZipDownloadReceiver(private val downloadId: Long,val fragment: ProfileFragment) : BroadcastReceiver() {
+    inner class MyZipDownloadReceiver(private val downloadId: Long,val fragment: Fragment) : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == downloadId) {
                 Toast.makeText(context, "Backup Downloaded completed!", Toast.LENGTH_SHORT).show()
-                fragment.logout()
+                if (fragment is ProfileFragment){
+                    fragment.logout()
+                }else if (fragment is IndPCAProfileFragment){
+                    fragment.logout()
+                }
             }
         }
     }

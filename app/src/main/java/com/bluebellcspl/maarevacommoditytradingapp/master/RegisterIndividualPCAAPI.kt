@@ -61,7 +61,7 @@ class RegisterIndividualPCAAPI(
                     val errorBodyString = result.errorBody()?.string()
                     val errorResult = Gson().fromJson(errorBodyString, RegErrorReponse::class.java)
                     errorResult?.let {
-                        if (errorResult.Success) {
+                        if (!errorResult.Success) {
                             val errorMessage = errorResult.Message
                             if (errorMessage.contains("Already", true)) {
                                 withContext(Dispatchers.Main) {

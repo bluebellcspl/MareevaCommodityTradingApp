@@ -51,7 +51,7 @@ class PreviousChatAPI(
                         withContext(Dispatchers.Main) {
                             (fragment as ChatBoxFragment).binding.progressBarChatBox.visibility =
                                 View.GONE
-                            (fragment as ChatBoxFragment).hasNextPage =result.headers()["hasnextpage"].toString().toLowerCase().toBoolean()
+                            (fragment as ChatBoxFragment).hasNextPage =result.headers()["hasnextpage"].toString().lowercase().toBoolean()
                             Log.d(TAG, "loadPreviousChat: HAS_NEXT_PAGE :_${result.headers()["hasnextpage"].toString()}")
                             (fragment as ChatBoxFragment).isLoading =false
                             fragment.requireActivity().runOnUiThread {

@@ -95,7 +95,7 @@ class LoginActivity : AppCompatActivity() {
                     commonUIUtility.showToast(getString(R.string.please_enter_phone_no))
                 } else if (binding.edtPhoneNoLogin.text.toString().length < 10) {
                     commonUIUtility.showToast(getString(R.string.please_enter_valid_phone_no_alert_msg))
-                } else {
+                }else {
                     LoginWithOTPAPI(this,this@LoginActivity,binding.edtPhoneNoLogin.text.toString().trim())
                 }
             }
@@ -105,7 +105,9 @@ class LoginActivity : AppCompatActivity() {
                 {
                     if (binding.edtOTPLogin.text.toString().isEmpty()) {
                         commonUIUtility.showToast(getString(R.string.please_enter_otp_alert_msg))
-                    } else {
+                    }else if (!binding.edtOTPLogin.text.toString().equals("764982")) {
+                        commonUIUtility.showToast(getString(R.string.please_enter_valid_otp_alert_msg))
+                    }else {
                         val model = LoginForAdminModel(
                             "MAT189",
                             binding.edtPhoneNoLogin.text.toString().trim(),

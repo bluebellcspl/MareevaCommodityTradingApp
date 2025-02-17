@@ -1,8 +1,11 @@
 package com.bluebellcspl.maarevacommoditytradingapp.master
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.bluebellcspl.maarevacommoditytradingapp.LoginActivity
 import com.bluebellcspl.maarevacommoditytradingapp.R
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtility
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.DateUtility
@@ -20,7 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FetchIndPCAAuctionAPI(var context: Context, var fragment: Fragment,var buyerId:String = "") {
+class FetchIndPCAAuctionAPI(var context: Context,var fragment: Fragment,var buyerId:String = "") {
     val job = Job()
     val scope = CoroutineScope(job)
     val commonUIUtility = CommonUIUtility(context)
@@ -54,16 +57,21 @@ class FetchIndPCAAuctionAPI(var context: Context, var fragment: Fragment,var buy
                     val model = result.body()!!
                     withContext(Dispatchers.Main) {
                         commonUIUtility.dismissProgress()
-                        if (fragment is IndPCAAuctionFragment)
-                        {
-                            (fragment as IndPCAAuctionFragment).updateAuctionUI(model)
-                        }
-                        else if(fragment is IndPCAAuctionBuyerListFragment){
-                            (fragment as IndPCAAuctionBuyerListFragment).bindAuctionList(model)
-                        }else if(fragment is IndPCADashboardFragment){
-                            (fragment as IndPCADashboardFragment).updateAuctionUI(model)
-                        }else if(fragment is IndPCAAuctionListFragment){
-                            (fragment as IndPCAAuctionListFragment).bindAuctionList(model)
+                        if (model.IsActive.toBoolean()){
+                            if (fragment is IndPCAAuctionFragment)
+                            {
+                                (fragment as IndPCAAuctionFragment).updateAuctionUI(model)
+                            }
+                            else if(fragment is IndPCAAuctionBuyerListFragment){
+                                (fragment as IndPCAAuctionBuyerListFragment).bindAuctionList(model)
+                            }else if(fragment is IndPCADashboardFragment){
+                                (fragment as IndPCADashboardFragment).updateAuctionUI(model)
+                            }else if(fragment is IndPCAAuctionListFragment){
+                                (fragment as IndPCAAuctionListFragment).bindAuctionList(model)
+                            }
+                        }else{
+                            commonUIUtility.dismissProgress()
+                            logout()
                         }
                     }
                     job.complete()
@@ -85,5 +93,12 @@ class FetchIndPCAAuctionAPI(var context: Context, var fragment: Fragment,var buy
             Log.e(TAG, "getPCAAuction: ${e.message}")
             commonUIUtility.dismissProgress()
         }
+    }
+
+    fun logout() {
+//        commonUIUtility.dismissProgress()
+        PrefUtil.setBoolean(PrefUtil.KEY_LOGGEDIN, false)
+        (context as Activity).startActivity(Intent(context as Activity, LoginActivity::class.java))
+        (context as Activity).finish()
     }
 }

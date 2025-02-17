@@ -277,6 +277,7 @@
     <string name="please_enter_amount_alert_msg">રકમ ઉમેરો!</string>
     <string name="weight_cannot_be_empty_alert_msg">Weight cannot be empty</string>
     <string name="amount_cannot_be_empty_alert_msg">Amount cannot be empty</string>
+    <string name="please_enter_valid_otp_alert_msg">કૃપા કરીને માન્ય OTP દાખલ કરો!</string>
 
     <string-array name="tax_Array">
         <item>GST સાથે</item>

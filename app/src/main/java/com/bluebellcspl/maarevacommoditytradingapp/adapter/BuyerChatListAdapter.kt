@@ -46,7 +46,7 @@ class BuyerChatListAdapter(var context: Context, var chatlist: ArrayList<ChatRec
             val firstWord = words[0]
 
             if (firstWord.isNotEmpty()) {
-                return firstWord[0].toUpperCase()
+                return firstWord[0].uppercaseChar()
             }
         }
         return null

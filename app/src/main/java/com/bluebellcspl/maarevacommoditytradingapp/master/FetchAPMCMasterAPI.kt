@@ -33,7 +33,7 @@ class FetchAPMCMasterAPI(var context: Context, var activity: Activity) {
             commonUIUtility.showProgress()
             val JO = JsonObject()
             JO.addProperty("CompanyCode", "MAT189")
-            JO.addProperty("Action", "All")
+            JO.addProperty("Action", "Active")
             Log.d(TAG, "getAPMCMaster: JSON : ${JO.toString()}")
 
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)

@@ -8,8 +8,10 @@ import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.CommonUIUtilit
 import com.bluebellcspl.maarevacommoditytradingapp.commonFunction.PrefUtil
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCAAuctionReportFragment
 import com.bluebellcspl.maarevacommoditytradingapp.fragment.IndividualPca.IndPCADashboardFragment
+import com.bluebellcspl.maarevacommoditytradingapp.model.IndPCAAuctionReportModel
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.OurRetrofit
 import com.bluebellcspl.maarevacommoditytradingapp.retrofitApi.RetrofitHelper
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,23 +43,32 @@ class FetchIndPCAAuctionReport(var context: Context, var fragment: Fragment,var 
                 addProperty("Language", PrefUtil.getSystemLanguage())
             }
 
-            Log.d(TAG, "getAuctionReportData: IND_PCA_AUCTION_REPORT_JSON : $JO")
+            Log.d("??", "getAuctionReportData: IND_PCA_AUCTION_REPORT_JSON : $JO")
             val APICall = RetrofitHelper.getInstance().create(OurRetrofit::class.java)
             scope.launch(Dispatchers.IO){
                 val result = APICall.getIndPCAAuctionReportData(JO)
                 if (result.isSuccessful)
                 {
-                    val responseModel = result.body()!!
-                    withContext(Dispatchers.Main){
-                        if (fragment is IndPCAAuctionReportFragment){
+                    val response = result.body()!!
+                    if (response.has("Success")){
+                        withContext(Dispatchers.Main){
                             commonUIUtility.dismissProgress()
-                            (fragment as IndPCAAuctionReportFragment).bindReportData(responseModel)
-                        }else if (fragment is IndPCADashboardFragment){
-                            commonUIUtility.dismissProgress()
-                            (fragment as IndPCADashboardFragment).bindReportData(responseModel)
+//                            commonUIUtility.showToast(context.getString(R.string.no_data_found))
                         }
+                        job.complete()
+                    }else{
+                        val responseModel = Gson().fromJson(response, IndPCAAuctionReportModel::class.java)
+                        withContext(Dispatchers.Main){
+                            if (fragment is IndPCAAuctionReportFragment){
+                                commonUIUtility.dismissProgress()
+                                (fragment as IndPCAAuctionReportFragment).bindReportData(responseModel)
+                            }else if (fragment is IndPCADashboardFragment){
+                                commonUIUtility.dismissProgress()
+                                (fragment as IndPCADashboardFragment).bindReportData(responseModel)
+                            }
+                        }
+                        job.complete()
                     }
-                    job.complete()
                 }else
                 {
                     withContext(Dispatchers.Main){

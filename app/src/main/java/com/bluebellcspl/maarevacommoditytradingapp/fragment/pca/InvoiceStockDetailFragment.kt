@@ -181,7 +181,7 @@ class InvoiceStockDetailFragment : Fragment(),InvoiceStockDetailHelper {
                         }
                     }
 
-                    val newString = formattedString.toString().toUpperCase()
+                    val newString = formattedString.toString().uppercase()
 
                     // Calculate the new cursor position
                     var newCursorPosition = cursorPosition

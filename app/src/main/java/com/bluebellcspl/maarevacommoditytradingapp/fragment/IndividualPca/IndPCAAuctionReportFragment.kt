@@ -127,7 +127,7 @@ class IndPCAAuctionReportFragment : Fragment() {
                 PrefUtil.getString(PrefUtil.KEY_COMMODITY_ID,"").toString()).replace("<DATE>",
                 PREV_AUCTION_SELECTED_DATE).replace("<COMPANY_CODE>",
                 PrefUtil.getString(PrefUtil.KEY_COMPANY_CODE,"").toString()).replace("<PCA_REG_ID>",
-                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString())
+                PrefUtil.getString(PrefUtil.KEY_REGISTER_ID,"").toString()).replace("<LANGUAGE>",PrefUtil.getSystemLanguage()!!)
 
             val fileName = StringBuilder()
             fileName.append("PCA_Auction_Detail_Report_")

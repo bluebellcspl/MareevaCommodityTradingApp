@@ -282,6 +282,7 @@
     <string name="please_enter_amount_alert_msg">Please Enter Amount!</string>
     <string name="weight_cannot_be_empty_alert_msg">Weight cannot be empty</string>
     <string name="amount_cannot_be_empty_alert_msg">Amount cannot be empty</string>
+    <string name="please_enter_valid_otp_alert_msg">Please Enter Valid OTP!</string>
 
     <string-array name="isActive_Array">
         <item>Enable</item>

@@ -264,7 +264,7 @@ interface OurRetrofit {
 
   @Headers("Content-Type:application/json")
   @POST("/API/MaarevaApi/MaarevaApi/IndividualPCADashPreAuctionGet")
-  suspend fun getIndPCAAuctionReportData(@Body body: JsonObject): Response<IndPCAAuctionReportModel>
+  suspend fun getIndPCAAuctionReportData(@Body body: JsonObject): Response<JsonObject>
 
   @Headers("Content-Type:application/json")
   @POST("/API/MaarevaApi/MaarevaApi/IndividualPCA_BuyerGet")
@@ -324,4 +324,14 @@ interface OurRetrofit {
   suspend fun getIndPCAInvoiceReport(
     @Body body: JsonObject,
   ):Response<JsonElement>
+
+  @POST("/API/MaarevaApi/MaarevaApi/CheckAuctionStart")
+  suspend fun checkCurrentIndPCAAuction(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
+
+  @POST("/API/MaarevaApi/MaarevaApi/BackupIndividualPCAData")
+  suspend fun deleteIndPCAProfile(
+    @Body body: JsonObject,
+  ):Response<JsonObject>
 }

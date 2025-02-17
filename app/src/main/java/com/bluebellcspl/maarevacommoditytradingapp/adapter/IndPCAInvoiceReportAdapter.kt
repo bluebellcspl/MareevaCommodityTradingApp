@@ -57,19 +57,19 @@ class IndPCAInvoiceReportAdapter(var context: Context, var dataList: ArrayList<I
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterResults = FilterResults()
-                val charString = constraint.toString().toLowerCase(Locale.getDefault())
+                val charString = constraint.toString().lowercase(Locale.getDefault())
 
                 filteredList = if (charString.isEmpty()) {
                     dataList
                 } else {
                     val filtered = ArrayList<IndPCAInvoiceReportModelItem>()
                     for (user in dataList) {
-                        if (user.InvoiceBags.toLowerCase(Locale.getDefault()).contains(charString) ||
-                            user.InvoiceNo.toLowerCase(Locale.getDefault()).contains(charString) ||
-                            user.VechicalNo.toLowerCase(Locale.getDefault()).contains(charString) ||
-                            user.Date.toLowerCase(Locale.getDefault()).contains(charString) ||
-                            user.FinalAmount.toLowerCase(Locale.getDefault()).contains(charString)||
-                            user.BuyerName.toLowerCase(Locale.getDefault()).contains(charString)
+                        if (user.InvoiceBags.lowercase(Locale.getDefault()).contains(charString) ||
+                            user.InvoiceNo.lowercase(Locale.getDefault()).contains(charString) ||
+                            user.VechicalNo.lowercase(Locale.getDefault()).contains(charString) ||
+                            user.Date.lowercase(Locale.getDefault()).contains(charString) ||
+                            user.FinalAmount.lowercase(Locale.getDefault()).contains(charString)||
+                            user.BuyerName.lowercase(Locale.getDefault()).contains(charString)
                         ) {
                             filtered.add(user)
                         }
